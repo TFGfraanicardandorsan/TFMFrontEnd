@@ -1,4 +1,4 @@
-export async function postapi(fun,body) {
+export const postAPI = async (fun,body) => {
     let data;
     try{
         const respuesta = await fetch(import.meta.env.VITE_API_URL + fun, {

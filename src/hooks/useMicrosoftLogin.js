@@ -5,6 +5,9 @@ import { useCallback, useEffect, useMemo, useState } from "react";
   const msalConfig = {
     auth: {
       clientId: import.meta.env.VITE_MICROSOFT_CLIENT_ID,
+      authority: `https://login.microsoftonline.com/${import.meta.env.VITE_TENANT_ID}`,
+      redirectUri:"/"
+
     },
   };
   
@@ -12,13 +15,12 @@ import { useCallback, useEffect, useMemo, useState } from "react";
   const loginRequest = {
     scopes: ["User.Read"],
     redirectUri:"/"
+
   };
   
   // Hook personalizado
   const useMicrosoftLogin = () => {
     const [initialized, setInitialized] = useState(false);
-    const [activeAccount, setActiveAccount] = useState(null); // Para almacenar el usuario activo
-    const [accessToken, setAccessToken] = useState(null); // Para almacenar el token de acceso
   
     // Crear instancia de MSAL
     const msalInstance = useMemo(() => {
@@ -26,50 +28,23 @@ import { useCallback, useEffect, useMemo, useState } from "react";
     }, []);
   
     // Inicializar MSAL y gestionar eventos
-    const initializeInstance = useCallback(() => {
+    const initializeInstance = useCallback(async () => {
       msalInstance.addEventCallback((event) => {
         if (event.eventType === EventType.LOGIN_SUCCESS && event.payload) {
           const payload = event.payload
           const account = payload.account;
           msalInstance.setActiveAccount(account);
-          setActiveAccount(account);
         }
       });
+      await msalInstance.initialize();
       setInitialized(true);
-    }, [msalInstance]);
-  
-    // Obtener token de acceso
-    const acquireAccessToken = useCallback(async () => {
-      try {
-        const account = msalInstance.getActiveAccount();
-        if (!account) {
-          throw new Error("No hay una cuenta activa. Inicia sesión primero.");
-        }
-  
-        const tokenResponse = await msalInstance.acquireTokenSilent({
-          ...loginRequest,
-          account,
-        });
-        setAccessToken(tokenResponse.accessToken);
-        return tokenResponse.accessToken;
-      } catch (error) {
-        console.error("Error obteniendo el token de acceso:", error);
-        return null;
-      }
     }, [msalInstance]);
   
     useEffect(() => {
       initializeInstance();
     }, [initializeInstance]);
   
-    return {
-      msalInstance,
-      initialized,
-      activeAccount,
-      accessToken,
-      acquireAccessToken,
-      loginRequest,
-    };
+    return {msalInstance, initialized,loginRequest};
   };
   
   export default useMicrosoftLogin;
