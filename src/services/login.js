@@ -1,12 +1,5 @@
-import { postAPI}  from "../lib/postAPI";
+import { getAPI}  from "../lib/methodAPIs.js";
 
-
-export const checkAuth = async () => {
-    const sesionid = localStorage.getItem('sesionid');
-    const mmtCreacion = localStorage.getItem('mmtCreacion');
-    return { sesionid, mmtCreacion}
-}
-
-export const login = async (idtoken) => {
-    return await postAPI("/apilogin/login",{idtoken})
+export const login = async () => {
+    return await getAPI("/api/v1/autorizacion/saml/login")
 }

@@ -1,7 +1,4 @@
-// import { useCallback } from "react";
-// import { useNavigate } from "react-router-dom";
-// import useMicrosoftLogin from "../hooks/useMicrosoftLogin";
-// import { login } from "../services/login";
+import { login } from "../services/login";
 
 export default function Login() {
     // const navigate = useNavigate();
@@ -17,18 +14,8 @@ export default function Login() {
     //     }
     // },[navigate]);
 
-    // const microsoftAuth = useMicrosoftLogin();
-
-    // const microsoftLoginCallback = useCallback((response) => {
-    //     const {idToken} = response;
-    //     handleLoginSuccess(idToken);
-    // }, [handleLoginSuccess]);
-
-    const handleClickLogin = () => {
-        // microsoftAuth.msalInstance.loginPopup(microsoftAuth.loginRequest).then((res) =>{
-        //     microsoftLoginCallback(res)
-        // });
-        alert('Funcionalidad no implementada');
+    const handleClickLogin = async() => {
+        await login()
     };
 
     return (
