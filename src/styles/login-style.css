@@ -1,0 +1,33 @@
+.logo-container {
+    width: 100%; /* Asegura que el contenedor ocupe toda la pantalla */
+    max-width: 1500px; /* Establece un ancho máximo */
+    height: auto;
+    display: flex;
+    justify-content: center; /* Centra en el eje X */
+    align-items: center; /* Centra en el eje Y */
+    margin: 0 auto; /* Asegura que el contenedor esté centrado */
+    position: relative;
+}
+
+.logo-container img {
+    max-width: 100%;
+    height: auto;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;  /* Garantiza que la página ocupe el 100% del viewport */
+}
+
+.content {
+    flex: 1;  /* Empuja el footer hacia abajo si el contenido es corto */
+}
+
+.footer {
+    width: 100%;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-top: 1px solid #ddd;
+}
+
