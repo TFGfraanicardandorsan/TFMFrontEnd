@@ -1,0 +1,62 @@
+.report-issue-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.report-issue-container-form{
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 50px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.report-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    font-weight: bold;
+}
+
+select, textarea, input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+textarea {
+    height: 100px;
+    resize: none;
+}
+
+button {
+    background-color: #2b579a;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background 0.3s;
+    width: 100%;
+    max-width: 300px;
+    display: block;
+    margin: 0 auto;    
+}
+
+button:hover {
+    background-color: #1e4a87;
+}
