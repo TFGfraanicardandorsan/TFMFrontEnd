@@ -1,0 +1,22 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Asegura que el contenido ocupe toda la pantalla */
+}
+
+.content {
+    flex: 1;
+    text-align: center;
+    padding: 40px;
+    margin-top: 60px; /* Evita que quede oculto detrás de la Navbar */
+}
+
+.explore-button {
+    padding: 15px 30px;
+    font-size: 18px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
