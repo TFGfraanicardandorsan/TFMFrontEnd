@@ -1,4 +1,4 @@
-export const postAPI = async (fun, body) => {
+export const postAPI = async (fun, body = null) => {  // `body` ahora es null por defecto
     try {
         const config = {
             method: 'POST',
@@ -11,26 +11,31 @@ export const postAPI = async (fun, body) => {
             config.body = JSON.stringify(body);
         }
  
+        // Realizamos la petición
         const respuesta = await fetch(import.meta.env.VITE_API_URL + fun, config);
  
-        // Verificar si la respuesta es exitosa
+        // Verificamos si la respuesta fue exitosa
         if (!respuesta.ok) {
             throw new Error(`Error ${respuesta.status}: ${respuesta.statusText}`);
         }
  
-        // Intentar parsear la respuesta JSON, si existe
+        // Intentamos parsear la respuesta JSON, si existe
         let data;
         try {
             data = await respuesta.json();
-        } catch {
-            data = null;
+        } catch (jsonError) {
+            // Si no es JSON, lo manejamos explícitamente
+            return { err: true, errmsg: 'La respuesta no es un JSON válido' };
         }
+ 
+        // Devolvemos el resultado
         return { err: false, result: data };
+ 
     } catch (e) {
+        // Capturamos cualquier excepción y la retornamos
         return { err: true, errmsg: `Excepción en postAPI: ${e.message}` };
     }
 };
-
 export const getAPI = async (fun) => {
     let data;
     try{
