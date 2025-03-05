@@ -29,9 +29,9 @@ export default function MiPerfil() {
               {usuario && (
               <div className="perfil-card">
                 <h2 className="perfil-card-title">Información Personal</h2>
-                <p><strong>Nombre:</strong> usuario.nombre_completo</p>
-                <p><strong>Correo:</strong> usuario.usuario_correo</p>
-                <p><strong>Grado:</strong> usuario.titulacion</p>
+                <p><strong>Nombre:</strong> {usuario.nombre_completo}</p>
+                <p><strong>Correo:</strong> {usuario.usuario_correo}</p>
+                <p><strong>Grado:</strong> {usuario.titulacion}</p>
               </div>
               )}
               {/* Tarjeta de asignaturas */}
