@@ -9,8 +9,8 @@ export default function MiPerfil() {
     const [usuario, setUsuario] = useState(null);
       
     useEffect(() => {         // Llamada a la API sin cuerpoconst 
-        obtenerUsuario = async () => {             
-        const response = await postAPI('/api/v1/usuario/obtenerDatosUsuario');
+        const obtenerUsuario = async () => {             
+        const response = await postAPI('/api/v1/usuario/obtenerDatosUsuario',);
         if (!response.err) {                 
         setUsuario(response.result); // Setear los datos del usuario            
         } else {                 
