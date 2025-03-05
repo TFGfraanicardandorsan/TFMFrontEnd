@@ -6,17 +6,15 @@ import { useNavigate } from "react-router-dom";
 import { obtenerDatosUsuario } from "../services/usuario";
 
 export default function MiPerfil() {
-    const [issueType, setIssueType] = useState("");
-    const [details, setDetails] = useState("");
-    const [file, setFile] = useState(null);
-    const [usuario, setUsuario] = useState("");
+    const [usuario, setUsuario] = useState(null);
       
-        useEffect(() => {
-          obtenerDatosUsuario
-            .then(response => response.json())
-            .then(data => setUsuario(data))
-            .catch(error => console.error("Error al obtener los datos del usuario:", error));
-        }, []);
+    useEffect(() => {         // Llamada a la API sin cuerpoconst 
+        obtenerUsuario = async () => {             
+        const response = await postAPI('/api/v1/usuario/obtenerDatosUsuario');
+        if (!response.err) {                 
+        setUsuario(response.result); // Setear los datos del usuario            
+        } else {                 
+        console.error('Error al obtener los datos del usuario:', response.errmsg); } }; obtenerUsuario(); }, []); 
     return (
         <div className="page-container">
         <Navbar />
