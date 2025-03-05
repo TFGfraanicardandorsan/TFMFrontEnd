@@ -8,11 +8,18 @@ import { obtenerDatosUsuario } from "../services/usuario";
 export default function MiPerfil() {
     const [usuario, setUsuario] = useState(null);
       
-    useEffect(() => {         // Llamada a la API sin cuerpoconst 
-        const obtenerUsuario = async () => {             
+    useEffect(() => {  
+        console.log("Hasta aquí llega: ",usuario)       // Llamada a la API sin cuerpoconst 
+        const obtenerUsuario = async () => { 
+            console.log("Hasta aquí llega: ",usuario)       // Llamada a la API sin cuerpoconst 
+            
         const response = await postAPI('/api/v1/usuario/obtenerDatosUsuario',);
+        console.log("Hasta aquí llega: ",usuario)       // Llamada a la API sin cuerpoconst 
+
         if (!response.err) {                 
-        setUsuario(response.result); // Setear los datos del usuario            
+        setUsuario(response.result); // Setear los datos del usuario   
+        console.log("Hasta aquí llega: ",usuario)       // Llamada a la API sin cuerpoconst 
+         
         } else {                 
         console.error('Error al obtener los datos del usuario:', response.errmsg); } }; obtenerUsuario(); }, []); 
     return (
