@@ -1,16 +1,23 @@
 export const postAPI = async (fun, body) => {
     try {
-        const respuesta = await fetch(import.meta.env.VITE_API_URL + fun, {
+        const config = {
             method: 'POST',
-            body: JSON.stringify(body),
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include', // Para enviar cookies de sesión
-        });
+        };
+ 
+        // Si se pasa un 'body', lo agregamos
+        if (body) {
+            config.body = JSON.stringify(body);
+        }
+ 
+        const respuesta = await fetch(import.meta.env.VITE_API_URL + fun, config);
  
         // Verificar si la respuesta es exitosa
         if (!respuesta.ok) {
             throw new Error(`Error ${respuesta.status}: ${respuesta.statusText}`);
         }
+ 
         // Intentar parsear la respuesta JSON, si existe
         let data;
         try {
@@ -20,8 +27,7 @@ export const postAPI = async (fun, body) => {
         }
         return { err: false, result: data };
     } catch (e) {
-        return {err: true, errmsg: `Excepción en postAPI: ${e.message}`,
-        };
+        return { err: true, errmsg: `Excepción en postAPI: ${e.message}` };
     }
 };
 
