@@ -12,7 +12,7 @@ export default function MiPerfil() {
     const [usuario, setUsuario] = useState("");
       
         useEffect(() => {
-          fetch("api/v1/usuario/obtenerDatosUsuario")
+          obtenerDatosUsuario
             .then(response => response.json())
             .then(data => setUsuario(data))
             .catch(error => console.error("Error al obtener los datos del usuario:", error));
