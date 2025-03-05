@@ -1,0 +1,44 @@
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Hace que el contenido ocupe al menos toda la altura de la pantalla */
+}
+
+.content-wrap {
+    flex: 1; /* Hace que el contenido empuje el footer hacia abajo */
+}
+
+.perfil-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra el título */
+}
+
+.perfil-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+/* Contenedor de las tarjetas alineadas a la izquierda */
+.perfil-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.perfil-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    text-align: left;
+    align-self: flex-start;
+}

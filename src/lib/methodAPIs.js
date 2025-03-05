@@ -1,18 +1,29 @@
-export const postAPI = async (fun,body) => {
-    let data;
-    try{
+export const postAPI = async (fun, body) => {
+    try {
         const respuesta = await fetch(import.meta.env.VITE_API_URL + fun, {
-            method: 'post',
+            method: 'POST',
             body: JSON.stringify(body),
-            headers: {'Content-Type': 'application/json'},
-        })
-        data = await respuesta.json();
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include', // Para enviar cookies de sesión
+        });
+ 
+        // Verificar si la respuesta es exitosa
+        if (!respuesta.ok) {
+            throw new Error(`Error ${respuesta.status}: ${respuesta.statusText}`);
+        }
+        // Intentar parsear la respuesta JSON, si existe
+        let data;
+        try {
+            data = await respuesta.json();
+        } catch {
+            data = null;
+        }
+        return { err: false, result: data };
+    } catch (e) {
+        return {err: true, errmsg: `Excepción en postAPI: ${e.message}`,
+        };
     }
-    catch(e){
-        data = {err:true, errmsg: `excepción al hacer el método postApi: ${e}`,}
-    }
-    return data
-}
+};
 
 export const getAPI = async (fun) => {
     let data;

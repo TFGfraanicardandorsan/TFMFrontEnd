@@ -2,9 +2,6 @@ import '../styles/footer-style.css';
 
 export default function Footer() {
 
-    const handleClickLogin = async() => {
-        await login()
-    };
 
     return (
         <>
