@@ -3,6 +3,7 @@ import Footer from "./footer";
 import Navbar from "./navbar";
 import { obtenerEstudios } from "../services/estudio"; // Importamos tu servicio
 import "../styles/seleccionarEstudio-style.css";
+import { actualizarEstudiosUsuario } from "../services/usuario";
 
 const SeleccionarEstudio = () => {
     //const [estudios, setEstudios] = useState([]);
@@ -14,7 +15,12 @@ const SeleccionarEstudio = () => {
   useEffect(() => {
     const obtenerEstudio = async () => {
       // Llamamos al servicio para obtener los datos del usuario
-      const response = await obtenerEstudios();
+    const response = await obtenerEstudios();
+    if (!response.err) {
+      setEstudios(response.result.result); // Guardamos los datos del usuario en el estado
+    } else {
+      console.error('Error al obtener los estudios:', response.errmsg);
+    }
       if (!response.err) {
         setUsuario(response.result.result); // Guardamos los datos del usuario en el estado
       } else {
@@ -32,13 +38,23 @@ const SeleccionarEstudio = () => {
         setSelectedEstudio(event.target.value);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const data = {
             estudio: selectedEstudio
         };
         console.log("JSON to POST:", JSON.stringify(data));
-        // Aquí puedes hacer el POST con fetch o axios
+        try {
+            const response = await actualizarEstudiosUsuario(data);
+            if (!response.err) {
+                console.log("Estudio actualizado correctamente");
+            } else {
+                console.error("Error al actualizar el estudio:", response.errmsg);
+            }
+        } catch (error) {
+            console.error("Error en la solicitud:", error);
+        }
     };
+    
     useEffect(() => {
         // Simulamos una llamada a la API con datos de prueba
         const estudiosDePrueba = [
