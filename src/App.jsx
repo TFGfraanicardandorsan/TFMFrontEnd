@@ -5,6 +5,7 @@ import Home from './components/home.jsx'
 import ReportarIncidencia from './components/reportarIncidencia.jsx'
 import MisIncidencias from './components/misIncidencias.jsx'
 import MiPerfil from './components/miPerfil.jsx'
+import SeleccionarEstudio from './components/seleccionarEstudio.jsx'
 
 
 export function App() {
@@ -17,6 +18,7 @@ export function App() {
         <Route path='/reportarIncidencia' element={<ReportarIncidencia/>} />
         <Route path='/misIncidencias' element={<MisIncidencias/>} />
         <Route path='/miPerfil' element={<MiPerfil/>} />
+        <Route path='/seleccionarEstudios' element={<SeleccionarEstudio/>} />
       </Routes>
     </>
   )
