@@ -54,16 +54,7 @@ const SeleccionarEstudio = () => {
             console.error("Error en la solicitud:", error);
         }
     };
-    
-    useEffect(() => {
-        // Simulamos una llamada a la API con datos de prueba
-        const estudiosDePrueba = [
-            { nombre: "Estudio 1" },
-            { nombre: "Estudio 2" },
-            { nombre: "Estudio 3" }
-        ];
-        setEstudios(estudiosDePrueba);
-    }, []);
+
 
     return (
         <>
