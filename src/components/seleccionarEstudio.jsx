@@ -4,7 +4,7 @@ import Navbar from "./navbar";
 import { obtenerEstudios } from "../services/estudio"; // Importamos tu servicio
 import "../styles/seleccionarEstudio-style.css";
 import { actualizarEstudiosUsuario } from "../services/usuario";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 const SeleccionarEstudio = () => {    
     const [estudios, setEstudio] = useState([]); // Estado para almacenar los diferentes estudios
@@ -29,11 +29,13 @@ const SeleccionarEstudio = () => {
     };
 
     const handleSubmit = async () => {
+      const navigate = useNavigate();
         try {
             const response = await actualizarEstudiosUsuario(selectedEstudio);
+            console.log(response);
             if (!response.err) {
                 console.log("Estudio actualizado correctamente");
-                return <Navigate to="/miPerfil" />;
+                return navigate("/miPerfil"); 
             } else {
                 console.error("Error al actualizar el estudio:", response.errmsg);
             }
