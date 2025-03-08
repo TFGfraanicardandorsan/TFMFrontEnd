@@ -6,7 +6,7 @@ import ReportarIncidencia from './components/reportarIncidencia.jsx'
 import MisIncidencias from './components/misIncidencias.jsx'
 import MiPerfil from './components/miPerfil.jsx'
 import SeleccionarEstudio from './components/seleccionarEstudio.jsx'
-
+import ProtectedRoute from "./components/protectedRoute.jsx";
 
 export function App() {
 
@@ -15,10 +15,24 @@ export function App() {
       <Routes>
         <Route path='/login' element={<Login/>} />
         <Route path='/' element={<Home/>} />
-        <Route path='/reportarIncidencia' element={<ReportarIncidencia/>} />
-        <Route path='/misIncidencias' element={<MisIncidencias/>} />
-        <Route path='/miPerfil' element={<MiPerfil/>} />
-        <Route path='/seleccionarEstudios' element={<SeleccionarEstudio/>} />
+        <Route path='/reportarIncidencia' element={
+          <ProtectedRoute>
+          <ReportarIncidencia/>
+          </ProtectedRoute>
+          } />
+        <Route path='/misIncidencias' element={
+          <ProtectedRoute>
+          <MisIncidencias/>
+          </ProtectedRoute>} />
+        <Route path='/miPerfil' element={
+          <ProtectedRoute>
+          <MiPerfil/>
+          </ProtectedRoute>} />
+
+        <Route path='/seleccionarEstudios' element={
+          <ProtectedRoute>
+          <SeleccionarEstudio/>
+          </ProtectedRoute>} />
       </Routes>
     </>
   )
