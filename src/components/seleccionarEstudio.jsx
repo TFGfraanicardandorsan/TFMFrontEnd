@@ -1,26 +1,25 @@
 import { useState, useEffect } from "react";
 import Footer from "./footer";
 import Navbar from "./navbar";
-import { obtenerEstudios } from "../services/estudio"; // Importamos tu servicio
+import { obtenerEstudios } from "../services/estudio";
 import "../styles/seleccionarEstudio-style.css";
 import { actualizarEstudiosUsuario } from "../services/usuario";
 
-const SeleccionarEstudio = () => {    
+export default function SeleccionarEstudio () {    
     const [estudios, setEstudio] = useState([]); // Estado para almacenar los diferentes estudios
     const [selectedEstudio, setSelectedEstudio] = useState("");
 
   useEffect(() => {
     const obtenerEstudio = async () => {
-      // Llamamos al servicio para obtener los diferentes estudios
     const response = await obtenerEstudios();
     if (!response.err) {
-      setEstudio(response.result.result); // Guardamos los datos de los estudios en el estado
+      setEstudio(response.result.result); 
     } else {
       console.error('Error al obtener los estudios:', response.errmsg);
     }
     };
     obtenerEstudio();
-  }, []);  // Solo se ejecuta una vez cuando el componente se monta
+  }, []);  
 
 
     const handleSelectChange = (event) => {
@@ -30,8 +29,7 @@ const SeleccionarEstudio = () => {
     const handleSubmit = async () => {
         try {
             const response = await actualizarEstudiosUsuario(selectedEstudio);
-            console.log(response.result.result);
-            if (response.result === 'Estudios seleccionados') {
+            if (response.result.result === 'Estudios seleccionados') {
                 window.location.href = "/miPerfil";
             } else {
                 alert(response.result.result)
@@ -64,5 +62,3 @@ const SeleccionarEstudio = () => {
         </>
     );
 };
-
-export default SeleccionarEstudio;
