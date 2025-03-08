@@ -30,11 +30,11 @@ const SeleccionarEstudio = () => {
     const handleSubmit = async () => {
         try {
             const response = await actualizarEstudiosUsuario(selectedEstudio);
-            console.log(response.result);
+            console.log(response.result.result);
             if (response.result === 'Estudios seleccionados') {
                 window.location.href = "/miPerfil";
             } else {
-                alert(response.result)
+                alert(response.result.result)
             }
         } catch (error) {
             console.error("Error en la solicitud:", error);
