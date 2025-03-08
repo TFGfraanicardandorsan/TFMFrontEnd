@@ -33,7 +33,7 @@ const SeleccionarEstudio = () => {
             const response = await actualizarEstudiosUsuario(selectedEstudio);
             if (!response.err) {
                 console.log("Estudio actualizado correctamente");
-                Navigate("/miPerfil")
+                return <Navigate to="/miPerfil" />;
             } else {
                 console.error("Error al actualizar el estudio:", response.errmsg);
             }
