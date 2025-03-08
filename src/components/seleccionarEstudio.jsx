@@ -1,50 +1,35 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Footer from "./footer";
 import Navbar from "./navbar";
 import { obtenerEstudios } from "../services/estudio"; // Importamos tu servicio
 import "../styles/seleccionarEstudio-style.css";
 import { actualizarEstudiosUsuario } from "../services/usuario";
 
-const SeleccionarEstudio = () => {
-    //const [estudios, setEstudios] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    
-    const [estudios, setEstudios] = useState([]); // Estado para almacenar los datos del usuario
+const SeleccionarEstudio = () => {    
+    const [estudios, setEstudio] = useState([]); // Estado para almacenar los diferentes estudios
+    const [selectedEstudio, setSelectedEstudio] = useState("");
 
   useEffect(() => {
     const obtenerEstudio = async () => {
-      // Llamamos al servicio para obtener los datos del usuario
+      // Llamamos al servicio para obtener los diferentes estudios
     const response = await obtenerEstudios();
     if (!response.err) {
-      setEstudios(response.result.result); // Guardamos los datos del usuario en el estado
+      setEstudio(response.result.result); // Guardamos los datos de los estudios en el estado
     } else {
       console.error('Error al obtener los estudios:', response.errmsg);
     }
-      if (!response.err) {
-        setUsuario(response.result.result); // Guardamos los datos del usuario en el estado
-      } else {
-        console.error('Error al obtener los estudios:', response.errmsg);
-      }
     };
-
     obtenerEstudio();
   }, []);  // Solo se ejecuta una vez cuando el componente se monta
 
-
-    const [selectedEstudio, setSelectedEstudio] = useState("");
 
     const handleSelectChange = (event) => {
         setSelectedEstudio(event.target.value);
     };
 
     const handleSubmit = async () => {
-        const data = {
-            estudio: selectedEstudio
-        };
-        console.log("JSON to POST:", JSON.stringify(data));
         try {
-            const response = await actualizarEstudiosUsuario(data);
+            const response = await actualizarEstudiosUsuario(selectedEstudio);
             if (!response.err) {
                 console.log("Estudio actualizado correctamente");
             } else {
@@ -54,7 +39,6 @@ const SeleccionarEstudio = () => {
             console.error("Error en la solicitud:", error);
         }
     };
-
 
     return (
         <>

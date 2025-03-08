@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "../styles/miPerfil-style.css";
 import Footer from "./footer";
 import Navbar from "./navbar";
