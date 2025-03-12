@@ -10,6 +10,7 @@ export default function Footer() {
             <div className="footer-container">
                 <div className="footer-section">
                     <p>
+                        <strong>Delegación de Alumnos</strong>
                         <strong>Escuela Técnica Superior de Ingeniería Informática</strong><br />
                         Universidad de Sevilla<br />
                         Avda. Reina Mercedes s/n,<br />
