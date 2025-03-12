@@ -3,19 +3,6 @@ import Footer from "./footer";
 import '../styles/login-style.css';
 
 export default function Login() {
-    // const navigate = useNavigate();
-
-    // const handleLoginSuccess = useCallback(async (jwt) => {
-    //     const response = await login ({idtoken:jwt});
-    //     if(response?.sesionid) {
-    //         localStorage.setItem('sesionid', response.sesionid),
-    //         localStorage.setItem('mmtCreacion', response.mmtCreacion);
-
-    //         // Redireccionar a la página inicio TODO
-    //         navigate('/');
-    //     }
-    // },[navigate]);
-
     const handleClickLogin = async() => {
         await login()
     };

@@ -1,41 +1,38 @@
-export const postAPI = async (fun, body = null) => {  // `body` ahora es null por defecto
+export const postAPI = async (fun, body = null, isFile = false) => {
     try {
         const config = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             credentials: 'include', // Para enviar cookies de sesión
         };
- 
-        // Si se pasa un 'body', lo agregamos
+
         if (body) {
-            config.body = JSON.stringify(body);
+            if (isFile) {
+                config.body = body; // Enviar `FormData` directamente
+            } else {
+                config.headers = { 'Content-Type': 'application/json' };
+                config.body = JSON.stringify(body);
+            }
         }
- 
-        // Realizamos la petición
+
         const respuesta = await fetch(import.meta.env.VITE_API_URL + fun, config);
- 
-        // Verificamos si la respuesta fue exitosa
+
         if (!respuesta.ok) {
             throw new Error(`Error ${respuesta.status}: ${respuesta.statusText}`);
         }
- 
-        // Intentamos parsear la respuesta JSON, si existe
+
         let data;
         try {
             data = await respuesta.json();
-        } catch (jsonError) {
-            // Si no es JSON, lo manejamos explícitamente
+        } catch {
             return { err: true, errmsg: 'La respuesta no es un JSON válido' };
         }
- 
-        // Devolvemos el resultado
+
         return { err: false, result: data };
- 
     } catch (e) {
-        // Capturamos cualquier excepción y la retornamos
         return { err: true, errmsg: `Excepción en postAPI: ${e.message}` };
     }
 };
+
 export const getAPI = async (fun) => {
     let data;
     try{

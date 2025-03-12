@@ -1,17 +1,23 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "../styles/reportarIncidencia-style.css";
 import Footer from "./footer";
 import Navbar from "./navbar";
+import { subidaArchivo } from "../services/incidencia";
 
 export default function reportarIncidencia() {
     const [issueType, setIssueType] = useState("");
     const [details, setDetails] = useState("");
     const [file, setFile] = useState(null);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        const formData = new FormData();
+        formData.append("issueType", issueType);
+        formData.append("details", details);
+        formData.append("file", file);
+        await subidaArchivo(formData);
         alert("Incidencia enviada correctamente");
-    };
+    };        
 
     return (
         <>
