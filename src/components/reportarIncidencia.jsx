@@ -2,7 +2,7 @@ import { useState } from "react";
 import "../styles/reportarIncidencia-style.css";
 import Footer from "./footer";
 import Navbar from "./navbar";
-import { subidaArchivo } from "../services/incidencia";
+import { subidaArchivo } from "../services/subidaArchivos"; // Importamos tu servicio
 
 export default function reportarIncidencia() {
     const [issueType, setIssueType] = useState("");
