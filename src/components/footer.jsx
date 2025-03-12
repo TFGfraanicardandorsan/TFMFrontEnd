@@ -48,6 +48,12 @@ export default function Footer() {
                         <li><a href="#">FAQ</a></li>
                     </ul>
                 </div>
+                <div>
+                        <h4>Contáctanos</h4>
+                        <ul>
+                            <li>¿Tienes un problema? <a href="mailto:delegacion_etsii@us.es">Envíanos un correo</a></li>
+                        </ul>
+                    </div>
             </div>
         </footer>
 
