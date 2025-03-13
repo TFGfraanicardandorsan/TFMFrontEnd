@@ -71,8 +71,8 @@ export default function MiPerfil() {
               <ul>
                 {asignaturas.length > 0 ? (
                   asignaturas.map((asignatura) => (
-                    <li key={asignatura.codigo}>
-                      <strong>{asignatura.nombre}:</strong> {asignatura.grupo}
+                    <li key={asignatura.asignatura}>
+                      <strong>{asignatura.asignatura}:</strong> {asignatura.numGrupo}
                     </li>
                   ))
                 ) : (
