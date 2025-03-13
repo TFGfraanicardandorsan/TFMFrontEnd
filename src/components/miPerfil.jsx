@@ -2,30 +2,54 @@ import { useState, useEffect } from "react";
 import "../styles/miPerfil-style.css";
 import Footer from "./footer";
 import Navbar from "./navbar";
-import { obtenerDatosUsuario } from "../services/usuario"; // Importamos tu servicio
+import { obtenerDatosUsuario } from "../services/usuario"; // Servicio para obtener datos del usuario
+import { obtenerMiGrupoAsignatura } from "../services/grupo"; // Nuevo servicio para asignaturas y grupos
 
 export default function MiPerfil() {
   const [usuario, setUsuario] = useState(null); // Estado para almacenar los datos del usuario
+  const [asignaturas, setAsignaturas] = useState([]); // Estado para almacenar las asignaturas y grupos
+  const [loading, setLoading] = useState(true); // Estado para la carga de datos
+  const [error, setError] = useState(null); // Estado para manejar errores
 
   useEffect(() => {
-    const obtenerUsuario = async () => {
-      // Llamamos al servicio para obtener los datos del usuario
-      const response = await obtenerDatosUsuario();
-      if (!response.err) {
-        setUsuario(response.result.result); // Guardamos los datos del usuario en el estado
-      } else {
-        console.error('Error al obtener los datos del usuario:', response.errmsg);
+    const obtenerDatos = async () => {
+      try {
+        // Obtener datos del usuario
+        const responseUsuario = await obtenerDatosUsuario();
+        if (!responseUsuario.err) {
+          setUsuario(responseUsuario.result.result);
+        } else {
+          throw new Error(responseUsuario.errmsg);
+        }
+
+        // Obtener asignaturas y grupos
+        const responseAsignaturas = await obtenerMiGrupoAsignatura();
+        if (!responseAsignaturas.err) {
+          setAsignaturas(responseAsignaturas.result.result);
+        } else {
+          throw new Error(responseAsignaturas.errmsg);
+        }
+
+        setLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
       }
     };
 
-    obtenerUsuario();
-  }, []);  // Solo se ejecuta una vez cuando el componente se monta
+    obtenerDatos();
+  }, []);
 
-  // Si el usuario aún no ha sido cargado, muestra un mensaje de carga
-  if (!usuario) {
-    return <div>Cargando...</div>;
+  // Muestra mensaje de carga
+  if (loading) {
+    return <div className="loading-text">Cargando...</div>;
   }
-  // Si ya tenemos los datos del usuario, mostramos la información
+
+  // Muestra mensaje de error si hubo un problema
+  if (error) {
+    return <div className="error-text">Error: {error}</div>;
+  }
+
   return (
     <div className="page-container">
       <Navbar />
@@ -33,19 +57,27 @@ export default function MiPerfil() {
         <div className="perfil-container">
           <h1 className="perfil-title">Mi Perfil</h1>
           <div className="perfil-content">
+            {/* Información Personal */}
             <div className="perfil-card">
               <h2 className="perfil-card-title">Información Personal</h2>
               <p><strong>Nombre:</strong> {usuario.nombre_completo}</p>
               <p><strong>Correo:</strong> {usuario.correo}</p>
               <p><strong>Grado:</strong> {usuario.titulacion}</p>
             </div>
+
+            {/* Asignaturas y Grupos */}
             <div className="perfil-card">
               <h2 className="perfil-card-title">Asignaturas y Grupos</h2>
               <ul>
-                <li><strong>Matemática Discreta:</strong> Grupo 1</li>
-                <li><strong>Fundamentos de Programación:</strong> Grupo 2</li>
-                <li><strong>Redes de Computadores:</strong> Grupo 3</li>
-                <li><strong>Base de Datos:</strong> Grupo 1</li>
+                {asignaturas.length > 0 ? (
+                  asignaturas.map((asignatura) => (
+                    <li key={asignatura.codigo}>
+                      <strong>{asignatura.nombre}:</strong> {asignatura.grupo}
+                    </li>
+                  ))
+                ) : (
+                  <p>No tienes asignaturas registradas.</p>
+                )}
               </ul>
             </div>
           </div>
