@@ -1,6 +1,6 @@
+import "../styles/slectorAsignatura-style.css";
 import { useState, useEffect } from "react";
 import { obtenerAsignaturasEstudio } from "../services/asignaturas";
-//import "../styles/selectorAsignatura-style.css"; // Corrección del nombre del archivo
 import Navbar from "./navbar";
 
 export default function CheckboxSelector() {
