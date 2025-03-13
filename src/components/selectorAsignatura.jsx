@@ -84,6 +84,7 @@ export default function CheckboxSelector() {
     if (selectedItems.length === 0) return;
 
     setLoading(true);
+    console.log("Enviando asignaturas seleccionadas:", selectedItems);
     for (const codigo of selectedItems) {
       try {
         const response = await actualizarAsignaturasUsuario(codigo);
