@@ -29,7 +29,6 @@ export default function MiPerfil() {
         } else {
           throw new Error(responseAsignaturas.errmsg);
         }
-          console.error("Error al obtener las asignaturas:", asignaturas);
         setLoading(false);
       } catch (error) {
         setError(error.message);
@@ -72,7 +71,7 @@ export default function MiPerfil() {
                 {asignaturas.length > 0 ? (
                   asignaturas.map((asignatura) => (
                     <li key={asignatura.asignatura}>
-                      <strong>{asignatura.asignatura}:</strong> {asignatura.grupo}
+                      <strong>{asignatura.asignatura}:</strong> Grupo {asignatura.numGrupo}
                     </li>
                   ))
                 ) : (
