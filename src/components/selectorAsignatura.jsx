@@ -9,6 +9,7 @@ export default function CheckboxSelector() {
   const [selectedItems, setSelectedItems] = useState([]); // Estado para los checkboxes seleccionados
   const [cursos, setCursos] = useState([]); // Estado para los cursos disponibles
   const [cursoSeleccionado, setCursoSeleccionado] = useState(""); // Estado para el curso seleccionado
+  const [loading, setLoading] = useState(false); // Estado de carga mientras se envían datos
 
   // Obtener asignaturas desde la API
   useEffect(() => {
@@ -83,8 +84,7 @@ export default function CheckboxSelector() {
   const enviarSeleccion = async () => {
     if (selectedItems.length === 0) return;
 
-    setLoading(true);
-    console.log("Enviando asignaturas seleccionadas:", selectedItems);
+    setLoading(true); // ✅ Estado de carga activado
     for (const codigo of selectedItems) {
       try {
         const response = await actualizarAsignaturasUsuario(codigo);
@@ -95,8 +95,9 @@ export default function CheckboxSelector() {
         console.error(`Error al enviar la asignatura ${codigo}:`, error);
       }
     }
-    setLoading(false);
+    setLoading(false); // ✅ Estado de carga desactivado
     alert("Todas las asignaturas seleccionadas han sido enviadas.");
+    window.location.href = "/miPerfil";
   };
 
   return (
