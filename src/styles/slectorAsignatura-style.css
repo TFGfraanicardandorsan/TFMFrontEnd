@@ -50,4 +50,19 @@
     font-size: 16px;
     color: #444;
   }
+  .curso-selector {
+    margin-bottom: 15px;
+  }
+  
+  .curso-selector label {
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .curso-dropdown {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
   

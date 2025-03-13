@@ -4,16 +4,27 @@ import { obtenerAsignaturasEstudio } from "../services/asignaturas";
 import Navbar from "./navbar";
 
 export default function CheckboxSelector() {
-  const [asignaturas, setAsignatura] = useState([]); // Estado para las asignaturas
+  const [asignaturas, setAsignatura] = useState([]); // Estado para todas las asignaturas
+  const [filteredAsignaturas, setFilteredAsignaturas] = useState([]); // Estado para las asignaturas filtradas
   const [selectedItems, setSelectedItems] = useState([]); // Estado para los checkboxes seleccionados
+  const [cursos, setCursos] = useState([]); // Estado para los cursos disponibles
+  const [cursoSeleccionado, setCursoSeleccionado] = useState(""); // Estado para el curso seleccionado
 
-  // Obtener opciones desde la API
+  // Obtener asignaturas desde la API
   useEffect(() => {
     const fetchAsignaturas = async () => {
       try {
         const response = await obtenerAsignaturasEstudio();
         if (!response.err) {
-          setAsignatura(response.result.result); // Corrección: setAsignatura en lugar de setEstudio
+          const asignaturasData = response.result.result;
+          setAsignatura(asignaturasData);
+
+          // Obtener cursos únicos
+          const cursosUnicos = [...new Set(asignaturasData.map((a) => a.curso))];
+          setCursos(cursosUnicos);
+
+          // Preseleccionar el primer curso por defecto
+          setCursoSeleccionado(cursosUnicos[0]);
         } else {
           console.error("Error al obtener las asignaturas:", response.errmsg);
         }
@@ -24,6 +35,16 @@ export default function CheckboxSelector() {
 
     fetchAsignaturas();
   }, []);
+
+  // Filtrar asignaturas según el curso seleccionado
+  useEffect(() => {
+    if (cursoSeleccionado) {
+      const asignaturasFiltradas = asignaturas.filter(
+        (a) => a.curso === cursoSeleccionado
+      );
+      setFilteredAsignaturas(asignaturasFiltradas);
+    }
+  }, [cursoSeleccionado, asignaturas]);
 
   // Manejar cambios en los checkboxes
   const handleCheckboxChange = (event) => {
@@ -62,9 +83,28 @@ export default function CheckboxSelector() {
     <>
       <Navbar />
       <div className="checkbox-container">
-        <h2 className="checkbox-title">Selecciona opciones:</h2>
+        <h2 className="checkbox-title">Selecciona asignaturas por curso:</h2>
+
+        {/* Selector de curso */}
+        <div className="curso-selector">
+          <label htmlFor="curso">Filtrar por curso:</label>
+          <select
+            id="curso"
+            value={cursoSeleccionado}
+            onChange={(e) => setCursoSeleccionado(e.target.value)}
+            className="curso-dropdown"
+          >
+            {cursos.map((curso) => (
+              <option key={curso} value={curso}>
+                {curso}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Lista de asignaturas filtradas */}
         <div className="checkbox-list">
-          {asignaturas.map((asignatura) => (
+          {filteredAsignaturas.map((asignatura) => (
             <label key={asignatura.codigo} className="checkbox-label">
               <input
                 type="checkbox"
