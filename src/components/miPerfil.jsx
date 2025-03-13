@@ -29,7 +29,7 @@ export default function MiPerfil() {
         } else {
           throw new Error(responseAsignaturas.errmsg);
         }
-
+          console.error("Error al obtener las asignaturas:", asignaturas);
         setLoading(false);
       } catch (error) {
         setError(error.message);
