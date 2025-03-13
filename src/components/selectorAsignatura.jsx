@@ -61,6 +61,24 @@ export default function CheckboxSelector() {
     }
   }, [selectedItems]);
 
+  // Función para hacer la petición a la API
+  const fetchData = async (selected) => {
+    try {
+      const response = await fetch("https://api.example.com/data", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ selectedItems: selected }),
+      });
+
+      const data = await response.json();
+      console.log("Respuesta de la API:", data);
+    } catch (error) {
+      console.error("Error al llamar a la API:", error);
+    }
+  };
+
   // Función para enviar cada asignatura de forma individual a la API
   const enviarSeleccion = async () => {
     if (selectedItems.length === 0) return;
