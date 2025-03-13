@@ -1,6 +1,6 @@
 import "../styles/slectorAsignatura-style.css";
 import { useState, useEffect } from "react";
-import { obtenerAsignaturasEstudio } from "../services/asignaturas";
+import { obtenerAsignaturasEstudio , actualizarAsignaturasUsuario} from "../services/asignaturas";
 import Navbar from "./navbar";
 
 export default function CheckboxSelector() {
@@ -61,22 +61,23 @@ export default function CheckboxSelector() {
     }
   }, [selectedItems]);
 
-  // Función para hacer la petición a la API
-  const fetchData = async (selected) => {
-    try {
-      const response = await fetch("https://api.example.com/data", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ selectedItems: selected }),
-      });
+  // Función para enviar cada asignatura de forma individual a la API
+  const enviarSeleccion = async () => {
+    if (selectedItems.length === 0) return;
 
-      const data = await response.json();
-      console.log("Respuesta de la API:", data);
-    } catch (error) {
-      console.error("Error al llamar a la API:", error);
+    setLoading(true);
+    for (const codigo of selectedItems) {
+      try {
+        const response = await actualizarAsignaturasUsuario(codigo);
+
+        const data = await response.json();
+        console.log(`Asignatura ${codigo} enviada:`, data);
+      } catch (error) {
+        console.error(`Error al enviar la asignatura ${codigo}:`, error);
+      }
     }
+    setLoading(false);
+    alert("Todas las asignaturas seleccionadas han sido enviadas.");
   };
 
   return (
