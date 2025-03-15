@@ -2,6 +2,8 @@ import { useState, useRef } from "react";
 import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
 import plantillaPDF from "../assets/solicitud-permutas-2024-25 (2).pdf";
+import Navbar from "./navbar";
+import "../styles/generacionPDF-style.css";
 
 export default function GeneracionPDF() {
     const [titulacion,setTitulacion] = useState("");
@@ -55,23 +57,36 @@ export default function GeneracionPDF() {
     }
 
     return (
-        <div>
+        <>
+            <Navbar />
+            <br/>
+            
             <h1>Generación de PDF</h1>
-            <label>Titulación: <input type="text" value={titulacion} onChange={(e) => setTitulacion(e.target.value)} /></label><br />
-            <label>DNI: <input type="text" value={dni} onChange={(e) => setDni(e.target.value)} /></label><br />
-            <label>Letra DNI: <input type="text" value={letraDNI} onChange={(e) => setLetraDNI(e.target.value)} /></label><br />
-            <label>Nombre: <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} /></label><br />
-            <label>Domicilio: <input type="text" value={domicilio} onChange={(e) => setDomicilio(e.target.value)} /></label><br />
-            <label>Población: <input type="text" value={poblacion} onChange={(e) => setPoblacion(e.target.value)} /></label><br />
-            <label>Código Postal: <input type="text" value={codigoPostal} onChange={(e) => setCodigoPostal(e.target.value)} /></label><br />
-            <label>Provincia: <input type="text" value={provincia} onChange={(e) => setProvincia(e.target.value)} /></label><br />
-            <label>Teléfono: <input type="text" value={telefono} onChange={(e) => setTelefono(e.target.value)} /></label><br />
-            <label>Código: <input type="text" value={codigo} onChange={(e) => setCodigo(e.target.value)} /></label><br />
-            <label>Asignatura: <input type="text" value={asignatura} onChange={(e) => setAsignatura(e.target.value)} /></label><br />
-            <button onClick={mostrarPDF}>Mostrar PDF</button>
-            <button onClick={descargarPDF}>Descargar PDF</button>
-            <iframe ref={iframeRef} width="100%" height="500" title="PDF generado"></iframe>
-        </div>
+            <div className="container">
+                {/* 📝 Formulario a la izquierda */}
+                <div className="formulario">
+                    
+                    <label>Titulación: <input type="text" value={titulacion} onChange={(e) => setTitulacion(e.target.value)} /></label>
+                    <label>DNI: <input type="text" value={dni} onChange={(e) => setDni(e.target.value)} /></label>
+                    <label>Letra DNI: <input type="text" value={letraDNI} onChange={(e) => setLetraDNI(e.target.value)} /></label>
+                    <label>Nombre: <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} /></label>
+                    <label>Domicilio: <input type="text" value={domicilio} onChange={(e) => setDomicilio(e.target.value)} /></label>
+                    <label>Población: <input type="text" value={poblacion} onChange={(e) => setPoblacion(e.target.value)} /></label>
+                    <label>Código Postal: <input type="text" value={codigoPostal} onChange={(e) => setCodigoPostal(e.target.value)} /></label>
+                    <label>Provincia: <input type="text" value={provincia} onChange={(e) => setProvincia(e.target.value)} /></label>
+                    <label>Teléfono: <input type="text" value={telefono} onChange={(e) => setTelefono(e.target.value)} /></label>
+                    <label>Código: <input type="text" value={codigo} onChange={(e) => setCodigo(e.target.value)} /></label>
+                    <label>Asignatura: <input type="text" value={asignatura} onChange={(e) => setAsignatura(e.target.value)} /></label>
+                    <button onClick={mostrarPDF}>Mostrar PDF</button>
+                    <button onClick={descargarPDF}>Descargar PDF</button>
+                </div>
+
+                {/* 📄 Iframe a la derecha */}
+                <div className="pdf-container">
+                    <iframe ref={iframeRef} title="PDF generado"></iframe>
+                </div>
+            </div>
+        </>
     );
 
 }

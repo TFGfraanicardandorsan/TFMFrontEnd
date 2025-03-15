@@ -1,0 +1,61 @@
+.container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas iguales */
+    gap: 120px; /* Espacio entre las imágenes */
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto;
+}
+
+
+.formulario {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 300px; /* Evitar que se haga demasiado pequeño */
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+}
+
+input {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+button {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.pdf-container {
+    flex: 2; /* Dar más espacio al PDF */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 600px; /* Evitar que sea demasiado pequeño */
+}
+
+iframe {
+    width: 100%;
+    height: 800px; /* Ajustar la altura del PDF */
+    border: 1px solid #ccc;
+}
