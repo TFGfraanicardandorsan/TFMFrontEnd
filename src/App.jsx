@@ -9,6 +9,7 @@ import SeleccionarEstudio from './components/seleccionarEstudio.jsx'
 import SeleccionarAsignatura from './components/selectorAsignatura.jsx'
 //import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from './components/notFound.jsx'
+import GeneracionPDF from './components/generacionPDF.jsx';
 
 export function App() {
 
@@ -22,6 +23,7 @@ export function App() {
         <Route path='/miPerfil' element={<MiPerfil/>} />
         <Route path='/seleccionarEstudios' element={<SeleccionarEstudio/>} />
         <Route path='/seleccionarAsignaturas' element={<SeleccionarAsignatura/>} />
+        <Route path='/generarPermuta' element={<GeneracionPDF/>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
