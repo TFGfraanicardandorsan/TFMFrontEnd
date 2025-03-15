@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
-import plantillaPDF from "../assets/solicitud-permutas-2024-25 (2).pdf";
+import plantillaPDF from "../assets/solicitud-permutas-2024-25v1.1.pdf";
 import Navbar from "./navbar";
 import "../styles/generacionPDF-style.css";
 
@@ -26,14 +26,21 @@ export default function GeneracionPDF() {
             const form = pdfDoc.getForm();
 
             // form.getTextField('Titulación').setText(titulacion);
-            form.getTextField('DNI').setText(dni);
-            form.getTextField('LETRA').setText(letraDNI);
-            form.getTextField('NOMBRE').setText(nombre);
-            // form.getTextField('Domicilio').setText(domicilio);
-            // form.getTextField('Población').setText(poblacion);
-            // form.getTextField('Código Postal').setText(codigoPostal);
-            // form.getTextField('Provincia').setText(provincia);
-            // form.getTextField('Teléfono').setText(telefono);
+            const dni1 = form.getTextField('DNI1');
+            // form.getTextField('DNI1').setText(dni).enableReadOnly();
+            form.getTextField('LETRA1').setText(letraDNI);
+            form.getTextField('NOMBRE1').setText(nombre);
+            form.getTextField('DOMICILIO1').setText(domicilio);
+            form.getTextField('POBLACION1').setText(poblacion);
+            form.getTextField('COD-POSTAL1').setText(codigoPostal);
+            form.getTextField('PROVINCIA1').setText(provincia);
+            form.getTextField('TELEFONO1').setText(telefono);
+
+            // SETTERS
+            dni1.setText(dni);
+
+            // BLOQUEADORES
+            dni1.enableReadOnly();
             // form.getTextField('Código').setText(codigo);
             // form.getTextField('Asignatura').setText(asignatura);
 
