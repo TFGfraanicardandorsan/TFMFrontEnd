@@ -7,3 +7,7 @@ export const crearIncidencia = async () => {
 export const obtenerIncidenciasAsignadasUsuario = async () => {
     return await postAPI("/api/v1/incidencia/obtenerIncidenciasAsignadasUsuario")
 }
+
+export const obtenerIncidencias = async () => {
+    return await postAPI("/api/v1/incidencia/obtenerIncidencias")
+}
