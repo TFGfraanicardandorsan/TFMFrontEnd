@@ -11,3 +11,15 @@ export const obtenerIncidenciasAsignadasUsuario = async () => {
 export const obtenerIncidencias = async () => {
     return await postAPI("/api/v1/incidencia/obtenerIncidencias")
 }
+
+export const obtenerIncidenciasAsignadas = async () => {
+    return await postAPI("/api/v1/incidencia/obtenerIncidenciasAsignadas")
+}
+
+export const obtenerIncidenciasSinAsignar = async () => {
+    return await postAPI("/api/v1/incidencia/obtenerIncidenciasSinAsignar")
+}
+
+export const solucionarIncidencia = async () => {
+    return await postAPI("/api/v1/incidencia/solucionarIncidencia")
+}

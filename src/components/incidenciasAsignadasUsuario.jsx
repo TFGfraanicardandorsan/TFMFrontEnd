@@ -3,7 +3,7 @@ import "../styles/misIncidencias-style.css";
 import Footer from "./footer";
 import Navbar from "./navbar";
 import { useNavigate } from "react-router-dom";
-import { obtenerIncidencias } from "../services/incidencia";
+import { obtenerIncidenciasAsignadas,solucionarIncidencia } from "../services/incidencia";
 
 export default function MisIncidencias() {
     const navigate = useNavigate();
@@ -13,7 +13,7 @@ export default function MisIncidencias() {
     useEffect(() => {
         const cargarIncidencias = async () => {
             try {
-                const data = await obtenerIncidencias();
+                const data = await obtenerIncidenciasAsignadas();
                 setIncidencias(data);
             } catch (error) {
                 console.error("Error al obtener las incidencias:", error);
@@ -25,12 +25,22 @@ export default function MisIncidencias() {
         cargarIncidencias();
     }, []);
 
+    const handleResolverIncidencia = async (id) => {
+        try {
+            await solucionarIncidencia(id);
+            alert(`Incidencia ${id} resuelta correctamente`);
+        } catch (error) {
+            console.error("Error al resolver la incidencia:", error);
+            alert(`Error al resolver la incidencia ${id}`);
+        }
+    };
+
     return (
         <>
             <Navbar />
             <div className="container">
                 <div className="header">
-                    <h1>Todas las Incidencias</h1>
+                    <h1>Mis Incidencias</h1>
                 </div>
 
                 {cargando ? (
@@ -47,6 +57,12 @@ export default function MisIncidencias() {
                                 <p><strong>Tipo de Incidencia:</strong> {incidencia.tipo}</p>
                                 <p><strong>Estado:</strong> {incidencia.estado}</p>
                                 <p><strong>Comentario:</strong> {incidencia.comentario}</p>
+                                <button 
+                                    className="resolver-button" 
+                                    onClick={() => handleResolverIncidencia(incidencia.id)}
+                                >
+                                    Resolver Incidencia
+                                </button>
                             </div>
                         ))}
                     </div>
