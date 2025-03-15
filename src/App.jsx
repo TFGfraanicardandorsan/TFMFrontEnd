@@ -7,6 +7,7 @@ import MisIncidencias from './components/misIncidencias.jsx'
 import MiPerfil from './components/miPerfil.jsx'
 import SeleccionarEstudio from './components/seleccionarEstudio.jsx'
 import SeleccionarAsignatura from './components/selectorAsignatura.jsx'
+import Incidencias from './components/incidencias.jsx'
 //import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from './components/notFound.jsx'
 
@@ -22,6 +23,8 @@ export function App() {
         <Route path='/miPerfil' element={<MiPerfil/>} />
         <Route path='/seleccionarEstudios' element={<SeleccionarEstudio/>} />
         <Route path='/seleccionarAsignaturas' element={<SeleccionarAsignatura/>} />
+        <Route path='/incidencias' element={<Incidencias/>} />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
