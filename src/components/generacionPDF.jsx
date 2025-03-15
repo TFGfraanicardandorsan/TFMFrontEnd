@@ -4,6 +4,7 @@ import { saveAs } from "file-saver";
 import plantillaPDF from "../assets/solicitud-permutas-2024-25V2.pdf";
 import Navbar from "./navbar";
 import "../styles/generacionPDF-style.css";
+import Footer from "./footer";
 
 export default function GeneracionPDF() {
     const [dni,setDni] = useState("");
@@ -24,7 +25,10 @@ export default function GeneracionPDF() {
             const pdfDoc = await PDFDocument.load(existingPdfBytes);
             const form = pdfDoc.getForm();
             
-            const grado = form.getCheckBox('GII-IS')
+            const grado1 = form.getCheckBox('GII-IS');
+            const grado2 = form.getCheckBox('GII-IC');
+            const grado3 = form.getCheckBox('GII-TI');
+            const grado4 = form.getCheckBox('GISA');
             const dni1 = form.getTextField('DNI1');
             const dni2 = form.getTextField('DNI2');
             const letra1 = form.getTextField('LETRA1');
@@ -41,6 +45,9 @@ export default function GeneracionPDF() {
             const provincia2 = form.getTextField('PROVINCIA2');
             const telefono1 = form.getTextField('TELEFONO1');
             const telefono2 = form.getTextField('TELEFONO2');
+            const day = form.getTextField('DAY');
+            const month = form.getTextField('MONTH');
+            const year = form.getTextField('YEAR');
 
             //Asignaturas y códigos
             // const codigo1_1 = form.getTextField('COD1-1');
@@ -176,7 +183,7 @@ export default function GeneracionPDF() {
             
 
             // SETTERS
-            grado.check();
+            grado1.check();
             dni1.setText(dni);
             dni2.setText(dni);
             letra1.setText(letraDNI);
@@ -193,10 +200,24 @@ export default function GeneracionPDF() {
             provincia2.setText(provincia);
             telefono1.setText(telefono);
             telefono2.setText(telefono);
-            
+            const today = new Date();
+            const dayValue = String(today.getDate()).padStart(2, '0');
+            const yearValue = today.getFullYear().toString();
+            const monthNames = [
+                "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO",
+                "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"
+            ];
+            const monthValue = monthNames[today.getMonth()];
+
+            day.setText(dayValue);
+            month.setText(monthValue);
+            year.setText(yearValue);
 
             // BLOQUEADORES
-            grado.enableReadOnly();
+            grado1.enableReadOnly();
+            grado2.enableReadOnly();
+            grado3.enableReadOnly();
+            grado4.enableReadOnly();
             dni1.enableReadOnly();
             dni2.enableReadOnly();
             letra1.enableReadOnly();
@@ -213,6 +234,9 @@ export default function GeneracionPDF() {
             provincia2.enableReadOnly();
             telefono1.enableReadOnly();
             telefono2.enableReadOnly();
+            day.enableReadOnly();
+            month.enableReadOnly();
+            year.enableReadOnly();
 
             // asignatura1_1.enableReadOnly();
             // asignatura1_2.enableReadOnly();
@@ -265,7 +289,11 @@ export default function GeneracionPDF() {
         const pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
         saveAs(pdfBlob, "solicitud-permutas.pdf");
     }
-
+    const enviarPDF = async () => {
+        const pdfBytes = await enviarPDF();
+        const pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
+        saveAs(pdfBlob, "solicitud-permutas.pdf");
+    }
     return (
         <>
             <Navbar />
@@ -275,19 +303,23 @@ export default function GeneracionPDF() {
             <div className="container">
                 {/* 📝 Formulario a la izquierda */}
                 <div className="formulario">
-                    
+                    <div className="asociar">
                     <label>DNI: <input type="text" value={dni} onChange={(e) => setDni(e.target.value)} /></label>
                     <label>Letra DNI: <input type="text" value={letraDNI} onChange={(e) => setLetraDNI(e.target.value)} /></label>
-                    <label>Nombre: <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} /></label>
+                    </div>
                     <label>Domicilio: <input type="text" value={domicilio} onChange={(e) => setDomicilio(e.target.value)} /></label>
                     <label>Población: <input type="text" value={poblacion} onChange={(e) => setPoblacion(e.target.value)} /></label>
+                    <div className="asociar">
                     <label>Código Postal: <input type="text" value={codigoPostal} onChange={(e) => setCodigoPostal(e.target.value)} /></label>
                     <label>Provincia: <input type="text" value={provincia} onChange={(e) => setProvincia(e.target.value)} /></label>
+                    </div>
                     <label>Teléfono: <input type="text" value={telefono} onChange={(e) => setTelefono(e.target.value)} /></label>
-                    <label>Código: <input type="text" value={codigo} onChange={(e) => setCodigo(e.target.value)} /></label>
-                    <label>Asignatura: <input type="text" value={asignatura} onChange={(e) => setAsignatura(e.target.value)} /></label>
-                    <button onClick={mostrarPDF}>Mostrar PDF</button>
-                    <button onClick={descargarPDF}>Descargar PDF</button>
+                    <br/>
+                   <div className="asociarBoton">
+                    <button onClick={mostrarPDF}>Visualizar</button>
+                    <button onClick={descargarPDF}>Descargar</button>
+                    <button onClick={enviarPDF}>Enviar</button>
+                    </div>
                 </div>
 
                 {/* 📄 Iframe a la derecha */}
@@ -295,6 +327,7 @@ export default function GeneracionPDF() {
                     <iframe ref={iframeRef} title="PDF generado"></iframe>
                 </div>
             </div>
+            <Footer/>
         </>
     );
 

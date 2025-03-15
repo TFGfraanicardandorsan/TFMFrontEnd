@@ -59,3 +59,15 @@ iframe {
     height: 800px; /* Ajustar la altura del PDF */
     border: 1px solid #ccc;
 }
+
+.asociar {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas iguales */
+    gap: 50px; 
+}
+
+.asociarBoton {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Dos columnas iguales */
+    gap: 50px; 
+}
