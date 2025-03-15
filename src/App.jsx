@@ -10,6 +10,7 @@ import SeleccionarAsignatura from './components/selectorAsignatura.jsx'
 import Incidencias from './components/incidencias.jsx'
 //import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from './components/notFound.jsx'
+import GeneracionPDF from './components/generacionPDF.jsx';
 
 export function App() {
 
@@ -24,7 +25,8 @@ export function App() {
         <Route path='/seleccionarEstudios' element={<SeleccionarEstudio/>} />
         <Route path='/seleccionarAsignaturas' element={<SeleccionarAsignatura/>} />
         <Route path='/incidencias' element={<Incidencias/>} />
-
+        <Route path='/generarPermuta' element={<GeneracionPDF/>} />
+        
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
