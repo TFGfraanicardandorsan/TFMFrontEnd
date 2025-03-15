@@ -3,7 +3,7 @@ import "../styles/miPerfil-style.css";
 import Footer from "./footer";
 import Navbar from "./navbar";
 import { obtenerDatosUsuario } from "../services/usuario"; // Servicio para obtener datos del usuario
-import { obtenerMiGrupoAsignatura } from "../services/grupo"; // Nuevo servicio para asignaturas y grupos
+import { obtenerTodosGruposMisAsignaturasUsuario } from "../services/grupo"; // Nuevo servicio para asignaturas y grupos
 
 export default function MiPerfil() {
   const [usuario, setUsuario] = useState(null); // Estado para almacenar los datos del usuario
@@ -23,7 +23,7 @@ export default function MiPerfil() {
         }
 
         // Obtener asignaturas y grupos
-        const responseAsignaturas = await obtenerMiGrupoAsignatura();
+        const responseAsignaturas = await obtenerTodosGruposMisAsignaturasUsuario();
         if (!responseAsignaturas.err) {
           setAsignaturas(responseAsignaturas.result.result);
         } else {
