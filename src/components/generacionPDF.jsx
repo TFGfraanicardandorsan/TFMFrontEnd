@@ -27,6 +27,23 @@ export default function GeneracionPDF() {
 
             // form.getTextField('Titulación').setText(titulacion);
             const dni1 = form.getTextField('DNI1');
+            const dni2 = form.getTextField('DNI2');
+            const letra1 = form.getTextField('LETRA1');
+            const letra2 = form.getTextField('LETRA2');
+            const nombre1 = form.getTextField('NOMBRE1');
+            const nombre2 = form.getTextField('NOMBRE2');
+            const domicilio1 = form.getTextField('DOMICILIO1');
+            const domicilio2 = form.getTextField('DOMICILIO2');
+            const poblacion1 = form.getTextField('POBLACION1');
+            const poblacion2 = form.getTextField('POBLACION2');
+            const codigoPostal1 = form.getTextField('COD-POSTAL1');
+            const codigoPostal2 = form.getTextField('COD-POSTAL2');
+            const provincia1 = form.getTextField('PROVINCIA1');
+            const provincia2 = form.getTextField('PROVINCIA2');
+            const telefono1 = form.getTextField('TELEFONO1');
+            const telefono2 = form.getTextField('TELEFONO2');
+
+
             // form.getTextField('DNI1').setText(dni).enableReadOnly();
             form.getTextField('LETRA1').setText(letraDNI);
             form.getTextField('NOMBRE1').setText(nombre);
@@ -38,9 +55,40 @@ export default function GeneracionPDF() {
 
             // SETTERS
             dni1.setText(dni);
-
+            dni2.setText(dni);
+            letra1.setText(letraDNI);
+            letra2.setText(letraDNI);
+            nombre1.setText(nombre);
+            nombre2.setText(nombre);
+            domicilio1.setText(domicilio);
+            domicilio2.setText(domicilio);
+            poblacion1.setText(poblacion);
+            poblacion2.setText(poblacion);
+            codigoPostal1.setText(codigoPostal);
+            codigoPostal2.setText(codigoPostal);
+            provincia1.setText(provincia);
+            provincia2.setText(provincia);
+            telefono1.setText(telefono);
+            telefono2.setText(telefono);
+            
             // BLOQUEADORES
             dni1.enableReadOnly();
+            dni2.enableReadOnly();
+            letra1.enableReadOnly();
+            letra2.enableReadOnly();
+            nombre1.enableReadOnly();
+            nombre2.enableReadOnly();
+            domicilio1.enableReadOnly();
+            domicilio2.enableReadOnly();
+            poblacion1.enableReadOnly();
+            poblacion2.enableReadOnly();
+            codigoPostal1.enableReadOnly();
+            codigoPostal2.enableReadOnly();
+            provincia1.enableReadOnly();
+            provincia2.enableReadOnly();
+            telefono1.enableReadOnly();
+            telefono2.enableReadOnly();
+
             // form.getTextField('Código').setText(codigo);
             // form.getTextField('Asignatura').setText(asignatura);
 
