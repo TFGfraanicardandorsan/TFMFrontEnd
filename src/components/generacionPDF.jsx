@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
-import plantillaPDF from "../assets/solicitud-permutas-2024-25.pdf";
+import plantillaPDF from "../assets/solicitud-permutas-2024-25 (2).pdf";
 
 export default function GeneracionPDF() {
     const [titulacion,setTitulacion] = useState("");
@@ -23,17 +23,17 @@ export default function GeneracionPDF() {
             const pdfDoc = await PDFDocument.load(existingPdfBytes);
             const form = pdfDoc.getForm();
 
-            form.getTextField('Titulación').setText(titulacion);
+            // form.getTextField('Titulación').setText(titulacion);
             form.getTextField('DNI').setText(dni);
-            form.getTextField('Letra DNI').setText(letraDNI);
-            form.getTextField('Nombre').setText(nombre);
-            form.getTextField('Domicilio').setText(domicilio);
-            form.getTextField('Población').setText(poblacion);
-            form.getTextField('Código Postal').setText(codigoPostal);
-            form.getTextField('Provincia').setText(provincia);
-            form.getTextField('Teléfono').setText(telefono);
-            form.getTextField('Código').setText(codigo);
-            form.getTextField('Asignatura').setText(asignatura);
+            form.getTextField('LETRA').setText(letraDNI);
+            form.getTextField('NOMBRE').setText(nombre);
+            // form.getTextField('Domicilio').setText(domicilio);
+            // form.getTextField('Población').setText(poblacion);
+            // form.getTextField('Código Postal').setText(codigoPostal);
+            // form.getTextField('Provincia').setText(provincia);
+            // form.getTextField('Teléfono').setText(telefono);
+            // form.getTextField('Código').setText(codigo);
+            // form.getTextField('Asignatura').setText(asignatura);
 
             const pdfBytes = await pdfDoc.save();
             return pdfBytes
@@ -41,29 +41,6 @@ export default function GeneracionPDF() {
             console.error(e);
         }
     };
-
-    const verificarFormulario = async () => {
-        const existingPdfBytes = await fetch(plantillaPDF).then((res) => res.arrayBuffer());
-        const pdfDoc = await PDFDocument.load(existingPdfBytes);
-        const form = pdfDoc.getForm();
-      
-        if (!form) {
-          console.log("El PDF no tiene un formulario interactivo.");
-          return;
-        }
-      
-        const fields = form.getFields();
-        if (fields.length === 0) {
-          console.log("El PDF tiene un formulario, pero no tiene campos interactivos.");
-        } else {
-          console.log("Campos encontrados en el formulario:");
-          fields.forEach(field => console.log("Campo:", field.getName()));
-        }
-      };
-      
-      verificarFormulario();
-      
-      
 
     const mostrarPDF = async () => {
         const pdfBytes = await generarPDF();
