@@ -11,7 +11,7 @@ import Incidencias from './components/incidencias.jsx'
 //import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from './components/notFound.jsx'
 import GeneracionPDF from './components/generacionPDF.jsx';
-
+import SolicitarGrupos from './components/solicitarGrupos.jsx';
 export function App() {
 
   return (
@@ -26,6 +26,7 @@ export function App() {
         <Route path='/seleccionarAsignaturas' element={<SeleccionarAsignatura/>} />
         <Route path='/incidencias' element={<Incidencias/>} />
         <Route path='/generarPermuta' element={<GeneracionPDF/>} />
+        <Route path = '/seleccionarGrupos' element={<SolicitarGrupos/>} />
         
         <Route path="*" element={<NotFound />} />
       </Routes>

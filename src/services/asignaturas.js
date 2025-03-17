@@ -7,3 +7,7 @@ export const obtenerAsignaturasEstudio = async () => {
 export const actualizarAsignaturasUsuario = async (paramAsignatura) => {
     return await postAPI("/api/v1/usuarioAsignatura/actualizarAsignaturasUsuario", {asignatura:paramAsignatura})
 }
+
+export const obtenerAsignaturasUsuario = async () => {
+    return await postAPI("/api/v1/usuarioAsignatura/obtenerAsignaturasUsuario")
+}   
