@@ -17,7 +17,7 @@ export default function MisIncidencias() {
                 console.log(data);
                 // Asegúrate de que data es un arreglo
                 if (Array.isArray(data)) {
-                    setIncidencias(data);
+                    setIncidencias(data.result);
                 } else {
                     console.error("La respuesta no es un arreglo", data);
                     setIncidencias([]); // Si no es un arreglo, se puede establecer un arreglo vacío
