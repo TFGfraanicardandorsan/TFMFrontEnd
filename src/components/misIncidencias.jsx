@@ -3,6 +3,7 @@ import "../styles/misIncidencias-style.css";
 import Footer from "./footer";
 import Navbar from "./navbar";
 import { useNavigate } from "react-router-dom";
+import { obtenerIncidenciasAsignadasUsuario } from "../services/incidencia";
 
 export default function MisIncidencias() {
     const navigate = useNavigate();
