@@ -16,7 +16,7 @@ export default function MisIncidencias() {
                 const data = await obtenerIncidenciasAsignadasUsuario();
                 console.log(data);
                 // Asegúrate de que data es un arreglo
-                if (Array.isArray(data)) {
+                if (Array.isArray(data.result)) {
                     setIncidencias(data.result);
                 } else {
                     console.error("La respuesta no es un arreglo", data);
