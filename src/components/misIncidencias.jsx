@@ -14,7 +14,7 @@ export default function MisIncidencias() {
         const cargarIncidencias = async () => {
             try {
                 const data = await obtenerIncidenciasAsignadasUsuario();
-                
+                console.log(data);
                 // Asegúrate de que data es un arreglo
                 if (Array.isArray(data)) {
                     setIncidencias(data);
