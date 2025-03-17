@@ -1,33 +1,33 @@
 import { useEffect, useState } from "react";
-import { Select, Label } from "@/components/ui/select";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+//import { Select, Label } from "@/components/ui/select";
+//import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export default function SeleccionGrupos() {
-    const [asignaturasGrupos, setAsignaturasGrupos] = useState({});
-    const [selecciones, setSelecciones] = useState({});
+ export default function SeleccionGrupos() {
+//     const [asignaturasGrupos, setAsignaturasGrupos] = useState({});
+//     const [selecciones, setSelecciones] = useState({});
 
-    useEffect(() => {
-        obtenerTodosGruposMisAsignaturasUsuario()
-            .then(res => res.json())
-            .then(data => {
-                const agrupado = {};
-                data.forEach(({ nombre, id, grupo }) => {
-                    if (!agrupado[id]) {
-                        agrupado[id] = { nombre, grupos: [] };
-                    }
-                    agrupado[id].grupos.push(grupo);
-                });
-                setAsignaturasGrupos(agrupado);
-            });
-    }, []);
+//     useEffect(() => {
+//         obtenerTodosGruposMisAsignaturasUsuario()
+//             .then(res => res.json())
+//             .then(data => {
+//                 const agrupado = {};
+//                 data.forEach(({ nombre, id, grupo }) => {
+//                     if (!agrupado[id]) {
+//                         agrupado[id] = { nombre, grupos: [] };
+//                     }
+//                     agrupado[id].grupos.push(grupo);
+//                 });
+//                 setAsignaturasGrupos(agrupado);
+//             });
+//     }, []);
 
-    const handleSeleccion = (asignaturaId, grupoId) => {
-        setSelecciones(prev => ({ ...prev, [asignaturaId]: grupoId }));
-    };
+//     const handleSeleccion = (asignaturaId, grupoId) => {
+//         setSelecciones(prev => ({ ...prev, [asignaturaId]: grupoId }));
+//     };
 
     return (
         <div className="space-y-4">
-            {Object.entries(asignaturasGrupos).map(([id, { nombre, grupos }]) => (
+            {/* {Object.entries(asignaturasGrupos).map(([id, { nombre, grupos }]) => (
                 <Card key={id}>
                     <CardHeader>
                         <CardTitle>{nombre}</CardTitle>
@@ -46,7 +46,7 @@ export default function SeleccionGrupos() {
                         </Select>
                     </CardContent>
                 </Card>
-            ))}
+            ))} */}
         </div>
     );
 }
