@@ -38,7 +38,7 @@ export default function GeneracionPDF() {
 
   // para obtener el campo nombre y grado del usuario para el formulario
   useEffect(() => {
-    const obtenerDatosUsuario = async () => {
+    const obtenerDatos = async () => {
       try {
         const data = await obtenerDatosUsuario();
         setGrado(data.result.result.titulacion);
@@ -47,7 +47,7 @@ export default function GeneracionPDF() {
         console.error("Error al obtener los datos del usuario:", error);
       }
     };
-    obtenerDatosUsuario();
+    obtenerDatos();
   }, []);
 
   console.log('asignaturas:',asignatura)
