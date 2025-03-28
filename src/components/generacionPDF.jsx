@@ -7,6 +7,7 @@ import "../styles/generacionPDF-style.css";
 import Footer from "./footer";
 import { obtenerAsignaturasUsuario } from "../services/asignaturas.js";
 import { obtenerDatosUsuario } from "../services/usuario"; 
+import { dayValue, monthValue, yearValue } from "../lib/generadorFechas.js"; 
 
 export default function GeneracionPDF() {
   const [grado, setGrado] = useState("");
@@ -237,24 +238,6 @@ export default function GeneracionPDF() {
       provincia2.setText(provincia);
       telefono1.setText(telefono);
       telefono2.setText(telefono);
-      const today = new Date();
-      const dayValue = String(today.getDate()).padStart(2, "0");
-      const yearValue = today.getFullYear().toString();
-      const monthNames = [
-        "ENERO",
-        "FEBRERO",
-        "MARZO",
-        "ABRIL",
-        "MAYO",
-        "JUNIO",
-        "JULIO",
-        "AGOSTO",
-        "SEPTIEMBRE",
-        "OCTUBRE",
-        "NOVIEMBRE",
-        "DICIEMBRE",
-      ];
-      const monthValue = monthNames[today.getMonth()];
 
       day.setText(dayValue);
       month.setText(monthValue);
