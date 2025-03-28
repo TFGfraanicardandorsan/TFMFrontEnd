@@ -6,8 +6,10 @@ import Navbar from "./navbar";
 import "../styles/generacionPDF-style.css";
 import Footer from "./footer";
 import { obtenerAsignaturasUsuario } from "../services/asignaturas.js";
+import { obtenerDatosUsuario } from "../services/usuario"; 
 
 export default function GeneracionPDF() {
+  const [grado, setGrado] = useState("");
   const [dni, setDni] = useState("");
   const [letraDNI, setLetraDNI] = useState("");
   const [nombre, setNombre] = useState("");
@@ -20,23 +22,37 @@ export default function GeneracionPDF() {
   const [asignatura, setAsignatura] = useState("");
   const iframeRef = useRef(null);
 
-  const [asignaturas, setAsignaturas] = useState([]); // Estado para almacenar las asignaturas y grupos
-
-
   useEffect(() => {
     const obtenerAsignaturaUsuario = async () => {
       try {
         const data = await obtenerAsignaturasUsuario();
-        setAsignaturas(data);
+        setCodigo(data.result.result.codigo);
+        setAsignatura(data.result.result.asignatura);
       } catch (error) {
         console.error("Error al obtener las incidencias:", error);
       }
     };
-
     obtenerAsignaturaUsuario();
   }, []);
 
-  console.log('LLAMADA API ASIGNATURAS',asignaturas);
+  // para obtener el campo nombre y grado del usuario para el formulario
+  useEffect(() => {
+    const obtenerDatosUsuario = async () => {
+      try {
+        const data = await obtenerDatosUsuario();
+        setGrado(data.result.result.titulacion);
+        setNombre(data.result.result.nombre_completo);
+      } catch (error) {
+        console.error("Error al obtener los datos del usuario:", error);
+      }
+    };
+    obtenerDatosUsuario();
+  }, []);
+
+  console.log('asignaturas:',asignatura)
+  console.log('codigo:',codigo)
+  console.log('grado:',grado)
+  console.log('nombre:',nombre)
 
   
   const generarPDF = async () => {
