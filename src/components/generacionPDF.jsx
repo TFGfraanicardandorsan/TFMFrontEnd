@@ -38,7 +38,7 @@ export default function GeneracionPDF() {
     const obtenerDatos = async () => {
       try {
         const data = await obtenerDatosUsuario();
-        setGrado(data.result.result.titulacion);
+        setGrado(data.result.result.alias);
         setNombre(data.result.result.nombre_completo);
       } catch (error) {
         console.error("Error al obtener los datos del usuario:", error);
@@ -91,7 +91,22 @@ export default function GeneracionPDF() {
       });
 
       // SETTERS
-      grado1.check();
+      switch (grado) {
+        case "GII-IS":
+          grado1.check();
+          break;
+        case "GII-IC":
+          grado2.check();
+          break;
+        case "GII-TI":
+          grado3.check();
+          break;
+        case "GISA":
+          grado4.check();
+          break;
+        default:
+          console.warn(`Grado "${grado}" no corresponde a ningún checkbox.`);
+      }
       dni1.setText(dni);
       dni2.setText(dni);
       letra1.setText(letraDNI);
