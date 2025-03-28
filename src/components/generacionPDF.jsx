@@ -38,7 +38,7 @@ export default function GeneracionPDF() {
     const obtenerDatos = async () => {
       try {
         const data = await obtenerDatosUsuario();
-        setGrado(data.result.result.alias);
+        setGrado(data.result.result.siglas);
         setNombre(data.result.result.nombre_completo);
       } catch (error) {
         console.error("Error al obtener los datos del usuario:", error);
