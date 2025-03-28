@@ -3,8 +3,8 @@ import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
 import plantillaPDF from "../assets/solicitud-permutas-2024-25V2.pdf";
 import Navbar from "./navbar";
-import "../styles/generacionPDF-style.css";
 import Footer from "./footer";
+import "../styles/generacionPDF-style.css";
 import { obtenerAsignaturasUsuario } from "../services/asignaturas.js";
 import { obtenerDatosUsuario } from "../services/usuario"; 
 import { dayValue, monthValue, yearValue } from "../lib/generadorFechas.js"; 
@@ -19,24 +19,21 @@ export default function GeneracionPDF() {
   const [codigoPostal, setCodigoPostal] = useState("");
   const [provincia, setProvincia] = useState("");
   const [telefono, setTelefono] = useState("");
-  const [codigo, setCodigo] = useState("");
-  const [asignatura, setAsignatura] = useState("");
+  const [asignaturas, setAsignaturas] = useState("");
   const iframeRef = useRef(null);
 
   useEffect(() => {
     const obtenerAsignaturaUsuario = async () => {
       try {
         const data = await obtenerAsignaturasUsuario();
-        setCodigo(data.result.result.codigo);
-        setAsignatura(data.result.result.asignatura);
+        setAsignaturas(data.result.result);
       } catch (error) {
-        console.error("Error al obtener las incidencias:", error);
+        console.error("Error al obtener las asignaturas del usuario:", error);
       }
     };
     obtenerAsignaturaUsuario();
   }, []);
 
-  // para obtener el campo nombre y grado del usuario para el formulario
   useEffect(() => {
     const obtenerDatos = async () => {
       try {
@@ -50,12 +47,7 @@ export default function GeneracionPDF() {
     obtenerDatos();
   }, []);
 
-  console.log('asignaturas:',asignatura)
-  console.log('codigo:',codigo)
-  console.log('grado:',grado)
-  console.log('nombre:',nombre)
 
-  
   const generarPDF = async () => {
     try {
       const existingPdfBytes = await fetch(plantillaPDF).then((res) =>
@@ -88,137 +80,15 @@ export default function GeneracionPDF() {
       const month = form.getTextField("MONTH");
       const year = form.getTextField("YEAR");
 
-      //Asignaturas y códigos
-      // const codigo1_1 = form.getTextField('COD1-1');
-      // const asignatura1_1 = form.getTextField('ASIGNATURA1-1');
-      // const codigo1_2 = form.getTextField('COD1-2');
-      // const asignatura1_2 = form.getTextField('ASIGNATURA1-2');
-      // const codigo1_3 = form.getTextField('COD1-3');
-      // const asignatura1_3 = form.getTextField('ASIGNATURA1-3');
-      // const codigo1_4 = form.getTextField('COD1-4');
-      // const asignatura1_4 = form.getTextField('ASIGNATURA1-4');
-      // const codigo1_5 = form.getTextField('COD1-5');
-      // const asignatura1_5 = form.getTextField('ASIGNATURA1-5');
-      // const codigo1_6 = form.getTextField('COD1-6');
-      // const asignatura1_6 = form.getTextField('ASIGNATURA1-6');
-      // const codigo1_7 = form.getTextField('COD1-7');
-      // const asignatura1_7 = form.getTextField('ASIGNATURA1-7');
-      // const codigo1_8 = form.getTextField('COD1-8');
-      // const asignatura1_8 = form.getTextField('ASIGNATURA1-8');
-      // const codigo1_9 = form.getTextField('COD1-9');
-      // const asignatura1_9 = form.getTextField('ASIGNATURA1-9');
-      // const codigo1_10 = form.getTextField('COD1-10');
-      // const asignatura1_10 = form.getTextField('ASIGNATURA1-10');
-      // const codigo1_11 = form.getTextField('COD1-11');
-      // const asignatura1_11 = form.getTextField('ASIGNATURA1-11');
-      // const codigo1_12 = form.getTextField('COD1-12');
-      // const asignatura1_12 = form.getTextField('ASIGNATURA1-12');
-      // const codigo1_13 = form.getTextField('COD1-13');
-      // const asignatura1_13 = form.getTextField('ASIGNATURA1-13');
-      // const codigo1_14 = form.getTextField('COD1-14');
-      // const asignatura1_14 = form.getTextField('ASIGNATURA1-14');
-      // const codigo1_15 = form.getTextField('COD1-15');
-      // const asignatura1_15 = form.getTextField('ASIGNATURA1-15');
-      // const codigo1_16 = form.getTextField('COD1-16');
-      // const asignatura1_16 = form.getTextField('ASIGNATURA1-16');
-      // const codigo2_1 = form.getTextField('COD2-1');
-      // const asignatura2_1 = form.getTextField('ASIGNATURA2-1');
-      // const codigo2_2 = form.getTextField('COD2-2');
-      // const asignatura2_2 = form.getTextField('ASIGNATURA2-2');
-      // const codigo2_3 = form.getTextField('COD2-3');
-      // const asignatura2_3 = form.getTextField('ASIGNATURA2-3');
-      // const codigo2_4 = form.getTextField('COD2-4');
-      // const asignatura2_4 = form.getTextField('ASIGNATURA2-4');
-      // const codigo2_5 = form.getTextField('COD2-5');
-      // const asignatura2_5 = form.getTextField('ASIGNATURA2-5');
-      // const codigo2_6 = form.getTextField('COD2-6');
-      // const asignatura2_6 = form.getTextField('ASIGNATURA2-6');
-      // const codigo2_7 = form.getTextField('COD2-7');
-      // const asignatura2_7 = form.getTextField('ASIGNATURA2-7');
-      // const codigo2_8 = form.getTextField('COD2-8');
-      // const asignatura2_8 = form.getTextField('ASIGNATURA2-8');
-      // const codigo2_9 = form.getTextField('COD2-9');
-      // const asignatura2_9 = form.getTextField('ASIGNATURA2-9');
-      // const codigo2_10 = form.getTextField('COD2-10');
-      // const asignatura2_10 = form.getTextField('ASIGNATURA2-10');
-      // const codigo2_11 = form.getTextField('COD2-11');
-      // const asignatura2_11 = form.getTextField('ASIGNATURA2-11');
-      // const codigo2_12 = form.getTextField('COD2-12');
-      // const asignatura2_12 = form.getTextField('ASIGNATURA2-12');
-      // const codigo2_13 = form.getTextField('COD2-13');
-      // const asignatura2_13 = form.getTextField('ASIGNATURA2-13');
-      // const codigo2_14 = form.getTextField('COD2-14');
-      // const asignatura2_14 = form.getTextField('ASIGNATURA2-14');
-      // const codigo2_15 = form.getTextField('COD2-15');
-      // const asignatura2_15 = form.getTextField('ASIGNATURA2-15');
-      // const codigo2_16 = form.getTextField('COD2-16');
-      // const asignatura2_16 = form.getTextField('ASIGNATURA2-16');
-
-      // //Asignaturas y códigos
-      // codigo1_1.setText(codigo);
-      // asignatura1_1.setText(asignatura);
-      // codigo1_2.setText(codigo);
-      // asignatura1_2.setText(asignatura);
-      // codigo1_3.setText(codigo);
-      // asignatura1_3.setText(asignatura);
-      // codigo1_4.setText(codigo);
-      // asignatura1_4.setText(asignatura);
-      // codigo1_5.setText(codigo);
-      // asignatura1_5.setText(asignatura);
-      // codigo1_6.setText(codigo);
-      // asignatura1_6.setText(asignatura);
-      // codigo1_7.setText(codigo);
-      // asignatura1_7.setText(asignatura);
-      // codigo1_8.setText(codigo);
-      // asignatura1_8.setText(asignatura);
-      // codigo1_9.setText(codigo);
-      // asignatura1_9.setText(asignatura);
-      // codigo1_10.setText(codigo);
-      // asignatura1_10.setText(asignatura);
-      // codigo1_11.setText(codigo);
-      // asignatura1_11.setText(asignatura);
-      // codigo1_12.setText(codigo);
-      // asignatura1_12.setText(asignatura);
-      // codigo1_13.setText(codigo);
-      // asignatura1_13.setText(asignatura);
-      // codigo1_14.setText(codigo);
-      // asignatura1_14.setText(asignatura);
-      // codigo1_15.setText(codigo);
-      // asignatura1_15.setText(asignatura);
-      // codigo1_16.setText(codigo);
-      // asignatura1_16.setText(asignatura);
-      // codigo2_1.setText(codigo);
-      // asignatura2_1.setText(asignatura);
-      // codigo2_2.setText(codigo);
-      // asignatura2_2.setText(asignatura);
-      // codigo2_3.setText(codigo);
-      // asignatura2_3.setText(asignatura);
-      // codigo2_4.setText(codigo);
-      // asignatura2_4.setText(asignatura);
-      // codigo2_5.setText(codigo);
-      // asignatura2_5.setText(asignatura);
-      // codigo2_6.setText(codigo);
-      // asignatura2_6.setText(asignatura);
-      // codigo2_7.setText(codigo);
-      // asignatura2_7.setText(asignatura);
-      // codigo2_8.setText(codigo);
-      // asignatura2_8.setText(asignatura);
-      // codigo2_9.setText(codigo);
-      // asignatura2_9.setText(asignatura);
-      // codigo2_10.setText(codigo);
-      // asignatura2_10.setText(asignatura);
-      // codigo2_11.setText(codigo);
-      // asignatura2_11.setText(asignatura);
-      // codigo2_12.setText(codigo);
-      // asignatura2_12.setText(asignatura);
-      // codigo2_13.setText(codigo);
-      // asignatura2_13.setText(asignatura);
-      // codigo2_14.setText(codigo);
-      // asignatura2_14.setText(asignatura);
-      // codigo2_15.setText(codigo);
-      // asignatura2_15.setText(asignatura);
-      // codigo2_16.setText(codigo);
-      // asignatura2_16.setText(asignatura);
+      //Asignaturas y códigos TODO: EL 1 DEBERÁ SER UN NÚMERO QUE CAMBIARÁ EN FUNCIÓN DEL ALUMNO QUE ESTÁ HACIENDO LA SOLICITUD
+      asignaturas.forEach((asignatura, index) => {
+        const asignaturaField = form.getTextField(`ASIGNATURA1-${index + 1}`);
+        const codigoField = form.getTextField(`COD1-${index + 1}`);
+        asignaturaField.setText(asignatura.asignatura);
+        codigoField.setText(asignatura.codigo);
+        asignaturaField.enableReadOnly();
+        codigoField.enableReadOnly();
+      });
 
       // SETTERS
       grado1.check();
@@ -239,6 +109,7 @@ export default function GeneracionPDF() {
       telefono1.setText(telefono);
       telefono2.setText(telefono);
 
+      // Fecha para el pie de página
       day.setText(dayValue);
       month.setText(monthValue);
       year.setText(yearValue);
@@ -267,39 +138,6 @@ export default function GeneracionPDF() {
       day.enableReadOnly();
       month.enableReadOnly();
       year.enableReadOnly();
-
-      // asignatura1_1.enableReadOnly();
-      // asignatura1_2.enableReadOnly();
-      // asignatura1_3.enableReadOnly();
-      // asignatura1_4.enableReadOnly();
-      // asignatura1_5.enableReadOnly();
-      // asignatura1_6.enableReadOnly();
-      // asignatura1_7.enableReadOnly();
-      // asignatura1_8.enableReadOnly();
-      // asignatura1_9.enableReadOnly();
-      // asignatura1_10.enableReadOnly();
-      // asignatura1_11.enableReadOnly();
-      // asignatura1_12.enableReadOnly();
-      // asignatura1_13.enableReadOnly();
-      // asignatura1_14.enableReadOnly();
-      // asignatura1_15.enableReadOnly();
-      // asignatura1_16.enableReadOnly();
-      // asignatura2_1.enableReadOnly();
-      // asignatura2_2.enableReadOnly();
-      // asignatura2_3.enableReadOnly();
-      // asignatura2_4.enableReadOnly();
-      // asignatura2_5.enableReadOnly();
-      // asignatura2_6.enableReadOnly();
-      // asignatura2_7.enableReadOnly();
-      // asignatura2_8.enableReadOnly();
-      // asignatura2_9.enableReadOnly();
-      // asignatura2_10.enableReadOnly();
-      // asignatura2_11.enableReadOnly();
-      // asignatura2_12.enableReadOnly();
-      // asignatura2_13.enableReadOnly();
-      // asignatura2_14.enableReadOnly();
-      // asignatura2_15.enableReadOnly();
-      // asignatura2_16.enableReadOnly();
 
       const pdfBytes = await pdfDoc.save();
       return pdfBytes;
@@ -330,10 +168,8 @@ export default function GeneracionPDF() {
     <>
       <Navbar />
       <br />
-
       <h1>Generación de PDF</h1>
       <div className="container">
-        {/* 📝 Formulario a la izquierda */}
         <div className="formulario">
           <div className="asociar">
             <label>
@@ -402,8 +238,6 @@ export default function GeneracionPDF() {
             <button onClick={enviarPDF}>Enviar</button>
           </div>
         </div>
-
-        {/* 📄 Iframe a la derecha */}
         <div className="pdf-container">
           <iframe ref={iframeRef} title="PDF generado"></iframe>
         </div>
