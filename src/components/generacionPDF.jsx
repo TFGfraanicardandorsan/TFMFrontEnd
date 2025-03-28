@@ -26,7 +26,7 @@ export default function GeneracionPDF() {
   useEffect(() => {
     const obtenerAsignaturaUsuario = async () => {
       try {
-        const data = await obtenerAsignaturaUsuario();
+        const data = await obtenerAsignaturasUsuario();
         setAsignaturas(data);
       } catch (error) {
         console.error("Error al obtener las incidencias:", error);
