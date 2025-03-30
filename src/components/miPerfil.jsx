@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import "../styles/miPerfil-style.css";
 import Footer from "./footer";
 import Navbar from "./navbar";
-import { obtenerDatosUsuario } from "../services/usuario"; // Servicio para obtener datos del usuario
-import { obtenerTodosGruposMisAsignaturasUsuario, obtenerMiGrupoAsignatura } from "../services/grupo"; // Nuevo servicio para asignaturas y grupos
+import { obtenerDatosUsuario } from "../services/usuario"; 
+import { obtenerMiGrupoAsignatura } from "../services/grupo"; 
 
 export default function MiPerfil() {
   const [usuario, setUsuario] = useState(null); // Estado para almacenar los datos del usuario

@@ -1,4 +1,4 @@
-import "../styles/slectorAsignatura-style.css";
+import "../styles/selectorAsignatura-style.css";
 import { useState, useEffect } from "react";
 import { obtenerAsignaturasEstudio , actualizarAsignaturasUsuario} from "../services/asignaturas";
 import Navbar from "./navbar";
@@ -58,8 +58,7 @@ export default function CheckboxSelector() {
   // Función para enviar cada asignatura de forma individual a la API
   const enviarSeleccion = async () => {
     if (selectedItems.length === 0) return;
-
-    setLoading(true); // ✅ Estado de carga activado
+    setLoading(true); 
     for (const codigo of selectedItems) {
       try {
         const response = await actualizarAsignaturasUsuario(codigo);
@@ -70,10 +69,14 @@ export default function CheckboxSelector() {
         console.error(`Error al enviar la asignatura ${codigo}:`, error);
       }
     }
-    setLoading(false); // ✅ Estado de carga desactivado
+    setLoading(false); 
     alert("Todas las asignaturas seleccionadas han sido enviadas.");
     window.location.href = "/miPerfil";
   };
+
+  if (loading) {
+    return <div className="loading-text">Cargando...</div>;
+  }
 
   return (
     <>
