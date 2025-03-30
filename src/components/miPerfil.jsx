@@ -56,7 +56,6 @@ export default function MiPerfil() {
         <div className="perfil-container">
           <h1 className="perfil-title">Mi Perfil</h1>
           <div className="perfil-content">
-            {/* Información Personal */}
             <div className="perfil-card">
               <h2 className="perfil-card-title">Información Personal</h2>
               <p><strong>Nombre:</strong> {usuario.nombre_completo}</p>
@@ -64,7 +63,6 @@ export default function MiPerfil() {
               <p><strong>Grado:</strong> {usuario.titulacion}</p>
             </div>
 
-            {/* Asignaturas y Grupos */}
             <div className="perfil-card">
               <h2 className="perfil-card-title">Asignaturas y Grupos</h2>
               <ul>

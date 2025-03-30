@@ -1,8 +1,7 @@
-import React from 'react';
 import Navbar from './navbar';
 import Footer from './footer';
 
-const PrivacyPolicy = () => {
+export default function PrivacyPolicy() {
   return (
     <>
     <Navbar/>
@@ -68,10 +67,7 @@ const PrivacyPolicy = () => {
     <br />
     <br />
     <br />
-
     <Footer/>
     </>
   );
 };
-
-export default PrivacyPolicy;

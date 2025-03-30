@@ -55,31 +55,6 @@ export default function CheckboxSelector() {
     );
   };
 
-  // Llamada a la API cuando cambia la selección
-  // useEffect(() => {
-  //   if (selectedItems.length > 0) {
-  //     fetchData(selectedItems);
-  //   }
-  // }, [selectedItems]);
-
-  // // Función para hacer la petición a la API
-  // const fetchData = async (selected) => {
-  //   try {
-  //     const response = await fetch("https://api.example.com/data", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ selectedItems: selected }),
-  //     });
-
-  //     const data = await response.json();
-  //     console.log("Respuesta de la API:", data);
-  //   } catch (error) {
-  //     console.error("Error al llamar a la API:", error);
-  //   }
-  // };
-
   // Función para enviar cada asignatura de forma individual a la API
   const enviarSeleccion = async () => {
     if (selectedItems.length === 0) return;
@@ -106,7 +81,6 @@ export default function CheckboxSelector() {
       <div className="checkbox-container">
         <h2 className="checkbox-title">Selecciona asignaturas por curso:</h2>
 
-        {/* Selector de curso */}
         <div className="curso-selector">
           <label htmlFor="curso">Filtrar por curso:</label>
           <select
@@ -123,7 +97,6 @@ export default function CheckboxSelector() {
           </select>
         </div>
 
-        {/* Lista de asignaturas filtradas */}
         <div className="checkbox-list">
           {filteredAsignaturas.map((asignatura) => (
             <label key={asignatura.codigo} className="checkbox-label">
@@ -142,7 +115,6 @@ export default function CheckboxSelector() {
           onClick={enviarSeleccion}
           disabled={selectedItems.length === 0} // Desactivado si no hay selección
         >
-            Seleccionar asignaturas
         </button>
       </div>
     </>
