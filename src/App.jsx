@@ -12,6 +12,9 @@ import Incidencias from './components/incidencias.jsx'
 import NotFound from './components/notFound.jsx'
 import GeneracionPDF from './components/generacionPDF.jsx';
 import SolicitarGrupos from './components/seleccionarGrupos.jsx';
+import PoliticaPrivacidad from './components/politicaPrivacidad.jsx';
+
+
 export function App() {
 
   return (
@@ -27,7 +30,8 @@ export function App() {
         <Route path='/incidencias' element={<Incidencias/>} />
         <Route path='/generarPermuta' element={<GeneracionPDF/>} />
         <Route path = '/seleccionarGrupos' element={<SolicitarGrupos/>} />
-        
+        <Route path = '/politicaPrivacidad' element={<PoliticaPrivacidad/>} />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
