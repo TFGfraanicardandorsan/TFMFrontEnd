@@ -35,10 +35,7 @@ const PrivacyPolicy = () => {
       <section>
         <h2>3. Compartir tu información</h2>
         <p>Tu información personal no será compartida con terceros sin tu consentimiento, excepto en los siguientes casos:</p>
-        <ul>
-          <li>Cuando sea necesario para cumplir con una obligación legal.</li>
-          <li>Con proveedores de servicios que ayuden a operar la aplicación (como servicios de hosting y análisis).</li>
-        </ul>
+
       </section>
 
       <section>
