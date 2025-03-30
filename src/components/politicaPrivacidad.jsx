@@ -61,7 +61,7 @@ const PrivacyPolicy = () => {
         <p>Si tienes alguna pregunta o inquietud sobre nuestra Política de Privacidad, no dudes en contactarnos:</p>
         <ul>
           <li>Email: delegacion_etsii@us.es</li>
-          <li>Dirección: </li>
+          <li>Dirección: Avda. Reina Mercedes s/n, 41012 Sevilla</li>
         </ul>
       </section>
     </div>
