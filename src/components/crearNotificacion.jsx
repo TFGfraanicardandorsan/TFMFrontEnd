@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Footer from "./footer";
 import Navbar from "./navbar";
-import { crearNotificacion } from "../services/notificacion"; // Importamos tu servicio
+import { crearNotificacion } from "../services/notificacion";
 
 export default function CrearNotificacion() {
     const [contenido, setContenido] = useState("");
@@ -24,7 +24,6 @@ export default function CrearNotificacion() {
             alert("Hubo un error al enviar la notificación.");
         }
     };
-
     return (
         <>
         <br />
@@ -33,7 +32,6 @@ export default function CrearNotificacion() {
             <div className="notificacion-form-wrapper">
                 <h1>Notificar</h1>
                 <form className="notificacion-form" onSubmit={handleSubmit}>
-                    {/* Contenido de la notificación */}
                     <label htmlFor="contenido">Contenido</label>
                     <textarea
                         id="contenido"
@@ -42,8 +40,6 @@ export default function CrearNotificacion() {
                         placeholder="Escribe el contenido de la notificación..."
                         required
                     ></textarea>
-
-                    {/* Receptor */}
                     <label htmlFor="receptor">Receptor</label>
                     <select
                         id="receptor"
@@ -56,8 +52,6 @@ export default function CrearNotificacion() {
                         <option value="estudiante">Estudiante</option>
                         <option value="administrador">Administrador</option>
                     </select>
-
-                    {/* Botón de envío */}
                     <button type="submit">Enviar notificación</button>
                 </form>
             </div>
