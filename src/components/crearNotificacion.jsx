@@ -21,7 +21,7 @@ export default function CrearNotificacion() {
         };
 
         try {
-            await crearNotificacion(data);
+            await crearNotificacion(data.contenido, data.receptor);
             alert("Notificación enviada correctamente.");
             setContenido("");
             setReceptor("");
