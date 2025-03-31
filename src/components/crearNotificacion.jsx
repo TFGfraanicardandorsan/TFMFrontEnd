@@ -15,13 +15,9 @@ export default function CrearNotificacion() {
             return;
         }
 
-        const data = {
-            receptor,
-            contenido,
-        };
-
+        console.log("Datos a enviar:", receptor, contenido);
         try {
-            await crearNotificacion(data);
+            await crearNotificacion(receptor, contenido);
             alert("Notificación enviada correctamente.");
             setContenido("");
             setReceptor("");
