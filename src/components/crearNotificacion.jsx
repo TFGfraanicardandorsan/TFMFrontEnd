@@ -20,6 +20,7 @@ export default function CrearNotificacion() {
             receptor
         };
 
+        console.log("Datos a enviar:", data);
         try {
             await crearNotificacion(data.contenido, data.receptor);
             alert("Notificación enviada correctamente.");

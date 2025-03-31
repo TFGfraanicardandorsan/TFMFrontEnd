@@ -5,5 +5,5 @@ export const obtenerNotificaciones = async () => {
 }
 
 export const crearNotificacion = async (paramReceptor, paramContenido) => {
-    return await postAPI("/api/v1/notificacion/insertarNotificacion", {receptor:paramReceptor}, {contenido:paramContenido})
+    return await postAPI("/api/v1/notificacion/insertarNotificacion", {receptor:paramReceptor,contenido:paramContenido})
 }
