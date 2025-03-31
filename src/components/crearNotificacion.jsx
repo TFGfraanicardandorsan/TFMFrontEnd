@@ -14,8 +14,6 @@ export default function CrearNotificacion() {
             alert("Por favor, completa todos los campos.");
             return;
         }
-
-        console.log("Datos a enviar:", receptor, contenido);
         try {
             await crearNotificacion(receptor, contenido);
             alert("Notificación enviada correctamente.");
