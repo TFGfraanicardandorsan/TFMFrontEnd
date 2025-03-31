@@ -13,7 +13,7 @@ import NotFound from './components/notFound.jsx'
 import GeneracionPDF from './components/generacionPDF.jsx';
 import SolicitarGrupos from './components/seleccionarGrupos.jsx';
 import PoliticaPrivacidad from './components/politicaPrivacidad.jsx';
-
+import CrearNotificacion from './components/crearNotificacion.jsx';
 
 export function App() {
 
@@ -31,6 +31,7 @@ export function App() {
         <Route path='/generarPermuta' element={<GeneracionPDF/>} />
         <Route path = '/seleccionarGrupos' element={<SolicitarGrupos/>} />
         <Route path = '/politicaPrivacidad' element={<PoliticaPrivacidad/>} />
+        <Route path= '/crearNotificacion' element={<CrearNotificacion/>} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
