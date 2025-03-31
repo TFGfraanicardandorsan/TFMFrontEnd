@@ -16,13 +16,12 @@ export default function CrearNotificacion() {
         }
 
         const data = {
+            receptor,
             contenido,
-            receptor
         };
 
-        console.log("Datos a enviar:", data);
         try {
-            await crearNotificacion(data.contenido, data.receptor);
+            await crearNotificacion(data);
             alert("Notificación enviada correctamente.");
             setContenido("");
             setReceptor("");
