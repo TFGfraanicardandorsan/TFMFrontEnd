@@ -52,10 +52,11 @@ console.log(asignaturas)
           </option>
           {asignaturas.map((asignatura,index) => (
             <option key={index} value={asignatura.nombre}>
-              {estudio.nombre}
+              {asignatura.nombre}
             </option>
           ))}
         </select>
+        <p>Seleccionados: {selectedAsignaturas.join(", ")}</p>
         {/* <button onClick={handleSubmit} disabled={!selectedEstudio}>
           Enviar
         </button> */}
