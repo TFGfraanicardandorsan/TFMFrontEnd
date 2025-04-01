@@ -1,67 +1,82 @@
 import { useState, useEffect } from "react";
 import Footer from "./footer";
 import Navbar from "./navbar";
-import { obtenerTodosGruposMisAsignaturasUsuario } from "../services/grupo.js";
-import "../styles/seleccionarEstudio-style.css";
+import { obtenerTodosGruposMisAsignaturasUsuario, insertarMisGrupos } from "../services/grupo.js";
+import "../styles/seleccionarGrupos-style.css";
 
 export default function SeleccionarGrupos() {
   const [asignaturas, setAsignaturas] = useState([]);
-  const [grupos, setGrupos] = useState([]); 
-  const [selectedAsignaturas, setSelectedAsignaturas] = useState([]);
-  const [selectedGrupo, setGrupo] = useState(""); 
+  const [seleccionados, setSeleccionados] = useState({});
 
-    useEffect(() => {
-      const ObtenerTodosGruposMisAsignaturasUsuario = async () => {
-        try {
-          const response = await obtenerTodosGruposMisAsignaturasUsuario();
-          setAsignaturas(response.result.result);
-        } catch (error) {
-          console.error("Error al obtener las asignaturas del usuario:", error);
+  useEffect(() => {
+    const ObtenerTodosGruposMisAsignaturasUsuario = async () => {
+      try {
+        const response = await obtenerTodosGruposMisAsignaturasUsuario();
+        if (response && response.result && response.result.result) {
+          const asignaturasAgrupadas = response.result.result.reduce((acc, { asignatura, numgrupo }) => {
+            if (!acc[asignatura]) {
+              acc[asignatura] = [];
+            }
+            acc[asignatura].push(numgrupo);
+            return acc;
+          }, {});
+          const asignaturasArray = Object.entries(asignaturasAgrupadas).map(([asignatura, grupos]) => ({
+            asignatura,
+            grupos
+          }));
+          setAsignaturas(asignaturasArray);
         }
-      };
-      ObtenerTodosGruposMisAsignaturasUsuario();
-    }, []);
+      } catch (error) {
+        console.error("Error al obtener las asignaturas del usuario:", error);
+      }
+    };
+    ObtenerTodosGruposMisAsignaturasUsuario();
+  }, []);
 
-  const handleSelectChangeAsignatura = (event) => {
-    setSelectedAsignaturas(event.target.selectedOptions, (option) => option.value);
+  const handleGrupoSeleccionadoParaAsignatura = (codigoAsignatura,numGrupo) => {
+    setSeleccionados((prev) => ({...prev, [codigoAsignatura]: numGrupo }));
   };
 
-//   const handleSubmit = async () => {
-//     try {
-//       const response = await actualizarEstudiosUsuario(selectedEstudio);
-//       if (response.result.result === "Estudios seleccionados") {
-//         window.location.href = "/miPerfil";
-//       } else {
-//         alert(response.result.result);
-//       }
-//     } catch (error) {
-//       console.error("Error en la solicitud:", error);
-//     }
-//   };
 
-console.log(asignaturas)
+  const handleSubmit = async () => {
+    for (let [codigoAsignatura, numGrupo] of Object.entries(seleccionados)) {
+      try {
+        await insertarMisGrupos(numGrupo, codigoAsignatura);
+        console.log(`Grupo ${numGrupo} para la asignatura ${codigoAsignatura} insertado correctamente.`);
+      } catch (error) {
+        console.error(`Error al insertar grupo ${numGrupo} para la asignatura ${codigoAsignatura}:`, error);
+      }
+    }
+  };
 
   return (
     <>
-      <Navbar />
-      <div style={{ marginTop: "60px" }}>
-        <p className="titulo">Selecciona tus asignaturas:</p>
-        <select multiple value = {selectedAsignaturas} onChange={handleSelectChangeAsignatura}>
-          <option value="" disabled>
-            Selecciona una o varias asignaturas
-          </option>
-          {asignaturas.map((asignatura,index) => (
-            <option key={index} value={asignatura.nombre}>
-              {asignatura.nombre}
-            </option>
-          ))}
-        </select>
-        <p>Seleccionados: {selectedAsignaturas.join(", ")}</p>
-        {/* <button onClick={handleSubmit} disabled={!selectedEstudio}>
-          Enviar
-        </button> */}
-      </div>
-      <Footer />
+  <Navbar/>
+    <div className="contenedor">
+      <h2 className="titulo">Selecciona tus grupos</h2>
+      {asignaturas.map(({ nombreAsignatura, grupos }) => (
+        <div key={nombreAsignatura} className="tarjeta">
+          <h3 className="nombre-asignatura">{nombreAsignatura}</h3>
+          <div className="grupo-lista">
+            {grupos.map((numGrupo) => (
+              <label key={numGrupo} className="grupo-opcion">
+                <input
+                  type="radio"
+                  name={nombreAsignatura}
+                  checked={seleccionados[nombreAsignatura] === numGrupo}
+                  onChange={() => handleGrupoSeleccionadoParaAsignatura(nombreAsignatura, numGrupo)}
+                />
+                Grupo {numGrupo}
+              </label>
+            ))}
+          </div>
+        </div>
+      ))}
+      <button onClick={handleSubmit} className="boton-guardar">
+        Guardar
+      </button>
+    </div>
+    <Footer/>
     </>
   );
 }

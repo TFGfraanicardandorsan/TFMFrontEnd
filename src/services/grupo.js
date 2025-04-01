@@ -7,3 +7,7 @@ export const obtenerTodosGruposMisAsignaturasUsuario = async () => {
 export const obtenerMiGrupoAsignatura = async () => {
     return await postAPI("/api/v1/grupo/obtenerMiGrupoAsignatura")
 }
+
+export const insertarMisGrupos = async (paramNumGrupo,paramCodigo) => {
+    return await postAPI("/api/v1/grupo/insertarMisGrupos", {num_grupo:paramNumGrupo,codigo:paramCodigo})
+}
