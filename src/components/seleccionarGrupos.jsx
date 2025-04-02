@@ -14,6 +14,7 @@ export default function SeleccionarGrupos() {
         const response = await obtenerTodosGruposMisAsignaturasUsuario();
         if (response && response.result && response.result.result) {
           const asignaturasAgrupadas = response.result.result.reduce((acc, { asignatura, numgrupo }) => {
+            console.log(asignatura, numgrupo);
             if (!acc[asignatura]) {
               acc[asignatura] = [];
             }
