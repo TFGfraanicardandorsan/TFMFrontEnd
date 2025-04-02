@@ -55,17 +55,17 @@ export default function SeleccionarGrupos() {
   <Navbar/>
     <div className="contenedor">
       <h2 className="titulo">Selecciona tus grupos</h2>
-      {asignaturas.map(({ nombreAsignatura, grupos }) => (
-        <div key={nombreAsignatura} className="tarjeta">
-          <h3 className="nombre-asignatura">{nombreAsignatura}</h3>
+      {asignaturas.map(({ asignatura, grupos }) => (
+        <div key={asignatura} className="tarjeta">
+          <h3 className="nombre-asignatura">{asignatura}</h3>
           <div className="grupo-lista">
             {grupos.map((numGrupo) => (
               <label key={numGrupo} className="grupo-opcion">
                 <input
                   type="radio"
-                  name={nombreAsignatura}
-                  checked={seleccionados[nombreAsignatura] === numGrupo}
-                  onChange={() => handleGrupoSeleccionadoParaAsignatura(nombreAsignatura, numGrupo)}
+                  name={asignatura}
+                  checked={seleccionados[asignatura] === numGrupo}
+                  onChange={() => handleGrupoSeleccionadoParaAsignatura(asignatura, numGrupo)}
                 />
                 Grupo {numGrupo}
               </label>
