@@ -13,12 +13,12 @@ export default function SeleccionarGrupos() {
       try {
         const response = await obtenerTodosGruposMisAsignaturasUsuario();
         if (response && response.result && response.result.result) {
-          const asignaturasAgrupadas = response.result.result.reduce((acc, { asignatura, numgrupo }) => {
-            console.log(asignatura, numgrupo);
-            if (!acc[asignatura]) {
-              acc[asignatura] = [];
+          const asignaturasAgrupadas = response.result.result.reduce((acc, { nombreasignatura, numgrupo }) => {
+            console.log(nombreasignatura, numgrupo);
+            if (!acc[nombreasignatura]) {
+              acc[nombreasignatura] = [];
             }
-            acc[asignatura].push(numgrupo);
+            acc[nombreasignatura].push(numgrupo);
             return acc;
           }, {});
           const asignaturasArray = Object.entries(asignaturasAgrupadas).map(([asignatura, grupos]) => ({
