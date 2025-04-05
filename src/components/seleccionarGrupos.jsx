@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import Footer from "./footer";
 import Navbar from "./navbar";
-import { obtenerTodosGruposMisAsignaturasUsuario, insertarMisGrupos } from "../services/grupo.js";
+import {
+  obtenerTodosGruposMisAsignaturasUsuario,
+  insertarMisGrupos,
+} from "../services/grupo.js";
 import "../styles/seleccionarGrupos-style.css";
 
 export default function SeleccionarGrupos() {
@@ -47,9 +50,14 @@ export default function SeleccionarGrupos() {
     for (let [codasignatura, numgrupo] of Object.entries(seleccionados)) {
       try {
         await insertarMisGrupos(numgrupo, codasignatura);
-        console.log(`Insertado: Asignatura ${codasignatura}, Grupo ${numgrupo}`);
+        console.log(
+          `Insertado: Asignatura ${codasignatura}, Grupo ${numgrupo}`
+        );
       } catch (error) {
-        console.error(`Error al insertar grupo ${numgrupo} para asignatura ${codasignatura}:`, error);
+        console.error(
+          `Error al insertar grupo ${numgrupo} para asignatura ${codasignatura}:`,
+          error
+        );
       }
     }
   };
@@ -59,26 +67,33 @@ export default function SeleccionarGrupos() {
       <Navbar />
       <div className="contenedor">
         <h2 className="titulo">Selecciona tus grupos</h2>
-        {asignaturas.map(({ codasignatura, nombreasignatura, grupos }) => (
-          <div key={codasignatura} className="tarjeta">
-            <h3 className="nombre-asignatura">{nombreasignatura}</h3>
-            <select
-              value={seleccionados[codasignatura] || ""}
-              onChange={(e) =>
-                handleGrupoSeleccionadoParaAsignatura(codasignatura, e.target.value)
-              }
-            >
-              <option value="" disabled>
-                -- Selecciona un grupo --
-              </option>
-              {grupos.map((grupo) => (
-                <option key={grupo} value={grupo}>
-                  Grupo {grupo}
+
+        <div className="tarjetas-grid">
+          {asignaturas.map(({ codasignatura, nombreasignatura, grupos }) => (
+            <div key={codasignatura} className="tarjeta">
+              <h3 className="nombre-asignatura">{nombreasignatura}</h3>
+              <select
+                className="select-grupo"
+                value={seleccionados[codasignatura] || ""}
+                onChange={(e) =>
+                  handleGrupoSeleccionadoParaAsignatura(
+                    codasignatura,
+                    e.target.value
+                  )
+                }
+              >
+                <option value="" disabled>
+                  -- Selecciona un grupo --
                 </option>
-              ))}
-            </select>
-          </div>
-        ))}
+                {grupos.map((grupo) => (
+                  <option key={grupo} value={grupo}>
+                    Grupo {grupo}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ))}
+        </div>
         <button onClick={handleSubmit} className="boton-guardar">
           Guardar
         </button>
