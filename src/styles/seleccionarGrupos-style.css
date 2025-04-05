@@ -1,7 +1,7 @@
 .contenedor {
-  max-width: 900px; /* más ancho para acomodar las 2 columnas */
   margin: auto;
   padding: 20px;
+  width: auto;
 }
 
 .titulo {
@@ -13,7 +13,7 @@
 /* Contenedor grid de las tarjetas */
 .tarjetas-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   margin-top: 20px;
 }
