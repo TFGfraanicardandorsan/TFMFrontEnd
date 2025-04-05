@@ -67,7 +67,6 @@ export default function SeleccionarGrupos() {
       <Navbar />
       <div className="contenedor">
         <h2 className="titulo">Selecciona tus grupos</h2>
-
         <div className="tarjetas-grid">
           {asignaturas.map(({ codasignatura, nombreasignatura, grupos }) => (
             <div key={codasignatura} className="tarjeta">
@@ -94,6 +93,7 @@ export default function SeleccionarGrupos() {
             </div>
           ))}
         </div>
+
         <button onClick={handleSubmit} className="boton-guardar">
           Guardar
         </button>
