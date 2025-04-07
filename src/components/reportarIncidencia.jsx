@@ -18,7 +18,6 @@ export default function ReportarIncidencia() {
             formData.append("file", file);
             try {
                 const response = await subidaArchivo(formData);
-                console.log("response", response);
                 fileId = response?.result?.fileId;
             } catch (error) {
                 console.error("Error subiendo el archivo:", error);
@@ -26,7 +25,6 @@ export default function ReportarIncidencia() {
                 return;
             }
         }
-        console.log("fileId", fileId);
         try {
             await crearIncidencia(descripcion, tipoIncidencia, fileId);
             alert("Incidencia enviada correctamente");
