@@ -1,15 +1,23 @@
+:root {
+    --color-fondo: #f9f9f9;
+    --color-borde: #ddd;
+    --color-sombra: rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-rectangulo {
+    background-color: var(--color-fondo);
+    border: 3px solid var(--color-borde);
+    box-shadow: -4px 0px 8px var(--color-sombra);
+}
+
+
 .sidebar {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 300px;
-    height: 100%;
     background-color: #fff;
-    border-left: 1px solid #ddd;
-    box-shadow: -4px 0px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
     padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
-    z-index: 1000;
+    height: 100%;
 }
 
 .sidebar h2 {
@@ -22,12 +30,18 @@
 }
 
 .notificacion-card {
-    background-color: #f9f9f9;
-    border-radius: 8px;
+    background-color: #f9f9f9; /* Color de fondo del rectángulo */
+    border-radius: 8px; /* Opcional: Puedes quitar esto si prefieres bordes rectos */
     padding: 15px;
     margin-bottom: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd; /* Línea clara para definir los límites */
+    display: flex; /* Organización interna */
+    flex-direction: column; /* Apilamiento vertical */
+    width: 100%; /* Ajuste al contenedor */
+    height: auto; /* Acomodo dinámico */
 }
+
 
 .notificacion-card h3 {
     font-size: 18px;
