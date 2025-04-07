@@ -2,12 +2,10 @@ import { useState, useEffect } from "react";
 import Footer from "./footer";
 import Navbar from "./navbar";
 import "../styles/home-style.css";
-import { useNavigate } from "react-router-dom";
 import {obtenerNotificaciones} from "../services/notificacion.js";
 
 export default function Home() {
-    const navigate = useNavigate();
-    const [incidencias, setNotificaciones] = useState([]);
+    const [notificaciones, setNotificaciones] = useState([]);
     const [cargando, setCargando] = useState(true);
 
     useEffect(() => {
@@ -23,7 +21,7 @@ export default function Home() {
                     setNotificaciones([]); // Si no es un arreglo, se puede establecer un arreglo vacío
                 }
             } catch (error) {
-                console.error("Error al obtener las incidencias:", error);
+                console.error("Error al obtener las notificaciones:", error);
             } finally {
                 setCargando(false);
             }
