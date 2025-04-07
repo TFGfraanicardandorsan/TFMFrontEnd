@@ -5,8 +5,40 @@ import { faBell, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
-    const navigate = useNavigate();
 
+    const navigate = useNavigate();
+    
+    const [sidebarVisible, setSidebarVisible] = useState(false);
+    const [notificaciones, setNotificaciones] = useState([]);
+
+    useEffect(() => {
+        const cargarNotificaciones = async () => {
+            try {
+                const data = await obtenerNotificaciones();
+                console.log(data);
+                // Asegúrate de que data es un arreglo
+                if (Array.isArray(data.result.result)) {
+                    setNotificaciones(data.result.result);
+                } else {
+                    console.error("La respuesta no es un arreglo", data);
+                    setNotificaciones([]); // Si no es un arreglo, se puede establecer un arreglo vacío
+                }
+            } catch (error) {
+                console.error("Error al obtener las notificaciones:", error);
+            } finally {
+                setCargando(false);
+            }
+        };
+    
+        cargarNotificaciones();
+    }, []);
+    const mostrarSidebar = () => {
+        setSidebarVisible(true);
+    };
+
+    const cerrarSidebar = () => {
+        setSidebarVisible(false);
+    };
     return (
                 <nav className="navbar">
                     <ul className="nav-links">
@@ -17,7 +49,7 @@ export default function Navbar() {
                         <li><a href="/misIncidencias">Mis incidencias</a></li>
                     </ul>
                     <div className="nav-icons">
-                        <FontAwesomeIcon icon={faBell} className="icon bell-icon"/>
+                        <FontAwesomeIcon icon={faBell} className="icon bell-icon"/>{sidebarVisible && <Sidebar notificaciones={fakeNotificaciones} cerrarSidebar={cerrarSidebar} />}
                         <FontAwesomeIcon icon={faUser} className="icon user" onClick={() => navigate("/miPerfil")}/>
                     </div>
                 </nav>

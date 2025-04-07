@@ -11,7 +11,7 @@ import Incidencias from './components/incidencias.jsx'
 //import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from './components/notFound.jsx'
 import GeneracionPDF from './components/generacionPDF.jsx';
-import SolicitarGrupos from './components/seleccionarGrupos.jsx';
+import SolicitarGrupos from './components/seleccionarGrupos.jsx'; 
 import PoliticaPrivacidad from './components/politicaPrivacidad.jsx';
 import CrearNotificacion from './components/crearNotificacion.jsx';
 
