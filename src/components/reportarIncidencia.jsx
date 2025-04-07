@@ -2,8 +2,8 @@ import { useState } from "react";
 import "../styles/reportarIncidencia-style.css";
 import Footer from "./footer";
 import Navbar from "./navbar";
-import { subidaArchivo } from "../services/subidaArchivos";
-import { crearIncidencia } from "../services/incidenciaService"; // <- Asegúrate de que el path esté bien
+import { subidaArchivo } from "../services/subidaArchivos.js";
+import { crearIncidencia } from "../services/incidencia.js"; 
 
 export default function ReportarIncidencia() {
     const [descripcion, setDescripcion] = useState("");
