@@ -9,42 +9,42 @@ export default function Navbar() {
 
     const navigate = useNavigate();
     
-    const [sidebarVisible, setSidebarVisible] = useState(false);
-    const [notificaciones, setNotificaciones] = useState([]);
-    const [cargando, setCargando] = useState(true);
+    // const [sidebarVisible, setSidebarVisible] = useState(false);
+    // const [notificaciones, setNotificaciones] = useState([]);
+    // const [cargando, setCargando] = useState(true);
 
-    useEffect(() => {
-        const cargarNotificaciones = async () => {
-            try {
-                const data = await obtenerNotificaciones();
-                console.log(data);
-                // Asegúrate de que data es un arreglo
-                if (Array.isArray(data.result.result)) {
-                    setNotificaciones(data.result.result);
-                } else {
-                    console.error("La respuesta no es un arreglo", data);
-                    setNotificaciones([]); // Si no es un arreglo, se puede establecer un arreglo vacío
-                }
-            } catch (error) {
-                console.error("Error al obtener las notificaciones:", error);
-            } finally {
-                setCargando(false);
-            }
-        };
+    // useEffect(() => {
+    //     const cargarNotificaciones = async () => {
+    //         try {
+    //             const data = await obtenerNotificaciones();
+    //             console.log(data);
+    //             // Asegúrate de que data es un arreglo
+    //             if (Array.isArray(data.result.result)) {
+    //                 setNotificaciones(data.result.result);
+    //             } else {
+    //                 console.error("La respuesta no es un arreglo", data);
+    //                 setNotificaciones([]); // Si no es un arreglo, se puede establecer un arreglo vacío
+    //             }
+    //         } catch (error) {
+    //             console.error("Error al obtener las notificaciones:", error);
+    //         } finally {
+    //             setCargando(false);
+    //         }
+    //     };
     
-        cargarNotificaciones();
-    }, []);
-    const mostrarSidebar = () => {
-        setSidebarVisible(true);
-    };
+    //     cargarNotificaciones();
+    // }, []);
+    // const mostrarSidebar = () => {
+    //     setSidebarVisible(true);
+    // };
 
-    const cerrarSidebar = () => {
-        setSidebarVisible(false);
-    };
+    // const cerrarSidebar = () => {
+    //     setSidebarVisible(false);
+    // };
 
-    if (cargando) {
-        return <div className="loading-text">Cargando...</div>;
-      }
+    // if (cargando) {
+    //     return <div className="loading-text">Cargando...</div>;
+    //   }
     return (
 
                 <nav className="navbar">
@@ -56,7 +56,7 @@ export default function Navbar() {
                         <li><a href="/misIncidencias">Mis incidencias</a></li>
                     </ul>
                     <div className="nav-icons">
-                        <FontAwesomeIcon icon={faBell} className="icon bell-icon"/>{mostrarSidebar()}
+                        {/* <FontAwesomeIcon icon={faBell} className="icon bell-icon"/>{mostrarSidebar()}
                         {sidebarVisible && (
                             <div className="sidebar">
                                 <button className="close-btn" onClick={cerrarSidebar}>X</button>
@@ -72,7 +72,7 @@ export default function Navbar() {
                                     <p>No hay notificaciones</p>
                                 )}
                             </div>
-                        )}
+                        )} */}
                         <FontAwesomeIcon icon={faUser} className="icon user" onClick={() => navigate("/miPerfil")}/>
                     </div>
                 </nav>
