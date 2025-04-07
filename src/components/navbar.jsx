@@ -23,7 +23,6 @@ export default function Navbar() {
                     setNotificaciones(data.result.result);
                 } else {
                     console.error("La respuesta no es un arreglo", data);
-                    setNotificaciones([]); // Si no es un arreglo, se puede establecer un arreglo vacío
                 }
             } catch (error) {
                 console.error("Error al obtener las notificaciones:", error);
