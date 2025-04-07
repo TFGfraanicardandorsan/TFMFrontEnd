@@ -57,10 +57,10 @@ export default function Navbar() {
                                 <button className="close-btn" onClick={cerrarSidebar}>X</button>
                                 <h2>Notificaciones</h2>
                                 {notificaciones.length > 0 ? (
-                                    notificaciones.map((notificacion, index) => (
-                                        <div key={index} className="notification-item">
-                                            <p>{notificacion.texto}</p>
-                                            <p>{notificacion.fecha}</p>
+                                    notificaciones.map((notificacion) => (
+                                        <div key={notificacion.id} className="notification-item">
+                                            <p>{notificacion.contenido}</p>
+                                            <p>{notificacion.fecha_creacion}</p>
                                         </div>
                                     ))
                                 ) : (

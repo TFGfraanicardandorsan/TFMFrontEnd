@@ -30,6 +30,11 @@ export default function Home() {
         cargarNotificaciones();
     }, []);
 
+    
+    if (cargando) {
+        return <div className="loading-text">Cargando...</div>;
+      }
+
     return (
         <div className="home-container">
             <Navbar />
@@ -48,7 +53,7 @@ export default function Home() {
                             <div className="notificacion-card" key={notificacion.id}>
                                 <div className="notificacion-contenido">
                                     <h3>{notificacion.contenido}</h3>
-                                    <p>{notificacion.fecha}</p>
+                                    <p>{notificacion.fecha_creacion}</p>
                                 </div>
                             </div>
                         ))}
