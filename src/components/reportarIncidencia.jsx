@@ -27,7 +27,6 @@ export default function reportarIncidencia() {
         <div className="report-issue-container-form">
             <h1>Abrir incidencia</h1>
             <form className="report-form" onSubmit={handleSubmit}>
-                {/* Tipo de Incidencia */}
                 <label htmlFor="issueType">Tipo de Incidencia</label>
                 <select
                     id="issueType"
@@ -40,8 +39,6 @@ export default function reportarIncidencia() {
                     <option value="permuta">Problema con permutas</option>
                     <option value="otro">Otro</option>
                 </select>
-
-                {/* Detalles */}
                 <label htmlFor="details">Detalles de la incidencia</label>
                 <textarea
                     id="details"
@@ -50,16 +47,12 @@ export default function reportarIncidencia() {
                     placeholder="Describe el problema..."
                     required
                 ></textarea>
-
-                {/* Archivo */}
                 <label htmlFor="file">Archivo</label>
                 <input
                     type="file"
                     id="file"
                     onChange={(e) => setFile(e.target.files[0])}
                 />
-
-                {/* Botón de envío */}
                 <button type="submit">Crear incidencia</button>
             </form>
         </div>
