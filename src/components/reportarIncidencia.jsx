@@ -19,7 +19,7 @@ export default function ReportarIncidencia() {
             try {
                 const response = await subidaArchivo(formData);
                 console.log("response", response);
-                fileId = response?.fileId;
+                fileId = response?.result?.fileId;
             } catch (error) {
                 console.error("Error subiendo el archivo:", error);
                 alert("Hubo un problema al subir el archivo.");
