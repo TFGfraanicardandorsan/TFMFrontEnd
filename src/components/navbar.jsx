@@ -17,8 +17,6 @@ export default function Navbar() {
         const cargarNotificaciones = async () => {
             try {
                 const data = await obtenerNotificaciones();
-                console.log(data);
-                // Asegúrate de que data es un arreglo
                 if (Array.isArray(data.result.result)) {
                     setNotificaciones(data.result.result);
                 } else {
@@ -30,7 +28,6 @@ export default function Navbar() {
                 setCargando(false);
             }
         };
-    
         cargarNotificaciones();
     }, []);
     const mostrarSidebar = () => {
@@ -45,7 +42,6 @@ export default function Navbar() {
         return <div className="loading-text">Cargando...</div>;
       }
     return (
-
                 <nav className="navbar">
                     <ul className="nav-links">
                         <li><a href="/">Inicio</a></li>
@@ -55,7 +51,7 @@ export default function Navbar() {
                         <li><a href="/misIncidencias">Mis incidencias</a></li>
                     </ul>
                     <div className="nav-icons">
-                        <FontAwesomeIcon icon={faBell} className="icon bell-icon"/>{mostrarSidebar()}
+                        <FontAwesomeIcon icon={faBell} className="icon bell-icon" onClick={mostrarSidebar}/>
                         {sidebarVisible && (
                             <div className="sidebar">
                                 <button className="close-btn" onClick={cerrarSidebar}>X</button>
