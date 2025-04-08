@@ -1,47 +1,46 @@
-:root {
-    --color-fondo: #f9f9f9;
-    --color-borde: #ddd;
-    --color-sombra: rgba(0, 0, 0, 0.2);
+/* Sidebar container */
+.sidebar-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 320px; /* Ajusta el ancho de la barra lateral */
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro detrás */
+    z-index: 1000;
+    display: flex;
+    justify-content: flex-end;
 }
 
-.sidebar-rectangulo {
-    background-color: var(--color-fondo);
-    border: 3px solid var(--color-borde);
-    box-shadow: -4px 0px 8px var(--color-sombra);
-}
-
-
+/* Barra lateral */
 .sidebar {
     background-color: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
+    width: 300px;
     height: 100%;
+    box-shadow: -4px 0px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    overflow-y: auto;
+    border-left: 3px solid #ddd;
+    border-radius: 8px;
 }
 
+/* Título de la barra lateral */
 .sidebar h2 {
     font-size: 24px;
     margin-bottom: 20px;
 }
 
+/* Lista de notificaciones */
 .notificaciones-list {
     margin-top: 20px;
 }
 
 .notificacion-card {
-    background-color: #f9f9f9; /* Color de fondo del rectángulo */
-    border-radius: 8px; /* Opcional: Puedes quitar esto si prefieres bordes rectos */
+    background-color: #f9f9f9;
+    border-radius: 8px;
     padding: 15px;
     margin-bottom: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid #ddd; /* Línea clara para definir los límites */
-    display: flex; /* Organización interna */
-    flex-direction: column; /* Apilamiento vertical */
-    width: 100%; /* Ajuste al contenedor */
-    height: auto; /* Acomodo dinámico */
 }
-
 
 .notificacion-card h3 {
     font-size: 18px;
@@ -54,6 +53,7 @@
     color: #777;
 }
 
+/* Botón de cierre */
 .close-btn {
     position: absolute;
     top: 10px;
@@ -64,6 +64,7 @@
     cursor: pointer;
 }
 
+/* Icono de campana */
 .bell-icon {
     font-size: 30px;
     background: none;

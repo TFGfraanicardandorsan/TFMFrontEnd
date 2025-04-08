@@ -1,3 +1,4 @@
+/* Estilos para la Navbar */
 .navbar {
     background-color: #2b579a; /* Color azul similar al de la imagen */
     color: white;
@@ -68,3 +69,92 @@
     top: 0;
     right: 0;
 }
+
+/* Estilos para la Barra Lateral (Sidebar) */
+.sidebar-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 320px; /* Ancho de la barra lateral */
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro detrás de la barra lateral */
+    z-index: 1000; /* Asegura que la barra lateral esté por encima del contenido */
+}
+
+.sidebar {
+    background-color: #fff;
+    width: 300px;
+    height: 100%;
+    box-shadow: -4px 0px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    overflow-y: auto;
+    border-left: 3px solid #ddd;
+    border-radius: 8px;
+}
+
+.sidebar h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.notification-item {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.notification-item p {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #fff;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.loading-text {
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+}
+
+/* Estilos para las Notificaciones dentro de la barra lateral */
+.notification-item {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column; /* Asegura que el contenido esté separado */
+}
+
+.notification-item p {
+    margin: 5px 0; /* Espacio entre los párrafos */
+    font-size: 14px;
+    color: #333;
+}
+
+/* Estilo para el contenido */
+.notification-item .contenido {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Estilo para la fecha */
+.notification-item .fecha {
+    font-size: 12px;
+    color: #777;
+    margin-top: 5px;
+    text-align: right; /* Alinea la fecha a la derecha */
+}
+
