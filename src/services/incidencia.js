@@ -1,7 +1,7 @@
 import { postAPI}  from "../lib/methodAPIs.js";
 
-export const crearIncidencia = async () => {
-    return await postAPI("/api/v1/incidencia/crearIncidencia")
+export const crearIncidencia = async (descripcion, tipo_incidencia, fileId) => {
+    return await postAPI("/api/v1/incidencia/crearIncidencia",{descripcion, tipo_incidencia, fileId})
 }
 
 export const obtenerIncidenciasAsignadasUsuario = async () => {
