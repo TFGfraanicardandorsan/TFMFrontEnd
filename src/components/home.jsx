@@ -74,6 +74,9 @@ export default function Home() {
                     </div>
                 </div>
             </div>
+            <br />
+            <br />           
+            <br />
             <Footer />
         </div>
     );
