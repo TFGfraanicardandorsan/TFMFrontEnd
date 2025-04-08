@@ -5,6 +5,20 @@ import { faBell, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
 import {obtenerNotificaciones} from "../services/notificacion.js";
 
+const formatearFecha = (fechaISO) => {
+    const fecha = new Date(fechaISO);
+    
+    // Extraemos los componentes de la fecha
+    const dia = String(fecha.getDate()).padStart(2, '0');
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Los meses en JavaScript comienzan desde 0
+    const anio = fecha.getFullYear();
+    const horas = String(fecha.getHours()).padStart(2, '0');
+    const minutos = String(fecha.getMinutes()).padStart(2, '0');
+
+    // Devolvemos la fecha formateada
+    return `${dia}/${mes}/${anio} ${horas}:${minutos}`;
+};
+
 export default function Navbar() {
 
     const navigate = useNavigate();
@@ -60,7 +74,7 @@ export default function Navbar() {
                                     notificaciones.map((notificacion) => (
                                         <div key={notificacion.id} className="notification-item">
                                             <p>{notificacion.contenido}</p>
-                                            <p>{notificacion.fecha_creacion}</p>
+                                            <p>{formatearFecha(notificacion.fecha_creacion)}</p>
                                         </div>
                                     ))
                                 ) : (
