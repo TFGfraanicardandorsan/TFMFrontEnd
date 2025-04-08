@@ -1,4 +1,4 @@
-import "../styles/barraNotificacion-style.css";
+//import "../styles/barraNotificacion-style.css";
 
 export default function BarraNotificacion({ notificaciones, cerrarSidebar }) {
     return (
