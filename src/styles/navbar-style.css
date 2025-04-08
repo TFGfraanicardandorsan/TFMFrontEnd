@@ -178,6 +178,8 @@
     overflow-y: auto;
     border-left: 3px solid #ddd;
     border-radius: 8px;
+    margin-top: 526px;
+    margin-right: -57px
 }
 
 .sidebar h2 {
