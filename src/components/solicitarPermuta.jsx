@@ -7,11 +7,14 @@ import "../styles/seleccionarGrupos-style.css";
 export default function SeleccionarGruposSinGrupo() {
   const [asignaturas, setAsignaturas] = useState([]);
   const [seleccionados, setSeleccionados] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const ObtenerTodosGruposMisAsignaturasSinGrupoUsuario = async () => {
       try {
         const response = await obtenerTodosGruposMisAsignaturasSinGrupoUsuario();
+        console.log("Respuesta de la API:", response); // Depuración
         if (response && response.result) {
           const agrupadas = response.result.reduce((acc, item) => {
             const { codasignatura, nombreasignatura, numgrupo } = item;
@@ -27,12 +30,17 @@ export default function SeleccionarGruposSinGrupo() {
           }, {});
 
           setAsignaturas(Object.values(agrupadas));
+        } else {
+          setError("No se encontraron asignaturas.");
         }
       } catch (error) {
         console.error(
           "Error al obtener las asignaturas sin grupo del usuario:",
           error
         );
+        setError("Ocurrió un error al cargar los datos.");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -62,6 +70,14 @@ export default function SeleccionarGruposSinGrupo() {
     console.log("Grupos seleccionados:", seleccionados);
     // Aquí puedes agregar la lógica para enviar los datos al backend si es necesario
   };
+
+  if (loading) {
+    return <p>Cargando asignaturas...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
 
   return (
     <>
