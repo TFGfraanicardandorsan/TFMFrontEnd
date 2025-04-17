@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/reportarIncidencia-style.css";
 import Footer from "./footer";
 import Navbar from "./navbar";
@@ -6,6 +7,7 @@ import { subidaArchivo } from "../services/subidaArchivos.js";
 import { crearIncidencia } from "../services/incidencia.js"; 
 
 export default function ReportarIncidencia() {
+    const navigate = useNavigate();
     const [descripcion, setDescripcion] = useState("");
     const [tipoIncidencia, setTipoIncidencia] = useState("");
     const [file, setFile] = useState(null);
@@ -28,6 +30,7 @@ export default function ReportarIncidencia() {
         try {
             await crearIncidencia(descripcion, tipoIncidencia, fileId);
             alert("Incidencia enviada correctamente");
+            navigate("/misIncidencias")
         } catch (error) {
             console.error("Error creando incidencia:", error);
             alert("Error al enviar la incidencia");
@@ -62,7 +65,6 @@ export default function ReportarIncidencia() {
                             placeholder="Describe el problema..."
                             required
                         ></textarea>
-
                         <label htmlFor="file">Archivo</label>
                         <input
                             type="file"
