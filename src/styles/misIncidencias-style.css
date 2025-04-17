@@ -1,3 +1,9 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: sans-serif;
   min-height: 100vh;
@@ -17,15 +23,20 @@ body {
 
 .header {
   text-align: center;
-  font-size: 22px;
-  margin-bottom: 20px;
+  margin-bottom: 32px;
 }
 
 .incidencias-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas */
   gap: 20px;
   width: 100%;
+}
+
+@media (max-width: 768px) {
+  .incidencias-container {
+    grid-template-columns: 1fr;
+  }
 }
 
 .incidencia-card {
@@ -35,6 +46,12 @@ body {
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
   background-color: white;
   text-align: left;
+}
+
+.loading-message,
+.no-incidencias {
+  text-align: center;
+  margin-top: 20px;
 }
 
 .big-button {
@@ -60,10 +77,4 @@ footer {
   padding: 16px;
   text-align: center;
   margin-top: auto;
-}
-
-@media (max-width: 768px) {
-  .incidencias-container {
-    grid-template-columns: 1fr;
-  }
 }
