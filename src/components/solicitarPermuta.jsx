@@ -14,7 +14,7 @@ const SolicitarPermuta = () => {
 
     useEffect(() => {
         // Obtener todas las asignaturas disponibles
-        fetch('/api/v1/asignatura/asignaturasPermutablesUsuario', {
+        fetch('/api/v1/asignatura/obtenerAsignaturasMiEstudioUsuario', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
         })
