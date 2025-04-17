@@ -14,7 +14,7 @@ const SolicitarPermuta = () => {
 
     useEffect(() => {
         // Obtener todas las asignaturas disponibles
-        fetch('/asignaturasPermutablesUsuario', {
+        fetch('/api/v1/asignatura/asignaturasPermutablesUsuario', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
         })
@@ -46,7 +46,7 @@ const SolicitarPermuta = () => {
         if (asignaturaSeleccionada) {
             setLoadingGrupos(true);
             // Obtener los grupos disponibles para la asignatura seleccionada
-            fetch(`/obtenerTodosGruposMisAsignaturasSinGrupoUsuario`, {
+            fetch(`/api/v1/grupo/obtenerTodosGruposMisAsignaturasSinGrupoUsuario`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ asignatura: asignaturaSeleccionada }),
