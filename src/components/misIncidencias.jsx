@@ -4,6 +4,7 @@ import Footer from "./footer";
 import Navbar from "./navbar";
 import { useNavigate } from "react-router-dom";
 import { obtenerIncidenciasAsignadasUsuario } from "../services/incidencia";
+import { formatearFecha } from "../lib/formateadorFechas.js";
 
 export default function MisIncidencias() {
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ export default function MisIncidencias() {
             {incidencias.map((incidencia) => (
               <div key={incidencia.id} className="incidencia-card">
                 <p>
-                  <strong>Incidencia:</strong> {incidencia.fecha_creacion}
+                  <strong>Incidencia:</strong> {formatearFecha(incidencia.fecha_creacion)}
                 </p>
                 <p>
                   <strong>Tipo de Incidencia:</strong>{" "}

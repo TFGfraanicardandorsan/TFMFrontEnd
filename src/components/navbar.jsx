@@ -1,23 +1,10 @@
 import { useState, useEffect } from "react";
-import "../styles/navbar-style.css"; // Importa los estilos
+import "../styles/navbar-style.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { obtenerNotificaciones } from "../services/notificacion.js";
-
-const formatearFecha = (fechaISO) => {
-  const fecha = new Date(fechaISO);
-
-  // Extraemos los componentes de la fecha
-  const dia = String(fecha.getDate()).padStart(2, "0");
-  const mes = String(fecha.getMonth() + 1).padStart(2, "0"); // Los meses en JavaScript comienzan desde 0
-  const anio = fecha.getFullYear();
-  const horas = String(fecha.getHours()).padStart(2, "0");
-  const minutos = String(fecha.getMinutes()).padStart(2, "0");
-
-  // Devolvemos la fecha formateada
-  return `${dia}/${mes}/${anio} ${horas}:${minutos}`;
-};
+import { formatearFecha } from "../lib/formateadorFechas.js";
 
 export default function Navbar() {
   const navigate = useNavigate();
