@@ -8,12 +8,12 @@ import MiPerfil from './components/miPerfil.jsx'
 import SeleccionarEstudio from './components/seleccionarEstudio.jsx'
 import SeleccionarAsignatura from './components/selectorAsignatura.jsx'
 import Incidencias from './components/incidencias.jsx'
-//import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from './components/notFound.jsx'
 import GeneracionPDF from './components/generacionPDF.jsx';
 import SolicitarGrupos from './components/seleccionarGrupos.jsx'; 
 import PoliticaPrivacidad from './components/politicaPrivacidad.jsx';
 import CrearNotificacion from './components/crearNotificacion.jsx';
+import SolicitarPermuta from './components/solicitarPermuta.jsx';
 
 export function App() {
 
@@ -32,6 +32,7 @@ export function App() {
         <Route path = '/seleccionarGrupos' element={<SolicitarGrupos/>} />
         <Route path = '/politicaPrivacidad' element={<PoliticaPrivacidad/>} />
         <Route path= '/crearNotificacion' element={<CrearNotificacion/>} />
+        <Route path='/solicitarPermuta' element={<SolicitarPermuta/>} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

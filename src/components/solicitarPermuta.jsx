@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 const SolicitarPermuta = () => {
     const [formData, setFormData] = useState({
         asignatura: '',
-        grupo: [],
+        grupos: [],
         motivo: '',
     });
     const [asignaturas, setAsignaturas] = useState([]);
@@ -13,8 +13,11 @@ const SolicitarPermuta = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Obtener las asignaturas permutables del usuario
-        fetch('/api/v1/asignatura/asignaturasPermutablesUsuario')
+        // Obtener todas las asignaturas disponibles
+        fetch('/asignaturasPermutablesUsuario', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+        })
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Error al obtener asignaturas');
@@ -22,7 +25,7 @@ const SolicitarPermuta = () => {
                 return response.json();
             })
             .then((data) => {
-                setAsignaturas(data);
+                setAsignaturas(data.result || []);
                 setLoadingAsignaturas(false);
             })
             .catch((error) => {
@@ -37,13 +40,13 @@ const SolicitarPermuta = () => {
         setFormData({
             ...formData,
             asignatura: asignaturaSeleccionada,
-            grupo: [], // Reiniciar los grupos seleccionados al cambiar de asignatura
+            grupos: [], // Reiniciar los grupos seleccionados al cambiar de asignatura
         });
 
         if (asignaturaSeleccionada) {
             setLoadingGrupos(true);
             // Obtener los grupos disponibles para la asignatura seleccionada
-            fetch(`/api/v1/grupo/obtenerTodosGruposMisAsignaturasSinGrupoUsuario`, {
+            fetch(`/obtenerTodosGruposMisAsignaturasSinGrupoUsuario`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ asignatura: asignaturaSeleccionada }),
@@ -55,7 +58,7 @@ const SolicitarPermuta = () => {
                     return response.json();
                 })
                 .then((data) => {
-                    setGrupos(data);
+                    setGrupos(data.result || []);
                     setLoadingGrupos(false);
                 })
                 .catch((error) => {
@@ -68,16 +71,8 @@ const SolicitarPermuta = () => {
         }
     };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-    };
-
     const handleGrupoChange = (grupoId, checked) => {
-        const selectedGrupos = formData.grupo ? [...formData.grupo] : [];
+        const selectedGrupos = formData.grupos ? [...formData.grupos] : [];
         if (checked) {
             selectedGrupos.push(grupoId);
         } else {
@@ -88,13 +83,21 @@ const SolicitarPermuta = () => {
         }
         setFormData({
             ...formData,
-            grupo: selectedGrupos,
+            grupos: selectedGrupos,
+        });
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
         });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!formData.asignatura || formData.grupo.length === 0) {
+        if (!formData.asignatura || formData.grupos.length === 0) {
             alert('Por favor, selecciona una asignatura y al menos un grupo.');
             return;
         }
