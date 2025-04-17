@@ -6,6 +6,7 @@ export const formatearFecha = (fechaISO) => {
       year: "numeric",
       hour: "2-digit",
       minute: "2-digit",
-    }).format(fecha);
+    }).format(fecha)
+      .replace(",", "");
   };
   
