@@ -12,7 +12,10 @@ export default function SeleccionarGruposSinGrupo() {
     const ObtenerTodosGruposMisAsignaturasSinGrupoUsuario = async () => {
       try {
         const response = await obtenerTodosGruposMisAsignaturasSinGrupoUsuario();
-        if (response && response.result) {
+        console.log("Respuesta completa de la API:", response); // Depuración
+        console.log("Contenido de response.result:", response.result); // Depuración
+  
+        if (response && Array.isArray(response.result)) {
           const agrupadas = response.result.reduce((acc, item) => {
             const { codasignatura, nombreasignatura, numgrupo } = item;
             if (!acc[codasignatura]) {
@@ -25,8 +28,10 @@ export default function SeleccionarGruposSinGrupo() {
             acc[codasignatura].grupos.push(numgrupo);
             return acc;
           }, {});
-
+  
           setAsignaturas(Object.values(agrupadas));
+        } else {
+          console.error("response.result no es un array o está vacío.");
         }
       } catch (error) {
         console.error(
@@ -35,7 +40,7 @@ export default function SeleccionarGruposSinGrupo() {
         );
       }
     };
-
+  
     ObtenerTodosGruposMisAsignaturasSinGrupoUsuario();
   }, []);
 
