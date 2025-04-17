@@ -28,10 +28,10 @@ export default function MisIncidencias() {
   return (
     <>
       <Navbar />
-      <div className="container">
         <div className="header">
           <h1>Mis Incidencias</h1>
         </div>
+      <div className="contenedorIncidencia">
         {cargando ? (
           <p className="loading-message">Cargando incidencias...</p>
         ) : incidencias.length === 0 ? (
