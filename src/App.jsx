@@ -32,7 +32,7 @@ export function App() {
         <Route path = '/seleccionarGrupos' element={<SolicitarGrupos/>} />
         <Route path = '/politicaPrivacidad' element={<PoliticaPrivacidad/>} />
         <Route path= '/crearNotificacion' element={<CrearNotificacion/>} />
-
+        <Route path='/solicitarPermuta' element={<SolicitarPermuta/>} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

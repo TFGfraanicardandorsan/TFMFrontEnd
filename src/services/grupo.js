@@ -12,6 +12,6 @@ export const insertarMisGrupos = async (paramNumGrupo,paramCodigo) => {
     return await postAPI("/api/v1/grupo/insertarMisGrupos", {num_grupo:paramNumGrupo,codigo:paramCodigo})
 }
 
-export const insertarMobtenerTodosGruposMisAsignaturasSinGrupoUsuarioisGrupos = async (paramNumGrupo,paramCodigo) => {
+export const obtenerTodosGruposMisAsignaturasSinGrupoUsuarioisGrupos = async () => {
     return await postAPI("/api/v1/grupo/obtenerTodosGruposMisAsignaturasSinGrupoUsuario")
 }
