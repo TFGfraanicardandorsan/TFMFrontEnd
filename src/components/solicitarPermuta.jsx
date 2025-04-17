@@ -39,11 +39,23 @@ export default function SeleccionarGruposSinGrupo() {
     ObtenerTodosGruposMisAsignaturasSinGrupoUsuario();
   }, []);
 
-  const handleGrupoSeleccionadoParaAsignatura = (codasignatura, numGrupo) => {
-    setSeleccionados((prev) => ({
-      ...prev,
-      [codasignatura]: numGrupo,
-    }));
+  const handleGrupoSeleccionado = (codasignatura, numgrupo) => {
+    setSeleccionados((prev) => {
+      const gruposSeleccionados = prev[codasignatura] || [];
+      if (gruposSeleccionados.includes(numgrupo)) {
+        // Si ya está seleccionado, lo quitamos
+        return {
+          ...prev,
+          [codasignatura]: gruposSeleccionados.filter((g) => g !== numgrupo),
+        };
+      } else {
+        // Si no está seleccionado, lo agregamos
+        return {
+          ...prev,
+          [codasignatura]: [...gruposSeleccionados, numgrupo],
+        };
+      }
+    });
   };
 
   const handleSubmit = async () => {
@@ -60,25 +72,23 @@ export default function SeleccionarGruposSinGrupo() {
           {asignaturas.map(({ codasignatura, nombreasignatura, grupos }) => (
             <div key={codasignatura} className="tarjeta">
               <h3 className="nombre-asignatura">{nombreasignatura}</h3>
-              <select
-                className="select-grupo"
-                value={seleccionados[codasignatura] || ""}
-                onChange={(e) =>
-                  handleGrupoSeleccionadoParaAsignatura(
-                    codasignatura,
-                    e.target.value
-                  )
-                }
-              >
-                <option value="" disabled>
-                  -- Selecciona un grupo --
-                </option>
+              <div className="checkbox-grupos">
                 {grupos.map((grupo) => (
-                  <option key={grupo} value={grupo}>
+                  <label key={grupo} className="checkbox-label">
+                    <input
+                      type="checkbox"
+                      value={grupo}
+                      checked={
+                        seleccionados[codasignatura]?.includes(grupo) || false
+                      }
+                      onChange={() =>
+                        handleGrupoSeleccionado(codasignatura, grupo)
+                      }
+                    />
                     Grupo {grupo}
-                  </option>
+                  </label>
                 ))}
-              </select>
+              </div>
             </div>
           ))}
         </div>
