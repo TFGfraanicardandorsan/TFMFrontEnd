@@ -102,6 +102,9 @@ export default function SeleccionarGruposSinGrupo() {
           Solicitar
         </button>
       </div>
+      <br />
+      <br />
+      <br />
       <Footer />
     </>
   );
