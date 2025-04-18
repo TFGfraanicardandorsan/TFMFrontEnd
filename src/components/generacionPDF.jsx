@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
-import plantillaPDF from "../assets/solicitud-permutas-2024-25V2.pdf";
+// import plantillaPDF from "../assets/solicitud-permutas-2024-25V2.pdf";
+import { obtenerPlantillaPermuta } from "../services/subidaArchivos.js"; 
 import Navbar from "./navbar";
 import Footer from "./footer";
 import "../styles/generacionPDF-style.css";
@@ -50,10 +51,9 @@ export default function GeneracionPDF() {
 
   const generarPDF = async () => {
     try {
-      const existingPdfBytes = await fetch(plantillaPDF).then((res) =>
-        res.arrayBuffer()
-      );
-      const pdfDoc = await PDFDocument.load(existingPdfBytes);
+      const plantillaPDF = await obtenerPlantillaPermuta();
+      console.log(plantillaPDF);
+      const pdfDoc = await PDFDocument.load(plantillaPDF);
       const form = pdfDoc.getForm();
 
       const grado1 = form.getCheckBox("GII-IS");
