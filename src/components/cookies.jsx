@@ -1,15 +1,15 @@
 import Navbar from './navbar';
 import Footer from './footer';
 
-export default function CookiesPolicy() {
+export default function PrivacyPolicy() {
   return (
     <>
-      <Navbar />
-      <div className="cookies-policy">
+    <Navbar/>
+    <div className="cookies-policy">
         <br />
-
+        <br />
         <h1>Política de Cookies</h1>
-        <p>Última actualización: Abril 2025</p>
+        <p className="actualizacion">Última actualización: Abril 2025</p>
 
         <section>
           <h2>1. ¿Qué son las cookies?</h2>
@@ -21,7 +21,8 @@ export default function CookiesPolicy() {
         <section>
           <h2>2. ¿Qué tipos de cookies utilizamos?</h2>
           <p>En nuestra aplicación utilizamos los siguientes tipos de cookies:</p>
-          <ul>
+          <ul 
+          className="cookies-list">
             <li>
               <strong>Cookies esenciales:</strong> Son necesarias para el funcionamiento básico de la aplicación y no pueden ser desactivadas.
             </li>
@@ -33,7 +34,6 @@ export default function CookiesPolicy() {
             </li>
           </ul>
         </section>
-
         <section>
           <h2>3. ¿Cómo puedes gestionar las cookies?</h2>
           <p>
@@ -42,12 +42,14 @@ export default function CookiesPolicy() {
           <p>
             A continuación, te proporcionamos enlaces a las instrucciones para gestionar cookies en los navegadores más populares:
           </p>
+          <br />
           <ul>
             <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener noreferrer">Google Chrome</a></li>
             <li><a href="https://support.mozilla.org/es/kb/habilitar-y-deshabilitar-cookies-sitios-web" target="_blank" rel="noopener noreferrer">Mozilla Firefox</a></li>
             <li><a href="https://support.apple.com/es-es/guide/safari/sfri11471/mac" target="_blank" rel="noopener noreferrer">Safari</a></li>
             <li><a href="https://support.microsoft.com/es-es/help/17442/windows-internet-explorer-delete-manage-cookies" target="_blank" rel="noopener noreferrer">Internet Explorer</a></li>
           </ul>
+          <br />
         </section>
 
         <section>
@@ -61,20 +63,20 @@ export default function CookiesPolicy() {
           <h2>5. Contacto</h2>
           <p>
             Si tienes alguna pregunta o inquietud sobre nuestra Política de Cookies, no dudes en contactarnos:
-          </p>
+          </p><br />
           <ul>
             <li>Email: delegacion_etsii@us.es</li>
             <li>Dirección: Avda. Reina Mercedes s/n, 41012 Sevilla</li>
-          </ul>
+          </ul><br />
         </section>
-      </div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <Footer />
+        </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <Footer/>
     </>
   );
-}
+};

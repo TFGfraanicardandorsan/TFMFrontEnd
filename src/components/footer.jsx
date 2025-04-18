@@ -26,7 +26,7 @@ export default function Footer() {
                         <h4>Políticas</h4>
                         <ul>
                             <li><a href="/politicaPrivacidad">Política de Privacidad</a></li>
-                            <li><a href="/politicaCookies">Política de Cookies</a></li>
+                            <li><a href="/cookies">Política de Cookies</a></li>
                         </ul>
                     </div>
 
