@@ -87,7 +87,7 @@ export default function MiPerfil() {
                       <strong>{asignatura.asignatura}:</strong> Grupo {asignatura.numgrupo}
                       <button
                         className="aprobar-btn"
-                        onClick={() => manejarSuperarAsignatura(asignatura.id)}
+                        onClick={() => manejarSuperarAsignatura(asignatura.codigo)}
                       >
                         Marcar como aprobada
                       </button>
