@@ -101,6 +101,9 @@ export default function MiPerfil() {
           </div>
         </div>
       </div>
+      <div className="footer-space"></div>
+      <br /><br /><br />
+      <br /><br /><br />
       <Footer />
     </div>
   );
