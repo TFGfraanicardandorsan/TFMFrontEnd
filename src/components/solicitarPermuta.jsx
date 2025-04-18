@@ -15,8 +15,8 @@ export default function SeleccionarGruposSinGrupo() {
         console.log("Respuesta completa de la API:", response); // Depuración
         console.log("Contenido de response.result:", response.result.result); // Depuración
   
-        if (response && Array.isArray(response.result)) {
-          const agrupadas = response.result.reduce((acc, item) => {
+        if (response && Array.isArray(response.result.result)) {
+          const agrupadas = response.result.result.reduce((acc, item) => {
             const { codasignatura, nombreasignatura, numgrupo } = item;
             if (!acc[codasignatura]) {
               acc[codasignatura] = {
