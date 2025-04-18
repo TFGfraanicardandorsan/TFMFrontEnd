@@ -13,7 +13,7 @@ export default function SeleccionarGruposSinGrupo() {
       try {
         const response = await obtenerTodosGruposMisAsignaturasSinGrupoUsuario();
         console.log("Respuesta completa de la API:", response); // Depuración
-        console.log("Contenido de response.result:", response.result); // Depuración
+        console.log("Contenido de response.result:", response.result.result); // Depuración
   
         if (response && Array.isArray(response.result)) {
           const agrupadas = response.result.reduce((acc, item) => {
