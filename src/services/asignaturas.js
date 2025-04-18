@@ -11,3 +11,7 @@ export const actualizarAsignaturasUsuario = async (paramAsignatura) => {
 export const obtenerAsignaturasUsuario = async () => {
     return await postAPI("/api/v1/usuarioAsignatura/obtenerAsignaturasUsuario")
 }   
+
+export const superarAsignaturasUsuario = async (paramAsignatura) => {
+    return await postAPI("/api/v1/usuarioAsignatura/superarAsignaturasUsuario", {asignatura:paramAsignatura})
+}   

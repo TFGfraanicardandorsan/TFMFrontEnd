@@ -1,3 +1,10 @@
+.cookies-policy p, .cookies-list,
+.privacy-policy p{
+  text-align: left;
+}
+.cookies-policy .actualizacion{
+    text-align: center;
+}
 .footer {
     width: 100%;
     min-height: 90px;

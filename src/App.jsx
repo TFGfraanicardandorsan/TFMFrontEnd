@@ -14,7 +14,7 @@ import SolicitarGrupos from './components/seleccionarGrupos.jsx';
 import PoliticaPrivacidad from './components/politicaPrivacidad.jsx';
 import CrearNotificacion from './components/crearNotificacion.jsx';
 import SolicitarPermuta from './components/solicitarPermuta.jsx';
-
+import Cookies from './components/cookies.jsx';
 export function App() {
 
   return (
@@ -33,7 +33,8 @@ export function App() {
         <Route path = '/politicaPrivacidad' element={<PoliticaPrivacidad/>} />
         <Route path= '/crearNotificacion' element={<CrearNotificacion/>} />
         <Route path='/solicitarPermuta' element={<SolicitarPermuta/>} />
-
+        <Route path='/cookies' element={<Cookies/>} />
+        
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

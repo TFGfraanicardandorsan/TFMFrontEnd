@@ -3,8 +3,8 @@ import "../styles/miPerfil-style.css";
 import Footer from "./footer";
 import Navbar from "./navbar";
 import { obtenerDatosUsuario } from "../services/usuario"; 
-import { obtenerMiGrupoAsignatura } from "../services/grupo"; 
-
+import { obtenerMiGrupoAsignatura } from "../services/grupo"; // Importar la nueva API
+import {superarAsignaturasUsuario} from "../services/asignaturas"; // Importar la nueva API
 export default function MiPerfil() {
   const [usuario, setUsuario] = useState(null); // Estado para almacenar los datos del usuario
   const [asignaturas, setAsignaturas] = useState([]); // Estado para almacenar las asignaturas y grupos
@@ -39,6 +39,21 @@ export default function MiPerfil() {
     obtenerDatos();
   }, []);
 
+  // Función para marcar una asignatura como aprobada
+  const manejarSuperarAsignatura = async (idAsignatura,codigo) => {
+    try {
+      const response = await superarAsignaturasUsuario(codigo);
+      if (!response.err) {
+        // Actualizar el estado local eliminando la asignatura aprobada
+        setAsignaturas(asignaturas.filter(asignatura => asignatura.id !== idAsignatura));
+      } else {
+        throw new Error(response.errmsg);
+      }
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   // Muestra mensaje de carga
   if (loading) {
     return <div className="loading-text">Cargando...</div>;
@@ -70,6 +85,12 @@ export default function MiPerfil() {
                   asignaturas.map((asignatura) => (
                     <li key={asignatura.id}>
                       <strong>{asignatura.asignatura}:</strong> Grupo {asignatura.numgrupo}
+                      <button
+                        className="aprobar-btn"
+                        onClick={() => manejarSuperarAsignatura(asignatura.idAsignatura,asignatura.codigo)}
+                      >
+                        Marcar como aprobada
+                      </button>
                     </li>
                   ))
                 ) : (
@@ -80,6 +101,9 @@ export default function MiPerfil() {
           </div>
         </div>
       </div>
+      <div className="footer-space"></div>
+      <br /><br /><br />
+      <br /><br /><br />
       <Footer />
     </div>
   );
