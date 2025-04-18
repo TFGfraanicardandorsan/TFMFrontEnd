@@ -40,9 +40,9 @@ export default function MiPerfil() {
   }, []);
 
   // Función para marcar una asignatura como aprobada
-  const manejarSuperarAsignatura = async (idAsignatura) => {
+  const manejarSuperarAsignatura = async (idAsignatura,codigo) => {
     try {
-      const response = await superarAsignaturasUsuario(idAsignatura);
+      const response = await superarAsignaturasUsuario(codigo);
       if (!response.err) {
         // Actualizar el estado local eliminando la asignatura aprobada
         setAsignaturas(asignaturas.filter(asignatura => asignatura.id !== idAsignatura));
@@ -87,7 +87,7 @@ export default function MiPerfil() {
                       <strong>{asignatura.asignatura}:</strong> Grupo {asignatura.numgrupo}
                       <button
                         className="aprobar-btn"
-                        onClick={() => manejarSuperarAsignatura(asignatura.codigo)}
+                        onClick={() => manejarSuperarAsignatura(asignatura.idAsignatura,asignatura.codigo)}
                       >
                         Marcar como aprobada
                       </button>
