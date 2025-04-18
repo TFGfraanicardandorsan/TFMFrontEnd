@@ -56,3 +56,12 @@ export const getAPI = async (fun) => {
     }
     return data
 }
+
+export const getPDF = async (fun) => {
+    const respuesta = await fetch(import.meta.env.VITE_API_URL + fun, {
+        method: 'get',
+        credentials: 'include',
+    });
+    if (!respuesta.ok) throw new Error("No se pudo obtener el PDF");
+    return await respuesta.arrayBuffer();
+}
