@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
-// import plantillaPDF from "../assets/solicitud-permutas-2024-25V2.pdf";
 import { obtenerPlantillaPermuta } from "../services/subidaArchivos.js"; 
 import Navbar from "./navbar";
 import Footer from "./footer";
@@ -51,9 +50,7 @@ export default function GeneracionPDF() {
 
   const generarPDF = async () => {
     try {
-      const plantillaPDF = await obtenerPlantillaPermuta();
-      console.log(plantillaPDF);
-      const pdfDoc = await PDFDocument.load(plantillaPDF);
+      const pdfDoc = await PDFDocument.load(await obtenerPlantillaPermuta());
       const form = pdfDoc.getForm();
 
       const grado1 = form.getCheckBox("GII-IS");
@@ -124,7 +121,6 @@ export default function GeneracionPDF() {
       telefono1.setText(telefono);
       telefono2.setText(telefono);
 
-      // Fecha para el pie de página
       day.setText(dayValue);
       month.setText(monthValue);
       year.setText(yearValue);
@@ -163,9 +159,7 @@ export default function GeneracionPDF() {
 
   const mostrarPDF = async () => {
     const pdfBytes = await generarPDF();
-    const pdfUrl = URL.createObjectURL(
-      new Blob([pdfBytes], { type: "application/pdf" })
-    );
+    const pdfUrl = URL.createObjectURL(new Blob([pdfBytes], { type: "application/pdf" }));
     iframeRef.current.src = pdfUrl;
   };
 
@@ -188,7 +182,7 @@ export default function GeneracionPDF() {
         <div className="formulario">
           <div className="asociar">
             <label>
-              DNI:{" "}
+              DNI:
               <input
                 type="text"
                 value={dni}
@@ -196,7 +190,7 @@ export default function GeneracionPDF() {
               />
             </label>
             <label>
-              Letra DNI:{" "}
+              Letra DNI:
               <input
                 type="text"
                 value={letraDNI}
@@ -205,7 +199,7 @@ export default function GeneracionPDF() {
             </label>
           </div>
           <label>
-            Domicilio:{" "}
+            Domicilio:
             <input
               type="text"
               value={domicilio}
@@ -213,7 +207,7 @@ export default function GeneracionPDF() {
             />
           </label>
           <label>
-            Población:{" "}
+            Población:
             <input
               type="text"
               value={poblacion}
@@ -222,7 +216,7 @@ export default function GeneracionPDF() {
           </label>
           <div className="asociar">
             <label>
-              Código Postal:{" "}
+              Código Postal:
               <input
                 type="text"
                 value={codigoPostal}
@@ -230,7 +224,7 @@ export default function GeneracionPDF() {
               />
             </label>
             <label>
-              Provincia:{" "}
+              Provincia:
               <input
                 type="text"
                 value={provincia}
@@ -239,7 +233,7 @@ export default function GeneracionPDF() {
             </label>
           </div>
           <label>
-            Teléfono:{" "}
+            Teléfono:
             <input
               type="text"
               value={telefono}
