@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Footer from "./footer";
 import Navbar from "./navbar";
 import { obtenerTodosGruposMisAsignaturasSinGrupoUsuario } from "../services/grupo.js";
+import { solicitarPermuta } from "../services/permuta.js";
 import "../styles/seleccionarGrupos-style.css";
 
 export default function SeleccionarGruposSinGrupo() {
@@ -64,8 +65,23 @@ export default function SeleccionarGruposSinGrupo() {
   };
 
   const handleSubmit = async () => {
-    console.log("Grupos seleccionados:", seleccionados);
-    // Aquí puedes agregar la lógica para enviar los datos al backend si es necesario
+    try {
+      const uvus = "usuarioEjemplo"; // Reemplaza con el UVUS del usuario autenticado
+  
+      // Iterar sobre las asignaturas seleccionadas
+      for (const [codasignatura, gruposDeseados] of Object.entries(seleccionados)) {
+        if (gruposDeseados.length > 0) {
+          // Enviar la solicitud al backend para cada asignatura
+          const response = await solicitarPermuta(codasignatura, gruposDeseados);
+          console.log(`Respuesta del backend para ${codasignatura}:`, response);
+        }
+      }
+  
+      alert("Permutas solicitadas con éxito.");
+    } catch (error) {
+      console.error("Error al enviar las solicitudes de permuta:", error);
+      alert("Ocurrió un error al solicitar las permutas. Intenta nuevamente.");
+    }
   };
 
   return (
@@ -102,6 +118,10 @@ export default function SeleccionarGruposSinGrupo() {
           Solicitar
         </button>
       </div>
+      <br />
+      <br />
+      <br />
+      <br />
       <br />
       <br />
       <br />
