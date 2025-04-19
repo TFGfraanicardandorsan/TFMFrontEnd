@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import "../styles/navbar-style.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell, faUser } from "@fortawesome/free-solid-svg-icons";
+import {faBell,faUser,faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { obtenerNotificaciones } from "../services/notificacion.js";
+import { logout } from "../services/login.js";
 import { formatearFecha } from "../lib/formateadorFechas.js";
 
 export default function Navbar() {
@@ -31,9 +32,13 @@ export default function Navbar() {
     cargarNotificaciones();
   }, []);
 
+  const handleClickLogout = async () => {
+    await logout();
+  };
+
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
-  }
+  };
 
   if (cargando) {
     return <div className="loading-text">Cargando...</div>;
@@ -69,6 +74,11 @@ export default function Navbar() {
             className="icon user"
             onClick={() => navigate("/miPerfil")}
           />
+          <FontAwesomeIcon
+            icon={faSignOutAlt}
+            className="fa-sign-out-alt"
+            onClick={handleClickLogout}
+          />
         </div>
       </nav>
       {sidebarVisible && (
@@ -78,7 +88,9 @@ export default function Navbar() {
             notificaciones.map((notificacion) => (
               <div key={notificacion.id} className="notification-item">
                 <p className="contenido">{notificacion.contenido}</p>
-                <p className="fecha">{formatearFecha(notificacion.fecha_creacion)}</p>
+                <p className="fecha">
+                  {formatearFecha(notificacion.fecha_creacion)}
+                </p>
               </div>
             ))
           ) : (

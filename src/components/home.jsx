@@ -4,7 +4,6 @@ import Footer from "./footer";
 import Navbar from "./navbar";
 import "../styles/home-style.css";
 import { obtenerNotificaciones } from "../services/notificacion.js";
-import { logout } from "../services/login.js";
 import { formatearFecha } from "../lib/formateadorFechas.js";
 
 export default function Home() {
@@ -35,10 +34,6 @@ export default function Home() {
     return <div className="loading-text">Cargando...</div>;
   }
 
-  const handleClickLogout = async () => {
-    await logout();
-  };
-
   return (
     <div className="home-container">
       <Navbar />
@@ -48,10 +43,6 @@ export default function Home() {
         <button className="explore-button" onClick={() => navigate("/login")}>
           Iniciar Sesión
         </button>
-        <button className="explore-button" onClick={handleClickLogout}>
-          Cerrar Sesión 😡
-        </button>
-
         <div className="notificaciones">
           <h2>Últimas Notificaciones</h2>
           <div className="notificaciones-cards">
