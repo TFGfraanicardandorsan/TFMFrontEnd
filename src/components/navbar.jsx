@@ -76,7 +76,7 @@ export default function Navbar() {
           />
           <FontAwesomeIcon
             icon={faSignOutAlt}
-            className="fa-sign-out-alt"
+            className="icon fa-sign-out-alt"
             onClick={handleClickLogout}
           />
         </div>
