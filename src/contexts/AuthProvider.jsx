@@ -14,7 +14,9 @@ export const AuthProvider = ({ children }) => {
             } catch (error) {
                 if (error.response?.status === 401) {
                   setAuth({ loading: false, isAuthenticated: false, user: null });
-                }
+                } else {
+                    console.error("Error real al obtener la sesión:", error); 
+                  }
             }
         };
         apiObtenerSesion();
