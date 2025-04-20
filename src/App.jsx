@@ -3,6 +3,8 @@ import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext.jsx";
 import { ProtectedRoute } from "./routes/ProtectedRoute.jsx";
 import { RoleRoute } from "./routes/RoleRoute.jsx";
+import CookieConsent from "react-cookie-consent";
+import Cookies from "./components/cookies.jsx";
 import Login from "./components/login.jsx";
 import Home from "./components/home.jsx";
 import Unauthorized from "./components/Unauthorized.jsx";
@@ -18,7 +20,6 @@ import SolicitarGrupos from "./components/seleccionarGrupos.jsx";
 import PoliticaPrivacidad from "./components/politicaPrivacidad.jsx";
 import CrearNotificacion from "./components/crearNotificacion.jsx";
 import SolicitarPermuta from "./components/solicitarPermuta.jsx";
-import Cookies from "./components/cookies.jsx";
 import MisSolicitudesPermuta from "./components/misPermutas.jsx";
 export function App() {
   return (
@@ -46,6 +47,14 @@ export function App() {
             element={<MisSolicitudesPermuta />}
           />
         </Routes>
+
+        <CookieConsent location="bottom" buttonText="Aceptar" cookieName="permutasCookies" style={{ background: "#2B373B" }} 
+        buttonStyle={{ color: "#fff", background: "#4CAF50", fontSize: "13px" }} expires={150} >
+        Utilizamos cookies para mejorar la experiencia del usuario.
+        <a href="/cookies" style={{ color: "#ffd700", textDecoration: "underline" }}> Leer más
+        </a>
+      </CookieConsent>
+      
       </AuthProvider>
   );
 }
