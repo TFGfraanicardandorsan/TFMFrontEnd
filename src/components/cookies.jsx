@@ -1,10 +1,8 @@
-import Navbar from './navbar';
 import Footer from './footer';
 
 export default function PrivacyPolicy() {
   return (
     <>
-    <Navbar/>
     <div className="cookies-policy">
         <br />
         <br />
