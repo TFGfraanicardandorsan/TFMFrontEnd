@@ -1,6 +1,6 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./contexts/AuthContext.jsx";
+import { AuthProvider } from "./contexts/AuthProvider.jsx";
 import { ProtectedRoute } from "./routes/ProtectedRoute.jsx";
 import { RoleRoute } from "./routes/RoleRoute.jsx";
 import CookieConsent from "react-cookie-consent";
