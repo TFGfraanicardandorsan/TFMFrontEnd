@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // 👈 Importamos useNavigate
 import Footer from "./footer";
 import Navbar from "./navbar";
 import "../styles/home-style.css";
@@ -9,7 +8,6 @@ import { formatearFecha } from "../lib/formateadorFechas.js";
 export default function Home() {
   const [notificaciones, setNotificaciones] = useState([]);
   const [cargando, setCargando] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const cargarNotificaciones = async () => {
@@ -40,9 +38,6 @@ export default function Home() {
       <div className="content">
         <h1 style={{ color: "red" }}>Bienvenido a Permutas ETSII</h1>
         <p>Una plataforma para gestionar permutas de manera eficiente.</p>
-        <button className="explore-button" onClick={() => navigate("/login")}>
-          Iniciar Sesión
-        </button>
         <div className="notificaciones">
           <h2>Últimas Notificaciones</h2>
           <div className="notificaciones-cards">
