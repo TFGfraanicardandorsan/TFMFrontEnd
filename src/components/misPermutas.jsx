@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-// import "../styles/solicitudesPermuta-style.css";
+import "../styles/solicitudesPermuta-style.css";
 import Footer from "./footer";
 import Navbar from "./navbar";
 import { obtenerSolicitudesPermuta } from "../services/permuta"; // Importar la API para obtener solicitudes
@@ -37,8 +37,6 @@ export default function SolicitudesPermuta() {
   if (error) {
     return <div className="error-text">Error: {error}</div>;
   }
-
-    // ...existing code...
   
   return (
       <div className="page-container">
