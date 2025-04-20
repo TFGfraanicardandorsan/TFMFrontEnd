@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "../styles/solicitudesPermuta-style.css";
+// import "../styles/solicitudesPermuta-style.css";
 import Footer from "./footer";
 import Navbar from "./navbar";
 import { obtenerSolicitudesPermuta } from "../services/permuta"; // Importar la API para obtener solicitudes
