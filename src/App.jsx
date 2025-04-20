@@ -28,24 +28,21 @@ export function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/cookies" element={<Cookies />} />
 
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path="/miPerfil" element={<RoleRoute allowedRoles={["estudiante"]}><MiPerfil /></RoleRoute>} />
           <Route path="/reportarIncidencia" element={<ReportarIncidencia />} />
           <Route path="/misIncidencias" element={<MisIncidencias />} />
-          <Route path="/miPerfil" element={<MiPerfil />} />
           <Route path="/seleccionarEstudios" element={<SeleccionarEstudio />} />
-          <Route path="/seleccionarAsignaturas" element={<SeleccionarAsignatura />}/>
+          <Route path="/seleccionarAsignaturas" element={<SeleccionarAsignatura />} />
           <Route path="/incidencias" element={<Incidencias />} />
           <Route path="/generarPermuta" element={<GeneracionPDF />} />
           <Route path="/seleccionarGrupos" element={<SolicitarGrupos />} />
           <Route path="/politicaPrivacidad" element={<PoliticaPrivacidad />} />
           <Route path="/crearNotificacion" element={<CrearNotificacion />} />
           <Route path="/solicitarPermuta" element={<SolicitarPermuta />} />
-          <Route path="/cookies" element={<Cookies />} />
-          <Route
-            path="/misSolicitudesPermuta"
-            element={<MisSolicitudesPermuta />}
-          />
+          <Route path="/misSolicitudesPermuta" element={<MisSolicitudesPermuta />} />
         </Routes>
 
         <CookieConsent location="bottom" buttonText="Aceptar" cookieName="permutasCookies" style={{ background: "#2B373B" }} 
