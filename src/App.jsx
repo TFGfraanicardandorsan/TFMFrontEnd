@@ -45,8 +45,8 @@ export function App() {
           <Route path="/misSolicitudesPermuta" element={<MisSolicitudesPermuta />} />
         </Routes>
 
-        <CookieConsent location="top" buttonText="Aceptar" cookieName="permutasCookies" style={{ background: "#2B373B",padding: "1rem" }} 
-          buttonStyle={{ color: "#fff",  background: "#6099c4", padding: "8px 16px",
+        <CookieConsent location="top" buttonText="Aceptar" cookieName="permutasCookies" style={{ background: "#6099c4",padding: "1rem" }} 
+          buttonStyle={{ color: "#fff",  background: "#E0AD0F", padding: "8px 16px",
           margin: "auto", border: "none", borderRadius: "4px" }} expires={150} >
           Utilizamos cookies para mejorar la experiencia del usuario.
           <a href="/cookies" style={{ color: "#E0AD0F", textDecoration: "underline", marginLeft: "5px" }}>Leer más</a>
