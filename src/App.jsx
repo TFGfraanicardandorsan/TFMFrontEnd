@@ -2,6 +2,7 @@ import './App.css';
 import {Routes, Route, /*Navigate*/} from "react-router-dom";
 import Login from './components/login.jsx'
 import Home from './components/home.jsx'
+import Unauthorized from './components/Unauthorized.jsx'
 import ReportarIncidencia from './components/reportarIncidencia.jsx'
 import MisIncidencias from './components/misIncidencias.jsx'
 import MiPerfil from './components/miPerfil.jsx'
@@ -22,6 +23,8 @@ export function App() {
     <>
       <Routes>
         <Route path='/login' element={<Login/>} />
+        <Route path="*" element={<NotFound />} />
+        <Route path='/unauthorized' element={<Unauthorized />} />
         <Route path='/' element={<Home/>} />
         <Route path='/reportarIncidencia' element={<ReportarIncidencia/>} />
         <Route path='/misIncidencias' element={<MisIncidencias/>} />
@@ -36,7 +39,6 @@ export function App() {
         <Route path='/solicitarPermuta' element={<SolicitarPermuta/>} />
         <Route path='/cookies' element={<Cookies/>} />
         <Route path='/misSolicitudesPermuta' element={<MisSolicitudesPermuta/>} />
-        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   )
