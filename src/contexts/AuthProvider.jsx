@@ -12,8 +12,9 @@ export const AuthProvider = ({ children }) => {
                 const data = await obtenerSesion();
                 setAuth({ loading: false,isAuthenticated: data.isAuthenticated,user: data.user });
             } catch (error) {
-                console.error("Error al obtener la sesión:", error);
-                setAuth({ loading: false,isAuthenticated: false,user: null });
+                if (error.response?.status === 401) {
+                  setAuth({ loading: false, isAuthenticated: false, user: null });
+                }
             }
         };
         apiObtenerSesion();
