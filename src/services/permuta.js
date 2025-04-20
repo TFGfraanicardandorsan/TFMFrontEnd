@@ -6,3 +6,13 @@ export const solicitarPermuta = async (paramNumGrupo,paramCodigo) => {
 export const obtenerSolicitudesPermuta = async () => {
     return await postAPI("/api/v1/solicitudPermuta/getMisSolicitudesPermuta")
 }
+
+export const obtenerPermutasInteresantes = async () => {
+    return await postAPI("/api/v1/solicitudPermuta/getSolicitudesPermutaInteresantes");
+}
+
+// export const aceptarPermuta = async (solicitudId) => {
+//     return await postAPI("/api/v1/solicitudPermuta/aceptarPermuta", {
+//         solicitud_id: solicitudId
+//     });
+// }
