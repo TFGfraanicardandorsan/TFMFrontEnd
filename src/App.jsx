@@ -15,6 +15,7 @@ import PoliticaPrivacidad from './components/politicaPrivacidad.jsx';
 import CrearNotificacion from './components/crearNotificacion.jsx';
 import SolicitarPermuta from './components/solicitarPermuta.jsx';
 import Cookies from './components/cookies.jsx';
+import MisSolicitudesPermuta from './components/misPermutas.jsx';
 export function App() {
 
   return (
@@ -34,7 +35,7 @@ export function App() {
         <Route path= '/crearNotificacion' element={<CrearNotificacion/>} />
         <Route path='/solicitarPermuta' element={<SolicitarPermuta/>} />
         <Route path='/cookies' element={<Cookies/>} />
-        
+        <Route path='/misSolicitudesPermuta' element={<MisSolicitudesPermuta/>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
