@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import "../styles/navbar-style.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faBell,faUser,faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
+import {faBell,faUser,faSignOutAlt,faDoorOpen} from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { obtenerNotificaciones } from "../services/notificacion.js";
-import { logout } from "../services/login.js";
+import { logout,obtenerSesion } from "../services/login.js";
 import { formatearFecha } from "../lib/formateadorFechas.js";
 
 export default function Navbar() {
@@ -34,6 +34,10 @@ export default function Navbar() {
 
   const handleClickLogout = async () => {
     await logout();
+  };
+
+  const handleClickObtenerSesion = async () => {
+    await obtenerSesion();
   };
 
   const toggleSidebar = () => {
@@ -78,6 +82,11 @@ export default function Navbar() {
             icon={faSignOutAlt}
             className="icon fa-sign-out-alt"
             onClick={handleClickLogout}
+          />
+           <FontAwesomeIcon
+            icon={faDoorOpen}
+            className="icon"
+            onClick={handleClickObtenerSesion}
           />
         </div>
       </nav>
