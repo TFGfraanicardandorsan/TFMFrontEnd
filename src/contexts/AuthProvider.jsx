@@ -8,11 +8,6 @@ export const AuthProvider = ({ children }) => {
     
     useEffect(() => {
         const apiObtenerSesion = async () => {
-            const comprobarSiHayCookies = document.cookie.includes("connect.sid");
-            if (!comprobarSiHayCookies) {
-                setAuth({ loading: false, isAuthenticated: false, user: null });
-                return;
-            }
             try {
                 const data = await obtenerSesion();
                 setAuth({ loading: false,isAuthenticated: data.isAuthenticated,user: data.user });
