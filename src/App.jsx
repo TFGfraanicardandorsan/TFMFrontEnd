@@ -46,8 +46,8 @@ export function App() {
         </Routes>
 
         <CookieConsent location="top" buttonText="Aceptar" cookieName="permutasCookies" style={{ background: "#2B373B",padding: "1rem" }} 
-          buttonStyle={{ color: "#fff",  background: "#2b579a", fontSize: "13px", padding: "8px 16px",
-          marginLeft: "20px", border: "none", borderRadius: "4px" }} expires={150} >
+          buttonStyle={{ color: "#fff",  background: "#2b579a", padding: "8px 16px",
+          margin: "auto", border: "none", borderRadius: "4px" }} expires={150} >
           Utilizamos cookies para mejorar la experiencia del usuario.
           <a href="/cookies" style={{ color: "#ffd700", textDecoration: "underline", marginLeft: "5px" }}>Leer más</a>
         </CookieConsent>
