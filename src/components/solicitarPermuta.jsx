@@ -66,7 +66,6 @@ export default function SeleccionarGruposSinGrupo() {
 
   const handleSubmit = async () => {
     try {
-      const uvus = "usuarioEjemplo"; // Reemplaza con el UVUS del usuario autenticado
   
       // Iterar sobre las asignaturas seleccionadas
       for (const [codasignatura, gruposDeseados] of Object.entries(seleccionados)) {
