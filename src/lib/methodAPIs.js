@@ -44,6 +44,16 @@ export const getAPI = async (fun) => {
             window.location.href = respuesta.url
             return;
         }
+        // Prueba
+        if (!respuesta.ok) {
+            const texto = await respuesta.text();
+            return {
+              err: true,
+              status: respuesta.status,
+              errmsg: `Respuesta HTTP no válida: ${respuesta.status}`,
+              respuestaText: texto
+            };
+          }
         // Verificar si la respuesta es un JSON
         const contentType = respuesta.headers.get('content-type');
         if(contentType && contentType.includes('application/json')){
