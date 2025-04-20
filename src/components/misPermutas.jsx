@@ -14,7 +14,7 @@ export default function SolicitudesPermuta() {
       try {
         const response = await obtenerSolicitudesPermuta();
         if (!response.err) {
-          setSolicitudes(response.result); // Guardar las solicitudes en el estado
+          setSolicitudes(response.result.result); // Guardar las solicitudes en el estado
         } else {
           throw new Error(response.errmsg);
         }
