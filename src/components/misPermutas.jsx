@@ -38,30 +38,39 @@ export default function SolicitudesPermuta() {
     return <div className="error-text">Error: {error}</div>;
   }
 
+    // ...existing code...
+  
   return (
-    <div className="page-container">
-      <Navbar />
-      <div className="content-wrap">
-        <div className="solicitudes-container">
-          <h1 className="solicitudes-title">Mis Solicitudes de Permuta</h1>
-          <div className="solicitudes-content">
-            {solicitudes.length > 0 ? (
-              solicitudes.map((solicitud) => (
-                <div key={solicitud.solicitud_id} className="solicitud-card">
-                  <p><strong>Asignatura:</strong> {solicitud.nombre_asignatura} ({solicitud.codigo_asignatura})</p>
-                  <p><strong>Grupo Solicitante:</strong> {solicitud.grupo_solicitante}</p>
-                  <p><strong>Grupo Deseado:</strong> {solicitud.grupo_deseado}</p>
-                  <p><strong>Estado:</strong> {solicitud.estado}</p>
-                </div>
-              ))
-            ) : (
-              <p>No tienes solicitudes de permuta registradas.</p>
-            )}
+      <div className="page-container">
+        <Navbar />
+        <div className="content-wrap">
+          <div className="solicitudes-container">
+            <h1 className="solicitudes-title">Mis Solicitudes de Permuta</h1>
+            <div className="solicitudes-content">
+              {solicitudes.length > 0 ? (
+                solicitudes.map((solicitud) => (
+                  <div key={solicitud.solicitud_id} className="solicitud-card">
+                    <p><strong>Asignatura:</strong> {solicitud.nombre_asignatura} ({solicitud.codigo_asignatura})</p>
+                    <p><strong>Grupo Actual:</strong> {solicitud.grupo_solicitante}</p>
+                    <p><strong>Grupos Deseados:</strong></p>
+                    <ul className="grupos-deseados-list">
+                      {solicitud.grupos_deseados.map((grupo, index) => (
+                        <li key={index}>{grupo}</li>
+                      ))}
+                    </ul>
+                    <p><strong>Estado:</strong> {solicitud.estado}</p>
+                  </div>
+                ))
+              ) : (
+                <p>No tienes solicitudes de permuta registradas.</p>
+              )}
+            </div>
           </div>
         </div>
+        <div className="footer-space"></div>
+        <Footer />
       </div>
-      <div className="footer-space"></div>
-      <Footer />
-    </div>
-  );
+    );
+  
+  // ...existing code...
 }
