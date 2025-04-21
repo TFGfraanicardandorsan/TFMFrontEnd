@@ -51,7 +51,7 @@ export default function Navbar() {
             <a href="/">Inicio</a>
           </li>
           <li>
-            <a href="#">Permutas</a>
+            <a href="/permutas">Permutas</a>
           </li>
           <li>
             <a href="/solicitarPermuta">Solicitar Permutas</a>
