@@ -57,10 +57,16 @@ export default function Navbar() {
             <a href="/solicitarPermuta">Solicitar Permutas</a>
           </li>
           <li>
-            <a href="/misSolicitudesPermuta">Mis Permutas</a>
+            <a href="/misSolicitudesPermuta">Mis Solicitudes</a>
+          </li>
+          <li>
+            <a href="/generarPermuta">Generar Permuta</a>
           </li>
           <li>
             <a href="/misIncidencias">Mis incidencias</a>
+          </li>
+          <li>
+            <a href="/crearNotificacion">Crear notificación</a>
           </li>
         </ul>
         <div className="nav-icons">

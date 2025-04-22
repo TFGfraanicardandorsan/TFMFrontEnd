@@ -2,51 +2,37 @@ import { useState, useRef, useEffect } from "react";
 import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
 import { obtenerPlantillaPermuta } from "../services/subidaArchivos.js"; 
+import { verListaPermutas } from "../services/permuta.js";
 import Navbar from "./navbar";
 import Footer from "./footer";
 import "../styles/generacionPDF-style.css";
-import { obtenerAsignaturasUsuario } from "../services/asignaturas.js";
-import { obtenerDatosUsuario } from "../services/usuario"; 
+
 import { dayValue, monthValue, yearValue } from "../lib/generadorFechas.js"; 
 
 export default function GeneracionPDF() {
-  const [grado, setGrado] = useState("");
   const [dni, setDni] = useState("");
   const [letraDNI, setLetraDNI] = useState("");
-  const [nombre, setNombre] = useState("");
   const [domicilio, setDomicilio] = useState("");
   const [poblacion, setPoblacion] = useState("");
   const [codigoPostal, setCodigoPostal] = useState("");
   const [provincia, setProvincia] = useState("");
   const [telefono, setTelefono] = useState("");
-  const [asignaturas, setAsignaturas] = useState("");
+  const [usuarios, setUsuarios] = useState([]);
+  const [permutas, setPermutas] = useState([]);
   const iframeRef = useRef(null);
 
   useEffect(() => {
-    const obtenerAsignaturaUsuario = async () => {
+    const obtenerListaPermutas = async () => {
       try {
-        const data = await obtenerAsignaturasUsuario();
-        setAsignaturas(data.result.result);
+        const data = await verListaPermutas();
+        setUsuarios(data.result.result.usuarios);
+        setPermutas(data.result.result.permutas);
       } catch (error) {
-        console.error("Error al obtener las asignaturas del usuario:", error);
+        console.error("Error al obtener la lista de permutas:", error);
       }
     };
-    obtenerAsignaturaUsuario();
+    obtenerListaPermutas();
   }, []);
-
-  useEffect(() => {
-    const obtenerDatos = async () => {
-      try {
-        const data = await obtenerDatosUsuario();
-        setGrado(data.result.result.siglas);
-        setNombre(data.result.result.nombre_completo);
-      } catch (error) {
-        console.error("Error al obtener los datos del usuario:", error);
-      }
-    };
-    obtenerDatos();
-  }, []);
-
 
   const generarPDF = async () => {
     try {
@@ -77,18 +63,19 @@ export default function GeneracionPDF() {
       const month = form.getTextField("MONTH");
       const year = form.getTextField("YEAR");
 
-      //Asignaturas y códigos TODO: EL 1 DEBERÁ SER UN NÚMERO QUE CAMBIARÁ EN FUNCIÓN DEL ALUMNO QUE ESTÁ HACIENDO LA SOLICITUD
-      asignaturas.forEach((asignatura, index) => {
-        const asignaturaField = form.getTextField(`ASIGNATURA1-${index + 1}`);
-        const codigoField = form.getTextField(`COD1-${index + 1}`);
-        asignaturaField.setText(asignatura.asignatura);
-        codigoField.setText(asignatura.codigo);
-        asignaturaField.enableReadOnly();
-        codigoField.enableReadOnly();
+      permutas.forEach((asignatura, index) => {
+        const asignaturaField1 = form.getTextField(`ASIGNATURA1-${index + 1}`);
+        const asignaturaField2 = form.getTextField(`ASIGNATURA2-${index + 1}`);
+        const codigoField1 = form.getTextField(`COD1-${index + 1}`);
+        const codigoField2 = form.getTextField(`COD2-${index + 1}`);
+        asignaturaField1.setText(asignatura.nombre_asignatura);
+        codigoField1.setText(asignatura.codigo_asignatura);
+        asignaturaField2.enableReadOnly();
+        codigoField2.enableReadOnly();
       });
 
       // SETTERS
-      switch (grado) {
+      switch (usuarios[0].estudio) {
         case "GII-IS":
           grado1.check();
           break;
@@ -102,14 +89,14 @@ export default function GeneracionPDF() {
           grado4.check();
           break;
         default:
-          console.warn(`Grado "${grado}" no corresponde a ningún checkbox.`);
+          console.warn(`Grado "${usuarios[0].estudio}" no corresponde a ningún checkbox.`);
       }
       dni1.setText(dni);
       dni2.setText(dni);
       letra1.setText(letraDNI);
       letra2.setText(letraDNI);
-      nombre1.setText(nombre);
-      nombre2.setText(nombre);
+      nombre1.setText(usuarios[0].nombre_completo);
+      nombre2.setText(usuarios[1].nombre_completo);
       domicilio1.setText(domicilio);
       domicilio2.setText(domicilio);
       poblacion1.setText(poblacion);
@@ -177,7 +164,7 @@ export default function GeneracionPDF() {
     <>
       <Navbar />
       <br />
-      <h1>Generación de PDF</h1>
+      <h1>Generación documentación permuta</h1>
       <div className="container">
         <div className="formulario">
           <div className="asociar">
