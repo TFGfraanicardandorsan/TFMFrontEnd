@@ -6,7 +6,6 @@ import { verListaPermutas } from "../services/permuta.js";
 import Navbar from "./navbar";
 import Footer from "./footer";
 import "../styles/generacionPDF-style.css";
-
 import { dayValue, monthValue, yearValue } from "../lib/generadorFechas.js"; 
 
 export default function GeneracionPDF() {
@@ -25,7 +24,6 @@ export default function GeneracionPDF() {
     const obtenerListaPermutas = async () => {
       try {
         const data = await verListaPermutas();
-        console.log(data.result.result[0])
         setUsuarios(data.result.result[0].usuarios);
         setPermutas(data.result.result[0].permutas);
       } catch (error) {
@@ -35,9 +33,6 @@ export default function GeneracionPDF() {
     obtenerListaPermutas();
   }, []);
   
-  console.log(usuarios)
-  console.log(permutas)
-
   const generarPDF = async () => {
     try {
       const pdfDoc = await PDFDocument.load(await obtenerPlantillaPermuta());
