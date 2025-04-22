@@ -25,6 +25,7 @@ export default function GeneracionPDF() {
     const obtenerListaPermutas = async () => {
       try {
         const data = await verListaPermutas();
+        console.log(data)
         setUsuarios(data.result.result.usuarios);
         setPermutas(data.result.result.permutas);
       } catch (error) {
@@ -32,7 +33,6 @@ export default function GeneracionPDF() {
       }
     };
     obtenerListaPermutas();
-    console.log(obtenerListaPermutas)
   }, []);
   
   console.log(usuarios)
