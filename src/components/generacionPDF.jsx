@@ -25,9 +25,9 @@ export default function GeneracionPDF() {
     const obtenerListaPermutas = async () => {
       try {
         const data = await verListaPermutas();
-        console.log(data)
-        setUsuarios(data.result.result.usuarios);
-        setPermutas(data.result.result.permutas);
+        console.log(data.result.result[0])
+        setUsuarios(data.result.result[0].usuarios);
+        setPermutas(data.result.result[0].permutas);
       } catch (error) {
         console.error("Error al obtener la lista de permutas:", error);
       }
