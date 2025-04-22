@@ -41,7 +41,7 @@ export function App() {
           <Route path="/generarPermuta" element={<GeneracionPDF />} />
           <Route path="/seleccionarGrupos" element={<SolicitarGrupos />} />
           <Route path="/politicaPrivacidad" element={<PoliticaPrivacidad />} />
-          <Route path="/crearNotificacion" element={<CrearNotificacion />} />
+          <Route path="/crearNotificacion" element={<RoleRoute allowedRoles={["administrador"]}><CrearNotificacion /></RoleRoute>} />
           <Route path="/solicitarPermuta" element={<SolicitarPermuta />} />
           <Route path="/misSolicitudesPermuta" element={<MisSolicitudesPermuta />} />
           <Route path="/permutas" element={<Permutas />} />
