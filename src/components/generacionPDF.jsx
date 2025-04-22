@@ -73,8 +73,12 @@ export default function GeneracionPDF() {
         const codigoField1 = form.getTextField(`COD1-${index + 1}`);
         const codigoField2 = form.getTextField(`COD2-${index + 1}`);
         asignaturaField1.setText(asignatura.nombre_asignatura);
+        asignaturaField2.setText(asignatura.nombre_asignatura);
         codigoField1.setText(asignatura.codigo_asignatura);
+        codigoField2.setText(asignatura.codigo_asignatura);
+        asignaturaField1.enableReadOnly();
         asignaturaField2.enableReadOnly();
+        codigoField1.enableReadOnly();
         codigoField2.enableReadOnly();
       });
 
