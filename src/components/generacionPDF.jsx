@@ -32,7 +32,11 @@ export default function GeneracionPDF() {
       }
     };
     obtenerListaPermutas();
+    console.log(obtenerListaPermutas)
   }, []);
+  
+  console.log(usuarios)
+  console.log(permutas)
 
   const generarPDF = async () => {
     try {
