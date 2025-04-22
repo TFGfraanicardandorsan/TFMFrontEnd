@@ -66,6 +66,9 @@ export default function Navbar() {
             <a href="/misIncidencias">Mis incidencias</a>
           </li>
           <li>
+            <a href="/reportarIncidencia">Reportar incidencia</a>
+          </li>
+          <li>
             <a href="/crearNotificacion">Crear notificación</a>
           </li>
         </ul>
