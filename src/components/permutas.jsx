@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "../styles/permutas-style.css";
-import { obtenerPermutasInteresantes, aceptarPermuta } from "../services/permuta.js";
+import { obtenerPermutasInteresantes } from "../services/permuta.js";
 
 export default function Permutas() {
   const [permutas, setPermutas] = useState([]);
@@ -61,13 +61,13 @@ export default function Permutas() {
                 <p><strong>Grupos Deseados:</strong> {permuta.grupos_deseados.join(", ")}</p>
                 <p><strong>Código Asignatura:</strong> {permuta.codigo_asignatura}</p>
               </div>
-              <button 
+              {/* <button 
                 className="aceptar-btn"
                 onClick={() => handleAceptarPermuta(permuta.solicitud_id)}
                 disabled={permuta.estado !== "SOLICITADA"}
               >
                 Aceptar Permuta
-              </button>
+              </button> */}
             </div>
           ))}
         </div>
