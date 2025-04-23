@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "../styles/permutas-style.css";
 import { obtenerPermutasInteresantes } from "../services/permuta.js";
-import NaNvbar from "./navbar.jsx";
+import Navbar from "./navbar.jsx";
 import Footer from "./footer.jsx";
 export default function Permutas() {
   const [permutas, setPermutas] = useState([]);
@@ -49,13 +49,8 @@ export default function Permutas() {
   }
 
   return (
-<<<<<<< HEAD
 <>
 <Navbar/>
-=======
-    <>
-    <NaNvbar />
->>>>>>> 12c6e8bfc68e3c4e1794c5dcc6fa31f3500f969e
     <div className="permutas-container">
       <h2>Permutas Disponibles</h2>
       {permutas.length > 0 ? (
@@ -83,11 +78,7 @@ export default function Permutas() {
         <p>No hay permutas disponibles</p>
       )}
     </div>
-<<<<<<< HEAD
-    <Footer/>
-=======
     <Footer />
->>>>>>> 12c6e8bfc68e3c4e1794c5dcc6fa31f3500f969e
     </>
   );
 }
