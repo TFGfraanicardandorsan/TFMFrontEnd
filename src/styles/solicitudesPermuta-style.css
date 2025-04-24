@@ -63,6 +63,39 @@
   margin-top: 20px;
 }
 
+.botones-validacion {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.btn-validar, .btn-denegar {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  flex: 1;
+}
+
+.btn-validar {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.btn-validar:hover {
+  background-color: #45a049;
+}
+
+.btn-denegar {
+  background-color: #f44336;
+  color: white;
+}
+
+.btn-denegar:hover {
+  background-color: #da190b;
+}
+
 @media (max-width: 768px) {
   .solicitudes-content {
     grid-template-columns: 1fr;
