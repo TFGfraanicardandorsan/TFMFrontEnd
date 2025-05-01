@@ -18,6 +18,7 @@ export default function ReportarIncidencia() {
         if (file) {
             const formData = new FormData();
             formData.append("file", file);
+            formData.append("tipo","archivador")
             try {
                 const response = await subidaArchivo(formData);
                 fileId = response?.result?.fileId;
