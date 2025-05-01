@@ -2,7 +2,11 @@ import { useState, useEffect } from "react";
 import "../styles/solicitudesPermuta-style.css";
 import Footer from "./footer";
 import Navbar from "./navbar";
-import { obtenerSolicitudesPermuta } from "../services/permuta"; // Importar la API para obtener solicitudes
+import { 
+  obtenerSolicitudesPermuta, 
+  validarPermuta, 
+  denegarPermuta 
+} from "../services/permuta";
 
 export default function SolicitudesPermuta() {
   const [solicitudes, setSolicitudes] = useState([]); // Estado para almacenar las solicitudes
@@ -27,6 +31,36 @@ export default function SolicitudesPermuta() {
 
     obtenerSolicitudes();
   }, []);
+
+  const handleValidar = async (solicitudId) => {
+    try {
+      await validarPermuta(solicitudId);
+      // Recargar las solicitudes para actualizar el estado
+      const response = await obtenerSolicitudesPermuta();
+      if (!response.err) {
+        setSolicitudes(response.result.result);
+      }
+      alert("Permuta validada con éxito");
+    } catch (error) {
+      console.error("Error al validar la permuta:", error);
+      alert("Error al validar la permuta");
+    }
+  };
+
+  const handleDenegar = async (solicitudId) => {
+    try {
+      await denegarPermuta(solicitudId);
+      // Recargar las solicitudes para actualizar el estado
+      const response = await obtenerSolicitudesPermuta();
+      if (!response.err) {
+        setSolicitudes(response.result.result);
+      }
+      alert("Permuta denegada");
+    } catch (error) {
+      console.error("Error al denegar la permuta:", error);
+      alert("Error al denegar la permuta");
+    }
+  };
 
   // Muestra mensaje de carga
   if (loading) {
@@ -57,6 +91,23 @@ export default function SolicitudesPermuta() {
                       ))}
                     </ul>
                     <p><strong>Estado:</strong> {solicitud.estado}</p>
+                    
+                    {solicitud.estado === "ACEPTADA" && (
+                      <div className="botones-validacion">
+                        <button 
+                          className="btn-validar"
+                          onClick={() => handleValidar(solicitud.solicitud_id)}
+                        >
+                          Validar
+                        </button>
+                        <button 
+                          className="btn-denegar"
+                          onClick={() => handleDenegar(solicitud.solicitud_id)}
+                        >
+                          Denegar
+                        </button>
+                      </div>
+                    )}
                   </div>
                 ))
               ) : (
@@ -69,6 +120,4 @@ export default function SolicitudesPermuta() {
         <Footer />
       </div>
     );
-  
-  // ...existing code...
 }

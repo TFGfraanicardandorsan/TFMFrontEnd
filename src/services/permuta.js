@@ -20,3 +20,15 @@ export const verListaPermutas = async () => {
 //         solicitud_id: solicitudId
 //     });
 // }
+
+export const validarPermuta = async (solicitudId) => {
+    return await postAPI("/api/v1/solicitudPermuta/validarSolicitudPermuta", {
+        solicitud_id: solicitudId
+    });
+}
+
+export const denegarPermuta = async (solicitudId) => {
+    return await postAPI("/api/v1/solicitudPermuta/rechazarSolicitudPermuta", {
+        solicitud_id: solicitudId
+    });
+}
