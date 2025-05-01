@@ -37,31 +37,35 @@ export default function GeneracionPDF() {
     try {
       const pdfDoc = await PDFDocument.load(await obtenerPlantillaPermuta());
       const form = pdfDoc.getForm();
-
+      // Campos de grado
       const grado1 = form.getCheckBox("GII-IS");
       const grado2 = form.getCheckBox("GII-IC");
       const grado3 = form.getCheckBox("GII-TI");
       const grado4 = form.getCheckBox("GISA");
+      // Cabecera para alumno 1
       const dni1 = form.getTextField("DNI1");
-      const dni2 = form.getTextField("DNI2");
       const letra1 = form.getTextField("LETRA1");
-      const letra2 = form.getTextField("LETRA2");
       const nombre1 = form.getTextField("NOMBRE1");
-      const nombre2 = form.getTextField("NOMBRE2");
       const domicilio1 = form.getTextField("DOMICILIO1");
-      const domicilio2 = form.getTextField("DOMICILIO2");
       const poblacion1 = form.getTextField("POBLACION1");
-      const poblacion2 = form.getTextField("POBLACION2");
       const codigoPostal1 = form.getTextField("COD-POSTAL1");
-      const codigoPostal2 = form.getTextField("COD-POSTAL2");
       const provincia1 = form.getTextField("PROVINCIA1");
-      const provincia2 = form.getTextField("PROVINCIA2");
       const telefono1 = form.getTextField("TELEFONO1");
+      // Cabecera para alumno 2
+      const dni2 = form.getTextField("DNI2");
+      const letra2 = form.getTextField("LETRA2");
+      const nombre2 = form.getTextField("NOMBRE2");
+      const domicilio2 = form.getTextField("DOMICILIO2");
+      const poblacion2 = form.getTextField("POBLACION2");
+      const codigoPostal2 = form.getTextField("COD-POSTAL2");
+      const provincia2 = form.getTextField("PROVINCIA2");
       const telefono2 = form.getTextField("TELEFONO2");
+      // Fecha Firma
       const day = form.getTextField("DAY");
       const month = form.getTextField("MONTH");
       const year = form.getTextField("YEAR");
 
+      // Asignaturas y códigos
       permutas.forEach((asignatura, index) => {
         const asignaturaField1 = form.getTextField(`ASIGNATURA1-${index + 1}`);
         const asignaturaField2 = form.getTextField(`ASIGNATURA2-${index + 1}`);
@@ -77,69 +81,48 @@ export default function GeneracionPDF() {
         codigoField2.enableReadOnly();
       });
 
-      // SETTERS
+      // Grado de los alumnos
       switch (usuarios[0].estudio) {
-        case "GII-IS":
-          grado1.check();
-          break;
-        case "GII-IC":
-          grado2.check();
-          break;
-        case "GII-TI":
-          grado3.check();
-          break;
-        case "GISA":
-          grado4.check();
-          break;
-        default:
-          console.warn(`Grado "${usuarios[0].estudio}" no corresponde a ningún checkbox.`);
+        case "GII-IS": grado1.check();break;
+        case "GII-IC": grado2.check();break;
+        case "GII-TI": grado3.check();break;
+        case "GISA":   grado4.check();break;
       }
+      const cabeceraAlumno1Rellena = dni1.getText()?.trim() !== "";
+      if (!cabeceraAlumno1Rellena) {
+      // Si la cabecera del alumno 1 no está rellena, se rellenan los campos con los datos del primer usuario
       dni1.setText(dni);
-      dni2.setText(dni);
       letra1.setText(letraDNI);
-      letra2.setText(letraDNI);
       nombre1.setText(usuarios[0].nombre_completo);
-      nombre2.setText(usuarios[1].nombre_completo);
       domicilio1.setText(domicilio);
-      domicilio2.setText(domicilio);
       poblacion1.setText(poblacion);
-      poblacion2.setText(poblacion);
       codigoPostal1.setText(codigoPostal);
-      codigoPostal2.setText(codigoPostal);
       provincia1.setText(provincia);
-      provincia2.setText(provincia);
       telefono1.setText(telefono);
+      // Bloquear la cabecera del alumno 1
+      [dni1, letra1, nombre1, domicilio1, poblacion1, codigoPostal1, provincia1, telefono1].forEach(field => field.enableReadOnly());
+      } else {
+        // Usuario 2 rellena
+      dni2.setText(dni);
+      letra2.setText(letraDNI);
+      nombre2.setText(usuarios[1].nombre_completo);
+      domicilio2.setText(domicilio);
+      poblacion2.setText(poblacion);
+      codigoPostal2.setText(codigoPostal);
+      provincia2.setText(provincia);
       telefono2.setText(telefono);
-
+      // Bloquear la cabecera del alumno 2
+      [dni2, letra2, nombre2, domicilio2, poblacion2, codigoPostal2, provincia2, telefono2].forEach(field => field.enableReadOnly());
+      }
+      // Fecha de firma siempre bloqueada
       day.setText(dayValue);
       month.setText(monthValue);
       year.setText(yearValue);
+      [day, month, year].forEach(field => field.enableReadOnly());
 
-      // BLOQUEADORES
-      grado1.enableReadOnly();
-      grado2.enableReadOnly();
-      grado3.enableReadOnly();
-      grado4.enableReadOnly();
-      dni1.enableReadOnly();
-      dni2.enableReadOnly();
-      letra1.enableReadOnly();
-      letra2.enableReadOnly();
-      nombre1.enableReadOnly();
-      nombre2.enableReadOnly();
-      domicilio1.enableReadOnly();
-      domicilio2.enableReadOnly();
-      poblacion1.enableReadOnly();
-      poblacion2.enableReadOnly();
-      codigoPostal1.enableReadOnly();
-      codigoPostal2.enableReadOnly();
-      provincia1.enableReadOnly();
-      provincia2.enableReadOnly();
-      telefono1.enableReadOnly();
-      telefono2.enableReadOnly();
-      day.enableReadOnly();
-      month.enableReadOnly();
-      year.enableReadOnly();
-
+      // Bloquear el grado de los alumnos
+      [grado1, grado2, grado3, grado4].forEach(grado => grado.enableReadOnly());
+     
       const pdfBytes = await pdfDoc.save();
       return pdfBytes;
     } catch (e) {
