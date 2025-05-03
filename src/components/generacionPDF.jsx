@@ -217,16 +217,8 @@ export default function GeneracionPDF() {
           <div className="asociarBoton">
             <button onClick={mostrarPDF}>Visualizar</button>
             <button onClick={descargarPDF}>Descargar</button>
-            <button onClick={enviarPDF} disabled={estadoPermuta === "FIRMADA"} 
-            title={estadoPermuta === "FIRMADA" ? "Este documento ya ha sido firmado y enviado." : ""}>
-              Enviar
-            </button>
+            <button onClick={enviarPDF}>Enviar</button>
           </div>
-          {estadoPermuta === "FIRMADA" && (
-          <p style={{ color: "gray", fontSize: "0.9em" }}>
-            El documento ya ha sido firmado y enviado. Solo puedes visualizarlo o descargarlo.
-          </p>
-          )}
         </div>
         <div className="pdf-container">
           <iframe ref={iframeRef} title="PDF generado"></iframe>
