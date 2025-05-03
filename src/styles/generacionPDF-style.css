@@ -8,7 +8,11 @@
     margin: 40px auto;
 }
 
-
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
 .formulario {
     flex: 1;
     display: flex;

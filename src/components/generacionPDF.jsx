@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
 import { obtenerPlantillaPermuta,subidaArchivo,servirArchivo } from "../services/subidaArchivos.js";
-import { verListaPermutas, listarPermutas, crearListaPermutas } from "../services/permuta.js";
+import { verListaPermutas, listarPermutas, crearListaPermutas, aceptarPermuta } from "../services/permuta.js";
 import Navbar from "./navbar";
 import Footer from "./footer";
 import "../styles/generacionPDF-style.css";
@@ -43,8 +43,6 @@ export default function GeneracionPDF() {
     };
     cargarDatos();
   }, []);
-
-  console.log(permutas)
 
   const generarPDF = async () => {
     try {
@@ -163,10 +161,13 @@ export default function GeneracionPDF() {
         alert("Error al subir el archivo PDF.");
         return;
       }
-      // TODO: llamar a crearListaPermuta(fileId)
       const permutaIds = permutas.map((permuta) => permuta.permuta_id);
-      await crearListaPermutas(fileId,permutaIds)
-      console.log(permutaIds);
+      if (estadoPermuta === "FIRMADA") {
+        await aceptarPermuta(fileId,permutaIds)
+      } else {
+        await crearListaPermutas(fileId,permutaIds)
+      }
+      alert("PDF enviado correctamente.");
     } catch (error) {
       console.error("Error al enviar el PDF:", error);
       alert("Error al enviar el PDF");
@@ -216,8 +217,16 @@ export default function GeneracionPDF() {
           <div className="asociarBoton">
             <button onClick={mostrarPDF}>Visualizar</button>
             <button onClick={descargarPDF}>Descargar</button>
-            <button onClick={enviarPDF}>Enviar</button>
+            <button onClick={enviarPDF} disabled={estadoPermuta === "FIRMADA"} 
+            title={estadoPermuta === "FIRMADA" ? "Este documento ya ha sido firmado y enviado." : ""}>
+              Enviar
+            </button>
           </div>
+          {estadoPermuta === "FIRMADA" && (
+          <p style={{ color: "gray", fontSize: "0.9em" }}>
+            El documento ya ha sido firmado y enviado. Solo puedes visualizarlo o descargarlo.
+          </p>
+          )}
         </div>
         <div className="pdf-container">
           <iframe ref={iframeRef} title="PDF generado"></iframe>
