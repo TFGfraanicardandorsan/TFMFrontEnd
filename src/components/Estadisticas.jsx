@@ -96,12 +96,12 @@ export default function Estadisticas() {
             <Pie data={solicitudesPorEstadoData} />
           </div>
 
-          <div className="stat-card">
+          {/* <div className="stat-card">
             <h2>Ratio de Aceptación</h2>
             <div className="stat-value">
               {Math.round(estadisticasSolicitudes.ratioAceptacion.porcentaje_aceptacion)}%
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       <Footer />
