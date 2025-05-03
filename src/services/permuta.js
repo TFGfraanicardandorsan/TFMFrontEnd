@@ -36,3 +36,7 @@ export const denegarPermuta = async (solicitudId) => {
 export const listarPermutas = async () => {
     return await postAPI("/api/v1/permutas/listarPermutas");
 }
+
+export const crearListaPermutas = async (archivo,IdsPermuta) => {
+    return await postAPI("/api/v1/permutas/crearListaPermutas", {archivo,IdsPermuta})
+}

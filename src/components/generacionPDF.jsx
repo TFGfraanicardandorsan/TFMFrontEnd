@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
 import { obtenerPlantillaPermuta,subidaArchivo,servirArchivo } from "../services/subidaArchivos.js";
-import { verListaPermutas, listarPermutas } from "../services/permuta.js";
+import { verListaPermutas, listarPermutas, crearListaPermutas } from "../services/permuta.js";
 import Navbar from "./navbar";
 import Footer from "./footer";
 import "../styles/generacionPDF-style.css";
@@ -26,7 +26,6 @@ export default function GeneracionPDF() {
     const cargarDatos = async () => {
       try {
         const lista = await verListaPermutas();
-        console.log(lista)
         setUsuarios(lista.result.result[0].usuarios);
         setPermutas(lista.result.result[0].permutas);
 
@@ -44,6 +43,8 @@ export default function GeneracionPDF() {
     };
     cargarDatos();
   }, []);
+
+  console.log(permutas)
 
   const generarPDF = async () => {
     try {
@@ -163,7 +164,7 @@ export default function GeneracionPDF() {
         return;
       }
       // TODO: llamar a crearListaPermuta(fileId)
-      // await crearListaPermutas(fileId,IdsPermuta)
+      // await crearListaPermutas(fileId,[permutaIds])
     } catch (error) {
       console.error("Error al enviar el PDF:", error);
       alert("Error al enviar el PDF");
