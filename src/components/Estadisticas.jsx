@@ -43,7 +43,7 @@ export default function Estadisticas() {
         setEstadisticasSolicitudes(solicitudesData.result);
         setLoading(false);
       } catch (err) {
-        setError('Error al cargar las estadísticas');
+        setError('Error al cargar las estadísticas', err);
         setLoading(false);
       }
     };
