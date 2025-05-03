@@ -164,7 +164,9 @@ export default function GeneracionPDF() {
         return;
       }
       // TODO: llamar a crearListaPermuta(fileId)
-      // await crearListaPermutas(fileId,[permutaIds])
+      const permutaIds = permutas.map((permuta) => permuta.permuta_id);
+      await crearListaPermutas(fileId,permutaIds)
+      console.log(permutaIds);
     } catch (error) {
       console.error("Error al enviar el PDF:", error);
       alert("Error al enviar el PDF");
