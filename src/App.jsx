@@ -22,6 +22,8 @@ import CrearNotificacion from "./components/crearNotificacion.jsx";
 import SolicitarPermuta from "./components/solicitarPermuta.jsx";
 import MisSolicitudesPermuta from "./components/misPermutas.jsx";
 import Permutas from "./components/permutas.jsx";
+import Estadisticas from "./components/estadisticas.jsx";
+
 export function App() {
   return (
       <AuthProvider>
@@ -45,6 +47,7 @@ export function App() {
           <Route path="/solicitarPermuta" element={<SolicitarPermuta />} />
           <Route path="/misSolicitudesPermuta" element={<MisSolicitudesPermuta />} />
           <Route path="/permutas" element={<Permutas />} />
+          <Route path="/estadisticas" element={<Estadisticas />} /> 
         </Routes>
 
         <CookieConsent location="top" buttonText="Aceptar" cookieName="permutasCookies" style={{ background: "#6099c4",padding: "1rem" }} 
