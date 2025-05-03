@@ -75,7 +75,7 @@ export default function GeneracionPDF() {
       const month = form.getTextField("MONTH");
       const year = form.getTextField("YEAR");
 
-      for (let index = 0; index < 15; index++) {
+      for (let index = 0; index < 16; index++) {
         const asignatura = permutas[index];
         const asignaturaField1 = form.getTextField(`ASIGNATURA1-${index + 1}`);
         const asignaturaField2 = form.getTextField(`ASIGNATURA2-${index + 1}`);
