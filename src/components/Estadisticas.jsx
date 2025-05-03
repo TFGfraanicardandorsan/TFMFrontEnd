@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Chart as ChartJS, CategoryScale,BarElement,Title,Tooltip,Legend,ArcElement } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import { Bar, Pie } from 'react-chartjs-2';
 import { obtenerEstadisticasPermutas, obtenerEstadisticasSolicitudes } from '../services/estadisticas';
 import Navbar from './navbar';
 import Footer from './footer';
 import "../styles/estadisticas-style.css";
 
-ChartJS.register( CategoryScale, BarElement, Title, Tooltip, Legend, ArcElement);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
 export default function Estadisticas() {
   const [estadisticasPermutas, setEstadisticasPermutas] = useState(null);
@@ -82,18 +82,18 @@ export default function Estadisticas() {
         <div className="stats-grid">
           <div className="stat-card">
             <h2>Permutas por Estado</h2>
-            <Pie data={permutasPorEstadoData} />
+            <Pie key="permutasPorEstadoData" data={permutasPorEstadoData} />
           </div>
 
           <div className="stat-card">
             <h2>Permutas por Asignatura</h2>
-            <Bar data={permutasPorAsignaturaData} />
+            <Bar key="permutasPorAsignaturaData" data={permutasPorAsignaturaData} />
           </div>
 
 
           <div className="stat-card">
             <h2>Solicitudes por Estado</h2>
-            <Pie data={solicitudesPorEstadoData} />
+            <Pie key="solicitudesPorEstadoData" data={solicitudesPorEstadoData} />
           </div>
 
           {/* <div className="stat-card">
