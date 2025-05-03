@@ -90,12 +90,6 @@ export default function Estadisticas() {
             <Bar data={permutasPorAsignaturaData} />
           </div>
 
-          <div className="stat-card">
-            <h2>Tiempo Promedio de Permuta</h2>
-            <div className="stat-value">
-              {Math.round(estadisticasPermutas.tiempoPromedioPermuta.dias_promedio)} días
-            </div>
-          </div>
 
           <div className="stat-card">
             <h2>Solicitudes por Estado</h2>
