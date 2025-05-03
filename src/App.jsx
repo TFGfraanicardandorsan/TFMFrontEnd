@@ -22,7 +22,7 @@ import CrearNotificacion from "./components/crearNotificacion.jsx";
 import SolicitarPermuta from "./components/solicitarPermuta.jsx";
 import MisSolicitudesPermuta from "./components/misPermutas.jsx";
 import Permutas from "./components/permutas.jsx";
-import Estadisticas from "./components/estadisticas.jsx";
+import Estadisticas from "./components/Estadisticas.jsx";
 export function App() {
   return (
       <AuthProvider>
