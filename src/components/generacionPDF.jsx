@@ -26,6 +26,7 @@ export default function GeneracionPDF() {
     const cargarDatos = async () => {
       try {
         const lista = await verListaPermutas();
+        console.log(lista)
         setUsuarios(lista.result.result[0].usuarios);
         setPermutas(lista.result.result[0].permutas);
 
