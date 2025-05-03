@@ -1,29 +1,12 @@
 import { useState, useEffect } from 'react';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement
-} from 'chart.js';
+import { Chart as ChartJS, CategoryScale,BarElement,Title,Tooltip,Legend,ArcElement } from 'chart.js';
 import { Bar, Pie } from 'react-chartjs-2';
 import { obtenerEstadisticasPermutas, obtenerEstadisticasSolicitudes } from '../services/estadisticas';
 import Navbar from './navbar';
 import Footer from './footer';
 import "../styles/estadisticas-style.css";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement
-);
+ChartJS.register( CategoryScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
 export default function Estadisticas() {
   const [estadisticasPermutas, setEstadisticasPermutas] = useState(null);
@@ -39,8 +22,9 @@ export default function Estadisticas() {
           obtenerEstadisticasSolicitudes()
         ]);
         
-        setEstadisticasPermutas(permutasData.result);
-        setEstadisticasSolicitudes(solicitudesData.result);
+        console.log(permutasData, solicitudesData);
+        setEstadisticasPermutas(permutasData.result.data);
+        setEstadisticasSolicitudes(solicitudesData.result.data);
         setLoading(false);
       } catch (err) {
         setError('Error al cargar las estadísticas', err);
