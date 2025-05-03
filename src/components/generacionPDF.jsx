@@ -31,11 +31,11 @@ export default function GeneracionPDF() {
         setPermutas(lista.result.result[0].permutas);
 
         const permuta = await listarPermutas();
-        const estado = permuta?.result?.result?.estado;
-        const fileId = permuta?.result?.result?.archivo;
+        const estado = permuta?.result?.result[0]?.estado;
+        const fileId = permuta?.result?.result[0]?.archivo;
         if (estado && fileId) {
           setEstadoPermuta(estado);
-          setPermutaId(permuta?.result?.result?.id)
+          setPermutaId(permuta?.result?.result[0]?.id)
           const bytes = await servirArchivo("buzon", fileId);
           setPdfExistente(bytes);
         }
