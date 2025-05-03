@@ -155,6 +155,7 @@ export default function GeneracionPDF() {
         return;
       }
       // TODO: llamar a crearListaPermuta(fileId)
+      // await crearListaPermutas(fileId,IdsPermuta)
     } catch (error) {
       console.error("Error al enviar el PDF:", error);
       alert("Error al enviar el PDF");
