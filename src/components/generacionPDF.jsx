@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
 import { obtenerPlantillaPermuta,subidaArchivo,servirArchivo } from "../services/subidaArchivos.js";
-import { verListaPermutas, obtenerPermutasExistentes } from "../services/permuta.js";
+import { verListaPermutas, listarPermutas } from "../services/permuta.js";
 import Navbar from "./navbar";
 import Footer from "./footer";
 import "../styles/generacionPDF-style.css";
@@ -29,7 +29,7 @@ export default function GeneracionPDF() {
         setUsuarios(lista.result.result[0].usuarios);
         setPermutas(lista.result.result[0].permutas);
 
-        const permuta = await obtenerPermutasExistentes();
+        const permuta = await listarPermutas();
         const estado = permuta?.result?.estado;
         const fileId = permuta?.result?.fileId;
         if (estado && fileId) {

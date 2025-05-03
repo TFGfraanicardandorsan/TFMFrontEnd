@@ -32,3 +32,7 @@ export const denegarPermuta = async (solicitudId) => {
         solicitud_id: solicitudId
     });
 }
+
+export const listarPermutas = async () => {
+    return await postAPI("/api/v1/permutas/listarPermutas");
+}
