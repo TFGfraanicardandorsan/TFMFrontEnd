@@ -30,11 +30,8 @@ export default function GeneracionPDF() {
         setPermutas(lista.result.result[0].permutas);
 
         const permuta = await listarPermutas();
-        console.log(permuta);
         const estado = permuta?.result?.result[0]?.estado;
-        console.log(estado);
         const fileId = permuta?.result?.result[0]?.archivo;
-        console.log(fileId);
         if (estado && fileId) {
           setEstadoPermuta(estado);
           const bytes = await servirArchivo("buzon", fileId);
@@ -78,18 +75,25 @@ export default function GeneracionPDF() {
       const month = form.getTextField("MONTH");
       const year = form.getTextField("YEAR");
 
-      permutas.forEach((asignatura, index) => {
+      for (let index = 0; index < 15; index++) {
+        const asignatura = permutas[index];
         const asignaturaField1 = form.getTextField(`ASIGNATURA1-${index + 1}`);
         const asignaturaField2 = form.getTextField(`ASIGNATURA2-${index + 1}`);
         const codigoField1 = form.getTextField(`COD1-${index + 1}`);
         const codigoField2 = form.getTextField(`COD2-${index + 1}`);
-        asignaturaField1.setText(asignatura.nombre_asignatura);
-        asignaturaField2.setText(asignatura.nombre_asignatura);
-        codigoField1.setText(asignatura.codigo_asignatura);
-        codigoField2.setText(asignatura.codigo_asignatura);
-        [ asignaturaField1,asignaturaField2,codigoField1,codigoField2 ].forEach((f) => f.enableReadOnly());
-      });
-
+        // Rellenar si hay datos
+        if (asignatura) {
+          asignaturaField1.setText(asignatura.nombre_asignatura);
+          asignaturaField2.setText(asignatura.nombre_asignatura);
+          codigoField1.setText(asignatura.codigo_asignatura);
+          codigoField2.setText(asignatura.codigo_asignatura);
+        }
+        // Siempre bloquear
+        asignaturaField1.enableReadOnly();
+        asignaturaField2.enableReadOnly();
+        codigoField1.enableReadOnly();
+        codigoField2.enableReadOnly();
+      }
       const usuario = estadoPermuta === "BORRADOR" ? usuarios[0] : usuarios[1];
 
       const campos = estadoPermuta === "BORRADOR"
