@@ -18,6 +18,7 @@ export default function GeneracionPDF() {
   const [telefono, setTelefono] = useState("");
   const [usuarios, setUsuarios] = useState([]);
   const [permutas, setPermutas] = useState([]);
+  const [permutaId, setPermutaId] = useState(null);
   const [estadoPermuta, setEstadoPermuta] = useState("BORRADOR");
   const [pdfExistente, setPdfExistente] = useState(null);
   const iframeRef = useRef(null);
@@ -30,10 +31,11 @@ export default function GeneracionPDF() {
         setPermutas(lista.result.result[0].permutas);
 
         const permuta = await listarPermutas();
-        const estado = permuta?.result?.result[0]?.estado;
-        const fileId = permuta?.result?.result[0]?.archivo;
+        const estado = permuta?.result?.result?.estado;
+        const fileId = permuta?.result?.result?.archivo;
         if (estado && fileId) {
           setEstadoPermuta(estado);
+          setPermutaId(permuta?.result?.result?.id)
           const bytes = await servirArchivo("buzon", fileId);
           setPdfExistente(bytes);
         }
@@ -163,7 +165,7 @@ export default function GeneracionPDF() {
       }
       const permutaIds = permutas.map((permuta) => permuta.permuta_id);
       if (estadoPermuta === "FIRMADA") {
-        await aceptarPermuta(fileId,permutaIds)
+        await aceptarPermuta(fileId,permutaId)
       } else {
         await crearListaPermutas(fileId,permutaIds)
       }
