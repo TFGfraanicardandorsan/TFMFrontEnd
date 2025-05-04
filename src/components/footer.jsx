@@ -1,8 +1,6 @@
 import '../styles/footer-style.css';
 
 export default function Footer() {
-
-
     return (
         <>
 

@@ -3,8 +3,6 @@ import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
 import { obtenerPlantillaPermuta,subidaArchivo,servirArchivo } from "../services/subidaArchivos.js";
 import { verListaPermutas, listarPermutas, crearListaPermutas, aceptarPermuta } from "../services/permuta.js";
-import Navbar from "./navbar";
-import Footer from "./footer";
 import "../styles/generacionPDF-style.css";
 import { dayValue,monthValue,yearValue } from "../lib/generadorFechas.js";
 
@@ -178,7 +176,6 @@ export default function GeneracionPDF() {
 
   return (
     <>
-      <Navbar />
       <br />
       <h1>Generación documentación permuta</h1>
       <div className="container">
@@ -226,7 +223,6 @@ export default function GeneracionPDF() {
           <iframe ref={iframeRef} title="PDF generado"></iframe>
         </div>
       </div>
-      <Footer />
     </>
   );
 }

@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import "../styles/miPerfil-style.css";
-import Footer from "./footer";
-import Navbar from "./navbar";
 import { obtenerDatosUsuario } from "../services/usuario"; 
 import { obtenerMiGrupoAsignatura } from "../services/grupo"; // Importar la nueva API
 import {superarAsignaturasUsuario} from "../services/asignaturas"; // Importar la nueva API
@@ -21,7 +19,6 @@ export default function MiPerfil() {
         } else {
           throw new Error(responseUsuario.errmsg);
         }
-
         // Obtener asignaturas y grupos
         const responseAsignaturas = await obtenerMiGrupoAsignatura();
         if (!responseAsignaturas.err) {
@@ -53,12 +50,10 @@ export default function MiPerfil() {
       setError(error.message);
     }
   };
-
   // Muestra mensaje de carga
   if (loading) {
     return <div className="loading-text">Cargando...</div>;
   }
-
   // Muestra mensaje de error si hubo un problema
   if (error) {
     return <div className="error-text">Error: {error}</div>;
@@ -66,7 +61,6 @@ export default function MiPerfil() {
 
   return (
     <div className="page-container">
-      <Navbar />
       <div className="content-wrap">
         <div className="perfil-container">
           <h1 className="perfil-title">Mi Perfil</h1>
@@ -101,10 +95,8 @@ export default function MiPerfil() {
           </div>
         </div>
       </div>
-      <div className="footer-space"></div>
       <br /><br /><br />
       <br /><br /><br />
-      <Footer />
     </div>
   );
 }

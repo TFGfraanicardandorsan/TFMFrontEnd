@@ -1,12 +1,6 @@
 import { useState, useEffect } from "react";
 import "../styles/solicitudesPermuta-style.css";
-import Footer from "./footer";
-import Navbar from "./navbar";
-import { 
-  obtenerSolicitudesPermuta, 
-  validarPermuta, 
-  denegarPermuta 
-} from "../services/permuta";
+import { obtenerSolicitudesPermuta, validarPermuta, denegarPermuta } from "../services/permuta";
 
 export default function SolicitudesPermuta() {
   const [solicitudes, setSolicitudes] = useState([]); // Estado para almacenar las solicitudes
@@ -74,7 +68,6 @@ export default function SolicitudesPermuta() {
   
   return (
       <div className="page-container">
-        <Navbar />
         <div className="content-wrap">
           <div className="solicitudes-container">
             <h1 className="solicitudes-title">Mis Solicitudes de Permuta</h1>
@@ -117,7 +110,6 @@ export default function SolicitudesPermuta() {
           </div>
         </div>
         <div className="footer-space"></div>
-        <Footer />
       </div>
     );
 }

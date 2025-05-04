@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import Footer from "./footer";
-import Navbar from "./navbar";
 import { obtenerEstudios } from "../services/estudio";
 import "../styles/seleccionarEstudio-style.css";
 import { actualizarEstudiosUsuario } from "../services/usuario";
@@ -41,7 +39,6 @@ export default function SeleccionarEstudio () {
 
     return (
         <>
-            <Navbar />
             <div style={{ marginTop: "60px" }}>
                 <p className="titulo">Selecciona tu grado o master:</p>
                 <select value={selectedEstudio} onChange={handleSelectChange}>
@@ -58,7 +55,6 @@ export default function SeleccionarEstudio () {
                     Enviar
                 </button>
             </div>
-            <Footer />
         </>
     );
 };

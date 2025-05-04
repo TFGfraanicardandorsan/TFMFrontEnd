@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/misIncidencias-style.css";
-import Footer from "./footer";
-import Navbar from "./navbar";
 import { useNavigate } from "react-router-dom";
 import { obtenerIncidenciasAsignadas,solucionarIncidencia } from "../services/incidencia";
-
+// TODO: QUE HACE ESTO???
 export default function MisIncidencias() {
     const navigate = useNavigate();
     const [incidencias, setIncidencias] = useState([]);
@@ -37,7 +35,6 @@ export default function MisIncidencias() {
 
     return (
         <>
-            <Navbar />
             <div className="container">
                 <div className="header">
                     <h1>Mis Incidencias</h1>
@@ -68,7 +65,6 @@ export default function MisIncidencias() {
                     </div>
                 )}
             </div>
-            <Footer />
         </>
     );
 }

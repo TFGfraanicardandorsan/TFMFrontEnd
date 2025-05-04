@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import "../styles/misIncidencias-style.css";
-import Footer from "./footer";
-import Navbar from "./navbar";
 import { useNavigate } from "react-router-dom";
 import { obtenerIncidenciasAsignadasUsuario } from "../services/incidencia";
 import { formatearFecha } from "../lib/formateadorFechas.js";
@@ -27,7 +25,6 @@ export default function MisIncidencias() {
 
   return (
     <>
-      <Navbar />
         <div className="header">
           <h1>Mis Incidencias</h1>
         </div>
@@ -66,7 +63,6 @@ export default function MisIncidencias() {
           </div>
         )}
       </div>
-      <Footer />
     </>
   );
 }

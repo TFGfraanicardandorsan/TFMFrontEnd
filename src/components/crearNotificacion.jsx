@@ -1,6 +1,4 @@
 import { useState } from "react";
-import Footer from "./footer";
-import Navbar from "./navbar";
 import { crearNotificacion } from "../services/notificacion";
 
 export default function CrearNotificacion() {
@@ -28,7 +26,6 @@ export default function CrearNotificacion() {
         <>
         <br />
         <div className="notificacion-container">
-            <Navbar />
             <div className="notificacion-form-wrapper">
                 <h1>Notificar</h1>
                 <form className="notificacion-form" onSubmit={handleSubmit}>
@@ -56,7 +53,6 @@ export default function CrearNotificacion() {
                 </form>
             </div>
         </div>
-        <Footer />
         </>
     );
 }

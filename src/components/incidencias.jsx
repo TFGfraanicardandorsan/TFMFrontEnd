@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/misIncidencias-style.css";
-import Footer from "./footer";
-import Navbar from "./navbar";
 import { useNavigate } from "react-router-dom";
 import { obtenerIncidencias } from "../services/incidencia";
 
@@ -21,13 +19,11 @@ export default function MisIncidencias() {
                 setCargando(false);
             }
         };
-
         cargarIncidencias();
     }, []);
 
     return (
         <>
-            <Navbar />
             <div className="container">
                 <div className="header">
                     <h1>Todas las Incidencias</h1>
@@ -52,7 +48,6 @@ export default function MisIncidencias() {
                     </div>
                 )}
             </div>
-            <Footer />
         </>
     );
 }

@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import Footer from "./footer";
-import Navbar from "./navbar";
 import "../styles/home-style.css";
 import { obtenerNotificaciones } from "../services/notificacion.js";
 import { formatearFecha } from "../lib/formateadorFechas.js";
@@ -34,7 +32,6 @@ export default function Home() {
 
   return (
     <div className="home-container">
-      <Navbar />
       <div className="content">
         <h1 style={{ color: "red" }}>Bienvenido a Permutas ETSII</h1>
         <p>Una plataforma para gestionar permutas de manera eficiente.</p>
@@ -55,7 +52,6 @@ export default function Home() {
       <br />
       <br />
       <br />
-      <Footer />
     </div>
   );
 }

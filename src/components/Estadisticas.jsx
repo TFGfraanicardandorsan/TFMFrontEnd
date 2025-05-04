@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import { Bar, Pie } from 'react-chartjs-2';
 import { obtenerEstadisticasPermutas, obtenerEstadisticasSolicitudes } from '../services/estadisticas';
-import Navbar from './navbar';
-import Footer from './footer';
 import "../styles/estadisticas-style.css";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
@@ -21,8 +19,6 @@ export default function Estadisticas() {
           obtenerEstadisticasPermutas(),
           obtenerEstadisticasSolicitudes()
         ]);
-        
-        console.log(permutasData, solicitudesData);
         setEstadisticasPermutas(permutasData.result.data);
         setEstadisticasSolicitudes(solicitudesData.result.data);
         setLoading(false);
@@ -75,7 +71,6 @@ export default function Estadisticas() {
 
   return (
     <>
-      <Navbar />
       <div className="estadisticas-container">
         <h1>Dashboard de Estadísticas</h1>
         
@@ -104,7 +99,6 @@ export default function Estadisticas() {
           </div> */}
         </div>
       </div>
-      <Footer />
     </>
   );
 }

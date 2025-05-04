@@ -7,7 +7,7 @@ import { obtenerNotificaciones } from "../services/notificacion.js";
 import { logout } from "../services/login.js";
 import { formatearFecha } from "../lib/formateadorFechas.js";
 
-export default function Navbar() {
+export default function NavbarAdmin() {
   const navigate = useNavigate();
 
   const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -51,25 +51,13 @@ export default function Navbar() {
             <a href="/">Inicio</a>
           </li>
           <li>
-            <a href="/permutas">Permutas</a>
-          </li>
-          <li>
-            <a href="/solicitarPermuta">Solicitar Permutas</a>
-          </li>
-          <li>
-            <a href="/misSolicitudesPermuta">Mis Solicitudes</a>
-          </li>
-          <li>
-            <a href="/generarPermuta">Generar Permuta</a>
-          </li>
-          <li>
             <a href="/misIncidencias">Mis incidencias</a>
           </li>
           <li>
-            <a href="/reportarIncidencia">Reportar incidencia</a>
+            <a href="/crearNotificacion">Crear notificación</a>
           </li>
           <li>
-            <a href="/crearNotificacion">Crear notificación</a>
+            <a href="/estadisticas">Ver estadísticas</a>
           </li>
         </ul>
         <div className="nav-icons">

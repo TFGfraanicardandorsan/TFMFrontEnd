@@ -1,5 +1,5 @@
 import { login } from "../services/login";
-import Footer from "./footer";
+import Footer from "./Footer";
 import '../styles/login-style.css';
 
 export default function Login() {

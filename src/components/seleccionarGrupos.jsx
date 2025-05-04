@@ -1,10 +1,5 @@
 import { useState, useEffect } from "react";
-import Footer from "./footer";
-import Navbar from "./navbar";
-import {
-  obtenerTodosGruposMisAsignaturasUsuario,
-  insertarMisGrupos,
-} from "../services/grupo.js";
+import { obtenerTodosGruposMisAsignaturasUsuario, insertarMisGrupos } from "../services/grupo.js";
 import "../styles/seleccionarGrupos-style.css";
 
 export default function SeleccionarGrupos() {
@@ -64,7 +59,6 @@ export default function SeleccionarGrupos() {
 
   return (
     <>
-      <Navbar />
       <div className="contenedor">
         <h2 className="titulo">Selecciona tus grupos</h2>
         <div className="tarjetas-grid">
@@ -98,7 +92,6 @@ export default function SeleccionarGrupos() {
           Guardar
         </button>
       </div>
-      <Footer />
     </>
   );
 }

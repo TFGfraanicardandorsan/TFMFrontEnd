@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import Footer from "./footer";
-import Navbar from "./navbar";
 import { obtenerTodosGruposMisAsignaturasSinGrupoUsuario } from "../services/grupo.js";
 import { solicitarPermuta } from "../services/permuta.js";
 import "../styles/seleccionarGrupos-style.css";
@@ -85,7 +83,6 @@ export default function SeleccionarGruposSinGrupo() {
 
   return (
     <>
-      <Navbar />
       <div className="contenedor">
         <h2 className="titulo">Selecciona tus grupos</h2>
         <div className="tarjetas-grid">
@@ -124,7 +121,6 @@ export default function SeleccionarGruposSinGrupo() {
       <br />
       <br />
       <br />
-      <Footer />
     </>
   );
 }

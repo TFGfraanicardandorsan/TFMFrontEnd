@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/reportarIncidencia-style.css";
-import Footer from "./footer";
-import Navbar from "./navbar";
 import { subidaArchivo } from "../services/subidaArchivos.js";
 import { crearIncidencia } from "../services/incidencia.js"; 
 
@@ -41,7 +39,6 @@ export default function ReportarIncidencia() {
     return (
         <>
             <div className="report-issue-container">
-                <Navbar />
                 <div className="report-issue-container-form">
                     <h1>Abrir incidencia</h1>
                     <form className="report-form" onSubmit={handleSubmit}>
@@ -76,7 +73,6 @@ export default function ReportarIncidencia() {
                     </form>
                 </div>
             </div>
-            <Footer />
         </>
     );
 }
