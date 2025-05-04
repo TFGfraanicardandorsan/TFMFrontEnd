@@ -4,13 +4,13 @@ import { obtenerDatosUsuario } from "../services/usuario";
 import { obtenerMiGrupoAsignatura } from "../services/grupo"; // Importar la nueva API
 import {superarAsignaturasUsuario} from "../services/asignaturas"; // Importar la nueva API
 import SeleccionarEstudio from "./seleccionarEstudio";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 export default function MiPerfil() {
   const [usuario, setUsuario] = useState(null); // Estado para almacenar los datos del usuario
   const [asignaturas, setAsignaturas] = useState([]); // Estado para almacenar las asignaturas y grupos
   const [loading, setLoading] = useState(true); // Estado para la carga de datos
   const [error, setError] = useState(null); // Estado para manejar errores
-  const navigate = Navigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const obtenerDatos = async () => {
