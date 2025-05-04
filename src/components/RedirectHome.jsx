@@ -1,23 +1,20 @@
-import { Navigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import { useEffect, useState } from "react";
 
 export default function RedirectHome() {
   const { isAuthenticated, user } = useAuth();
-  const [redirect, setRedirect] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isAuthenticated) {
       if (user?.rol === "administrador") {
-        setRedirect("/admin");
+        navigate("/admin");  
       } else if (user?.rol === "estudiante") {
-        setRedirect("/estudiante");
+        navigate("/estudiante");  
       }
     }
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, user, navigate]);
 
-  if (redirect) {
-    return <Navigate to={redirect} replace />;
-  }
   return null;
-}
+};

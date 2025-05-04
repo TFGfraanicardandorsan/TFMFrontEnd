@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { obtenerNotificaciones } from "../services/notificacion.js";
 import { logout } from "../services/login.js";
 import { formatearFecha } from "../lib/formateadorFechas.js";
+import { Link } from "react-router-dom";
 
 export default function NavbarAdmin() {
   const navigate = useNavigate();
@@ -48,16 +49,16 @@ export default function NavbarAdmin() {
       <nav className="navbar">
         <ul className="nav-links">
           <li>
-            <a href="/">Inicio</a>
+            <Link to="/">Inicio</Link>
           </li>
           <li>
-            <a href="/misIncidencias">Mis incidencias</a>
+            <Link to="/misIncidencias">Mis incidencias</Link>
           </li>
           <li>
-            <a href="/crearNotificacion">Crear notificación</a>
+            <Link to="/crearNotificacion">Crear notificación</Link>
           </li>
           <li>
-            <a href="/estadisticas">Ver estadísticas</a>
+            <Link to="/estadisticas">Ver estadísticas</Link>
           </li>
         </ul>
         <div className="nav-icons">
