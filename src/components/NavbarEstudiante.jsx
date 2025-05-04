@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { obtenerNotificaciones } from "../services/notificacion.js";
 import { logout } from "../services/login.js";
 import { formatearFecha } from "../lib/formateadorFechas.js";
+import { Link } from "react-router-dom";
+
 
 export default function NavbarEstudiante() {
   const navigate = useNavigate();
@@ -48,25 +50,25 @@ export default function NavbarEstudiante() {
       <nav className="navbar">
         <ul className="nav-links">
           <li>
-            <a href="/">Inicio</a>
+            <Link to= "/">Inicio</Link>
           </li>
           <li>
-            <a href="/permutas">Permutas</a>
+            <Link to="/permutas">Permutas</Link>
           </li>
           <li>
-            <a href="/solicitarPermuta">Solicitar Permutas</a>
+            <Link to="/solicitarPermuta">Solicitar Permutas</Link>
           </li>
           <li>
-            <a href="/misSolicitudesPermuta">Mis Solicitudes</a>
+            <Link to="/misSolicitudesPermuta">Mis Solicitudes</Link>
           </li>
           <li>
-            <a href="/generarPermuta">Generar Permuta</a>
+            <Link to="/generarPermuta">Generar Permuta</Link>
           </li>
           <li>
-            <a href="/misIncidencias">Mis incidencias</a>
+            <Link to="/misIncidencias">Mis incidencias</Link>
           </li>
           <li>
-            <a href="/reportarIncidencia">Reportar incidencia</a>
+            <Link to="/reportarIncidencia">Reportar incidencia</Link>
           </li>
         </ul>
         <div className="nav-icons">
