@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 import { obtenerTodosGruposMisAsignaturasSinGrupoUsuario } from "../services/grupo.js";
 import { solicitarPermuta } from "../services/permuta.js";
+import { useNavigate } from "react-router-dom";
 import "../styles/seleccionarGrupos-style.css";
 
 export default function SeleccionarGruposSinGrupo() {
   const [asignaturas, setAsignaturas] = useState([]);
   const [seleccionados, setSeleccionados] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const ObtenerTodosGruposMisAsignaturasSinGrupoUsuario = async () => {
       try {
         const response = await obtenerTodosGruposMisAsignaturasSinGrupoUsuario();
-        console.log("Respuesta completa de la API:", response); // Depuración
-        console.log("Contenido de response.result:", response.result.result); // Depuración
   
         if (response && Array.isArray(response.result.result)) {
           const agrupadas = response.result.result.reduce((acc, item) => {
@@ -64,17 +64,15 @@ export default function SeleccionarGruposSinGrupo() {
 
   const handleSubmit = async () => {
     try {
-  
       // Iterar sobre las asignaturas seleccionadas
       for (const [codasignatura, gruposDeseados] of Object.entries(seleccionados)) {
         if (gruposDeseados.length > 0) {
           // Enviar la solicitud al backend para cada asignatura
-          const response = await solicitarPermuta(codasignatura, gruposDeseados);
-          console.log(`Respuesta del backend para ${codasignatura}:`, response);
+        await solicitarPermuta(codasignatura, gruposDeseados);
         }
       }
-  
       alert("Permutas solicitadas con éxito.");
+      navigate("/misSolicitudesPermuta")
     } catch (error) {
       console.error("Error al enviar las solicitudes de permuta:", error);
       alert("Ocurrió un error al solicitar las permutas. Intenta nuevamente.");
