@@ -27,16 +27,16 @@ export default function Permutas() {
     }
   };
 
-//   const handleAceptarPermuta = async (solicitudId) => {
-//     try {
-//       await aceptarPermuta(solicitudId);
-//       await cargarPermutas(); // Recargar las permutas después de aceptar
-//       alert("Permuta aceptada con éxito");
-//     } catch (error) {
-//       console.error("Error al aceptar la permuta:", error);
-//       alert("Error al aceptar la permuta");
-//     }
-//   };
+  const handleAceptarPermuta = async (solicitudId) => {
+    try {
+      await aceptarPermuta(solicitudId);
+      await cargarPermutas(); // Recargar las permutas después de aceptar
+      alert("Permuta aceptada con éxito");
+    } catch (error) {
+      console.error("Error al aceptar la permuta:", error);
+      alert("Error al aceptar la permuta");
+    }
+  };
 
   if (cargando) {
     return <div>Cargando permutas...</div>;
@@ -61,13 +61,13 @@ export default function Permutas() {
                 <p><strong>Grupos Deseados:</strong> {permuta.grupos_deseados}</p>
                 <p><strong>Código Asignatura:</strong> {permuta.codigo_asignatura}</p>
               </div>
-              {/* <button 
+              <button 
                 className="aceptar-btn"
                 onClick={() => handleAceptarPermuta(permuta.solicitud_id)}
                 disabled={permuta.estado !== "SOLICITADA"}
               >
                 Aceptar Permuta
-              </button> */}
+              </button>
             </div>
           ))}
         </div>
