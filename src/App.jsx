@@ -53,11 +53,13 @@ export function App() {
 
           {/* Layout para administradores */}
           <Route element={<RoleRoute allowedRoles={["administrador"]}><LayoutAdmin /></RoleRoute>}>
-          <Route path="/" element={<Home />} />
+          {/* <Route path="/" element={<Home />} /> */}
           <Route path="/miPerfil" element={<MiPerfil />} />
           <Route path="/estadisticas" element={<Estadisticas />} /> 
           <Route path="/crearNotificacion" element={<CrearNotificacion />} />
           </Route>
+          {/* Ruta para Administrador Home */}
+          <Route path="/home" element={<Home />} /> {/* Esto fuera de RoleRoute para evitar problemas */}
         </Routes>
 
         <CookieConsent location="top" buttonText="Aceptar" cookieName="permutasCookies" style={{ background: "#6099c4",padding: "1rem" }} 
