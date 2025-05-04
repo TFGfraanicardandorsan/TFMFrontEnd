@@ -63,7 +63,6 @@ export function App() {
         <CookieConsent location="top" buttonText="Aceptar" cookieName="permutasCookies" expires={150} className="cookie-consent-container" >
           Utilizamos cookies para mejorar la experiencia del usuario.
           <a href="/cookies" className="cookie-consent-link">Leer más</a>
-          <button className="cookie-consent-button">Aceptar</button>
         </CookieConsent>
       
       </AuthProvider>
