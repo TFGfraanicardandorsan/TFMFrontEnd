@@ -4,11 +4,13 @@ import { obtenerDatosUsuario } from "../services/usuario";
 import { obtenerMiGrupoAsignatura } from "../services/grupo"; // Importar la nueva API
 import {superarAsignaturasUsuario} from "../services/asignaturas"; // Importar la nueva API
 import SeleccionarEstudio from "./seleccionarEstudio";
+import { Navigate } from "react-router-dom";
 export default function MiPerfil() {
   const [usuario, setUsuario] = useState(null); // Estado para almacenar los datos del usuario
   const [asignaturas, setAsignaturas] = useState([]); // Estado para almacenar las asignaturas y grupos
   const [loading, setLoading] = useState(true); // Estado para la carga de datos
   const [error, setError] = useState(null); // Estado para manejar errores
+  const navigate = Navigate();
 
   useEffect(() => {
     const obtenerDatos = async () => {
@@ -93,6 +95,7 @@ export default function MiPerfil() {
                 ) : (
                   <p>No tienes asignaturas registradas.</p>
                 )}
+                <button className="aprobar-btn" onClick={() => navigate("/seleccionarAsignaturas")}>Selecciona tus asignaturas</button>
               </ul>
             </div>
           </div>
