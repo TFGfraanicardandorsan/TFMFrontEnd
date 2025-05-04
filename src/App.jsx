@@ -9,7 +9,7 @@ import PoliticaPrivacidad from "./components/politicaPrivacidad.jsx";
 import Unauthorized from "./components/Unauthorized.jsx";
 import NotFound from "./components/notFound.jsx";
 import LayoutEstudiante from "./layouts/LayoutEstudiante.jsx";
-import LayoutAdmin from "./layouts/LayoutAdmin.jsx";
+// import LayoutAdmin from "./layouts/LayoutAdmin.jsx";
 import Home from "./components/home.jsx";
 import MiPerfil from "./components/miPerfil.jsx";
 import ReportarIncidencia from "./components/reportarIncidencia.jsx";
@@ -52,12 +52,12 @@ export function App() {
           </Route>
 
           {/* Layout para administradores */}
-          <Route element={<RoleRoute allowedRoles={["administrador"]}><LayoutAdmin /></RoleRoute>}>
+          {/* <Route element={<RoleRoute allowedRoles={["administrador"]}><LayoutAdmin /></RoleRoute>}>
           <Route path="/" element={<Home />} />
           <Route path="/miPerfil" element={<MiPerfil />} />
           <Route path="/estadisticas" element={<Estadisticas />} /> 
           <Route path="/crearNotificacion" element={<CrearNotificacion />} />
-          </Route>
+          </Route> */}
         </Routes>
 
         <CookieConsent location="top" buttonText="Aceptar" cookieName="permutasCookies" expires={150} className="cookie-consent-container" >
