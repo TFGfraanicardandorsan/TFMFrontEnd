@@ -115,7 +115,7 @@ export default function CheckboxSelector() {
           className="submit-button"
           onClick={enviarSeleccion}
           disabled={selectedItems.length === 0} // Desactivado si no hay selección
-        >
+        > Guardar
         </button>
       </div>
     </>
