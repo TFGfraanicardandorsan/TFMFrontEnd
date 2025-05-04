@@ -95,8 +95,9 @@ export default function MiPerfil() {
                 ) : (
                   <p>No tienes asignaturas registradas.</p>
                 )}
-                <button className="aprobar-btn" onClick={() => navigate("/seleccionarAsignaturas")}>Selecciona tus asignaturas</button>
               </ul>
+              <hr className="separadorSelectorAsignatura" />
+              <button className="aprobar-btn" onClick={() => navigate("/seleccionarAsignaturas")}>Selecciona tus asignaturas</button>
             </div>
           </div>
         </div>
