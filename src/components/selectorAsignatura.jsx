@@ -61,10 +61,7 @@ export default function SelectorAsignatura() {
     setLoading(true); 
     for (const codigo of selectedItems) {
       try {
-        const response = await actualizarAsignaturasUsuario(codigo);
-
-        const data = await response.json();
-        console.log(`Asignatura ${codigo} enviada:`, data);
+        await actualizarAsignaturasUsuario(codigo);
       } catch (error) {
         console.error(`Error al enviar la asignatura ${codigo}:`, error);
       }
