@@ -1,8 +1,7 @@
 import "../styles/selectorAsignatura-style.css";
 import { useState, useEffect } from "react";
 import { obtenerAsignaturasEstudio , actualizarAsignaturasUsuario} from "../services/asignaturas";
-// TODO: QUE ES ESTO?
-export default function CheckboxSelector() {
+export default function SelectorAsignatura() {
   const [asignaturas, setAsignatura] = useState([]); // Estado para todas las asignaturas
   const [filteredAsignaturas, setFilteredAsignaturas] = useState([]); // Estado para las asignaturas filtradas
   const [selectedItems, setSelectedItems] = useState([]); // Estado para los checkboxes seleccionados
