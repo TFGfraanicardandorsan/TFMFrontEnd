@@ -1,3 +1,4 @@
+import Footer from "../components/footer";
 import NavbarEstudiante from "../components/NavbarEstudiante";
 import { Outlet } from "react-router-dom";
 
@@ -8,6 +9,7 @@ export default function LayoutEstudiante() {
         <main>
             <Outlet />
         </main>
+        <Footer />
     </>
     );
 }

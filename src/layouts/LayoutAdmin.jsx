@@ -1,3 +1,4 @@
+import Footer from "../components/footer";
 import NavbarAdmin from "../components/NavbarAdmin";
 import { Outlet } from "react-router-dom";
 
@@ -8,6 +9,7 @@ export default function LayoutAdmin() {
         <main>
             <Outlet />
         </main>
+        <Footer />
     </>
     );
 }
