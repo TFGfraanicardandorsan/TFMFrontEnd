@@ -1,6 +1,7 @@
 import "../styles/selectorAsignatura-style.css";
 import { useState, useEffect } from "react";
 import { obtenerAsignaturasEstudio , actualizarAsignaturasUsuario} from "../services/asignaturas";
+import { useNavigate } from "react-router-dom";
 export default function SelectorAsignatura() {
   const [asignaturas, setAsignatura] = useState([]); // Estado para todas las asignaturas
   const [filteredAsignaturas, setFilteredAsignaturas] = useState([]); // Estado para las asignaturas filtradas
@@ -8,6 +9,7 @@ export default function SelectorAsignatura() {
   const [cursos, setCursos] = useState([]); // Estado para los cursos disponibles
   const [cursoSeleccionado, setCursoSeleccionado] = useState(""); // Estado para el curso seleccionado
   const [loading, setLoading] = useState(false); // Estado de carga mientras se envían datos
+  const navigate = useNavigate();
 
   // Obtener asignaturas desde la API
   useEffect(() => {
@@ -69,7 +71,7 @@ export default function SelectorAsignatura() {
     }
     setLoading(false); 
     alert("Todas las asignaturas seleccionadas han sido enviadas.");
-    window.location.href = "/miPerfil";
+    navigate("/seleccionarGrupos");
   };
 
   if (loading) {
