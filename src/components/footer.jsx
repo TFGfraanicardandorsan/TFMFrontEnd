@@ -3,7 +3,6 @@ import '../styles/footer-style.css';
 export default function Footer() {
     return (
         <>
-
             <footer className="footer">
                 <div className="footer-container">
                     <div className="footer-section">
@@ -51,9 +50,6 @@ export default function Footer() {
                     </div>
                 </div>
             </footer>
-
-
-
         </>
     )
 }
