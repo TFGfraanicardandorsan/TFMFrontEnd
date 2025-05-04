@@ -47,7 +47,7 @@ export default function Permutas() {
   }
 
   return (
-<>
+
     <div className="permutas-container">
       <h2>Permutas Disponibles</h2>
       {permutas.length > 0 ? (
@@ -58,7 +58,7 @@ export default function Permutas() {
                 <p><strong>ID Solicitud:</strong> {permuta.solicitud_id}</p>
                 <p><strong>Estado:</strong> {permuta.estado}</p>
                 <p><strong>Grupo Solicitante:</strong> {permuta.grupo_solicitante}</p>
-                <p><strong>Grupos Deseados:</strong> {permuta.grupos_deseados.join(", ")}</p>
+                <p><strong>Grupos Deseados:</strong> {permuta.grupos_deseados}</p>
                 <p><strong>Código Asignatura:</strong> {permuta.codigo_asignatura}</p>
               </div>
               {/* <button 
@@ -75,6 +75,5 @@ export default function Permutas() {
         <p>No hay permutas disponibles</p>
       )}
     </div>
-    </>
   );
 }
