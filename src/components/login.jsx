@@ -1,6 +1,6 @@
 import { login } from "../services/login";
-import Footer from "./Footer";
 import '../styles/login-style.css';
+import Footer from "./Footer";
 
 export default function Login() {
     const handleClickLogin = async() => {
