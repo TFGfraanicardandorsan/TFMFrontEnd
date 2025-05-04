@@ -3,6 +3,7 @@ import "../styles/miPerfil-style.css";
 import { obtenerDatosUsuario } from "../services/usuario"; 
 import { obtenerMiGrupoAsignatura } from "../services/grupo"; // Importar la nueva API
 import {superarAsignaturasUsuario} from "../services/asignaturas"; // Importar la nueva API
+import SeleccionarEstudio from "./seleccionarEstudio";
 export default function MiPerfil() {
   const [usuario, setUsuario] = useState(null); // Estado para almacenar los datos del usuario
   const [asignaturas, setAsignaturas] = useState([]); // Estado para almacenar las asignaturas y grupos
@@ -61,6 +62,8 @@ export default function MiPerfil() {
 
   return (
     <div className="page-container">
+      {/* Mostrar SeleccionarEstudio solo si no hay grado */}
+      {!usuario?.titulacion && <SeleccionarEstudio />}
       <div className="content-wrap">
         <div className="perfil-container">
           <h1 className="perfil-title">Mi Perfil</h1>
@@ -71,7 +74,7 @@ export default function MiPerfil() {
               <p><strong>Correo:</strong> {usuario.correo}</p>
               <p><strong>Grado:</strong> {usuario.titulacion}</p>
             </div>
-
+  
             <div className="perfil-card">
               <h2 className="perfil-card-title">Asignaturas y Grupos</h2>
               <ul>
@@ -81,7 +84,7 @@ export default function MiPerfil() {
                       <strong>{asignatura.asignatura}:</strong> Grupo {asignatura.numgrupo}
                       <button
                         className="aprobar-btn"
-                        onClick={() => manejarSuperarAsignatura(asignatura.idAsignatura,asignatura.codigo)}
+                        onClick={() => manejarSuperarAsignatura(asignatura.idAsignatura, asignatura.codigo)}
                       >
                         Marcar como aprobada
                       </button>
