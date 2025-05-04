@@ -1,3 +1,4 @@
+/* Logo */
 .logo-container {
   width: 100%;
   max-width: 1500px;
@@ -14,12 +15,23 @@
   height: auto;
 }
 
+/* Página principal */
 .app-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
+/* Contenido centrado */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* Sección de login */
 .login-content {
   display: flex;
   flex-direction: column;
@@ -30,8 +42,10 @@
 .login-title {
   color: #bf0a2e;
   font-size: 2em;
+  text-align: center;
 }
 
+/* Botón de inicio de sesión */
 .login-button {
   padding: 20px 40px;
   margin-top: 30px;
@@ -45,46 +59,55 @@
   gap: 10px;
   cursor: pointer;
   font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #a00927; /* rojo más oscuro en hover */
 }
 
 .lock-icon {
   margin-right: 10px;
 }
 
+/* Sección del QR */
 .qr-section {
   margin-top: 40px;
-  text-align: center;
-  max-width: 400px;
-}
-
-.qr-info-text {
-  font-size: 16px;
-  color: #555;
-  margin-bottom: 10px;
-  font-weight: 500;
-}
-
-.qr-section {
-  margin-top: 30px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  width: 100%;
+}
+
+.qr-info-text {
+  font-size: 16px;
+  color: #555;
+  font-weight: 500;
+  max-width: 300px;
+  text-align: center;
 }
 
 .qr-image {
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  transition: transform 0.3s ease;
 }
 
-.content {
-  flex: 1;
+.qr-image:hover {
+  transform: scale(1.05);
 }
 
+/* Footer */
 .footer {
   width: 100%;
   background-color: #f8f9fa;
   padding: 20px;
   border-top: 1px solid #ddd;
+  text-align: center;
+  font-size: 14px;
+  color: #666;
 }
