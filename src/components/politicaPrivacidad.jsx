@@ -1,4 +1,3 @@
-import Footer from "./Footer";
 export default function PrivacyPolicy() {
   return (
     <>
@@ -64,7 +63,6 @@ export default function PrivacyPolicy() {
     <br />
     <br />
     <br />
-    <Footer/>
     </>
   );
 };
