@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Footer from "./footer";
 
 export default function Unauthorized() {
     return (
@@ -8,7 +9,7 @@ export default function Unauthorized() {
             <p> No tienes permisos para ver esta página.</p>
             <Link to="/">Volver a la página principal</Link>
         </div>
+        <Footer />
         </>
-
     );
 };

@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import Footer from "./footer";
+
 
 const NotFound = () => {
     return (
@@ -8,6 +10,7 @@ const NotFound = () => {
             <p>Lo sentimos, la página que estás buscando no existe.</p>
             <Link to="/">Volver a la página principal</Link>
         </div>
+        <Footer />
         </>
     );
 };
