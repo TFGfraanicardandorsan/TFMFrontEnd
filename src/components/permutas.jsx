@@ -57,7 +57,7 @@ export default function Permutas() {
               <div className="permuta-info">
                 <p><strong>Estado:</strong> {permuta.estado}</p>
                 <p><strong>Grupo Solicitante:</strong> {permuta.grupo_solicitante}</p>
-                <p><strong>Grupos Deseados:</strong> {permuta.grupos_deseados}</p>
+                <p><strong>Grupos Deseados:</strong> {permuta.grupo_deseado}</p>
                 <p><strong>Código Asignatura:</strong> {permuta.codigo_asignatura}</p>
               </div>
               <button 
