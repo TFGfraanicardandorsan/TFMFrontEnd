@@ -1,11 +1,11 @@
 import { login } from "../services/login";
 import "../styles/login-style.css";
 import Footer from "./footer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLock } from "@fortawesome/free-solid-svg-icons";
 
 export default function Login() {
-  const handleClickLogin = async () => {
-    await login();
-  };
+  const handleClickLogin = async () => await login();
 
   return (
     <>
@@ -14,35 +14,19 @@ export default function Login() {
           <div className="logo-container">
             <img src="/assets/logo-etsii-color.png" alt="Logo ETSII" />
           </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              padding: "20px",
-            }}
-          >
-            <h1 style={{ color: "red" }}>Inicio sesión en Permutas ETSII</h1>
-            <button
-              onClick={handleClickLogin}
-              style={{
-                padding: "20px 40px" /* Aumenta el espacio dentro del botón */,
-                marginTop: "20px",
-                fontSize: "28px" /* Hace el texto más grande */,
-                backgroundColor: "red",
-                color: "white",
-                border: "none",
-                borderRadius: "8px" /* Bordes más redondeados */,
-                display: "flex",
-                alignItems: "center",
-                gap: "10px" /* Espacio entre el texto y el icono */,
-                cursor:
-                  "pointer" /* Cambia el cursor a una mano al pasar sobre el botón */,
-                fontWeight: "bold",
-              }}
-            >
-              🔒 Inicia Sesión
+          <div className="login-content">
+            <h1 className="login-title">Inicio sesión en Permutas ETSII</h1>
+            <button className="login-button" onClick={handleClickLogin}>
+              <FontAwesomeIcon icon={faLock} className="lock-icon" />
+              Inicia Sesión
             </button>
+          </div>
+          <div className="qr-section">
+            <p className="qr-info-text">
+              Los usuarios que todavía no estén dados de alta en el sistema
+              pueden solicitarlo al bot de Telegram.
+            </p>
+            <img src="/assets/telegram-qr.png" alt="QR Telegram" className="qr-image" />
           </div>
         </div>
       </div>
