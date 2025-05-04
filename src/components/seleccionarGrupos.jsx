@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { obtenerTodosGruposMisAsignaturasUsuario, insertarMisGrupos } from "../services/grupo.js";
 import "../styles/seleccionarGrupos-style.css";
-
+import { useNavigate } from "react-router-dom";
 export default function SeleccionarGrupos() {
   const [asignaturas, setAsignaturas] = useState([]);
   const [seleccionados, setSeleccionados] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const ObtenerTodosGruposMisAsignaturasUsuario = async () => {
@@ -45,9 +46,6 @@ export default function SeleccionarGrupos() {
     for (let [codasignatura, numgrupo] of Object.entries(seleccionados)) {
       try {
         await insertarMisGrupos(numgrupo, codasignatura);
-        console.log(
-          `Insertado: Asignatura ${codasignatura}, Grupo ${numgrupo}`
-        );
       } catch (error) {
         console.error(
           `Error al insertar grupo ${numgrupo} para asignatura ${codasignatura}:`,
@@ -55,6 +53,7 @@ export default function SeleccionarGrupos() {
         );
       }
     }
+    navigate("/miPerfil");
   };
 
   return (
@@ -87,10 +86,7 @@ export default function SeleccionarGrupos() {
             </div>
           ))}
         </div>
-
-        <button onClick={handleSubmit} className="boton-guardar">
-          Guardar
-        </button>
+        <button onClick={handleSubmit} className="boton-guardar">Guardar</button>
       </div>
     </>
   );
