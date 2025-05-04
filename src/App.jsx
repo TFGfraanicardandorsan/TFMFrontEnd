@@ -8,7 +8,7 @@ import Login from "./components/login.jsx";
 import PoliticaPrivacidad from "./components/politicaPrivacidad.jsx";
 import Unauthorized from "./components/Unauthorized.jsx";
 import NotFound from "./components/notFound.jsx";
-import RedirectHome from "./components/RedirectHome.jsx";
+// import RedirectHome from "./components/RedirectHome.jsx";
 import LayoutEstudiante from "./layouts/LayoutEstudiante.jsx";
 import LayoutAdmin from "./layouts/LayoutAdmin.jsx";
 import Home from "./components/home.jsx";
@@ -37,7 +37,7 @@ export function App() {
           <Route path="*" element={<NotFound />} />
 
           {/* Redirigir al home adecuado dependiendo del rol */}
-          <Route path="/" element={<RoleRoute allowedRoles={["administrador", "estudiante"]}><RedirectHome /></RoleRoute>}/>
+          <Route path="/" element={<RoleRoute allowedRoles={["administrador", "estudiante"]}><Home /></RoleRoute>} />
           {/* Layout para estudiantes */}
           <Route element={<RoleRoute allowedRoles={["estudiante"]}><LayoutEstudiante /></RoleRoute>}>
           <Route path="/estudiante" element={<Home />} />
