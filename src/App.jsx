@@ -8,6 +8,7 @@ import Login from "./components/login.jsx";
 import PoliticaPrivacidad from "./components/politicaPrivacidad.jsx";
 import Unauthorized from "./components/Unauthorized.jsx";
 import NotFound from "./components/notFound.jsx";
+import RedirectHome from "./components/RedirectHome.jsx";
 import LayoutEstudiante from "./layouts/LayoutEstudiante.jsx";
 import LayoutAdmin from "./layouts/LayoutAdmin.jsx";
 import Home from "./components/home.jsx";
@@ -35,9 +36,11 @@ export function App() {
           <Route path="/politicaPrivacidad" element={<PoliticaPrivacidad />} />
           <Route path="*" element={<NotFound />} />
 
+          {/* Redirigir al home adecuado dependiendo del rol */}
+          <Route path="/" element={<RoleRoute allowedRoles={["administrador", "estudiante"]}><RedirectHome /></RoleRoute>}/>
           {/* Layout para estudiantes */}
           <Route element={<RoleRoute allowedRoles={["estudiante"]}><LayoutEstudiante /></RoleRoute>}>
-          <Route path="/" element={<Home />} />
+          <Route path="/estudiante" element={<Home />} />
           <Route path="/miPerfil" element={<MiPerfil />} />
           <Route path="/seleccionarEstudios" element={<SeleccionarEstudio />} />
           <Route path="/seleccionarAsignaturas" element={<SeleccionarAsignatura />} />
@@ -53,13 +56,10 @@ export function App() {
 
           {/* Layout para administradores */}
           <Route element={<RoleRoute allowedRoles={["administrador"]}><LayoutAdmin /></RoleRoute>}>
-          {/* <Route path="/" element={<Home />} /> */}
-          <Route path="/miPerfil" element={<MiPerfil />} />
+          <Route path="/admin" element={<Home />} />
           <Route path="/estadisticas" element={<Estadisticas />} /> 
           <Route path="/crearNotificacion" element={<CrearNotificacion />} />
           </Route>
-          {/* Ruta para Administrador Home */}
-          <Route path="/home" element={<Home />} /> {/* Esto fuera de RoleRoute para evitar problemas */}
         </Routes>
 
         <CookieConsent location="top" buttonText="Aceptar" cookieName="permutasCookies" style={{ background: "#6099c4",padding: "1rem" }} 
