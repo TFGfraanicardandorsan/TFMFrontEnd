@@ -1,6 +1,6 @@
 import { login } from "../services/login";
 import "../styles/login-style.css";
-
+import Footer from "./Footer";
 export default function Login() {
   const handleClickLogin = async () => {
     await login();
@@ -45,6 +45,7 @@ export default function Login() {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }
