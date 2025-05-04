@@ -1,8 +1,7 @@
 import "../styles/selectorAsignatura-style.css";
 import { useState, useEffect } from "react";
 import { obtenerAsignaturasEstudio , actualizarAsignaturasUsuario} from "../services/asignaturas";
-import Navbar from "./navbar";
-
+// TODO: QUE ES ESTO?
 export default function CheckboxSelector() {
   const [asignaturas, setAsignatura] = useState([]); // Estado para todas las asignaturas
   const [filteredAsignaturas, setFilteredAsignaturas] = useState([]); // Estado para las asignaturas filtradas
@@ -80,7 +79,6 @@ export default function CheckboxSelector() {
 
   return (
     <>
-      <Navbar />
       <div className="checkbox-container">
         <h2 className="checkbox-title">Selecciona asignaturas por curso:</h2>
 
