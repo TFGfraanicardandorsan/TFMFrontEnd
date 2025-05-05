@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 export default function PrivacyPolicy() {
   return (
     <>
-      <div style={{ textAlign: "center", marginTop: "50px" }}>
-        <h1>401 - Acceso denegado</h1>
-        <p> No tienes permisos para ver esta página.</p>
+       <div style={{ textAlign: "center", marginTop: "50px" }}>
         <Link to="/">Volver a la página principal</Link>
       </div>
       <div className="cookies-policy">
