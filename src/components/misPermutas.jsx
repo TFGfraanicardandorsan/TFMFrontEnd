@@ -1,0 +1,120 @@
+import { useState, useEffect } from "react";
+import "../styles/mispermutas-style.css";
+import { misPermutasPropuestas, denegarPermuta, misPermutasPropuestasPorMi } from "../services/permuta.js";
+export default function MisPermutas() {
+  const [permutasPropuestas, setPermutasPropuestas] = useState([]);
+  const [permutasPropuestasPorMi, setPermutasPropuestasPorMi] = useState([]);
+  const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    cargarPermutasPropuestasPorMi();
+    cargarPermutasPropuestas();
+  }, []);
+
+  const cargarPermutasPropuestasPorMi = async () => {
+    try {
+      const response = await misPermutasPropuestasPorMi()
+      if (response && response.result && Array.isArray(response.result.result)) {
+        setPermutasPropuestasPorMi(response.result.result);
+      } else {
+        console.error("Formato de respuesta inesperado:", response);
+        setError("Error al cargar los datos");
+      }
+      setCargando(false);
+    } catch (error) {
+      console.error("Error al cargar las permutas propuestas por mi:", error);
+      setError("Error al cargar las permutas propuestas por mi");
+      setCargando(false);
+    }
+  };
+
+  const cargarPermutasPropuestas = async () => {
+    try {
+      const response = await misPermutasPropuestas()
+      if (response && response.result && Array.isArray(response.result.result)) {
+        setPermutasPropuestas(response.result.result);
+      } else {
+        console.error("Formato de respuesta inesperado:", response);
+        setError("Error al cargar los datos");
+      }
+      setCargando(false);
+    } catch (error) {
+      console.error("Error al cargar las permutas propuestas:", error);
+      setError("Error al cargar las permutas propuestas");
+      setCargando(false);
+    }
+  };
+
+  const handleDenegarPermuta = async (solicitudId) => {
+    try {
+      await denegarPermuta(solicitudId);
+      await cargarPermutasPropuestas();
+      alert("Permuta denegada con éxito");
+    } catch (error) {
+      console.error("Error al denegar la permuta:", error);
+      alert("Error al denegar la permuta");
+    }
+  };
+
+  if (cargando) {
+    return <div>Cargando permutas...</div>;
+  }
+
+  if (error) {
+    return <div className="error-message">{error}</div>;
+  }
+
+  return (
+    <div className="permutas-container">
+      <div className="permutas-columns">
+        <div className="col">
+          <h2>Permutas propuestas por mí</h2>
+          {permutasPropuestasPorMi.length > 0 ? (
+            <div className="permutas-grid">
+              {permutasPropuestasPorMi.map((permuta) => (
+                <div key={permuta.permuta_id} className="permuta-card">
+                  <div className="permuta-info">
+                    <p><strong>Estado:</strong> {permuta.estado}</p>
+                    <p><strong>Grupo Solicitante:</strong> {permuta.grupo_solicitante}</p>
+                    <p><strong>Grupo Solicitado:</strong> {permuta.grupo_solicitado}</p>
+                    <p><strong>Código Asignatura:</strong> {permuta.codigo_asignatura}</p>
+                    <p><strong>Nombre Asignatura:</strong> {permuta.nombre_asignatura}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p>No has propuesto ninguna permuta</p>
+          )}
+        </div>
+        <div className="col">
+          <h2>Permutas propuestas</h2>
+          {permutasPropuestas.length > 0 ? (
+            <div className="permutas-grid">
+              {permutasPropuestas.map((permuta) => (
+                <div key={permuta.permuta_id} className="permuta-card">
+                  <div className="permuta-info">
+                    <p><strong>Estado:</strong> {permuta.estado}</p>
+                    <p><strong>Grupo Solicitante:</strong> {permuta.grupo_solicitante}</p>
+                    <p><strong>Grupo Solicitado:</strong> {permuta.grupo_solicitado}</p>
+                    <p><strong>Código Asignatura:</strong> {permuta.codigo_asignatura}</p>
+                    <p><strong>Nombre Asignatura:</strong> {permuta.nombre_asignatura}</p>
+                  </div>
+                  <button 
+                    className="denegar-btn"
+                    onClick={() => handleDenegarPermuta(permuta.permuta_id)}>
+                    Denegar Permuta
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p>No hay permutas disponibles</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+  
+}

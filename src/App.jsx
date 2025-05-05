@@ -25,6 +25,7 @@ import MisSolicitudesPermuta from "./components/solicitudesPermuta.jsx";
 import Permutas from "./components/permutas.jsx";
 import CrearNotificacion from "./components/crearNotificacion.jsx";
 import Estadisticas from "./components/Estadisticas.jsx";
+import MisPermutas from "./components/misPermutas.jsx";
 export function App() {
   return (
       <AuthProvider>
@@ -49,6 +50,7 @@ export function App() {
           <Route path="/reportarIncidencia" element={<ReportarIncidencia />} />
           <Route path="/incidencias" element={<Incidencias />} />
           <Route path="/generarPermuta" element={<GeneracionPDF />} />
+          <Route path="/misPermutas" element={<MisPermutas />} />
           <Route path="/solicitarPermuta" element={<SolicitarPermuta />} />
           <Route path="/misSolicitudesPermuta" element={<MisSolicitudesPermuta />} />
           <Route path="/permutas" element={<Permutas />} />

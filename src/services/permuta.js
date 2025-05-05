@@ -25,10 +25,16 @@ export const validarPermuta = async (solicitudId) => {
     });
 }
 
-export const denegarPermuta = async (solicitudId) => {
-    return await postAPI("/api/v1/solicitudPermuta/rechazarSolicitudPermuta", {
-        solicitud_id: solicitudId
-    });
+export const denegarPermuta = async (solicitud) => {
+    return await postAPI("/api/v1/permutas/rechazarSolicitudPermuta", {solicitud});
+}
+
+export const misPermutasPropuestas = async () => {
+    return await postAPI("/api/v1/permutas/misPermutasPropuestas");
+}
+
+export const misPermutasPropuestasPorMi = async () => {
+    return await postAPI("/api/v1/permutas/misPermutasPropuestasPorMi");
 }
 
 export const listarPermutas = async () => {
