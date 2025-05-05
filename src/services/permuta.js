@@ -15,14 +15,14 @@ export const verListaPermutas = async () => {
     return await postAPI("/api/v1/solicitudPermuta/verListaPermutas");
 }
 
-export const aceptarPermutaSolicitudesPermuta = async (solicitudId) => {
-    return await postAPI("/api/v1/solicitudPermuta/aceptarSolicitudPermuta", {
-        solicitud_id: solicitudId
-    });
+export const aceptarPermutaSolicitudesPermuta = async (solicitud) => {
+    return await postAPI("/api/v1/solicitudPermuta/aceptarSolicitudPermuta", {solicitud});
 }
 
-export const validarPermuta = async (solicitud) => {
-    return await postAPI("/api/v1/solicitudPermuta/validarSolicitudPermuta", {solicitud});
+export const validarPermuta = async (solicitudId) => {
+    return await postAPI("/api/v1/solicitudPermuta/validarSolicitudPermuta", {
+        solicitud_id: solicitudId
+    });
 }
 
 export const denegarPermuta = async (solicitudId) => {
