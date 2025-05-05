@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "../styles/permutas-style.css";
-import { obtenerPermutasInteresantes } from "../services/permuta.js";
+import { obtenerPermutasInteresantes, aceptarPermutaSolicitudesPermuta } from "../services/permuta.js";
 export default function Permutas() {
   const [permutas, setPermutas] = useState([]);
   const [cargando, setCargando] = useState(true);
@@ -29,7 +29,7 @@ export default function Permutas() {
 
   const handleAceptarPermuta = async (solicitudId) => {
     try {
-      await aceptarPermuta(solicitudId);
+      await aceptarPermutaSolicitudesPermuta(solicitudId);
       await cargarPermutas(); // Recargar las permutas después de aceptar
       alert("Permuta aceptada con éxito");
     } catch (error) {
