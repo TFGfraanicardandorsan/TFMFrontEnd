@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "../styles/mispermutas-style.css";
-import { misPermutasPropuestas, denegarPermuta,aceptarPermutaSolicitudesPermuta, misPermutasPropuestasPorMi } from "../services/permuta.js";
+import { misPermutasPropuestas, denegarPermuta,validarPermuta, misPermutasPropuestasPorMi } from "../services/permuta.js";
 export default function MisPermutas() {
   const [permutasPropuestas, setPermutasPropuestas] = useState([]);
   const [permutasPropuestasPorMi, setPermutasPropuestasPorMi] = useState([]);
@@ -59,7 +59,7 @@ export default function MisPermutas() {
 
     const handleAceptarPermuta = async (solicitudId) => {
       try {
-        await aceptarPermutaSolicitudesPermuta(solicitudId);
+        await validarPermuta(solicitudId);
         await cargarPermutasPropuestas();
         alert("Permuta aceptada con éxito");
       } catch (error) {
@@ -117,6 +117,7 @@ export default function MisPermutas() {
                     onClick={() => handleDenegarPermuta(permuta.permuta_id)}>
                     Denegar Permuta
                   </button>
+                  <br/>
                   <button 
                     className="aceptar-btn"
                     onClick={() => handleAceptarPermuta(permuta.permuta_id)}>
