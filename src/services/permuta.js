@@ -16,7 +16,7 @@ export const verListaPermutas = async () => {
 }
 
 export const aceptarPermutaSolicitudesPermuta = async (solicitudId) => {
-    return await postAPI("/api/v1/solicitudPermuta/aceptarPermuta", {
+    return await postAPI("/api/v1/solicitudPermuta/aceptarSolicitudPermuta", {
         solicitud_id: solicitudId
     });
 }
