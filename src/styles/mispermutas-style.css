@@ -1,42 +1,42 @@
-.permutas-container {
+.mispermutas-container {
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.permutas-columns {
+.mispermutas-columns {
   display: flex;
   gap: 40px;
   justify-content: space-between;
   flex-wrap: wrap; /* Esto permite que las columnas se acomoden en pantallas pequeñas */
 }
 
-.col {
+.mispermutascol {
   flex: 1;
   display: flex;
   flex-direction: column;
   min-width: 300px; /* Evita que las columnas se hagan demasiado pequeñas */
 }
 
-.permutas-grid {
+.mispermutas-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
   margin-top: 20px;
 }
 
-.permuta-card {
+.mispermuta-card {
   background-color: #fff;
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.permuta-info {
+.mispermuta-info {
   margin-bottom: 15px;
 }
 
-.permuta-info p {
+.mispermuta-info p {
   margin: 8px 0;
 }
 

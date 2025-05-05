@@ -77,15 +77,15 @@ export default function MisPermutas() {
   }
 
   return (
-    <div className="permutas-container">
-      <div className="permutas-columns">
-        <div className="col">
+    <div className="mispermutas-container">
+      <div className="mispermutas-columns">
+        <div className="mispermutascol">
           <h2>Permutas propuestas por mí</h2>
           {permutasPropuestasPorMi.length > 0 ? (
-            <div className="permutas-grid">
+            <div className="mispermutas-grid">
               {permutasPropuestasPorMi.map((permuta) => (
-                <div key={permuta.permuta_id} className="permuta-card">
-                  <div className="permuta-info">
+                <div key={permuta.permuta_id} className="mispermuta-card">
+                  <div className="mispermuta-info">
                     <p><strong>Estado:</strong> {permuta.estado}</p>
                     <p><strong>Grupo Solicitante:</strong> {permuta.grupo_solicitante}</p>
                     <p><strong>Grupo Solicitado:</strong> {permuta.grupo_solicitado}</p>
@@ -99,13 +99,13 @@ export default function MisPermutas() {
             <p>No has propuesto ninguna permuta</p>
           )}
         </div>
-        <div className="col">
+        <div className="mispermutascol">
           <h2>Permutas propuestas</h2>
           {permutasPropuestas.length > 0 ? (
-            <div className="permutas-grid">
+            <div className="mispermutas-grid">
               {permutasPropuestas.map((permuta) => (
-                <div key={permuta.permuta_id} className="permuta-card">
-                  <div className="permuta-info">
+                <div key={permuta.permuta_id} className="mispermuta-card">
+                  <div className="mispermuta-info">
                     <p><strong>Estado:</strong> {permuta.estado}</p>
                     <p><strong>Grupo Solicitante:</strong> {permuta.grupo_solicitante}</p>
                     <p><strong>Grupo Solicitado:</strong> {permuta.grupo_solicitado}</p>
