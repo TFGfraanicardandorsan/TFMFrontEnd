@@ -117,7 +117,6 @@ export default function MisPermutas() {
                     onClick={() => handleDenegarPermuta(permuta.permuta_id)}>
                     Denegar Permuta
                   </button>
-                  <br/>
                   <button 
                     className="aceptar-btn"
                     onClick={() => handleAceptarPermuta(permuta.permuta_id)}>
