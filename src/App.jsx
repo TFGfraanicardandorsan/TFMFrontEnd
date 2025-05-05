@@ -21,7 +21,7 @@ import Incidencias from "./components/incidencias.jsx";
 import GeneracionPDF from "./components/generacionPDF.jsx";
 import SolicitarGrupos from "./components/seleccionarGrupos.jsx";
 import SolicitarPermuta from "./components/solicitarPermuta.jsx";
-import MisSolicitudesPermuta from "./components/misPermutas.jsx";
+import MisSolicitudesPermuta from "./components/solicitudesPermuta.jsx";
 import Permutas from "./components/permutas.jsx";
 import CrearNotificacion from "./components/crearNotificacion.jsx";
 import Estadisticas from "./components/Estadisticas.jsx";
