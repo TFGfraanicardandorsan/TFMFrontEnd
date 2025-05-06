@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "../styles/permutas-style.css";
-import { obtenerPermutasAgrupadasPorUsuario, generarPermuta } from "../services/permuta.js";
+import { obtenerPermutasAgrupadasPorUsuario } from "../services/permuta.js";
 import { useNavigate } from "react-router-dom";
 export default function PermutasAceptadas() {
   const [permutas, setPermutas] = useState([]);
@@ -29,9 +29,9 @@ export default function PermutasAceptadas() {
     }
   };
 
-  const handleGenerarPermuta = async (solicitudId) => {
+  const handleGenerarPermuta = async () => {
     try {
-      await generarPermuta(solicitudId);
+    //   await generarPermuta(solicitudId);
       navigate("/generarPermuta"); 
       alert("Permuta generada con éxito");
     } catch (error) {
