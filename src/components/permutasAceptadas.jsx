@@ -31,7 +31,7 @@ export default function PermutasAceptadas() {
 
   const handleGenerarPermuta = async () => {
     try {
-    //   await generarPermuta(solicitudId);
+    //   await generarBorradorPermutas(IdsPermuta);
       navigate("/generarPermuta"); 
       alert("Permuta generada con éxito");
     } catch (error) {
@@ -49,21 +49,26 @@ export default function PermutasAceptadas() {
   }
 
   return (
-
     <div className="permutas-container">
       <h2>Permutas aceptadas</h2>
       {permutas.length > 0 ? (
         <div className="permutas-grid">
-          {permutas.map((permuta) => (
-            <div key={permuta.solicitud_id} className="permuta-card">
-              <div className="permuta-info">
-                <p><strong>Nombre Asignatura:</strong> {permuta.nombre_asignatura}</p>
-                <p><strong>Código Asignatura:</strong> {permuta.codigo_asignatura}</p>
-                <p><strong>Grupo:</strong> {permuta.grupo}</p>
+          {permutas.map((grupoPermuta) =>
+            grupoPermuta.permutas.map((permuta) => (
+              <div key={permuta.permuta_id} className="permuta-card">
+                <div className="permuta-info">
+                  <p><strong>Alumno 1:</strong> {grupoPermuta.usuarios[0]}</p>
+                  <p><strong>Grupo:</strong> {permuta.grupo_1}</p>
+                  <p><strong>Alumno 2:</strong> {grupoPermuta.usuarios[1]}</p>
+                  <p><strong>Grupo:</strong> {permuta.grupo_2}</p>
+                  <p><strong>Nombre Asignatura:</strong> {permuta.nombre_asignatura}</p>
+                  <p><strong>Código Asignatura:</strong> {permuta.codigo_asignatura}</p>
+                  <p><strong>Estado:</strong> {permuta.estado}</p>
+                </div>
+                <button className="aceptar-btn" onClick={handleGenerarPermuta}> Generar Permuta</button>
               </div>
-              <button className="aceptar-btn" onClick={() => handleGenerarPermuta()}>Generar Permuta</button>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       ) : (
         <p>No hay permutas aceptadas</p>
