@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
 import { obtenerPlantillaPermuta,subidaArchivo,servirArchivo } from "../services/subidaArchivos.js";
-import { verListaPermutas, listarPermutas, crearListaPermutas, aceptarPermuta } from "../services/permuta.js";
+import { verListaPermutas, listarPermutas, firmarPermuta, aceptarPermuta } from "../services/permuta.js";
 import "../styles/generacionPDF-style.css";
 import { dayValue,monthValue,yearValue } from "../lib/generadorFechas.js";
 
@@ -166,7 +166,7 @@ export default function GeneracionPDF() {
       if (estadoPermuta === "FIRMADA") {
         await aceptarPermuta(fileId,permutaId)
       } else {
-        await crearListaPermutas(fileId,permutaIds)
+        await firmarPermuta(fileId,permutaIds)
       }
       alert("PDF enviado correctamente.");
     } catch (error) {

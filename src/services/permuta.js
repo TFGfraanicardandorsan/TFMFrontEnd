@@ -39,8 +39,8 @@ export const listarPermutas = async (IdsPermuta) => {
     return await postAPI("/api/v1/permutas/listarPermutas",{IdsPermuta});
 }
 
-export const crearListaPermutas = async (archivo,IdsPermuta) => {
-    return await postAPI("/api/v1/permutas/crearListaPermutas", {archivo,IdsPermuta})
+export const firmarPermuta = async (archivo,permutaId) => {
+    return await postAPI("/api/v1/permutas/firmarPermuta", {archivo,permutaId})
 }
 
 export const aceptarPermuta = async (archivo,permutaId) => {
