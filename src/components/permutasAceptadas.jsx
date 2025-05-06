@@ -16,6 +16,7 @@ export default function PermutasAceptadas() {
     try {
       const response = await obtenerPermutasAgrupadasPorUsuario();
       if (response && response.result && Array.isArray(response.result.result)) {
+        console.log("Permutas agrupadas por usuario:", response.result.result);
         setPermutas(response.result.result);
       } else {
         console.error("Formato de respuesta inesperado:", response);
