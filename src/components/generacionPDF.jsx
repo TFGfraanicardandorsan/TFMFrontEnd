@@ -151,6 +151,7 @@ export default function GeneracionPDF() {
   };
 
   const enviarPDF = async () => {
+    console.log(permutaId)
     try {
       const pdfBytes = await generarPDF();
       const pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
@@ -163,11 +164,10 @@ export default function GeneracionPDF() {
         alert("Error al subir el archivo PDF.");
         return;
       }
-      if (estadoPermuta === "FIRMADA") {
-        console.log(permutaId)
-        await aceptarPermuta(fileId,permutaId)
-      } else {
+      if (estadoPermuta === "BORRADOR") {
         await firmarPermuta(fileId,permutaId)
+      } else {
+        await aceptarPermuta(fileId,permutaId)
       }
       alert("PDF enviado correctamente.");
     } catch (error) {
