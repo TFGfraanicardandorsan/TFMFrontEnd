@@ -50,3 +50,7 @@ export const aceptarPermuta = async (archivo,permutaId) => {
 export const obtenerPermutasAgrupadasPorUsuario = async () => {
     return await postAPI("/api/v1/permutas/obtenerPermutasAgrupadasPorUsuario");
 }
+
+export const generarBorradorPermutas = async (IdsPermuta) => {
+    return await postAPI("/api/v1/permutas/generarBorradorPermutas", {IdsPermuta});
+}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "../styles/permutas-style.css";
-import { obtenerPermutasAgrupadasPorUsuario } from "../services/permuta.js";
+import { obtenerPermutasAgrupadasPorUsuario, generarBorradorPermutas } from "../services/permuta.js";
 import { useNavigate } from "react-router-dom";
 export default function PermutasAceptadas() {
   const [permutas, setPermutas] = useState([]);
@@ -37,9 +37,9 @@ export default function PermutasAceptadas() {
     }
   };
 
-  const handleGenerarPermuta = async () => {
+  const handleGenerarPermuta = async (IdsPermuta) => {
     try {
-      //   await generarBorradorPermutas(IdsPermuta);
+      await generarBorradorPermutas(IdsPermuta);
       navigate("/generarPermuta");
       alert("Permuta generada con éxito");
     } catch (error) {
@@ -59,7 +59,6 @@ export default function PermutasAceptadas() {
   return (
     <div className="permutas-container">
       <h2>Permutas aceptadas</h2>
-
       {cargando ? (
         <div>Cargando permutas...</div>
       ) : error ? (
@@ -74,6 +73,9 @@ export default function PermutasAceptadas() {
             if (usuarios.length < 2 || permutasDetalles.length === 0) {
               return null;
             }
+            const IdsPermuta = permutasDetalles.map(
+              (permuta) => permuta.permuta_id
+            );
 
             return (
               <div key={index} className="permuta-card">
@@ -99,18 +101,11 @@ export default function PermutasAceptadas() {
                       <p>
                         <strong>Grupo {usuarios[1]}:</strong> {permuta.grupo_2}
                       </p>
-                      <p>
-                        <strong>Estado:</strong> {permuta.estado}
-                      </p>
                       <hr />
                     </div>
                   ))}
                 </div>
-                <button
-                  className="aceptar-btn"
-                  onClick={() => handleGenerarPermuta(usuarios)}
-                >
-                  Generar Permuta
+                <button className="aceptar-btn" onClick={() => handleGenerarPermuta(IdsPermuta)}>Generar Permuta
                 </button>
               </div>
             );
