@@ -15,7 +15,11 @@ export default function PermutasAceptadas() {
   const obtenerPermutasAgrupadas = async () => {
     try {
       const response = await obtenerPermutasAgrupadasPorUsuario();
-      if (response && response.result && Array.isArray(response.result.result)) {
+      if (
+        response &&
+        response.result &&
+        Array.isArray(response.result.result)
+      ) {
         console.log("Permutas agrupadas por usuario:", response.result.result);
         setPermutas(response.result.result);
       } else {
@@ -24,7 +28,10 @@ export default function PermutasAceptadas() {
       }
       setCargando(false);
     } catch (error) {
-      console.error("Error al obtener las permutas agrupadas por usuario:", error);
+      console.error(
+        "Error al obtener las permutas agrupadas por usuario:",
+        error
+      );
       setError("Error al obtener las permutas agrupadas por usuario");
       setCargando(false);
     }
@@ -32,8 +39,8 @@ export default function PermutasAceptadas() {
 
   const handleGenerarPermuta = async () => {
     try {
-    //   await generarBorradorPermutas(IdsPermuta);
-      navigate("/generarPermuta"); 
+      //   await generarBorradorPermutas(IdsPermuta);
+      navigate("/generarPermuta");
       alert("Permuta generada con éxito");
     } catch (error) {
       console.error("Error al generar la permuta:", error);
@@ -52,25 +59,62 @@ export default function PermutasAceptadas() {
   return (
     <div className="permutas-container">
       <h2>Permutas aceptadas</h2>
-      {permutas.length > 0 ? (
+
+      {cargando ? (
+        <div>Cargando permutas...</div>
+      ) : error ? (
+        <div className="error-message">{error}</div>
+      ) : permutas.length > 0 ? (
         <div className="permutas-grid">
-          {permutas.map((grupoPermuta,index) => (
+          {permutas.map((grupoPermuta, index) => {
+            const usuarios = grupoPermuta.usuarios ?? [];
+            const permutasDetalles = grupoPermuta.permutas ?? [];
+
+            // Saltar si los datos son incompletos
+            if (usuarios.length < 2 || permutasDetalles.length === 0) {
+              return null;
+            }
+
+            return (
               <div key={index} className="permuta-card">
                 <div className="permuta-info">
-                  <p><strong>Alumno 1:</strong> {grupoPermuta.usuarios[0]}</p>
-                  <p><strong>Alumno 2:</strong> {grupoPermuta.usuarios[1]}</p>
-                  {grupoPermuta.permutas.map((permuta) => (
+                  <p>
+                    <strong>Alumno 1:</strong> {usuarios[0]}
+                  </p>
+                  <p>
+                    <strong>Alumno 2:</strong> {usuarios[1]}
+                  </p>
+
+                  {permutasDetalles.map((permuta) => (
                     <div key={permuta.permuta_id} className="permuta-detalle">
-                      <p><strong>Nombre Asignatura:</strong> {permuta.nombre_asignatura}</p>
-                      <p><strong>Código Asignatura:</strong> {permuta.codigo_asignatura}</p>
-                      <p><strong>Grupo {grupoPermuta.usuario[0]}:</strong> {permuta.grupo_1}</p>
-                      <p><strong>Grupo {grupoPermuta.usuario[1]}:</strong> {permuta.grupo_2}</p>
+                      <p>
+                        <strong>Asignatura:</strong> {permuta.nombre_asignatura}
+                      </p>
+                      <p>
+                        <strong>Código:</strong> {permuta.codigo_asignatura}
+                      </p>
+                      <p>
+                        <strong>Grupo {usuarios[0]}:</strong> {permuta.grupo_1}
+                      </p>
+                      <p>
+                        <strong>Grupo {usuarios[1]}:</strong> {permuta.grupo_2}
+                      </p>
+                      <p>
+                        <strong>Estado:</strong> {permuta.estado}
+                      </p>
+                      <hr />
                     </div>
                   ))}
-                  </div>
-                <button className="aceptar-btn" onClick={handleGenerarPermuta}> Generar Permuta</button>
+                </div>
+                <button
+                  className="aceptar-btn"
+                  onClick={() => handleGenerarPermuta(usuarios)}
+                >
+                  Generar Permuta
+                </button>
               </div>
-            ))}
+            );
+          })}
         </div>
       ) : (
         <p>No hay permutas aceptadas</p>
