@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "../styles/permutas-style.css";
 import { obtenerPermutasAgrupadasPorUsuario, generarPermuta } from "../services/permuta.js";
 import { useNavigate } from "react-router-dom";
-export default function Permutas() {
+export default function PermutasAceptadas() {
   const [permutas, setPermutas] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);

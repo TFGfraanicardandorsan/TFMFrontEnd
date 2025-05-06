@@ -65,7 +65,7 @@ export default function NavbarEstudiante() {
             <Link to="/misSolicitudesPermuta">Mis Solicitudes</Link>
           </li>
           <li>
-            <Link to="/generarPermuta">Generar Permuta</Link>
+            <Link to="/permutasAceptadas">Permutas Aceptadas</Link>
           </li>
           <li>
             <Link to="/misIncidencias">Mis incidencias</Link>
