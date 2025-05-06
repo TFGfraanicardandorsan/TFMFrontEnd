@@ -33,8 +33,6 @@ export default function GeneracionPDF() {
         console.log(permuta);
         const estado = permuta?.result?.result[0]?.estado;
         const fileId = permuta?.result?.result[0]?.archivo;
-        console.log(estado, fileId);
-        console.log(permuta?.result?.result[0]?.id);
         if (estado && fileId) {
           setEstadoPermuta(estado);
           setPermutaId(permuta?.result?.result[0]?.id)
@@ -166,6 +164,7 @@ export default function GeneracionPDF() {
         return;
       }
       if (estadoPermuta === "FIRMADA") {
+        console.log(permutaId)
         await aceptarPermuta(fileId,permutaId)
       } else {
         await firmarPermuta(fileId,permutaId)
