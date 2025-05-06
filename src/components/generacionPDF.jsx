@@ -162,11 +162,10 @@ export default function GeneracionPDF() {
         alert("Error al subir el archivo PDF.");
         return;
       }
-      const permutaIds = permutas.map((permuta) => permuta.permuta_id);
       if (estadoPermuta === "FIRMADA") {
         await aceptarPermuta(fileId,permutaId)
       } else {
-        await firmarPermuta(fileId,permutaIds)
+        await firmarPermuta(fileId,permutaId)
       }
       alert("PDF enviado correctamente.");
     } catch (error) {
