@@ -20,7 +20,6 @@ export default function PermutasAceptadas() {
         response.result &&
         Array.isArray(response.result.result)
       ) {
-        console.log("Permutas agrupadas por usuario:", response.result.result);
         setPermutas(response.result.result);
       } else {
         console.error("Formato de respuesta inesperado:", response);

@@ -33,7 +33,7 @@ export default function GeneracionPDF() {
         console.log(permuta);
         const estado = permuta?.result?.result[0]?.estado;
         const fileId = permuta?.result?.result[0]?.archivo;
-        if (estado && fileId) {
+        if (estado) {
           setEstadoPermuta(estado);
           setPermutaId(permuta?.result?.result[0]?.id)
           const bytes = await servirArchivo("buzon", fileId);
