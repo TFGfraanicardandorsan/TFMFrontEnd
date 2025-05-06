@@ -53,22 +53,23 @@ export default function PermutasAceptadas() {
       <h2>Permutas aceptadas</h2>
       {permutas.length > 0 ? (
         <div className="permutas-grid">
-          {permutas.map((grupoPermuta) =>
-            grupoPermuta.permutas.map((permuta) => (
-              <div key={permuta.permuta_id} className="permuta-card">
+          {permutas.map((grupoPermuta,index) => (
+              <div key={index} className="permuta-card">
                 <div className="permuta-info">
                   <p><strong>Alumno 1:</strong> {grupoPermuta.usuarios[0]}</p>
-                  <p><strong>Grupo:</strong> {permuta.grupo_1}</p>
                   <p><strong>Alumno 2:</strong> {grupoPermuta.usuarios[1]}</p>
-                  <p><strong>Grupo:</strong> {permuta.grupo_2}</p>
-                  <p><strong>Nombre Asignatura:</strong> {permuta.nombre_asignatura}</p>
-                  <p><strong>Código Asignatura:</strong> {permuta.codigo_asignatura}</p>
-                  <p><strong>Estado:</strong> {permuta.estado}</p>
-                </div>
+                  {grupoPermuta.permutas.map((permuta) => (
+                    <div key={permuta.permuta_id} className="permuta-detalle">
+                      <p><strong>Nombre Asignatura:</strong> {permuta.nombre_asignatura}</p>
+                      <p><strong>Código Asignatura:</strong> {permuta.codigo_asignatura}</p>
+                      <p><strong>Grupo {grupoPermuta.usuario[0]}:</strong> {permuta.grupo_1}</p>
+                      <p><strong>Grupo {grupoPermuta.usuario[1]}:</strong> {permuta.grupo_2}</p>
+                    </div>
+                  ))}
+                  </div>
                 <button className="aceptar-btn" onClick={handleGenerarPermuta}> Generar Permuta</button>
               </div>
-            ))
-          )}
+            ))}
         </div>
       ) : (
         <p>No hay permutas aceptadas</p>
