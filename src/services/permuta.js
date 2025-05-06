@@ -35,8 +35,8 @@ export const misPermutasPropuestasPorMi = async () => {
     return await postAPI("/api/v1/permutas/misPermutasPropuestasPorMi");
 }
 
-export const listarPermutas = async () => {
-    return await postAPI("/api/v1/permutas/listarPermutas");
+export const listarPermutas = async (IdsPermuta) => {
+    return await postAPI("/api/v1/permutas/listarPermutas",{IdsPermuta});
 }
 
 export const crearListaPermutas = async (archivo,IdsPermuta) => {

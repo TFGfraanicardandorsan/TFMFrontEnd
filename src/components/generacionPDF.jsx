@@ -28,7 +28,8 @@ export default function GeneracionPDF() {
         setUsuarios(lista.result.result[0].usuarios);
         setPermutas(lista.result.result[0].permutas);
 
-        const permuta = await listarPermutas();
+        const idsPermutas = lista.result.result[0].permutas.map((permuta) => permuta.permuta_id);
+        const permuta = await listarPermutas(idsPermutas);
         const estado = permuta?.result?.result[0]?.estado;
         const fileId = permuta?.result?.result[0]?.archivo;
         if (estado && fileId) {
