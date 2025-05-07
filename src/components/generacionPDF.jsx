@@ -19,6 +19,7 @@ export default function GeneracionPDF() {
   const [permutaId, setPermutaId] = useState(null);
   const [estadoPermuta, setEstadoPermuta] = useState("BORRADOR");
   const [pdfExistente, setPdfExistente] = useState(null);
+  const [file, setFile] = useState(null);
   const iframeRef = useRef(null);
 
   useEffect(() => {
@@ -30,7 +31,6 @@ export default function GeneracionPDF() {
 
         const idsPermutas = lista.result.result[0].permutas.map((permuta) => permuta.permuta_id);
         const permuta = await listarPermutas(idsPermutas);
-        console.log(permuta);
         const estado = permuta?.result?.result[0]?.estado;
         const fileId = permuta?.result?.result[0]?.archivo;
         if (estado) {
@@ -150,8 +150,41 @@ export default function GeneracionPDF() {
     saveAs(pdfBlob, "solicitud-permutas.pdf");
   };
 
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+    }
+  }
+
+  const handleUpload = async () => {
+    if (!file) {
+      alert("Por favor, selecciona un archivo para subir.");
+      return;
+    }
+    const formData = new FormData();
+    formData.append("tipo", "buzon");
+    formData.append("file", file);
+    try {
+      const response = await subidaArchivo(formData);
+      const fileId = response?.result?.fileId;
+      if (!fileId) {
+        alert("Error al subir el archivo PDF.");
+        return;
+      }
+      if (estadoPermuta === "BORRADOR") {
+        await firmarPermuta(fileId,permutaId)
+      } else {
+        await aceptarPermuta(fileId,permutaId)
+      }
+      alert("PDF enviado correctamente.");
+    } catch (error) {
+      console.error("Error al enviar el PDF:", error);
+      alert("Error al enviar el PDF");
+    }
+  }
+
   const enviarPDF = async () => {
-    console.log(permutaId)
     try {
       const pdfBytes = await generarPDF();
       const pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
@@ -223,6 +256,10 @@ export default function GeneracionPDF() {
         </div>
         <div className="pdf-container">
           <iframe ref={iframeRef} title="PDF generado"></iframe>
+        </div>
+        <div>
+        <input type="file" id="file" onChange={handleFileChange} />
+        <button onClick={handleUpload}>Enviar pdf</button>
         </div>
       </div>
     </>
