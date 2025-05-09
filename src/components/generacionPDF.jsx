@@ -20,6 +20,15 @@ export default function GeneracionPDF() {
   const [estadoPermuta, setEstadoPermuta] = useState("BORRADOR");
   const [pdfExistente, setPdfExistente] = useState(null);
   const [file, setFile] = useState(null);
+  const [errors, setErrors] = useState({
+    dni: "",
+    letraDNI: "",
+    domicilio: "",
+    poblacion: "",
+    codigoPostal: "",
+    provincia: "",
+    telefono: ""
+  });
   const iframeRef = useRef(null);
 
   useEffect(() => {
@@ -139,12 +148,20 @@ export default function GeneracionPDF() {
   };
 
   const mostrarPDF = async () => {
+    if (!validarFormulario()) {
+      alert("Por favor, corrige los errores en el formulario");
+      return;
+    }
     const pdfBytes = await generarPDF();
     const pdfUrl = URL.createObjectURL(new Blob([pdfBytes], { type: "application/pdf" }));
     iframeRef.current.src = pdfUrl;
   };
 
   const descargarPDF = async () => {
+    if (!validarFormulario()) {
+      alert("Por favor, corrige los errores en el formulario");
+      return;
+    }
     const pdfBytes = await generarPDF();
     const pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
     saveAs(pdfBlob, "solicitud-permutas.pdf");
@@ -185,6 +202,10 @@ export default function GeneracionPDF() {
   }
 
   const enviarPDF = async () => {
+    if (!validarFormulario()) {
+      alert("Por favor, corrige los errores en el formulario");
+      return;
+    }
     try {
       const pdfBytes = await generarPDF();
       const pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
@@ -209,6 +230,92 @@ export default function GeneracionPDF() {
     }
   };
 
+  const validarDNI = (value) => {
+    const dniRegex = /^[0-9]{8}$/;
+    if (!value) return "El DNI es obligatorio";
+    if (!dniRegex.test(value)) return "El DNI debe tener 8 números";
+    return "";
+  };
+
+  const validarLetraDNI = (value) => {
+    const letraRegex = /^[A-Z]$/;
+    if (!value) return "La letra es obligatoria";
+    if (!letraRegex.test(value)) return "Debe ser una letra mayúscula";
+    return "";
+  };
+
+  const validarCodigoPostal = (value) => {
+    const cpRegex = /^[0-9]{5}$/;
+    if (!value) return "El código postal es obligatorio";
+    if (!cpRegex.test(value)) return "El código postal debe tener 5 números";
+    return "";
+  };
+
+  const validarTelefono = (value) => {
+    const telefonoRegex = /^[0-9]{9}$/;
+    if (!value) return "El teléfono es obligatorio";
+    if (!telefonoRegex.test(value)) return "El teléfono debe tener 9 números";
+    return "";
+  };
+
+  const validarCampoObligatorio = (value, campo) => {
+    if (!value.trim()) return `El campo ${campo} es obligatorio`;
+    return "";
+  };
+
+  const handleDNIChange = (e) => {
+    const value = e.target.value;
+    setDni(value);
+    setErrors(prev => ({
+      ...prev,
+      dni: validarDNI(value)
+    }));
+  };
+
+  const handleLetraDNIChange = (e) => {
+    const value = e.target.value.toUpperCase();
+    setLetraDNI(value);
+    setErrors(prev => ({
+      ...prev,
+      letraDNI: validarLetraDNI(value)
+    }));
+  };
+
+  const handleCodigoPostalChange = (e) => {
+    const value = e.target.value;
+    setCodigoPostal(value);
+    setErrors(prev => ({
+      ...prev,
+      codigoPostal: validarCodigoPostal(value)
+    }));
+  };
+
+  const handleTelefonoChange = (e) => {
+    const value = e.target.value;
+    setTelefono(value);
+    setErrors(prev => ({
+      ...prev,
+      telefono: validarTelefono(value)
+    }));
+  };
+
+  const validarFormulario = () => {
+    const nuevoErrors = {
+      dni: validarDNI(dni),
+      letraDNI: validarLetraDNI(letraDNI),
+      domicilio: validarCampoObligatorio(domicilio, "domicilio"),
+      poblacion: validarCampoObligatorio(poblacion, "población"),
+      codigoPostal: validarCodigoPostal(codigoPostal),
+      provincia: validarCampoObligatorio(provincia, "provincia"),
+      telefono: validarTelefono(telefono)
+    };
+
+    setErrors(nuevoErrors);
+
+    // Comprobar si hay algún error
+    return !Object.values(nuevoErrors).some(error => error !== "");
+  };
+
   return (
     <>
       <br />
@@ -218,34 +325,95 @@ export default function GeneracionPDF() {
           <div className="asociar">
             <label>
               DNI:
-              <input type="text" value={dni} onChange={(e) => setDni(e.target.value)} />
+              <input 
+                type="text" 
+                value={dni} 
+                onChange={handleDNIChange}
+                className={errors.dni ? "input-error" : ""}
+              />
+              {errors.dni && <span className="error-message">{errors.dni}</span>}
             </label>
             <label>
               Letra DNI:
-              <input type="text" value={letraDNI} onChange={(e) => setLetraDNI(e.target.value)} />
+              <input 
+                type="text" 
+                value={letraDNI} 
+                onChange={handleLetraDNIChange}
+                maxLength="1"
+                className={errors.letraDNI ? "input-error" : ""}
+              />
+              {errors.letraDNI && <span className="error-message">{errors.letraDNI}</span>}
             </label>
           </div>
           <label>
             Domicilio:
-            <input type="text" value={domicilio} onChange={(e) => setDomicilio(e.target.value)} />
+            <input 
+              type="text" 
+              value={domicilio} 
+              onChange={(e) => {
+                setDomicilio(e.target.value);
+                setErrors(prev => ({
+                  ...prev,
+                  domicilio: validarCampoObligatorio(e.target.value, "domicilio")
+                }));
+              }}
+              className={errors.domicilio ? "input-error" : ""}
+            />
+            {errors.domicilio && <span className="error-message">{errors.domicilio}</span>}
           </label>
           <label>
             Población:
-            <input type="text" value={poblacion} onChange={(e) => setPoblacion(e.target.value)} />
+            <input 
+              type="text" 
+              value={poblacion} 
+              onChange={(e) => {
+                setPoblacion(e.target.value);
+                setErrors(prev => ({
+                  ...prev,
+                  poblacion: validarCampoObligatorio(e.target.value, "población")
+                }));
+              }}
+              className={errors.poblacion ? "input-error" : ""}
+            />
+            {errors.poblacion && <span className="error-message">{errors.poblacion}</span>}
           </label>
           <div className="asociar">
             <label>
               Código Postal:
-              <input type="text" value={codigoPostal} onChange={(e) => setCodigoPostal(e.target.value)} />
+              <input 
+                type="text" 
+                value={codigoPostal} 
+                onChange={handleCodigoPostalChange}
+                className={errors.codigoPostal ? "input-error" : ""}
+              />
+              {errors.codigoPostal && <span className="error-message">{errors.codigoPostal}</span>}
             </label>
             <label>
               Provincia:
-              <input type="text" value={provincia} onChange={(e) => setProvincia(e.target.value)} />
+              <input 
+                type="text" 
+                value={provincia} 
+                onChange={(e) => {
+                  setProvincia(e.target.value);
+                  setErrors(prev => ({
+                    ...prev,
+                    provincia: validarCampoObligatorio(e.target.value, "provincia")
+                  }));
+                }}
+                className={errors.provincia ? "input-error" : ""}
+              />
+              {errors.provincia && <span className="error-message">{errors.provincia}</span>}
             </label>
           </div>
           <label>
             Teléfono:
-            <input type="text" value={telefono} onChange={(e) => setTelefono(e.target.value)} />
+            <input 
+              type="text" 
+              value={telefono} 
+              onChange={handleTelefonoChange}
+              className={errors.telefono ? "input-error" : ""}
+            />
+            {errors.telefono && <span className="error-message">{errors.telefono}</span>}
           </label>
           <br />
           <div className="asociarBoton">

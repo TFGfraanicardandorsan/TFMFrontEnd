@@ -9,6 +9,23 @@ export default function ReportarIncidencia() {
     const [descripcion, setDescripcion] = useState("");
     const [tipoIncidencia, setTipoIncidencia] = useState("");
     const [file, setFile] = useState(null);
+    const [fileError, setFileError] = useState("");
+
+    const tiposPermitidos = ['application/pdf', 'image/png'];
+
+    const handleFileChange = (e) => {
+        const archivo = e.target.files[0];
+        if (archivo) {
+            if (tiposPermitidos.includes(archivo.type)) {
+                setFile(archivo);
+                setFileError("");
+            } else {
+                setFile(null);
+                setFileError("Solo se permiten archivos PDF o PNG");
+                e.target.value = null; // Limpiar el input
+            }
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -63,12 +80,17 @@ export default function ReportarIncidencia() {
                             placeholder="Describe el problema..."
                             required
                         ></textarea>
-                        <label htmlFor="file">Archivo</label>
+                        <label htmlFor="file">
+                            Archivo (Solo PDF o PNG)
+                            <span className="file-info">📎 Máx: 10MB</span>
+                        </label>
                         <input
                             type="file"
                             id="file"
-                            onChange={(e) => setFile(e.target.files[0])}
+                            accept=".pdf,.png"
+                            onChange={handleFileChange}
                         />
+                        {fileError && <p className="error-message">{fileError}</p>}
                         <button type="submit">Crear incidencia</button>
                     </form>
                 </div>

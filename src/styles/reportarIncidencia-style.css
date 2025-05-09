@@ -60,3 +60,31 @@ button {
 button:hover {
     background-color: #1e4a87;
 }
+
+.file-info {
+    font-size: 0.8em;
+    color: #666;
+    margin-left: 10px;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.9em;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+input[type="file"] {
+    border: 1px solid #ddd;
+    padding: 8px;
+    border-radius: 4px;
+    width: 100%;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+}
