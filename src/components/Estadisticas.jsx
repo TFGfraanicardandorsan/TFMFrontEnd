@@ -23,7 +23,7 @@ export default function Estadisticas() {
         ]);
         setEstadisticasPermutas(permutasData.result.data);
         setEstadisticasSolicitudes(solicitudesData.result.data);
-        setEstadisticasIncidencias(incidenciasData.result.data);
+        setEstadisticasIncidencias(incidenciasData.result);
         setLoading(false);
       } catch (err) {
         setError('Error al cargar las estadísticas');
@@ -73,10 +73,10 @@ export default function Estadisticas() {
   };
 
   const incidenciasPorEstadoData = {
-    labels: estadisticasIncidencias.incidenciasPorEstado.map(item => item.estado),
+    labels: estadisticasIncidencias.incidenciasPorEstado.map(item => item.estado_incidencia),
     datasets: [{
       label: 'Incidencias por Estado',
-      data: estadisticasIncidencias.incidenciasPorEstado.map(item => item.cantidad),
+      data: estadisticasIncidencias.incidenciasPorEstado.map(item => parseInt(item.cantidad, 10)),
       backgroundColor: [
         'rgba(153, 102, 255, 0.5)',
         'rgba(255, 159, 64, 0.5)',
@@ -85,13 +85,17 @@ export default function Estadisticas() {
   };
 
   const incidenciasPorTipoData = {
-    labels: estadisticasIncidencias.incidenciasPorTipo.map(item => item.tipo),
+    labels: estadisticasIncidencias.incidenciasPorTipo.map(item => item.tipo_incidencia),
     datasets: [{
       label: 'Incidencias por Tipo',
-      data: estadisticasIncidencias.incidenciasPorTipo.map(item => item.cantidad),
+      data: estadisticasIncidencias.incidenciasPorTipo.map(item => parseInt(item.cantidad, 10)),
       backgroundColor: [
         'rgba(75, 192, 192, 0.5)',
         'rgba(255, 205, 86, 0.5)',
+        'rgba(54, 162, 235, 0.5)',
+        'rgba(255, 99, 132, 0.5)',
+        'rgba(153, 102, 255, 0.5)',
+        'rgba(255, 159, 64, 0.5)',
       ],
     }]
   };
@@ -100,7 +104,7 @@ export default function Estadisticas() {
     labels: estadisticasIncidencias.incidenciasPorMes.map(item => `${item.mes}/${item.anio}`),
     datasets: [{
       label: 'Incidencias por Mes',
-      data: estadisticasIncidencias.incidenciasPorMes.map(item => item.cantidad),
+      data: estadisticasIncidencias.incidenciasPorMes.map(item => parseInt(item.cantidad, 10)),
       backgroundColor: 'rgba(54, 162, 235, 0.5)',
     }]
   };
