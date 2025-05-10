@@ -30,8 +30,6 @@ export default function Estadisticas() {
         setLoading(false);
       }
     };
-
-    console.log("Cargando estadísticas...");
     cargarEstadisticas();
   }, []);
 
@@ -127,7 +125,6 @@ export default function Estadisticas() {
           <div className="stat-card">
             <h2>Incidencias por Estado</h2>
             <Pie key="incidenciasPorEstadoData" data={incidenciasPorEstadoData} />
-
         </div>
           <div className="stat-card">
             <h2>Incidencias por Tipo</h2>
