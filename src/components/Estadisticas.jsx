@@ -32,7 +32,6 @@ export default function Estadisticas() {
     };
 
     console.log("Cargando estadísticas...");
-    cons
     cargarEstadisticas();
   }, []);
 
