@@ -12,7 +12,7 @@ export default function MisIncidencias() {
         const cargarIncidencias = async () => {
             try {
                 const data = await obtenerIncidencias();
-                setIncidencias(data);
+                setIncidencias(data.result.result);
             } catch (error) {
                 console.error("Error al obtener las incidencias:", error);
             } finally {
