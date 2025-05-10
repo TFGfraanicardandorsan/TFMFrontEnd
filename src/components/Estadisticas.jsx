@@ -23,7 +23,7 @@ export default function Estadisticas() {
         ]);
         setEstadisticasPermutas(permutasData.result.data);
         setEstadisticasSolicitudes(solicitudesData.result.data);
-        setEstadisticasIncidencias(incidenciasData.result);
+        setEstadisticasIncidencias(incidenciasData.result.data);
         setLoading(false);
       } catch (err) {
         setError('Error al cargar las estadísticas');
