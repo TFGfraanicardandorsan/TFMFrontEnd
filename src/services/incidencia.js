@@ -23,3 +23,7 @@ export const obtenerIncidenciasSinAsignar = async () => {
 export const solucionarIncidencia = async () => {
     return await postAPI("/api/v1/incidencia/solucionarIncidencia")
 }
+
+export const asignarmeIncidencia = async () => {
+    return await postAPI("/api/v1/incidencia/asignarmeIncidencia")
+}
