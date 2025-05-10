@@ -10,7 +10,9 @@ body {
   display: flex;
   flex-direction: column;
 }
-
+.container{
+  display:block;
+}
 .header {
   text-align: center;
   margin-top: 32px;

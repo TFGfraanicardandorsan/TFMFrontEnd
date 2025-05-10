@@ -39,10 +39,9 @@ export default function MisIncidencias() {
                     <div className="incidencias-container">
                         {incidencias.map((incidencia) => (
                             <div key={incidencia.id} className="incidencia-card">
-                                <p><strong>Incidencia:</strong> {incidencia.id}</p>
-                                <p><strong>Tipo de Incidencia:</strong> {incidencia.tipo}</p>
-                                <p><strong>Estado:</strong> {incidencia.estado}</p>
-                                <p><strong>Comentario:</strong> {incidencia.comentario}</p>
+                                <p><strong>Tipo de Incidencia:</strong> {incidencia.tipo_incidencia}</p>
+                                <p><strong>Estado:</strong> {incidencia.solucionada}</p>
+                                <p><strong>Comentario:</strong> {incidencia.descripcion}</p>
                             </div>
                         ))}
                     </div>
