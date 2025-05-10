@@ -73,7 +73,7 @@ export default function Estadisticas() {
     }]
   };
   const incidenciasPorEstadoData = {
-    labels: estadisticasIncidencias.incidenciasPorEstado.map(item => item.estado),
+    labels: estadisticasIncidencias.incidenciasPorEstado.map(item => item.estado_incidencia),
     datasets: [{
       data: estadisticasIncidencias.incidenciasPorEstado.map(item => item.cantidad),
       backgroundColor: [
@@ -84,7 +84,7 @@ export default function Estadisticas() {
     }]
   };
   const incidenciasPorTipoData = {
-    labels: estadisticasIncidencias.incidenciasPorTipo.map(item => item.tipo),
+    labels: estadisticasIncidencias.incidenciasPorTipo.map(item => item.tipo_incidencia),
     datasets: [{
       data: estadisticasIncidencias.incidenciasPorTipo.map(item => item.cantidad),
       backgroundColor: [
