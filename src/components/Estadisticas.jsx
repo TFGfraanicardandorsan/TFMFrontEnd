@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import { Bar, Pie } from 'react-chartjs-2';
-import { obtenerEstadisticasPermutas, obtenerEstadisticasSolicitudes } from '../services/estadisticas';
+import { obtenerEstadisticasPermutas, obtenerEstadisticasSolicitudes, obtenerEstadisticasIncidencias } from '../services/estadisticas';
 import "../styles/estadisticas-style.css";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
@@ -9,21 +9,24 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 export default function Estadisticas() {
   const [estadisticasPermutas, setEstadisticasPermutas] = useState(null);
   const [estadisticasSolicitudes, setEstadisticasSolicitudes] = useState(null);
+  const [estadisticasIncidencias, setEstadisticasIncidencias] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const cargarEstadisticas = async () => {
       try {
-        const [permutasData, solicitudesData] = await Promise.all([
+        const [permutasData, solicitudesData, incidenciasData] = await Promise.all([
           obtenerEstadisticasPermutas(),
-          obtenerEstadisticasSolicitudes()
+          obtenerEstadisticasSolicitudes(),
+          obtenerEstadisticasIncidencias()
         ]);
         setEstadisticasPermutas(permutasData.result.data);
         setEstadisticasSolicitudes(solicitudesData.result.data);
+        setEstadisticasIncidencias(incidenciasData.result);
         setLoading(false);
       } catch (err) {
-        setError('Error al cargar las estadísticas', err);
+        setError('Error al cargar las estadísticas');
         setLoading(false);
       }
     };
@@ -69,6 +72,39 @@ export default function Estadisticas() {
     }]
   };
 
+  const incidenciasPorEstadoData = {
+    labels: estadisticasIncidencias.incidenciasPorEstado.map(item => item.estado),
+    datasets: [{
+      label: 'Incidencias por Estado',
+      data: estadisticasIncidencias.incidenciasPorEstado.map(item => item.cantidad),
+      backgroundColor: [
+        'rgba(153, 102, 255, 0.5)',
+        'rgba(255, 159, 64, 0.5)',
+      ],
+    }]
+  };
+
+  const incidenciasPorTipoData = {
+    labels: estadisticasIncidencias.incidenciasPorTipo.map(item => item.tipo),
+    datasets: [{
+      label: 'Incidencias por Tipo',
+      data: estadisticasIncidencias.incidenciasPorTipo.map(item => item.cantidad),
+      backgroundColor: [
+        'rgba(75, 192, 192, 0.5)',
+        'rgba(255, 205, 86, 0.5)',
+      ],
+    }]
+  };
+
+  const incidenciasPorMesData = {
+    labels: estadisticasIncidencias.incidenciasPorMes.map(item => `${item.mes}/${item.anio}`),
+    datasets: [{
+      label: 'Incidencias por Mes',
+      data: estadisticasIncidencias.incidenciasPorMes.map(item => item.cantidad),
+      backgroundColor: 'rgba(54, 162, 235, 0.5)',
+    }]
+  };
+
   return (
     <>
       <div className="estadisticas-container">
@@ -85,18 +121,25 @@ export default function Estadisticas() {
             <Bar key="permutasPorAsignaturaData" data={permutasPorAsignaturaData} />
           </div>
 
-
           <div className="stat-card">
             <h2>Solicitudes por Estado</h2>
             <Pie key="solicitudesPorEstadoData" data={solicitudesPorEstadoData} />
           </div>
 
-          {/* <div className="stat-card">
-            <h2>Ratio de Aceptación</h2>
-            <div className="stat-value">
-              {Math.round(estadisticasSolicitudes.ratioAceptacion.porcentaje_aceptacion)}%
-            </div>
-          </div> */}
+          <div className="stat-card">
+            <h2>Incidencias por Estado</h2>
+            <Pie key="incidenciasPorEstadoData" data={incidenciasPorEstadoData} />
+          </div>
+
+          <div className="stat-card">
+            <h2>Incidencias por Tipo</h2>
+            <Bar key="incidenciasPorTipoData" data={incidenciasPorTipoData} />
+          </div>
+
+          <div className="stat-card">
+            <h2>Incidencias por Mes</h2>
+            <Bar key="incidenciasPorMesData" data={incidenciasPorMesData} />
+          </div>
         </div>
       </div>
     </>

@@ -7,3 +7,7 @@ export const obtenerEstadisticasPermutas = async () => {
 export const obtenerEstadisticasSolicitudes = async () => {
     return await postAPI("/api/v1/estadisticas/solicitudes");
 };
+
+export const obtenerEstadisticasIncidencias = async () => {
+    return await postAPI("/api/v1/estadisticas/obtenerEstadisticasIncidencias");
+};
