@@ -27,7 +27,7 @@ export default function MisIncidencias() {
     const handleAsignarIncidencia = async (idIncidencia) => {
         try {
             console.log("Asignando incidencia con ID:", idIncidencia);
-            const response = await asignarmeIncidencia(parseInt(idIncidencia));
+            const response = await asignarmeIncidencia({ id_incidencia: idIncidencia }); // Enviar como objeto
             if (!response.err) {
                 // Actualizar la lista de incidencias eliminando la asignada
                 setIncidencias(incidencias.filter((incidencia) => incidencia.id !== idIncidencia));

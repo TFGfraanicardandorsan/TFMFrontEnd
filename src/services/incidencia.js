@@ -24,6 +24,6 @@ export const solucionarIncidencia = async () => {
     return await postAPI("/api/v1/incidencia/solucionarIncidencia")
 }
 
-export const asignarmeIncidencia = async (id_incidencia) => {
-    return await postAPI("/api/v1/incidencia/asignarmeIncidencia",(id_incidencia))
+export const asignarmeIncidencia = async (data) => {
+    return await postAPI("/api/v1/incidencia/asignarmeIncidencia",(data))
 }
