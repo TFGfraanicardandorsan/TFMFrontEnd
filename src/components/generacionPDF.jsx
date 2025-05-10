@@ -426,8 +426,13 @@ export default function GeneracionPDF() {
           <iframe ref={iframeRef} title="PDF generado"></iframe>
         </div>
         <div>
-        <input type="file" id="file" onChange={handleFileChange} />
-        <button onClick={handleUpload}>Enviar pdf</button>
+          <input 
+            type="file" 
+            id="file" 
+            accept="application/pdf" // Solo permite archivos PDF
+            onChange={handleFileChange} 
+          />
+          <button onClick={handleUpload}>Enviar pdf</button>
         </div>
       </div>
     </>
