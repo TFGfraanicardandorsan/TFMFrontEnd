@@ -53,7 +53,7 @@ export default function Estadisticas() {
   };
 
   const permutasPorAsignaturaData = {
-    labels: estadisticasPermutas.permutasPorAsignatura.map(item => item.nombre),
+    labels: estadisticasPermutas.permutasPorAsignatura.map(item => item.siglas),
     datasets: [{
       label: 'Permutas por Asignatura',
       data: estadisticasPermutas.permutasPorAsignatura.map(item => item.cantidad),
