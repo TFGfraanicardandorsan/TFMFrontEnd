@@ -24,7 +24,7 @@ export default function MisIncidencias() {
 
     return (
         <>
-            <div className="container">
+            <div className="container" style={{ display: "flow", paddingBottom: "40px" }}>
                 <div className="header">
                     <h1>Todas las Incidencias</h1>
                 </div>
@@ -41,7 +41,7 @@ export default function MisIncidencias() {
                             <div key={incidencia.id} className="incidencia-card">
                                 <p><strong>Tipo de Incidencia:</strong> {incidencia.tipo_incidencia}</p>
                                 <p><strong>Estado:</strong> {incidencia.solucionada}</p>
-                                <p><strong>Comentario:</strong> {incidencia.descripcion}</p>
+                                <p><strong>Comentario:</strong> {incidencia.estado_incidencia}</p>
                             </div>
                         ))}
                     </div>
