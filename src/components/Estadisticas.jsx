@@ -9,7 +9,6 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 export default function Estadisticas() {
   const [estadisticasPermutas, setEstadisticasPermutas] = useState(null);
   const [estadisticasSolicitudes, setEstadisticasSolicitudes] = useState(null);
-  const [estadisticasIncidencias, setEstadisticasIncidencias] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -19,11 +18,9 @@ export default function Estadisticas() {
         const [permutasData, solicitudesData, incidenciasData] = await Promise.all([
           obtenerEstadisticasPermutas(),
           obtenerEstadisticasSolicitudes(),
-          obtenerEstadisticasIncidencias()
         ]);
         setEstadisticasPermutas(permutasData.data.result);
         setEstadisticasSolicitudes(solicitudesData.data.result);
-        setEstadisticasIncidencias(incidenciasData.data.result);
         setLoading(false);
       } catch (err) {
         setError('Error al cargar las estadísticas');
