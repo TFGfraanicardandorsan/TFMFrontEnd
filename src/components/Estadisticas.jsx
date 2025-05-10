@@ -21,9 +21,9 @@ export default function Estadisticas() {
           obtenerEstadisticasSolicitudes(),
           obtenerEstadisticasIncidencias()
         ]);
-        setEstadisticasPermutas(permutasData.result.data);
-        setEstadisticasSolicitudes(solicitudesData.result.data);
-        setEstadisticasIncidencias(incidenciasData.result.data);
+        setEstadisticasPermutas(permutasData.data.result);
+        setEstadisticasSolicitudes(solicitudesData.data.result);
+        setEstadisticasIncidencias(incidenciasData.data.result);
         setLoading(false);
       } catch (err) {
         setError('Error al cargar las estadísticas');
@@ -31,6 +31,8 @@ export default function Estadisticas() {
       }
     };
 
+    console.log("Cargando estadísticas...");
+    cons
     cargarEstadisticas();
   }, []);
 
