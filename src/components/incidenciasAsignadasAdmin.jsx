@@ -22,8 +22,7 @@ export default function IncidenciasAsignadasAdmin() {
 
   const handleResolverIncidencia = async (idIncidencia) => {
     try {
-      console.log("Resolviendo incidencia:", idIncidencia);
-      const response = await solucionarIncidencia({id_incidencia: idIncidencia});
+      const response = await solucionarIncidencia(idIncidencia);
       if (!response.err) {
         setIncidencias(incidencias.filter((incidencia) => incidencia.id !== idIncidencia));
         alert(`Incidencia ${idIncidencia} resuelta correctamente`);
@@ -37,7 +36,7 @@ export default function IncidenciasAsignadasAdmin() {
   };
   return (
     <>
-      <div className="container">
+      <div className="container" style={{ display: "flow", paddingBottom: "40px" }}>
         <div className="header">
           <h1>Mis Incidencias</h1>
         </div>
@@ -52,9 +51,6 @@ export default function IncidenciasAsignadasAdmin() {
             {incidencias.map((incidencia) => (
               <div key={incidencia.id} className="incidencia-card">
                 <p>
-                  <strong>Incidencia:</strong> {incidencia.id}
-                </p>
-                <p>
                   <strong>Tipo de Incidencia:</strong> {incidencia.descripcion}
                 </p>
                 <p>
@@ -63,12 +59,7 @@ export default function IncidenciasAsignadasAdmin() {
                 <p>
                   <strong>Comentario:</strong> {incidencia.tipo_incidencia}
                 </p>
-                <button
-                  className="resolver-button"
-                  onClick={() => handleResolverIncidencia(incidencia.id)}
-                >
-                  Resolver Incidencia
-                </button>
+                <button className="big-button" onClick={() => handleResolverIncidencia(incidencia.id)}>Resolver Incidencia</button>
               </div>
             ))}
           </div>
