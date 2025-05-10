@@ -52,7 +52,7 @@ export default function NavbarAdmin() {
             <Link to="/">Inicio</Link>
           </li>
           <li>
-            <Link to="/misIncidencias">Mis incidencias</Link>
+            <Link to="/incidencias">Mis incidencias</Link>
           </li>
           <li>
             <Link to="/crearNotificacion">Crear notificación</Link>
