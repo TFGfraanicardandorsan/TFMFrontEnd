@@ -19,8 +19,8 @@ export default function Estadisticas() {
           obtenerEstadisticasPermutas(),
           obtenerEstadisticasSolicitudes(),
         ]);
-        setEstadisticasPermutas(permutasData.data.result);
-        setEstadisticasSolicitudes(solicitudesData.data.result);
+        setEstadisticasPermutas(permutasData.result.data);
+        setEstadisticasSolicitudes(solicitudesData.result.data);
         setLoading(false);
       } catch (err) {
         setError('Error al cargar las estadísticas');
