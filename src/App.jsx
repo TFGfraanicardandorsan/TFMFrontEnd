@@ -63,6 +63,8 @@ export function App() {
           <Route path="/admin" element={<Home />} />
           <Route path="/estadisticas" element={<Estadisticas />} /> 
           <Route path="/crearNotificacion" element={<CrearNotificacion />} />
+          <Route path="/incidencias" element={<Incidencias />} />
+
           </Route>
         </Routes>
 
