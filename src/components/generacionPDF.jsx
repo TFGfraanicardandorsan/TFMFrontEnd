@@ -5,6 +5,7 @@ import { obtenerPlantillaPermuta,subidaArchivo,servirArchivo } from "../services
 import { verListaPermutas, listarPermutas, firmarPermuta, aceptarPermuta } from "../services/permuta.js";
 import "../styles/generacionPDF-style.css";
 import { dayValue,monthValue,yearValue } from "../lib/generadorFechas.js";
+import { validarDNI, validarLetraDNI, validarCampoObligatorio, validarCodigoPostal, validarTelefono } from "../lib/validadores.js";
 
 export default function GeneracionPDF() {
   const [dni, setDni] = useState("");
@@ -201,68 +202,6 @@ export default function GeneracionPDF() {
     }
   }
 
-  const enviarPDF = async () => {
-    if (!validarFormulario()) {
-      alert("Por favor, corrige los errores en el formulario");
-      return;
-    }
-    try {
-      const pdfBytes = await generarPDF();
-      const pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
-      const formData = new FormData();
-      formData.append("tipo", "buzon");
-      formData.append("file", pdfBlob, "solicitud-permutas.pdf");
-      const response = await subidaArchivo(formData);
-      const fileId = response?.result?.fileId;
-      if (!fileId) {
-        alert("Error al subir el archivo PDF.");
-        return;
-      }
-      if (estadoPermuta === "BORRADOR") {
-        await firmarPermuta(fileId,permutaId)
-      } else {
-        await aceptarPermuta(fileId,permutaId)
-      }
-      alert("PDF enviado correctamente.");
-    } catch (error) {
-      console.error("Error al enviar el PDF:", error);
-      alert("Error al enviar el PDF");
-    }
-  };
-
-  const validarDNI = (value) => {
-    const dniRegex = /^[0-9]{8}$/;
-    if (!value) return "El DNI es obligatorio";
-    if (!dniRegex.test(value)) return "El DNI debe tener 8 números";
-    return "";
-  };
-
-  const validarLetraDNI = (value) => {
-    const letraRegex = /^[A-Z]$/;
-    if (!value) return "La letra es obligatoria";
-    if (!letraRegex.test(value)) return "Debe ser una letra mayúscula";
-    return "";
-  };
-
-  const validarCodigoPostal = (value) => {
-    const cpRegex = /^[0-9]{5}$/;
-    if (!value) return "El código postal es obligatorio";
-    if (!cpRegex.test(value)) return "El código postal debe tener 5 números";
-    return "";
-  };
-
-  const validarTelefono = (value) => {
-    const telefonoRegex = /^[0-9]{9}$/;
-    if (!value) return "El teléfono es obligatorio";
-    if (!telefonoRegex.test(value)) return "El teléfono debe tener 9 números";
-    return "";
-  };
-
-  const validarCampoObligatorio = (value, campo) => {
-    if (!value.trim()) return `El campo ${campo} es obligatorio`;
-    return "";
-  };
-
   const handleDNIChange = (e) => {
     const value = e.target.value;
     setDni(value);
@@ -311,7 +250,6 @@ export default function GeneracionPDF() {
     };
 
     setErrors(nuevoErrors);
-
     // Comprobar si hay algún error
     return !Object.values(nuevoErrors).some(error => error !== "");
   };
@@ -419,7 +357,6 @@ export default function GeneracionPDF() {
           <div className="asociarBoton">
             <button onClick={mostrarPDF}>Visualizar</button>
             <button onClick={descargarPDF}>Descargar</button>
-            <button onClick={enviarPDF}>Enviar</button>
           </div>
         </div>
         <div className="pdf-container">
