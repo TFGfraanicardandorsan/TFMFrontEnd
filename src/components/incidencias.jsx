@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "../styles/misIncidencias-style.css";
 import { useNavigate } from "react-router-dom";
 import { obtenerIncidencias } from "../services/incidencia";
-
+// REVISAR CON FRAN Y BORRAR
 export default function MisIncidencias() {
     const navigate = useNavigate();
     const [incidencias, setIncidencias] = useState([]);

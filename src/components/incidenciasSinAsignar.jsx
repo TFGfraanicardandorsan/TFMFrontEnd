@@ -3,7 +3,7 @@ import "../styles/misIncidencias-style.css";
 import { useNavigate } from "react-router-dom";
 import { obtenerIncidenciasSinAsignar, asignarmeIncidencia } from "../services/incidencia";
 
-export default function MisIncidencias() {
+export default function IncidenciasSinAsignar() {
     const navigate = useNavigate();
     const [incidencias, setIncidencias] = useState([]);
     const [cargando, setCargando] = useState(true);
@@ -26,7 +26,6 @@ export default function MisIncidencias() {
 
     const handleAsignarIncidencia = async (idIncidencia) => {
         try {
-            console.log("Asignando incidencia con ID:", idIncidencia);
             const response = await asignarmeIncidencia({ id_incidencia: idIncidencia }); // Enviar como objeto
             if (!response.err) {
                 // Actualizar la lista de incidencias eliminando la asignada
