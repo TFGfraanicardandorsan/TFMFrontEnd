@@ -9,18 +9,21 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 export default function Estadisticas() {
   const [estadisticasPermutas, setEstadisticasPermutas] = useState(null);
   const [estadisticasSolicitudes, setEstadisticasSolicitudes] = useState(null);
+  const [estadisticasIncidencias, setEstadisticasIncidencias] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const cargarEstadisticas = async () => {
       try {
-        const [permutasData, solicitudesData] = await Promise.all([
+        const [permutasData, solicitudesData,incidenciasData] = await Promise.all([
           obtenerEstadisticasPermutas(),
           obtenerEstadisticasSolicitudes(),
+          obtenerEstadisticasIncidencias(),
         ]);
         setEstadisticasPermutas(permutasData.result.data);
         setEstadisticasSolicitudes(solicitudesData.result.data);
+        setEstadisticasIncidencias(incidenciasData.result.result);
         setLoading(false);
       } catch (err) {
         setError('Error al cargar las estadísticas');
@@ -69,6 +72,37 @@ export default function Estadisticas() {
       ],
     }]
   };
+  const incidenciasPorEstadoData = {
+    labels: estadisticasIncidencias.incidenciasPorEstado.map(item => item.estado),
+    datasets: [{
+      data: estadisticasIncidencias.incidenciasPorEstado.map(item => item.cantidad),
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.5)',
+        'rgba(54, 162, 235, 0.5)',
+        'rgba(255, 206, 86, 0.5)',
+      ],
+    }]
+  };
+  const incidenciasPorTipoData = {
+    labels: estadisticasIncidencias.incidenciasPorTipo.map(item => item.tipo),
+    datasets: [{
+      data: estadisticasIncidencias.incidenciasPorTipo.map(item => item.cantidad),
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.5)',
+        'rgba(54, 162, 235, 0.5)',
+        'rgba(255, 206, 86, 0.5)',
+      ],
+    }]
+  };
+
+  const incidenciasPorMesData = {
+    labels: estadisticasIncidencias.incidenciasPorMes.map(item => `${item.mes}/${item.anio}`),
+    datasets: [{
+      label: 'Incidencias por Mes',
+      data: estadisticasIncidencias.incidenciasPorMes.map(item => parseInt(item.cantidad, 10)),
+      backgroundColor: 'rgba(54, 162, 235, 0.5)',
+    }]
+  };
 
   return (
     <>
@@ -90,8 +124,23 @@ export default function Estadisticas() {
             <h2>Solicitudes por Estado</h2>
             <Pie key="solicitudesPorEstadoData" data={solicitudesPorEstadoData} />
           </div>
+          <div className="stat-card">
+            <h2>Incidencias por Estado</h2>
+            <Pie key="incidenciasPorEstadoData" data={incidenciasPorEstadoData} />
+
         </div>
+          <div className="stat-card">
+            <h2>Incidencias por Tipo</h2>
+            <Pie key="incidenciasPorTipoData" data={incidenciasPorTipoData} />
+          </div>
+
+          <div className="stat-card">
+            <h2>Incidencias por Mes</h2>
+            <Bar key="incidenciasPorMesData" data={incidenciasPorMesData} />
+          </div>  
+
       </div>
+    </div>
     </>
   );
 }
