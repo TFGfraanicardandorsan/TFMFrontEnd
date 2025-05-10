@@ -10,7 +10,7 @@ export default function IncidenciasAsignadasAdmin() {
     const cargarIncidencias = async () => {
       try {
         const data = await obtenerIncidenciasAsignadasAdmin();
-        setIncidencias(data);
+        setIncidencias(data.result.result);
       } catch (error) {
         console.error("Error al obtener las incidencias:", error);
       } finally {
