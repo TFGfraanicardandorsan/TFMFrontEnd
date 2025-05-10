@@ -49,7 +49,6 @@ export function App() {
           <Route path="/seleccionarGrupos" element={<SolicitarGrupos />} />
           <Route path="/misIncidencias" element={<MisIncidencias />} />
           <Route path="/reportarIncidencia" element={<ReportarIncidencia />} />
-          <Route path="/incidencias" element={<Incidencias />} />
           <Route path="/generarPermuta" element={<GeneracionPDF />} />
           <Route path="/permutasAceptadas" element={<PermutasAceptadas />} />
           <Route path="/misPermutas" element={<MisPermutas />} />
