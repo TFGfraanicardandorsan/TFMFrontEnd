@@ -11,7 +11,7 @@ export default function MisIncidencias() {
     useEffect(() => {
         const cargarIncidencias = async () => {
             try {
-                const data = await obtenerIncidenciasAsignadas();
+                const data = await obtenerIncidenciasAsignadasAdmin();
                 setIncidencias(data);
             } catch (error) {
                 console.error("Error al obtener las incidencias:", error);
@@ -51,9 +51,9 @@ export default function MisIncidencias() {
                         {incidencias.map((incidencia) => (
                             <div key={incidencia.id} className="incidencia-card">
                                 <p><strong>Incidencia:</strong> {incidencia.id}</p>
-                                <p><strong>Tipo de Incidencia:</strong> {incidencia.tipo}</p>
-                                <p><strong>Estado:</strong> {incidencia.estado}</p>
-                                <p><strong>Comentario:</strong> {incidencia.comentario}</p>
+                                <p><strong>Tipo de Incidencia:</strong> {incidencia.descripcion}</p>
+                                <p><strong>Estado:</strong> {incidencia.estado_incidencia}</p>
+                                <p><strong>Comentario:</strong> {incidencia.tipo_incidencia}</p>
                                 <button 
                                     className="resolver-button" 
                                     onClick={() => handleResolverIncidencia(incidencia.id)}
