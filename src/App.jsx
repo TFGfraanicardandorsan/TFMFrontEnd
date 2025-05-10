@@ -27,6 +27,7 @@ import CrearNotificacion from "./components/crearNotificacion.jsx";
 import Estadisticas from "./components/Estadisticas.jsx";
 import MisPermutas from "./components/misPermutas.jsx";
 import PermutasAceptadas from "./components/permutasAceptadas.jsx";
+import IncidenciasSinAsignar from "./components/incidenciasSinAsignar.jsx";
 export function App() {
   return (
       <AuthProvider>
@@ -63,7 +64,7 @@ export function App() {
           <Route path="/estadisticas" element={<Estadisticas />} /> 
           <Route path="/crearNotificacion" element={<CrearNotificacion />} />
           <Route path="/incidencias" element={<Incidencias />} />
-
+          <Route path="/incidenciasSinAsignar" element={<IncidenciasSinAsignar />} />
           </Route>
         </Routes>
 
