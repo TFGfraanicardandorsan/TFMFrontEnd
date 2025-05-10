@@ -26,7 +26,7 @@ export default function Estadisticas() {
         setEstadisticasIncidencias(incidenciasData.result.result);
         setLoading(false);
       } catch (err) {
-        setError('Error al cargar las estadísticas');
+        setError('Error al cargar las estadísticas', err);
         setLoading(false);
       }
     };
