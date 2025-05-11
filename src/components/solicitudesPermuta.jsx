@@ -49,12 +49,10 @@ export default function SolicitudesPermuta() {
                       <strong>Asignatura:</strong> {solicitud.nombre_asignatura} ({solicitud.codigo_asignatura}) - 
                       <strong> Grupo Actual:</strong> {solicitud.grupo_solicitante}
                     </p>
-                    <p><strong>Grupos Deseados:</strong></p>
-                    <ul className="grupos-deseados-list">
-                      {solicitud.grupos_deseados.map((grupo, index) => (
-                        <li key={index}>{grupo}</li>
-                      ))}
-                    </ul>
+                    <p>
+                      <strong>Grupos Deseados: </strong>
+                      {solicitud.grupos_deseados.join(', ')}
+                    </p>
                     <p><strong>Estado:</strong> {solicitud.estado}</p>
                   </div>
                 ))

@@ -96,6 +96,15 @@
   background-color: #da190b;
 }
 
+.grupos-inline {
+  display: inline;
+  margin-left: 8px;
+}
+
+.grupo-item {
+  display: inline;
+}
+
 @media (max-width: 768px) {
   .solicitudes-content {
     grid-template-columns: 1fr;
