@@ -47,13 +47,11 @@ export default function SeleccionarGruposSinGrupo() {
     setSeleccionados((prev) => {
       const gruposSeleccionados = prev[codasignatura] || [];
       if (gruposSeleccionados.includes(numgrupo)) {
-        // Si ya está seleccionado, lo quitamos
         return {
           ...prev,
           [codasignatura]: gruposSeleccionados.filter((g) => g !== numgrupo),
         };
       } else {
-        // Si no está seleccionado, lo agregamos
         return {
           ...prev,
           [codasignatura]: [...gruposSeleccionados, numgrupo],
@@ -78,6 +76,10 @@ export default function SeleccionarGruposSinGrupo() {
       alert("Ocurrió un error al solicitar las permutas. Intenta nuevamente.");
     }
   };
+
+  const isSubmitDisabled = Object.values(seleccionados).every(
+    (grupos) => grupos.length === 0
+  );
 
   return (
     <>
@@ -108,7 +110,11 @@ export default function SeleccionarGruposSinGrupo() {
           ))}
         </div>
 
-        <button onClick={handleSubmit} className="boton-guardar">
+        <button
+          onClick={handleSubmit}
+          className="boton-guardar"
+          disabled={isSubmitDisabled}
+        >
           Solicitar
         </button>
       </div>
