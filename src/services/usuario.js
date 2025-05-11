@@ -7,3 +7,7 @@ export const obtenerDatosUsuario = async () => {
 export const actualizarEstudiosUsuario = async (paramEstudio) => {
     return await postAPI("/api/v1/usuario/actualizarEstudiosUsuario", {estudio:paramEstudio})
 }
+
+export const obtenerDatosUsuarioAdmin = async () => {
+    return await postAPI("/api/v1/usuario/obtenerDatosUsuarioAdmin")
+}

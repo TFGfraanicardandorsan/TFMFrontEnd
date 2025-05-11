@@ -4,21 +4,31 @@ import { verListaPermutas } from "../services/permuta";
 import { useNavigate } from "react-router-dom";
 
 export default function MiPerfilAdmin() {
-  const [usuario, setUsuario] = useState({ nombre: "Administrador", correo: "admin@example.com" }); // Datos ficticios del administrador
+  const [usuario, setUsuario] = useState(null); // Datos ficticios del administrador
   const [permutas, setPermutas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const cargarPermutas = async () => {
+ useEffect(() => {
+    const cargarDatos = async () => {
       try {
-        const response = await verListaPermutas();
-        if (!response.err) {
-          setPermutas(response.result.result); // Asume que los datos están en `result.result`
+        // Obtener datos del administrador
+        const responseUsuario = await obtenerDatosUsuarioAdmin();
+        if (!responseUsuario.err) {
+          setUsuario(responseUsuario.result.result); // Asume que los datos están en `result.result`
         } else {
-          throw new Error(response.errmsg);
+          throw new Error(responseUsuario.errmsg);
         }
+
+        // Obtener lista de permutas
+        const responsePermutas = await verListaPermutas();
+        if (!responsePermutas.err) {
+          setPermutas(responsePermutas.result.result); // Asume que los datos están en `result.result`
+        } else {
+          throw new Error(responsePermutas.errmsg);
+        }
+
         setLoading(false);
       } catch (error) {
         setError(error.message);
@@ -26,7 +36,7 @@ export default function MiPerfilAdmin() {
       }
     };
 
-    cargarPermutas();
+    cargarDatos();
   }, []);
 
   const exportarCSV = () => {
@@ -34,6 +44,7 @@ export default function MiPerfilAdmin() {
       alert("No hay datos para exportar.");
       return;
     }
+
 
     const encabezados = Object.keys(permutas[0]).join(","); // Generar encabezados del CSV
     const filas = permutas.map((permuta) =>
