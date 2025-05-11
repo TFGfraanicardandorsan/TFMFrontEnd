@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "../styles/miPerfil-style.css";
-import { verListaPermutas } from "../services/permuta";
+import { getTodasSolicitudesPermuta  } from "../services/permuta";
 import { obtenerDatosUsuarioAdmin } from "../services/usuario"; // Importar la nueva API
 import { useNavigate } from "react-router-dom";
 
