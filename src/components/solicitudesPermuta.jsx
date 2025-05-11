@@ -45,8 +45,10 @@ export default function SolicitudesPermuta() {
               {solicitudes.length > 0 ? (
                 solicitudes.map((solicitud) => (
                   <div key={solicitud.solicitud_id} className="solicitud-card">
-                    <p><strong>Asignatura:</strong> {solicitud.nombre_asignatura} ({solicitud.codigo_asignatura})</p>
-                    <p><strong>Grupo Actual:</strong> {solicitud.grupo_solicitante}</p>
+                    <p>
+                      <strong>Asignatura:</strong> {solicitud.nombre_asignatura} ({solicitud.codigo_asignatura}) - 
+                      <strong> Grupo Actual:</strong> {solicitud.grupo_solicitante}
+                    </p>
                     <p><strong>Grupos Deseados:</strong></p>
                     <ul className="grupos-deseados-list">
                       {solicitud.grupos_deseados.map((grupo, index) => (
