@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react";
 import "../styles/miPerfil-style.css";
 import { verListaPermutas } from "../services/permuta";
+import { obtenerDatosUsuarioAdmin } from "../services/usuario"; // Importar la nueva API
 import { useNavigate } from "react-router-dom";
 
 export default function MiPerfilAdmin() {
-  const [usuario, setUsuario] = useState(null); // Datos ficticios del administrador
+  const [usuario, setUsuario] = useState(null); // Estado para almacenar los datos del administrador
   const [permutas, setPermutas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
- useEffect(() => {
+  useEffect(() => {
     const cargarDatos = async () => {
       try {
         // Obtener datos del administrador
@@ -22,7 +23,7 @@ export default function MiPerfilAdmin() {
         }
 
         // Obtener lista de permutas
-        const responsePermutas = await verListaPermutas();
+        const responsePermutas = await getTodasSolicitudesPermuta();
         if (!responsePermutas.err) {
           setPermutas(responsePermutas.result.result); // Asume que los datos están en `result.result`
         } else {
@@ -45,13 +46,27 @@ export default function MiPerfilAdmin() {
       return;
     }
 
+    // Aplanar los datos del JSON
+    const datosAplanados = permutas.map((permuta) => ({
+      solicitud_id: permuta.solicitud_id,
+      nombre_completo: permuta.usuario.nombre_completo,
+      uvus: permuta.usuario.uvus,
+      estudio: permuta.usuario.estudio,
+      asignatura_nombre: permuta.asignatura.nombre,
+      asignatura_codigo: permuta.asignatura.codigo,
+      grupo_solicitante: permuta.grupo_solicitante,
+      grupos_deseados: permuta.grupos_deseados.join(" | "), // Convertir array a string separado por " | "
+    }));
 
-    const encabezados = Object.keys(permutas[0]).join(","); // Generar encabezados del CSV
-    const filas = permutas.map((permuta) =>
-      Object.values(permuta).map((valor) => `"${valor}"`).join(",")
+    // Generar encabezados del CSV
+    const encabezados = Object.keys(datosAplanados[0]).join(",");
+    // Generar filas del CSV
+    const filas = datosAplanados.map((fila) =>
+      Object.values(fila).map((valor) => `"${valor}"`).join(",")
     );
     const contenidoCSV = [encabezados, ...filas].join("\n");
 
+    // Crear y descargar el archivo CSV
     const blob = new Blob([contenidoCSV], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -78,8 +93,8 @@ export default function MiPerfilAdmin() {
           <div className="perfil-content">
             <div className="perfil-card">
               <h2 className="perfil-card-title">Información Personal</h2>
-              <p><strong>Nombre:</strong> {usuario.nombre}</p>
-              <p><strong>Correo:</strong> {usuario.correo}</p>
+              <p><strong>Nombre:</strong> {usuario?.nombre_completo}</p>
+              <p><strong>Correo:</strong> {usuario?.correo}</p>
             </div>
 
             <div className="perfil-card">
@@ -88,6 +103,21 @@ export default function MiPerfilAdmin() {
                 Exportar Permutas en CSV
               </button>
             </div>
+          </div>
+
+          <div className="perfil-card">
+            <h2 className="perfil-card-title">Lista de Permutas</h2>
+            <ul>
+              {permutas.length > 0 ? (
+                permutas.map((permuta, index) => (
+                  <li key={index}>
+                    <strong>ID:</strong> {permuta.solicitud_id} - <strong>Asignatura:</strong> {permuta.asignatura.nombre} - <strong>Grupos Deseados:</strong> {permuta.grupos_deseados.join(", ")}
+                  </li>
+                ))
+              ) : (
+                <p>No hay permutas disponibles.</p>
+              )}
+            </ul>
           </div>
         </div>
       </div>

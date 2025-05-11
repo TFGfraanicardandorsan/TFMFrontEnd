@@ -15,6 +15,10 @@ export const verListaPermutas = async () => {
     return await postAPI("/api/v1/solicitudPermuta/verListaPermutas");
 }
 
+export const getTodasSolicitudesPermuta = async () => {
+    return await postAPI("/api/v1/solicitudPermuta/getTodasSolicitudesPermuta");
+}
+
 export const aceptarPermutaSolicitudesPermuta = async (solicitud) => {
     return await postAPI("/api/v1/solicitudPermuta/aceptarSolicitudPermuta", {solicitud});
 }
