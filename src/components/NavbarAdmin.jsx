@@ -73,7 +73,7 @@ export default function NavbarAdmin() {
           <FontAwesomeIcon
             icon={faUser}
             className="icon user"
-            onClick={() => navigate("/miPerfil")}
+            onClick={() => navigate("/miPerfilAdmin")}
           />
           <FontAwesomeIcon
             icon={faSignOutAlt}

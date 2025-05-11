@@ -28,6 +28,7 @@ import MisPermutas from "./components/misPermutas.jsx";
 import PermutasAceptadas from "./components/permutasAceptadas.jsx";
 import IncidenciasSinAsignar from "./components/incidenciasSinAsignar.jsx";
 import IncidenciasAsignadasAdmin from "./components/incidenciasAsignadasAdmin.jsx";
+import MiPerfilAdmin from "./components/miPerfilAdmin.jsx";
 export function App() {
   return (
       <AuthProvider>
@@ -65,7 +66,7 @@ export function App() {
           <Route path="/incidenciasSinAsignar" element={<IncidenciasSinAsignar />} />
           <Route path="/incidencias" element={<IncidenciasAsignadasAdmin />} />
           <Route path="/crearNotificacion" element={<CrearNotificacion />} />
-
+          <Route path="/miPerfilAdmin" element={<MiPerfilAdmin />} />
           </Route>
         </Routes>
 
