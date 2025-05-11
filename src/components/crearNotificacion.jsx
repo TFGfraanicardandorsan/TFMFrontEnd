@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { crearNotificacion } from "../services/notificacion";
+import "./../styles/crearNotificacion.css";
 
 export default function CrearNotificacion() {
     const [contenido, setContenido] = useState("");
