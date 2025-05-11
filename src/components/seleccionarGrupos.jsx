@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import { obtenerTodosGruposMisAsignaturasUsuario, insertarMisGrupos } from "../services/grupo.js";
 import "../styles/seleccionarGrupos-style.css";
 import { useNavigate } from "react-router-dom";
+
 export default function SeleccionarGrupos() {
   const [asignaturas, setAsignaturas] = useState([]);
   const [seleccionados, setSeleccionados] = useState({});
+  const [error, setError] = useState(""); // Estado para manejar errores
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,6 +45,18 @@ export default function SeleccionarGrupos() {
   };
 
   const handleSubmit = async () => {
+    // Validar que todos los grupos estén seleccionados
+    const asignaturasSinGrupo = asignaturas.filter(
+      ({ codasignatura }) => !seleccionados[codasignatura]
+    );
+
+    if (asignaturasSinGrupo.length > 0) {
+      setError("Por favor selecciona un grupo para todas las asignaturas.");
+      return;
+    }
+
+    setError(""); // Limpiar el error si todo está bien
+
     for (let [codasignatura, numgrupo] of Object.entries(seleccionados)) {
       try {
         await insertarMisGrupos(numgrupo, codasignatura);
@@ -60,6 +74,7 @@ export default function SeleccionarGrupos() {
     <>
       <div className="contenedor">
         <h2 className="titulo">Selecciona tus grupos</h2>
+        {error && <p className="error">{error}</p>}
         <div className="tarjetas-grid">
           {asignaturas.map(({ codasignatura, nombreasignatura, grupos }) => (
             <div key={codasignatura} className="tarjeta">
@@ -86,7 +101,15 @@ export default function SeleccionarGrupos() {
             </div>
           ))}
         </div>
-        <button onClick={handleSubmit} className="boton-guardar">Guardar</button>
+        <button
+          onClick={handleSubmit}
+          className="boton-guardar"
+          disabled={asignaturas.some(
+            ({ codasignatura }) => !seleccionados[codasignatura]
+          )} // Deshabilitar si falta algún grupo
+        >
+          Guardar
+        </button>
       </div>
     </>
   );
