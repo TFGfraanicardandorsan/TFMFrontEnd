@@ -280,148 +280,149 @@ const generarPDF = async () => {
     return !Object.values(nuevoErrors).some((error) => error !== "");
   };
 
-  return (
-    <>
-      <br />
-      <h1>Generación documentación permuta</h1>
-      <div className="container">
-        <div className="formulario">
-          <div className="asociar">
-            <label>
-              DNI:
-              <input
-                type="text"
-                value={dni}
-                onChange={handleDNIChange}
-                className={errors.dni ? "input-error" : ""}
-              />
-              {errors.dni && (
-                <span className="error-message">{errors.dni}</span>
-              )}
-            </label>
-            <label>
-              Letra DNI:
-              <input
-                type="text"
-                value={letraDNI}
-                onChange={handleLetraDNIChange}
-                maxLength="1"
-                className={errors.letraDNI ? "input-error" : ""}
-              />
-              {errors.letraDNI && (
-                <span className="error-message">{errors.letraDNI}</span>
-              )}
-            </label>
-          </div>
-          <label>
-            Domicilio:
+return (
+  <>
+    <br />
+    <h1>Generación documentación permuta</h1>
+    <div className="permuta-container">
+      <div className="permuta-formulario">
+        <div className="permuta-asociar">
+          <label className="permuta-label">
+            DNI:
             <input
               type="text"
-              value={domicilio}
-              onChange={(e) => {
-                setDomicilio(e.target.value);
-                setErrors((prev) => ({
-                  ...prev,
-                  domicilio: validarCampoObligatorio(
-                    e.target.value,
-                    "domicilio"
-                  ),
-                }));
-              }}
-              className={errors.domicilio ? "input-error" : ""}
+              value={dni}
+              onChange={handleDNIChange}
+              className={`permuta-input ${errors.dni ? "permuta-input-error" : ""}`}
             />
-            {errors.domicilio && (
-              <span className="error-message">{errors.domicilio}</span>
-            )}
+            {errors.dni && <span className="permuta-error-message">{errors.dni}</span>}
           </label>
-          <label>
-            Población:
+          <label className="permuta-label">
+            Letra DNI:
             <input
               type="text"
-              value={poblacion}
-              onChange={(e) => {
-                setPoblacion(e.target.value);
-                setErrors((prev) => ({
-                  ...prev,
-                  poblacion: validarCampoObligatorio(
-                    e.target.value,
-                    "población"
-                  ),
-                }));
-              }}
-              className={errors.poblacion ? "input-error" : ""}
+              value={letraDNI}
+              onChange={handleLetraDNIChange}
+              maxLength="1"
+              className={`permuta-input ${errors.letraDNI ? "permuta-input-error" : ""}`}
             />
-            {errors.poblacion && (
-              <span className="error-message">{errors.poblacion}</span>
+            {errors.letraDNI && (
+              <span className="permuta-error-message">{errors.letraDNI}</span>
             )}
           </label>
-          <div className="asociar">
-            <label>
-              Código Postal:
-              <input
-                type="text"
-                value={codigoPostal}
-                onChange={handleCodigoPostalChange}
-                className={errors.codigoPostal ? "input-error" : ""}
-              />
-              {errors.codigoPostal && (
-                <span className="error-message">{errors.codigoPostal}</span>
-              )}
-            </label>
-            <label>
-              Provincia:
-              <input
-                type="text"
-                value={provincia}
-                onChange={(e) => {
-                  setProvincia(e.target.value);
-                  setErrors((prev) => ({
-                    ...prev,
-                    provincia: validarCampoObligatorio(
-                      e.target.value,
-                      "provincia"
-                    ),
-                  }));
-                }}
-                className={errors.provincia ? "input-error" : ""}
-              />
-              {errors.provincia && (
-                <span className="error-message">{errors.provincia}</span>
-              )}
-            </label>
-          </div>
-          <label>
-            Teléfono:
-            <input
-              type="text"
-              value={telefono}
-              onChange={handleTelefonoChange}
-              className={errors.telefono ? "input-error" : ""}
-            />
-            {errors.telefono && (
-              <span className="error-message">{errors.telefono}</span>
-            )}
-          </label>
-          <br />
-          <div className="asociarBoton">
-            <button onClick={mostrarPDF}>Visualizar</button>
-            <button onClick={descargarPDF}>Descargar</button>
-          </div>
         </div>
-        <div className="pdf-container">
-          <iframe ref={iframeRef} title="PDF generado"></iframe>
-        </div>
-        <div>
+
+        <label className="permuta-label">
+          Domicilio:
           <input
-            disabled={estadoPermuta==='ACEPTADA'}
+            type="text"
+            value={domicilio}
+            onChange={(e) => {
+              setDomicilio(e.target.value);
+              setErrors((prev) => ({
+                ...prev,
+                domicilio: validarCampoObligatorio(e.target.value, "domicilio"),
+              }));
+            }}
+            className={`permuta-input ${errors.domicilio ? "permuta-input-error" : ""}`}
+          />
+          {errors.domicilio && (
+            <span className="permuta-error-message">{errors.domicilio}</span>
+          )}
+        </label>
+
+        <label className="permuta-label">
+          Población:
+          <input
+            type="text"
+            value={poblacion}
+            onChange={(e) => {
+              setPoblacion(e.target.value);
+              setErrors((prev) => ({
+                ...prev,
+                poblacion: validarCampoObligatorio(e.target.value, "población"),
+              }));
+            }}
+            className={`permuta-input ${errors.poblacion ? "permuta-input-error" : ""}`}
+          />
+          {errors.poblacion && (
+            <span className="permuta-error-message">{errors.poblacion}</span>
+          )}
+        </label>
+
+        <div className="permuta-asociar">
+          <label className="permuta-label">
+            Código Postal:
+            <input
+              type="text"
+              value={codigoPostal}
+              onChange={handleCodigoPostalChange}
+              className={`permuta-input ${errors.codigoPostal ? "permuta-input-error" : ""}`}
+            />
+            {errors.codigoPostal && (
+              <span className="permuta-error-message">{errors.codigoPostal}</span>
+            )}
+          </label>
+          <label className="permuta-label">
+            Provincia:
+            <input
+              type="text"
+              value={provincia}
+              onChange={(e) => {
+                setProvincia(e.target.value);
+                setErrors((prev) => ({
+                  ...prev,
+                  provincia: validarCampoObligatorio(e.target.value, "provincia"),
+                }));
+              }}
+              className={`permuta-input ${errors.provincia ? "permuta-input-error" : ""}`}
+            />
+            {errors.provincia && (
+              <span className="permuta-error-message">{errors.provincia}</span>
+            )}
+          </label>
+        </div>
+
+        <label className="permuta-label">
+          Teléfono:
+          <input
+            type="text"
+            value={telefono}
+            onChange={handleTelefonoChange}
+            className={`permuta-input ${errors.telefono ? "permuta-input-error" : ""}`}
+          />
+          {errors.telefono && (
+            <span className="permuta-error-message">{errors.telefono}</span>
+          )}
+        </label>
+
+        <div className="permuta-botones">
+          <button className="permuta-button" onClick={mostrarPDF}>Visualizar</button>
+          <button className="permuta-button" onClick={descargarPDF}>Descargar</button>
+        </div>
+
+        <div className="permuta-boton-enviar">
+          <input
+            disabled={estadoPermuta === "ACEPTADA"}
             type="file"
             id="file"
-            accept="application/pdf" // Solo permite archivos PDF
+            accept="application/pdf"
             onChange={handleFileChange}
           />
-          <button disabled= {estadoPermuta==='ACEPTADA'} onClick={handleUpload}>Enviar pdf</button>
+          <button
+            className="permuta-button"
+            disabled={estadoPermuta === "ACEPTADA"}
+            onClick={handleUpload}
+          >
+            Enviar PDF
+          </button>
         </div>
       </div>
-    </>
-  );
+
+      <div className="permuta-pdf-container">
+        <iframe className="permuta-iframe" ref={iframeRef} title="PDF generado"></iframe>
+      </div>
+    </div>
+  </>
+);
 }
