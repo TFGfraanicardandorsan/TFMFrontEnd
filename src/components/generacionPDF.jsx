@@ -201,7 +201,6 @@ export default function GeneracionPDF() {
         ];
         datos.forEach((valor, i) => camposEst2[i].setText(valor));
       }
-      form.flatten();
       return await pdfDoc.save();
     } catch (e) {
       console.error("Error generando PDF:", e);
@@ -452,7 +451,7 @@ export default function GeneracionPDF() {
           </label>
 
           <div className="permuta-botones">
-            <button className="permuta-button" onClick={mostrarPDF}>
+            <button disabled={estadoPermuta==='ACEPTADA'} className="permuta-button" onClick={mostrarPDF}>
               Visualizar
             </button>
             <button className="permuta-button" onClick={descargarPDF}>
