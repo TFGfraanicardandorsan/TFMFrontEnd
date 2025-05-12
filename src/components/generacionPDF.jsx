@@ -480,7 +480,7 @@ export default function GeneracionPDF() {
               type="application/pdf"
               width="100%"
               height="100%" 
-              style={{ border: "none", display: "block", objectFit: "contain" }}
+              style={{ border: "none", margin:0, padding:0 }}
             >
               <p>
                 No se puede mostrar el PDF. <a href={pdfUrl}>Descargar</a>
