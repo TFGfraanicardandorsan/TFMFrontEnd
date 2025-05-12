@@ -26,6 +26,7 @@ import 'react-pdf/dist/esm/Page/TextLayer.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 
 pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+pdfjs.GlobalWorkerOptions.standardFontDataUrl = '/standard_fonts/';
 
 export default function GeneracionPDF() {
   const [dni, setDni] = useState("");
@@ -481,7 +482,7 @@ export default function GeneracionPDF() {
         <div className="permuta-pdf-container">
           {pdfUrl && (
             <Document file={pdfUrl}>
-              <Page pageNumber={1} width={600} />
+              <Page pageNumber={1} scale={1.5} />
             </Document>
           )}
         </div>
