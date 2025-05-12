@@ -22,7 +22,9 @@ import {
   validarTelefono,
 } from "../lib/validadores.js";
 import { Document, Page, pdfjs } from 'react-pdf';
-pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+
+pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js';
 
 export default function GeneracionPDF() {
   const [dni, setDni] = useState("");
