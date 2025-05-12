@@ -68,7 +68,9 @@ export default function GeneracionPDF() {
           setPdfExistente(bytes);
 
           if (estado === "ACEPTADA") {
-            const pdfUrl = URL.createObjectURL( new Blob([bytes], { type: "application/pdf" }) );
+            const pdfUrl = URL.createObjectURL(
+              new Blob([bytes], { type: "application/pdf" })
+            );
             setPdfUrl(pdfUrl);
           }
         }
@@ -479,6 +481,7 @@ export default function GeneracionPDF() {
               width="100%"
               height="800px"
               style={{ border: "none" }}
+              sandbox="allow-scripts allow-same-origin"
             >
               <p>
                 No se puede mostrar el PDF. <a href={pdfUrl}>Descargar</a>
