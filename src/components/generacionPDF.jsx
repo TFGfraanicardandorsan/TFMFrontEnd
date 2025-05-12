@@ -413,12 +413,13 @@ const generarPDF = async () => {
         </div>
         <div>
           <input
+            disabled={estadoPermuta==='ACEPTADA'}
             type="file"
             id="file"
             accept="application/pdf" // Solo permite archivos PDF
             onChange={handleFileChange}
           />
-          <button onClick={handleUpload}>Enviar pdf</button>
+          <button disabled= {estadoPermuta==='ACEPTADA'} onClick={handleUpload}>Enviar pdf</button>
         </div>
       </div>
     </>
