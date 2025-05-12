@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
 import {
@@ -21,6 +21,7 @@ import {
   validarCodigoPostal,
   validarTelefono,
 } from "../lib/validadores.js";
+import PermutaPdfViewer from "./PermutaPdfViewer.jsx";
 
 export default function GeneracionPDF() {
   const [dni, setDni] = useState("");
@@ -45,142 +46,162 @@ export default function GeneracionPDF() {
     provincia: "",
     telefono: "",
   });
-  const iframeRef = useRef(null);
+  const [pdfUrl, setPdfUrl] = useState(null);
 
- useEffect(() => {
-  const cargarDatos = async () => {
-    try {
-      const lista = await verListaPermutas();
-      setUsuarios(lista.result.result[0].usuarios);
-      setPermutas(lista.result.result[0].permutas);
+  useEffect(() => {
+    const cargarDatos = async () => {
+      try {
+        const lista = await verListaPermutas();
+        setUsuarios(lista.result.result[0].usuarios);
+        setPermutas(lista.result.result[0].permutas);
 
-      const idsPermutas = lista.result.result[0].permutas.map(
-        (permuta) => permuta.permuta_id
-      );
-      const permuta = await listarPermutas(idsPermutas);
-      const estado = permuta?.result?.result[0]?.estado;
-      const fileId = permuta?.result?.result[0]?.archivo;
-      setPermutaId(permuta?.result?.result[0]?.id);
+        const idsPermutas = lista.result.result[0].permutas.map(
+          (permuta) => permuta.permuta_id
+        );
+        const permuta = await listarPermutas(idsPermutas);
+        const estado = permuta?.result?.result[0]?.estado;
+        const fileId = permuta?.result?.result[0]?.archivo;
+        setPermutaId(permuta?.result?.result[0]?.id);
 
-      if (estado !== "BORRADOR") {
-        setEstadoPermuta(estado);
-        const bytes = await servirArchivo("buzon", fileId);
-        setPdfExistente(bytes);
+        if (estado !== "BORRADOR") {
+          setEstadoPermuta(estado);
+          const bytes = await servirArchivo("buzon", fileId);
+          setPdfExistente(bytes);
 
-        if (estado === "ACEPTADA") {
-          const blob = new Blob([bytes], { type: "application/pdf" });
-          const pdfUrl = URL.createObjectURL(blob);
-          if (iframeRef.current) {
-            iframeRef.current.src = pdfUrl;
+          if (estado === "ACEPTADA") {
+            const blob = new Blob([bytes], { type: "application/pdf" });
+            const pdfUrl = URL.createObjectURL(blob);
+            setPdfUrl(pdfUrl);
           }
         }
+      } catch (error) {
+        console.error("Error cargando datos:", error);
       }
-    } catch (error) {
-      console.error("Error cargando datos:", error);
+    };
+    cargarDatos();
+  }, []);
+
+  const generarPDF = async () => {
+    try {
+      const existingPdfBytes =
+        estadoPermuta !== "BORRADOR" && pdfExistente
+          ? pdfExistente
+          : await obtenerPlantillaPermuta();
+
+      const pdfDoc = await PDFDocument.load(existingPdfBytes);
+      const form = pdfDoc.getForm();
+
+      // Grado (bloqueado siempre)
+      const grado1 = form.getCheckBox("GII-IS");
+      const grado2 = form.getCheckBox("GII-IC");
+      const grado3 = form.getCheckBox("GII-TI");
+      const grado4 = form.getCheckBox("GISA");
+      [grado1, grado2, grado3, grado4].forEach((g) => g.enableReadOnly());
+
+      const estudio = usuarios[0]?.estudio;
+      switch (estudio) {
+        case "GII-IS":
+          grado1.check();
+          break;
+        case "GII-IC":
+          grado2.check();
+          break;
+        case "GII-TI":
+          grado3.check();
+          break;
+        case "GISA":
+          grado4.check();
+          break;
+      }
+
+      // Fechas (bloqueadas siempre)
+      const day = form.getTextField("DAY");
+      const month = form.getTextField("MONTH");
+      const year = form.getTextField("YEAR");
+      day.setText(dayValue);
+      month.setText(monthValue);
+      year.setText(yearValue);
+      [day, month, year].forEach((f) => f.enableReadOnly());
+
+      // Asignaturas (bloqueadas siempre)
+      for (let index = 0; index < 16; index++) {
+        const asignatura = permutas[index];
+        const asignaturaField1 = form.getTextField(`ASIGNATURA1-${index + 1}`);
+        const asignaturaField2 = form.getTextField(`ASIGNATURA2-${index + 1}`);
+        const codigoField1 = form.getTextField(`COD1-${index + 1}`);
+        const codigoField2 = form.getTextField(`COD2-${index + 1}`);
+
+        if (asignatura) {
+          asignaturaField1.setText(asignatura.nombre_asignatura);
+          asignaturaField2.setText(asignatura.nombre_asignatura);
+          codigoField1.setText(asignatura.codigo_asignatura);
+          codigoField2.setText(asignatura.codigo_asignatura);
+        }
+        [
+          asignaturaField1,
+          asignaturaField2,
+          codigoField1,
+          codigoField2,
+        ].forEach((f) => f.enableReadOnly());
+      }
+
+      // Datos personales
+      const camposEst1 = [
+        form.getTextField("DNI1"),
+        form.getTextField("LETRA1"),
+        form.getTextField("NOMBRE1"),
+        form.getTextField("DOMICILIO1"),
+        form.getTextField("POBLACION1"),
+        form.getTextField("COD-POSTAL1"),
+        form.getTextField("PROVINCIA1"),
+        form.getTextField("TELEFONO1"),
+      ];
+      const camposEst2 = [
+        form.getTextField("DNI2"),
+        form.getTextField("LETRA2"),
+        form.getTextField("NOMBRE2"),
+        form.getTextField("DOMICILIO2"),
+        form.getTextField("POBLACION2"),
+        form.getTextField("COD-POSTAL2"),
+        form.getTextField("PROVINCIA2"),
+        form.getTextField("TELEFONO2"),
+      ];
+
+      [...camposEst1, ...camposEst2].forEach((f) => f.enableReadOnly());
+
+      if (estadoPermuta === "BORRADOR") {
+        const usuario = usuarios[0];
+        const datos = [
+          dni,
+          letraDNI,
+          usuario.nombre_completo,
+          domicilio,
+          poblacion,
+          codigoPostal,
+          provincia,
+          telefono,
+        ];
+        datos.forEach((valor, i) => camposEst1[i].setText(valor));
+      } else if (estadoPermuta === "FIRMADA") {
+        const usuario = usuarios[1];
+        const datos = [
+          dni,
+          letraDNI,
+          usuario.nombre_completo,
+          domicilio,
+          poblacion,
+          codigoPostal,
+          provincia,
+          telefono,
+        ];
+        datos.forEach((valor, i) => camposEst2[i].setText(valor));
+      }
+
+      return await pdfDoc.save();
+    } catch (e) {
+      console.error("Error generando PDF:", e);
     }
   };
-  cargarDatos();
-}, []);
-
-
-const generarPDF = async () => {
-  try {
-    const existingPdfBytes =
-      estadoPermuta !== "BORRADOR" && pdfExistente
-        ? pdfExistente
-        : await obtenerPlantillaPermuta();
-
-    const pdfDoc = await PDFDocument.load(existingPdfBytes);
-    const form = pdfDoc.getForm();
-
-    // Grado (bloqueado siempre)
-    const grado1 = form.getCheckBox("GII-IS");
-    const grado2 = form.getCheckBox("GII-IC");
-    const grado3 = form.getCheckBox("GII-TI");
-    const grado4 = form.getCheckBox("GISA");
-    [grado1, grado2, grado3, grado4].forEach((g) => g.enableReadOnly());
-
-    const estudio = usuarios[0]?.estudio;
-    switch (estudio) {
-      case "GII-IS":
-        grado1.check();
-        break;
-      case "GII-IC":
-        grado2.check();
-        break;
-      case "GII-TI":
-        grado3.check();
-        break;
-      case "GISA":
-        grado4.check();
-        break;
-    }
-
-    // Fechas (bloqueadas siempre)
-    const day = form.getTextField("DAY");
-    const month = form.getTextField("MONTH");
-    const year = form.getTextField("YEAR");
-    day.setText(dayValue);
-    month.setText(monthValue);
-    year.setText(yearValue);
-    [day, month, year].forEach((f) => f.enableReadOnly());
-
-    // Asignaturas (bloqueadas siempre)
-    for (let index = 0; index < 16; index++) {
-      const asignatura = permutas[index];
-      const asignaturaField1 = form.getTextField(`ASIGNATURA1-${index + 1}`);
-      const asignaturaField2 = form.getTextField(`ASIGNATURA2-${index + 1}`);
-      const codigoField1 = form.getTextField(`COD1-${index + 1}`);
-      const codigoField2 = form.getTextField(`COD2-${index + 1}`);
-
-      if (asignatura) {
-        asignaturaField1.setText(asignatura.nombre_asignatura);
-        asignaturaField2.setText(asignatura.nombre_asignatura);
-        codigoField1.setText(asignatura.codigo_asignatura);
-        codigoField2.setText(asignatura.codigo_asignatura);
-      }
-      [asignaturaField1, asignaturaField2, codigoField1, codigoField2].forEach((f) => f.enableReadOnly());
-    }
-
-    // Datos personales
-    const camposEst1 = [
-      form.getTextField("DNI1"),
-      form.getTextField("LETRA1"),
-      form.getTextField("NOMBRE1"),
-      form.getTextField("DOMICILIO1"),
-      form.getTextField("POBLACION1"),
-      form.getTextField("COD-POSTAL1"),
-      form.getTextField("PROVINCIA1"),
-      form.getTextField("TELEFONO1"),
-    ];
-    const camposEst2 = [
-      form.getTextField("DNI2"),
-      form.getTextField("LETRA2"),
-      form.getTextField("NOMBRE2"),
-      form.getTextField("DOMICILIO2"),
-      form.getTextField("POBLACION2"),
-      form.getTextField("COD-POSTAL2"),
-      form.getTextField("PROVINCIA2"),
-      form.getTextField("TELEFONO2"),
-    ];
-
-    [...camposEst1, ...camposEst2].forEach((f) => f.enableReadOnly());
-
-    if (estadoPermuta === "BORRADOR") {
-      const usuario = usuarios[0];
-      const datos = [dni, letraDNI, usuario.nombre_completo, domicilio, poblacion, codigoPostal, provincia, telefono];
-      datos.forEach((valor, i) => camposEst1[i].setText(valor));
-    } else if (estadoPermuta === "FIRMADA") {
-      const usuario = usuarios[1];
-      const datos = [dni, letraDNI, usuario.nombre_completo, domicilio, poblacion, codigoPostal, provincia, telefono];
-      datos.forEach((valor, i) => camposEst2[i].setText(valor));
-    }
-
-    return await pdfDoc.save();
-  } catch (e) {
-    console.error("Error generando PDF:", e);
-  }
-};
 
   const mostrarPDF = async () => {
     if (!validarFormulario()) {
@@ -191,9 +212,8 @@ const generarPDF = async () => {
     const pdfUrl = URL.createObjectURL(
       new Blob([pdfBytes], { type: "application/pdf" })
     );
-    iframeRef.current.src = pdfUrl;
+    setPdfUrl(pdfUrl);
   };
-
 
   const descargarPDF = async () => {
     if (!validarFormulario()) {
@@ -456,13 +476,8 @@ const generarPDF = async () => {
             </button>
           </div>
         </div>
-
         <div className="permuta-pdf-container">
-          <iframe
-            className="permuta-iframe"
-            ref={iframeRef}
-            title="PDF generado"
-          ></iframe>
+          {pdfUrl && <PermutaPdfViewer pdfUrl={pdfUrl} />}
         </div>
       </div>
     </>
