@@ -69,8 +69,9 @@ export default function GeneracionPDF() {
           setPdfExistente(bytes);
 
           if (estado === "ACEPTADA") {
-            const blob = new Blob([bytes], { type: "application/pdf" });
-            const pdfUrl = URL.createObjectURL(blob);
+            // const blob = new Blob([bytes], { type: "application/pdf" });
+            // const pdfUrl = URL.createObjectURL(blob);
+            const pdfUrl = "https://www.radaeepdf.com/media/kunena/attachments/6392/interactiveform_enabled.pdf"
             setPdfUrl(pdfUrl);
           }
         }
