@@ -205,37 +205,25 @@ export default function GeneracionPDF() {
   const handleDNIChange = (e) => {
     const value = e.target.value;
     setDni(value);
-    setErrors(prev => ({
-      ...prev,
-      dni: validarDNI(value)
-    }));
+    setErrors(prev => ({ ...prev, dni: validarDNI(value) }));
   };
 
   const handleLetraDNIChange = (e) => {
     const value = e.target.value.toUpperCase();
     setLetraDNI(value);
-    setErrors(prev => ({
-      ...prev,
-      letraDNI: validarLetraDNI(value)
-    }));
+    setErrors(prev => ({ ...prev, letraDNI: validarLetraDNI(value) }));
   };
 
   const handleCodigoPostalChange = (e) => {
     const value = e.target.value;
     setCodigoPostal(value);
-    setErrors(prev => ({
-      ...prev,
-      codigoPostal: validarCodigoPostal(value)
-    }));
+    setErrors(prev => ({ ...prev, codigoPostal: validarCodigoPostal(value) }));
   };
 
   const handleTelefonoChange = (e) => {
     const value = e.target.value;
     setTelefono(value);
-    setErrors(prev => ({
-      ...prev,
-      telefono: validarTelefono(value)
-    }));
+    setErrors(prev => ({ ...prev, telefono: validarTelefono(value)}));
   };
 
   const validarFormulario = () => {
@@ -248,7 +236,6 @@ export default function GeneracionPDF() {
       provincia: validarCampoObligatorio(provincia, "provincia"),
       telefono: validarTelefono(telefono)
     };
-
     setErrors(nuevoErrors);
     // Comprobar si hay algún error
     return !Object.values(nuevoErrors).some(error => error !== "");
