@@ -22,7 +22,7 @@ import {
   validarTelefono,
 } from "../lib/validadores.js";
 import { Document, Page, pdfjs } from 'react-pdf';
-pdfjs.GlobalWorkerOptions.workerSrc = "../../public/pdf.worker.min.mjs"
+pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js';
 
 export default function GeneracionPDF() {
   const [dni, setDni] = useState("");
