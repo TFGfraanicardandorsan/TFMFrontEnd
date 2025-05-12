@@ -21,6 +21,10 @@ import {
   validarCodigoPostal,
   validarTelefono,
 } from "../lib/validadores.js";
+import { Document, Page, pdfjs } from 'react-pdf';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 export default function GeneracionPDF() {
   const [dni, setDni] = useState("");
@@ -475,17 +479,9 @@ export default function GeneracionPDF() {
 
         <div className="permuta-pdf-container">
           {pdfUrl && (
-            <object
-              data={pdfUrl}
-              type="application/pdf"
-              width="100%"
-              height="100%" 
-              style={{ border: "none", margin:0, padding:0 }}
-            >
-              <p>
-                No se puede mostrar el PDF. <a href={pdfUrl}>Descargar</a>
-              </p>
-            </object>
+            <Document file={pdfUrl}>
+              <Page pageNumber={1} width={600} />
+            </Document>
           )}
         </div>
       </div>
