@@ -201,7 +201,7 @@ export default function GeneracionPDF() {
         ];
         datos.forEach((valor, i) => camposEst2[i].setText(valor));
       }
-
+      form.flatten();
       return await pdfDoc.save();
     } catch (e) {
       console.error("Error generando PDF:", e);
