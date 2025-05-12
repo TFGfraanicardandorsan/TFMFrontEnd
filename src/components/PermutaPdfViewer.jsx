@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import PropTypes from "prop-types";
 import * as pdfjsLib from "pdfjs-dist";
-import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
+import worker from "pdfjs-dist/build/pdf.worker.min?url";
+import PropTypes from "prop-types";
 
-// Configura el worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
+pdfjsLib.GlobalWorkerOptions.workerSrc = worker;
 
 const PermutaPdfViewer = ({ pdfUrl }) => {
   const canvasRef = useRef(null);
