@@ -4,68 +4,63 @@ import worker from "pdfjs-dist/build/pdf.worker.min?url";
 import PropTypes from "prop-types";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = worker;
-pdfjsLib.GlobalWorkerOptions.standardFontDataUrl = "/standard_fonts/";
+pdfjsLib.GlobalWorkerOptions.standardFontDataUrl = '/pdfjs-dist/standard_fonts/';
 
 const PermutaPdfViewer = ({ pdfUrl }) => {
   const canvasRef = useRef(null);
   const [pdf, setPdf] = useState(null);
   const [scale, setScale] = useState(1);
 
-  // Carga el PDF
   useEffect(() => {
-    if (!pdfUrl) return;
-
-    const loadingTask = pdfjsLib.getDocument(pdfUrl);
-    loadingTask.promise.then(setPdf).catch(console.error);
-  }, [pdfUrl]);
-
-  useEffect(() => {
-  if (!pdf) return;
-
-  const canvas = canvasRef.current;
-  const renderPdf = async () => {
-    // Limpia el canvas antes de renderizar
-    canvas.width = 0;
-    canvas.height = 0;
-
-    const page = await pdf.getPage(1);
-    const viewport = page.getViewport({ scale, rotation: page.rotate });
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-
-    const context = canvas.getContext("2d");
-
-    const renderContext = {
-      canvasContext: context,
-      viewport,
+    const fetchPdf = async () => {
+      const loadingTask = pdfjsLib.getDocument(pdfUrl);
+      const loadedPdf = await loadingTask.promise;
+      setPdf(loadedPdf);
     };
 
-    const renderTask = page.render(renderContext);
-    try {
-      await renderTask.promise;
-    } catch (err) {
-      if (err.name !== "RenderingCancelledException") {
-        console.error(err);
-      }
-    }
-  };
+    if (pdfUrl) fetchPdf();
+  }, [pdfUrl]);
 
-  renderPdf();
+ useEffect(() => {
+  if (pdf) {
+    let renderTask = null;
+
+    const renderPdf = async () => {
+      const page = await pdf.getPage(1);
+      const viewport = page.getViewport({ scale });
+
+      const canvas = canvasRef.current;
+      const context = canvas.getContext("2d");
+
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+
+      const renderContext = {
+        canvasContext: context,
+        viewport,
+      };
+
+      if (renderTask) {
+        renderTask.cancel();
+      }
+
+      renderTask = page.render(renderContext);
+      await renderTask.promise;
+    };
+
+    renderPdf();
+
+    return () => {
+      if (renderTask) {
+        renderTask.cancel();
+      }
+    };
+  }
 }, [pdf, scale]);
+
 
   return (
     <div className="pdf-container">
-      <div className="zoom-controls" style={{ marginBottom: "10px" }}>
-        <button className="zoom-btn" onClick={() => setScale((s) => s + 0.1)}>
-          +
-        </button>
-        <button
-          className="zoom-btn"
-          onClick={() => setScale((s) => Math.max(s - 0.1, 0.1))}
-        >
-          -
-        </button>
-      </div>
       <canvas ref={canvasRef} style={{ display: "block", margin: "0 auto" }} />
     </div>
   );
