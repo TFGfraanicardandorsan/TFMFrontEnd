@@ -4,11 +4,12 @@ import worker from "pdfjs-dist/build/pdf.worker.min?url";
 import PropTypes from "prop-types";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = worker;
+pdfjsLib.GlobalWorkerOptions.standardFontDataUrl = '/pdfjs-dist/standard_fonts/';
 
 const PermutaPdfViewer = ({ pdfUrl }) => {
   const canvasRef = useRef(null);
   const [pdf, setPdf] = useState(null);
-  const [scale, setScale] = useState(1.2);
+  const [scale, setScale] = useState(1);
 
   useEffect(() => {
     const fetchPdf = async () => {
@@ -20,34 +21,46 @@ const PermutaPdfViewer = ({ pdfUrl }) => {
     if (pdfUrl) fetchPdf();
   }, [pdfUrl]);
 
-  useEffect(() => {
-    if (pdf) {
-      const renderPdf = async () => {
-        const page = await pdf.getPage(1);
-        const viewport = page.getViewport({ scale });
+ useEffect(() => {
+  if (pdf) {
+    let renderTask = null;
 
-        const canvas = canvasRef.current;
-        const context = canvas.getContext("2d");
+    const renderPdf = async () => {
+      const page = await pdf.getPage(1);
+      const viewport = page.getViewport({ scale });
 
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
+      const canvas = canvasRef.current;
+      const context = canvas.getContext("2d");
 
-        await page.render({
-          canvasContext: context,
-          viewport,
-        }).promise;
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+
+      const renderContext = {
+        canvasContext: context,
+        viewport,
       };
 
-      renderPdf();
-    }
-  }, [pdf, scale]);
+      if (renderTask) {
+        renderTask.cancel();
+      }
+
+      renderTask = page.render(renderContext);
+      await renderTask.promise;
+    };
+
+    renderPdf();
+
+    return () => {
+      if (renderTask) {
+        renderTask.cancel();
+      }
+    };
+  }
+}, [pdf, scale]);
+
 
   return (
     <div className="pdf-container">
-      <div className="zoom-controls">
-        <button onClick={() => setScale((prev) => prev + 0.1)}>+</button>
-        <button onClick={() => setScale((prev) => Math.max(0.5, prev - 0.1))}>−</button>
-      </div>
       <canvas ref={canvasRef} style={{ display: "block", margin: "0 auto" }} />
     </div>
   );
