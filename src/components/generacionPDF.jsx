@@ -482,7 +482,7 @@ export default function GeneracionPDF() {
         <div className="permuta-pdf-container">
           {pdfUrl && (
             <Document file={pdfUrl}>
-              <Page pageNumber={1} width={500} />
+              <Page pageNumber={1} scale={1.2} />
             </Document>
           )}
         </div>
