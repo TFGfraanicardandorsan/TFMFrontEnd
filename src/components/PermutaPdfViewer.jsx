@@ -20,34 +20,38 @@ const PermutaPdfViewer = ({ pdfUrl }) => {
   }, [pdfUrl]);
 
   useEffect(() => {
-    if (!pdf) return;
+  if (!pdf) return;
 
-    const canvas = canvasRef.current;
-    const renderPdf = async () => {
-      const page = await pdf.getPage(1);
-      const viewport = page.getViewport({ scale, rotation: page.rotate });
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
+  const canvas = canvasRef.current;
+  const renderPdf = async () => {
+    // Limpia el canvas antes de renderizar
+    canvas.width = 0;
+    canvas.height = 0;
 
-      const context = canvas.getContext("2d");
+    const page = await pdf.getPage(1);
+    const viewport = page.getViewport({ scale, rotation: page.rotate });
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
 
-      const renderContext = {
-        canvasContext: context,
-        viewport,
-      };
+    const context = canvas.getContext("2d");
 
-      const renderTask = page.render(renderContext);
-      try {
-        await renderTask.promise;
-      } catch (err) {
-        if (err.name !== "RenderingCancelledException") {
-          console.error(err);
-        }
-      }
+    const renderContext = {
+      canvasContext: context,
+      viewport,
     };
 
-    renderPdf();
-  }, [pdf, scale]);
+    const renderTask = page.render(renderContext);
+    try {
+      await renderTask.promise;
+    } catch (err) {
+      if (err.name !== "RenderingCancelledException") {
+        console.error(err);
+      }
+    }
+  };
+
+  renderPdf();
+}, [pdf, scale]);
 
   return (
     <div className="pdf-container">
