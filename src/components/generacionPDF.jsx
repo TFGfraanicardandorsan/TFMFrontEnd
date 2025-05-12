@@ -25,7 +25,7 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 
-pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs'; 
 pdfjs.GlobalWorkerOptions.standardFontDataUrl = '/standard_fonts/';
 export default function GeneracionPDF() {
   const [dni, setDni] = useState("");
