@@ -472,22 +472,23 @@ export default function GeneracionPDF() {
             </button>
           </div>
         </div>
-
-        <div className="permuta-pdf-container">
-          {pdfUrl && (
-            <object
-              data={pdfUrl}
-              type="application/pdf"
-              width="100%"
-              height="800px"
-              style={{ border: "none" }}
-              sandbox="allow-scripts allow-same-origin"
-            >
-              <p>
-                No se puede mostrar el PDF. <a href={pdfUrl}>Descargar</a>
-              </p>
-            </object>
-          )}
+        <div
+          className="permuta-pdf-container"
+          style="height: 100vh; overflow: hidden; margin: 0;"
+        >
+          <object
+            data={pdfUrl}
+            type="application/pdf"
+            width="100%"
+            height="100%"
+            sandbox="allow-scripts allow-same-origin"
+            style="border: none; display: block; object-fit: contain;"
+          >
+            <p>
+              No se puede mostrar el PDF.{" "}
+              <a href={pdfUrl}>Descargar</a>
+            </p>
+          </object>
         </div>
       </div>
     </>
