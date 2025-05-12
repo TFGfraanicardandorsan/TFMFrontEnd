@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import * as pdfjsLib from "pdfjs-dist";
+import worker from "pdfjs-dist/build/pdf.worker.min?url";
 import PropTypes from "prop-types";
 
-// Usa el worker de PDF.js desde CDN (no requiere configuración extra en Vite)
-pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+pdfjsLib.GlobalWorkerOptions.workerSrc = worker;
 
 const PermutaPdfViewer = ({ pdfUrl }) => {
   const canvasRef = useRef(null);
   const [pdf, setPdf] = useState(null);
-  const [scale, setScale] = useState(1.2); // Puedes ajustar el zoom inicial
+  const [scale, setScale] = useState(1.2);
 
   useEffect(() => {
     const fetchPdf = async () => {
@@ -23,7 +23,7 @@ const PermutaPdfViewer = ({ pdfUrl }) => {
   useEffect(() => {
     if (pdf) {
       const renderPdf = async () => {
-        const page = await pdf.getPage(1); // Solo primera página
+        const page = await pdf.getPage(1);
         const viewport = page.getViewport({ scale });
 
         const canvas = canvasRef.current;
