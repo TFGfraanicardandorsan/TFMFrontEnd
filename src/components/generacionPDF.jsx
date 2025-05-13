@@ -461,10 +461,7 @@ export default function GeneracionPDF() {
           </div>
         </div>
         <div className="permuta-pdf-container">
-          {pdfUrl && (
-            <iframe className= "pdf-iframe" src={pdfUrl}
-            />
-          )}
+          {pdfUrl && ( <iframe className= "pdf-iframe" src={pdfUrl} /> )}
         </div>
       </div>
     </>
