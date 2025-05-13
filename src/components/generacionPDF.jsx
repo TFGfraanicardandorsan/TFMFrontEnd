@@ -1,27 +1,11 @@
 import { useState, useEffect } from "react";
 import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
-import {
-  obtenerPlantillaPermuta,
-  subidaArchivo,
-  servirArchivo,
-} from "../services/subidaArchivos.js";
-import {
-  verListaPermutas,
-  listarPermutas,
-  firmarPermuta,
-  aceptarPermuta,
-} from "../services/permuta.js";
+import { obtenerPlantillaPermuta, subidaArchivo, servirArchivo } from "../services/subidaArchivos.js";
+import { verListaPermutas, listarPermutas, firmarPermuta, aceptarPermuta } from "../services/permuta.js";
 import "../styles/generacionPDF-style.css";
 import { dayValue, monthValue, yearValue } from "../lib/generadorFechas.js";
-import {
-  validarDNI,
-  validarLetraDNI,
-  validarCampoObligatorio,
-  validarCodigoPostal,
-  validarTelefono,
-} from "../lib/validadores.js";
-import PermutaPdfViewer from "./PermutaPdfViewer.jsx";
+import { validarDNI, validarLetraDNI, validarCampoObligatorio, validarCodigoPostal, validarTelefono } from "../lib/validadores.js";
 
 export default function GeneracionPDF() {
   const [dni, setDni] = useState("");
@@ -69,9 +53,8 @@ export default function GeneracionPDF() {
           setPdfExistente(bytes);
 
           if (estado === "ACEPTADA") {
-            // const blob = new Blob([bytes], { type: "application/pdf" });
-            // const pdfUrl = URL.createObjectURL(blob);
-            const pdfUrl = "https://www.radaeepdf.com/media/kunena/attachments/6392/interactiveform_enabled.pdf"
+            const blob = new Blob([bytes], { type: "application/pdf" });
+            const pdfUrl = URL.createObjectURL(blob);
             setPdfUrl(pdfUrl);
           }
         }
@@ -478,7 +461,10 @@ export default function GeneracionPDF() {
           </div>
         </div>
         <div className="permuta-pdf-container">
-          {pdfUrl && <PermutaPdfViewer pdfUrl={pdfUrl} />}
+          {pdfUrl && (
+            <iframe className= "pdf-iframe" src={pdfUrl}
+            />
+          )}
         </div>
       </div>
     </>
