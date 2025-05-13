@@ -263,6 +263,7 @@ export default function GeneracionPDF() {
   const handleValidarPermuta = async () => {
     // TODO LLAMAR API PARA CAMBIAR ESTADO A VALIDAD
     setShowModal(false);
+    alert("Permuta validada correctamente.");
   };
 
   const handleDNIChange = (e) => {

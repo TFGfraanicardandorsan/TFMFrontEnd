@@ -27,12 +27,13 @@
 }
 
 .modal-buttons .confirm {
-  background-color: #38a169;
+  background-color: #4caf50;
   color: white;
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 0.3rem;
   cursor: pointer;
+  margin-right: 50px;
 }
 
 .modal-buttons .cancel {
