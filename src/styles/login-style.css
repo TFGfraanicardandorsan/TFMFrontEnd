@@ -90,8 +90,8 @@
 }
 
 .qr-image {
-  width: 200px;
-  height: 200px;
+  width: 250px;
+  height: 250px;
   border-radius: 8px;
   border: 1px solid #ddd;
   transition: transform 0.3s ease;
