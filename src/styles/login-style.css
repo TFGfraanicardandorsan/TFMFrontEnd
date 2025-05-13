@@ -92,8 +92,8 @@
 .qr-image {
   width: 250px;
   height: 250px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+  border-radius: 12px;
+  border: 2px solid #ddd;
   transition: transform 0.3s ease;
 }
 
