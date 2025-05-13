@@ -70,7 +70,7 @@ export default function GeneracionPDF() {
           const bytes = await servirArchivo("buzon", fileId);
           setPdfExistente(bytes);
 
-          if (estado === "ACEPTADA") {
+          if (estado === "ACEPTADA " || estado === "VALIDADA") {
             const blob = new Blob([bytes], { type: "application/pdf" });
             const pdfUrl = URL.createObjectURL(blob);
             setPdfUrl(pdfUrl);
