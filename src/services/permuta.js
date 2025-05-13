@@ -46,6 +46,9 @@ export const listarPermutas = async (IdsPermuta) => {
 export const firmarPermuta = async (archivo,permutaId) => {
     return await postAPI("/api/v1/permutas/firmarPermuta", {archivo,permutaId})
 }
+export const validarSolicitudPermuta = async (permutaId) => {
+    return await postAPI("/api/v1/permutas/validarPermuta", {permutaId})
+}
 
 export const aceptarPermuta = async (archivo,permutaId) => {
     return await postAPI("/api/v1/permutas/aceptarPermuta", {archivo,permutaId})

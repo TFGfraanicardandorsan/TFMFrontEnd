@@ -11,6 +11,7 @@ import {
   listarPermutas,
   firmarPermuta,
   aceptarPermuta,
+  validarSolicitudPermuta
 } from "../services/permuta.js";
 import "../styles/generacionPDF-style.css";
 import { dayValue, monthValue, yearValue } from "../lib/generadorFechas.js";
@@ -261,7 +262,7 @@ export default function GeneracionPDF() {
   };
 
   const handleValidarPermuta = async () => {
-    // TODO LLAMAR API PARA CAMBIAR ESTADO A VALIDAD
+    await validarSolicitudPermuta(permutaId);
     setShowModal(false);
     alert("Permuta validada correctamente.");
   };
