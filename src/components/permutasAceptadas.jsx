@@ -44,8 +44,8 @@ export default function PermutasAceptadas() {
     try {
       const response = await obtenerSesion();
       if (response) {
-        setUsuario(response);
-        console.log("Usuario:", response.user);
+        setUsuario(response.user.uvus);
+        console.log("Usuario:", response.user.uvus);
       } else {
         setError("Error al cargar los datos del usuario");
       }
@@ -54,7 +54,6 @@ export default function PermutasAceptadas() {
     }
   };
 
-  console.log("Usuario:", usuario);
 
   const handleGenerarPermuta = async (IdsPermuta) => {
     try {
@@ -87,6 +86,7 @@ export default function PermutasAceptadas() {
           {permutas.map((grupoPermuta, index) => {
             const usuarios = grupoPermuta.usuarios ?? [];
             const permutasDetalles = grupoPermuta.permutas ?? [];
+            const puedeGenerarPermuta = usuario === usuarios [0];
             const todasValidadas = permutasDetalles.every((permuta) => permuta.estado === "VALIDADA");
             const todasFinalizadas = permutasDetalles.every((permuta) => permuta.estado === "FINALIZADA");
             const IdsPermuta = permutasDetalles.map((permuta) => permuta.permuta_id);
@@ -124,7 +124,7 @@ export default function PermutasAceptadas() {
                     </div>
                   ))}
                 </div>
-                <button className="aceptar-btn" disabled= {!todasValidadas} onClick={() => handleGenerarPermuta(IdsPermuta)}>Generar Permuta</button>
+                <button className="aceptar-btn" disabled= {!puedeGenerarPermuta} onClick={() => handleGenerarPermuta(IdsPermuta)}>Generar Permuta</button>
                 <button className="ver-btn" disabled= {!todasFinalizadas} onClick={() => navigate("/generarPermuta")}>Ver Permuta</button>
               </div>
             );
