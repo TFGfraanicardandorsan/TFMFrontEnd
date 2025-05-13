@@ -476,7 +476,7 @@ export default function GeneracionPDF() {
               </button>
             </div>
           )}
-          {estadoPermuta === "VALIDADA" && (
+          {estadoPermuta === "ACEPTADA" && estadoPermuta !== "VALIDADA" && (
             <button
               className="permuta-button-validar"
               onClick={() => setShowModal(true)}
