@@ -2,14 +2,18 @@ import { useState, useEffect } from "react";
 import "../styles/permutas-style.css";
 import { obtenerPermutasAgrupadasPorUsuario, generarBorradorPermuta } from "../services/permuta.js";
 import { useNavigate } from "react-router-dom";
+import { obtenerSesion } from "../services/login.js";
 export default function PermutasAceptadas() {
   const [permutas, setPermutas] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
+  const [usuario, setUsuario] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     obtenerPermutasAgrupadas();
+    obtenerDatosUsuario();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const obtenerPermutasAgrupadas = async () => {
@@ -35,6 +39,21 @@ export default function PermutasAceptadas() {
       setCargando(false);
     }
   };
+
+  const obtenerDatosUsuario = async () => {
+    try {
+      const response = await obtenerSesion();
+      if (response) {
+        setUsuario(response.user);
+        console.log("Usuario:", usuario);
+      } else {
+        setError("Error al cargar los datos del usuario");
+      }
+    } catch (error) {
+      setError("Error al obtener los datos del usuario",error);
+    }
+  };
+
 
   const handleGenerarPermuta = async (IdsPermuta) => {
     try {
