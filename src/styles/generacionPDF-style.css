@@ -102,3 +102,19 @@
   height: 700px;
   width: 550px;
 }
+
+.permuta-button-validar {
+  padding: 10px;
+  font-size: 16px;
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.2s;
+}
+
+.permuta-button-validar:hover {
+  background-color: #fb8c00;
+}

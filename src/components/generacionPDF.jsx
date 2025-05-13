@@ -1,11 +1,27 @@
 import { useState, useEffect } from "react";
 import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
-import { obtenerPlantillaPermuta, subidaArchivo, servirArchivo } from "../services/subidaArchivos.js";
-import { verListaPermutas, listarPermutas, firmarPermuta, aceptarPermuta } from "../services/permuta.js";
+import {
+  obtenerPlantillaPermuta,
+  subidaArchivo,
+  servirArchivo,
+} from "../services/subidaArchivos.js";
+import {
+  verListaPermutas,
+  listarPermutas,
+  firmarPermuta,
+  aceptarPermuta,
+} from "../services/permuta.js";
 import "../styles/generacionPDF-style.css";
 import { dayValue, monthValue, yearValue } from "../lib/generadorFechas.js";
-import { validarDNI, validarLetraDNI, validarCampoObligatorio, validarCodigoPostal, validarTelefono } from "../lib/validadores.js";
+import {
+  validarDNI,
+  validarLetraDNI,
+  validarCampoObligatorio,
+  validarCodigoPostal,
+  validarTelefono,
+} from "../lib/validadores.js";
+import Modal from "./Modal.jsx";
 
 export default function GeneracionPDF() {
   const [dni, setDni] = useState("");
@@ -31,6 +47,7 @@ export default function GeneracionPDF() {
     telefono: "",
   });
   const [pdfUrl, setPdfUrl] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const cargarDatos = async () => {
@@ -243,6 +260,11 @@ export default function GeneracionPDF() {
     }
   };
 
+  const handleValidarPermuta = async () => {
+    // TODO LLAMAR API PARA CAMBIAR ESTADO A VALIDAD
+    setShowModal(false);
+  };
+
   const handleDNIChange = (e) => {
     const value = e.target.value;
     setDni(value);
@@ -431,37 +453,50 @@ export default function GeneracionPDF() {
           </label>
 
           <div className="permuta-botones">
-            <button
-              disabled={estadoPermuta === "ACEPTADA"}
-              className="permuta-button"
-              onClick={mostrarPDF}
-            >
-              Visualizar
-            </button>
+            {estadoPermuta !== "ACEPTADA" && estadoPermuta !== "VALIDADA" && (
+              <button className="permuta-button" onClick={mostrarPDF}>
+                Visualizar
+              </button>
+            )}
             <button className="permuta-button" onClick={descargarPDF}>
               Descargar
             </button>
           </div>
 
-          <div className="permuta-boton-enviar">
-            <input
-              disabled={estadoPermuta === "ACEPTADA"}
-              type="file"
-              id="file"
-              accept="application/pdf"
-              onChange={handleFileChange}
-            />
+          {estadoPermuta !== "ACEPTADA" && estadoPermuta !== "VALIDADA" && (
+            <div className="permuta-boton-enviar">
+              <input
+                type="file"
+                id="file"
+                accept="application/pdf"
+                onChange={handleFileChange}
+              />
+              <button className="permuta-button" onClick={handleUpload}>
+                Enviar PDF
+              </button>
+            </div>
+          )}
+          {estadoPermuta === "VALIDADA" && (
             <button
-              className="permuta-button"
-              disabled={estadoPermuta === "ACEPTADA"}
-              onClick={handleUpload}
+              className="permuta-button-validar"
+              onClick={() => setShowModal(true)}
             >
-              Enviar PDF
+              Validar
             </button>
-          </div>
+          )}
+
+          {showModal && (
+            <Modal
+              title="Validar Permuta"
+              message={`Las solicitudes deberán remitirse de forma telemática (requiere certificado digital de la FNMT), a través del Registro de la Administración General del Estado, indicando como destinatario (usar buscador) “Universidad de Sevilla” y 
+              poniendo en asunto el nombre del centro "Para E.T.S. de Ingeniería Informática".`}
+              onConfirm={handleValidarPermuta}
+              onCancel={() => setShowModal(false)}
+            />
+          )}
         </div>
         <div className="permuta-pdf-container">
-          {pdfUrl && ( <iframe className= "pdf-iframe" src={pdfUrl} /> )}
+          {pdfUrl && <iframe className="pdf-iframe" src={pdfUrl} />}
         </div>
       </div>
     </>
