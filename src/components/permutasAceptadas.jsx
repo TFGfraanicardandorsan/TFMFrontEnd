@@ -128,7 +128,7 @@ export default function PermutasAceptadas() {
                   ))}
                 </div>
                 <button className="aceptar-btn" disabled= {!puedeGenerarPermuta} onClick={() => handleGenerarPermuta(IdsPermuta)}>Generar Permuta</button>
-                <button className="permuta-button-validar" disabled= {!puedeCompletarPermuta} onClick={() => navigate("/generarPermuta")}>Completar Permuta</button>
+                <button className="aceptar-btn" disabled= {!puedeCompletarPermuta} onClick={() => navigate("/generarPermuta")}>Completar Permuta</button>
                 <button className="ver-btn" disabled= {!todasFinalizadas} onClick={() => navigate("/generarPermuta")}>Ver Permuta</button>
               </div>
             );
