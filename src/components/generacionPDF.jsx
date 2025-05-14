@@ -485,14 +485,14 @@ export default function GeneracionPDF() {
               </button>
             </div>
           )}
-          {estadoPermuta === "ACEPTADA" && estadoPermuta !== "VALIDADA" && (
+          {/* {estadoPermuta === "ACEPTADA" && estadoPermuta !== "VALIDADA" && ( */}
             <button
               className="permuta-button-validar"
               onClick={() => setShowModal(true)}
             >
               Validar
             </button>
-          )}
+          {/* )} */}
 
           {showModal && (
             <Modal
