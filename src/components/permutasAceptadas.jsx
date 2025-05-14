@@ -89,7 +89,8 @@ export default function PermutasAceptadas() {
             const todasBorrador = permutasDetalles.every((permuta) => permuta.estado_permuta_asociada === "BORRADOR" || permuta.estado_permuta_asociada === null);
             const todasFirmadas = permutasDetalles.every((permuta) => permuta.estado_permuta_asociada === "FIRMADA" || permuta.estado_permuta_asociada !== null);
             const puedeGenerarPermuta = (usuario === usuarios[0] && todasBorrador) || (usuario === usuarios[1] && todasFirmadas);
-            const puedeCompletarPermuta = (usuario === usuarios[1] && todasFirmadas);            
+            const puedeCompletarPermuta = (usuario === usuarios[1] && todasFirmadas); 
+            console.log(puedeCompletarPermuta)           
             const todasFinalizadas = permutasDetalles.every((permuta) => (permuta.estado_permuta_asociada === "ACEPTADA" || permuta.estado_permuta_asociada === "VALIDADA"));
             const IdsPermuta = permutasDetalles.map((permuta) => permuta.permuta_id);
 
