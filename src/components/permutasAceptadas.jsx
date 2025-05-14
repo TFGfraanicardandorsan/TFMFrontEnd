@@ -86,10 +86,10 @@ export default function PermutasAceptadas() {
           {permutas.map((grupoPermuta, index) => {
             const usuarios = grupoPermuta.usuarios ?? [];
             const permutasDetalles = grupoPermuta.permutas ?? [];
-            const todasBorrador = permutasDetalles.every((permuta) => permuta.solicitudEstado === "BORRADOR");
-            const todasFirmadas = permutasDetalles.every((permuta) => permuta.solicitudEstado === "FIRMADA");
+            const todasBorrador = permutasDetalles.every((permuta) => permuta.estado_permuta_asociada === "BORRADOR" || permuta.estado_permuta_asociada === null);
+            const todasFirmadas = permutasDetalles.every((permuta) => permuta.estado_permuta_asociada === "FIRMADA");
             const puedeGenerarPermuta = (usuario === usuarios[0] && todasBorrador) || (usuario === usuarios[1] && todasFirmadas);            
-            const todasFinalizadas = permutasDetalles.every((permuta) => (permuta.solicitudEstado === "ACEPTADA" || permuta.solicitudEstado === "VALIDADA"));
+            const todasFinalizadas = permutasDetalles.every((permuta) => (permuta.estado_permuta_asociada === "ACEPTADA" || permuta.estado_permuta_asociada === "VALIDADA"));
             const IdsPermuta = permutasDetalles.map((permuta) => permuta.permuta_id);
 
             // Saltar si los datos son incompletos
