@@ -87,7 +87,7 @@ export default function PermutasAceptadas() {
             const usuarios = grupoPermuta.usuarios ?? [];
             const permutasDetalles = grupoPermuta.permutas ?? [];
             const todasBorrador = permutasDetalles.every((permuta) => permuta.estado_permuta_asociada === "BORRADOR" || permuta.estado_permuta_asociada === null);
-            const todasFirmadas = permutasDetalles.every((permuta) => permuta.estado_permuta_asociada === "FIRMADA");
+            const todasFirmadas = permutasDetalles.every((permuta) => permuta.estado_permuta_asociada === "FIRMADA" || permuta.estado_permuta_asociada === null);
             const puedeGenerarPermuta = usuario === usuarios[0] && todasBorrador
             const puedeCompletarPermuta = usuario === usuarios[1] && todasFirmadas; 
             console.log(puedeCompletarPermuta)           
@@ -128,7 +128,7 @@ export default function PermutasAceptadas() {
                   ))}
                 </div>
                 <button className="aceptar-btn" disabled= {!puedeGenerarPermuta} onClick={() => handleGenerarPermuta(IdsPermuta)}>Generar Permuta</button>
-                <button className="permuta-button-validar" disabled= {puedeCompletarPermuta} onClick={() => navigate("/generarPermuta")}>Completar Permuta</button>
+                <button className="permuta-button-validar" disabled= {!puedeCompletarPermuta} onClick={() => navigate("/generarPermuta")}>Completar Permuta</button>
                 <button className="ver-btn" disabled= {!todasFinalizadas} onClick={() => navigate("/generarPermuta")}>Ver Permuta</button>
               </div>
             );
