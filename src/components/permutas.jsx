@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import "../styles/permutas-style.css";
 import { obtenerPermutasInteresantes, aceptarPermutaSolicitudesPermuta } from "../services/permuta.js";
+import { useNavigate } from "react-router-dom";
 export default function Permutas() {
   const [permutas, setPermutas] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     cargarPermutas();
@@ -30,11 +32,9 @@ export default function Permutas() {
   const handleAceptarPermuta = async (solicitudId) => {
     try {
       await aceptarPermutaSolicitudesPermuta(solicitudId);
-      await cargarPermutas(); // Recargar las permutas después de aceptar
-      alert("Permuta aceptada con éxito");
+      navigate("/misPermutas");
     } catch (error) {
       console.error("Error al aceptar la permuta:", error);
-      alert("Error al aceptar la permuta");
     }
   };
 
