@@ -23,6 +23,7 @@ import {
   validarTelefono,
 } from "../lib/validadores.js";
 import Modal from "./Modal.jsx";
+import { useNavigate } from "react-router-dom";
 
 export default function GeneracionPDF() {
   const [dni, setDni] = useState("");
@@ -49,6 +50,8 @@ export default function GeneracionPDF() {
   });
   const [pdfUrl, setPdfUrl] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const cargarDatos = async () => {
@@ -254,7 +257,7 @@ export default function GeneracionPDF() {
       } else {
         await aceptarPermuta(fileId, permutaId);
       }
-      alert("PDF enviado correctamente.");
+      navigate("/permutasAceptadas");
     } catch (error) {
       console.error("Error al enviar el PDF:", error);
       alert("Error al enviar el PDF");
@@ -264,7 +267,7 @@ export default function GeneracionPDF() {
   const handleValidarPermuta = async () => {
     await validarSolicitudPermuta(permutaId);
     setShowModal(false);
-    alert("Permuta validada correctamente.");
+    navigate("/permutasAceptadas");
   };
 
   const handleDNIChange = (e) => {
