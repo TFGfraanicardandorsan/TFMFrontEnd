@@ -126,9 +126,15 @@ export default function PermutasAceptadas() {
                     </div>
                   ))}
                 </div>
-                <button className="aceptar-btn" disabled= {!puedeGenerarPermuta} onClick={() => handleGenerarPermuta(IdsPermuta)}>Generar Permuta</button>
-                <button className="aceptar-btn" disabled= {!puedeCompletarPermuta} onClick={() => navigate("/generarPermuta")}>Completar Permuta</button>
-                <button className="ver-btn" disabled= {!todasFinalizadas} onClick={() => navigate("/generarPermuta")}>Ver Permuta</button>
+                {puedeGenerarPermuta && (
+                <button className="aceptar-btn" onClick={() => handleGenerarPermuta(IdsPermuta)}>Generar Permuta</button>
+          )}
+          {puedeCompletarPermuta && (
+                <button className="aceptar-btn"  onClick={() => navigate("/generarPermuta")}>Completar Permuta</button>
+          )}
+                {todasFinalizadas && (
+                <button className="ver-btn"  onClick={() => navigate("/generarPermuta")}>Ver Permuta</button>
+                )}
               </div>
             );
           })}
