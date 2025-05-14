@@ -61,13 +61,11 @@ export default function Permutas() {
                 <p><strong>Grupos Deseados:</strong> {permuta.grupo_deseado}</p>
                 <p><strong>Código Asignatura:</strong> {permuta.codigo_asignatura}</p>
               </div>
-              {permuta.estado === "SOLICITADA" && (
               <button 
                 className="aceptar-btn"
                 onClick={() => handleAceptarPermuta(permuta.solicitud_id)}>
                 Aceptar Permuta
               </button>
-              )}
             </div>
           ))}
         </div>
