@@ -55,6 +55,7 @@ export default function Permutas() {
           {permutas.map((permuta) => (
             <div key={permuta.solicitud_id} className="permuta-card">
               <div className="permuta-info">
+                <p><strong>Permuta de:</strong> <i>{permuta.sigla_asignatura}</i></p>
                 <p><strong>Estado:</strong> {permuta.estado}</p>
                 <p><strong>Grupo Solicitante:</strong> {permuta.grupo_solicitante}</p>
                 <p><strong>Grupos Deseados:</strong> {permuta.grupo_deseado}</p>
