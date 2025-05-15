@@ -149,6 +149,9 @@ export default function PermutasAceptadas() {
       )}
             <br />
       <br />
+      <br />
+      <br />
+      <br />
     </div>
     
   );
