@@ -46,6 +46,9 @@ export default function MiPerfil() {
       if (!response.err) {
         // Actualizar el estado local eliminando la asignatura aprobada
         setAsignaturas(asignaturas.filter(asignatura => asignatura.id !== idAsignatura));
+        const asignaturaAprobada = asignaturas.find(asignatura => asignatura.id === idAsignatura);
+        setMensajeExito(`Enhorabuena por aprobar la asignatura ${asignaturaAprobada.asignatura}.`);
+
       } else {
         throw new Error(response.errmsg);
       }
@@ -64,11 +67,19 @@ export default function MiPerfil() {
 
   return (
     <div className="page-container">
-      {/* Mostrar SeleccionarEstudio solo si no hay grado */}
+
       {!usuario?.titulacion && <SeleccionarEstudio />}
       <div className="content-wrap">
         <div className="perfil-container">
           <h1 className="perfil-title">Mi Perfil</h1>
+          <div className="perfil-subtitle">
+            <p>
+              Este es tu perfil aquí podrás ver las asignaturas de las que estás actualmente matriculado y cuando apruebes marcarla como superada. Además podrás matricularte de nuevas asignaturas al principio de cada curso.
+              </p>
+            </div>
+
+          {mensajeExito && <div className="success-text">{mensajeExito}</div>}
+          
           <div className="perfil-content">
             <div className="perfil-card">
               <h2 className="perfil-card-title">Información Personal</h2>
