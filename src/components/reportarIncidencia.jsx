@@ -62,7 +62,7 @@ export default function ReportarIncidencia() {
                         <label htmlFor="descripcion">Tipo de Incidencia</label>
                         <select
                             id="descripcion"
-                            value={descripcion}
+                            value={tipoIncidencia}
                             onChange={(e) => setDescripcion(e.target.value)}
                             required
                         >
@@ -75,7 +75,7 @@ export default function ReportarIncidencia() {
                         <label htmlFor="tipoIncidencia">Detalles de la incidencia</label>
                         <textarea
                             id="tipoIncidencia"
-                            value={tipoIncidencia}
+                            value={descripcion}
                             onChange={(e) => setTipoIncidencia(e.target.value)}
                             placeholder="Describe el problema..."
                             required
