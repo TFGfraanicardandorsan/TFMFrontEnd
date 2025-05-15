@@ -63,7 +63,7 @@ export default function ReportarIncidencia() {
                         <select
                             id="descripcion"
                             value={tipoIncidencia}
-                            onChange={(e) => setDescripcion(e.target.value)}
+                            onChange={(e) => setTipoIncidencia(e.target.value)}
                             required
                         >
                             <option value="">Selecciona el tipo de incidencia</option>
@@ -76,7 +76,7 @@ export default function ReportarIncidencia() {
                         <textarea
                             id="tipoIncidencia"
                             value={descripcion}
-                            onChange={(e) => setTipoIncidencia(e.target.value)}
+                            onChange={(e) => setDescripcion(e.target.value)}
                             placeholder="Describe el problema..."
                             required
                         ></textarea>
