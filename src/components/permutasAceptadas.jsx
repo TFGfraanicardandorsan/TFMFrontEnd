@@ -147,6 +147,9 @@ export default function PermutasAceptadas() {
       ) : (
         <p>No hay permutas aceptadas</p>
       )}
+            <br />
+      <br />
     </div>
+    
   );
 }

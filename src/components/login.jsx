@@ -30,6 +30,8 @@ export default function Login() {
           </div>
         </div>
       </div>
+      <br />
+      <br />
       <Footer />
     </>
   );
