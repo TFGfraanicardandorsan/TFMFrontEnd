@@ -58,10 +58,10 @@ export default function ReportarIncidencia() {
             <div className="report-issue-container">
                 <div className="report-issue-container-form">
                     <h1>Abrir incidencia</h1>
-                    <DIV className="report-issue-container-form-info">
+                    <div className="    -issue-container-form-info">
                         <p>Si tienes algún problema con la plataforma, por favor, indícalo aquí trata de ser lo más descriptivo posible e indica los pasos que has seguido para encontrar el error. Si quieres cambiar algún tipo de dato del servicio indica el campo y en qué lugar quieres cambiarlo.</p>
                         <p>Recuerda que puedes adjuntar un archivo (máx. 10MB) para ayudar a resolver el problema.</p>
-                    </DIV>
+                    </div>
                     <form className="report-form" onSubmit={handleSubmit}>
                         <label htmlFor="descripcion">Tipo de Incidencia</label>
                         <select
