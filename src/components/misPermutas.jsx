@@ -1,6 +1,17 @@
 import { useState, useEffect } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination } from "swiper";
 import "../styles/mispermutas-style.css";
-import { misPermutasPropuestas, denegarPermuta,validarPermuta, misPermutasPropuestasPorMi } from "../services/permuta.js";
+import {
+  misPermutasPropuestas,
+  denegarPermuta,
+  validarPermuta,
+  misPermutasPropuestasPorMi,
+} from "../services/permuta.js";
+
 export default function MisPermutas() {
   const [permutasPropuestas, setPermutasPropuestas] = useState([]);
   const [permutasPropuestasPorMi, setPermutasPropuestasPorMi] = useState([]);
@@ -14,7 +25,7 @@ export default function MisPermutas() {
 
   const cargarPermutasPropuestasPorMi = async () => {
     try {
-      const response = await misPermutasPropuestasPorMi()
+      const response = await misPermutasPropuestasPorMi();
       if (response && response.result && Array.isArray(response.result.result)) {
         setPermutasPropuestasPorMi(response.result.result);
       } else {
@@ -23,15 +34,15 @@ export default function MisPermutas() {
       }
       setCargando(false);
     } catch (error) {
-      console.error("Error al cargar las permutas propuestas por mi:", error);
-      setError("Error al cargar las permutas propuestas por mi");
+      console.error("Error al cargar las permutas propuestas por mí:", error);
+      setError("Error al cargar las permutas propuestas por mí");
       setCargando(false);
     }
   };
 
   const cargarPermutasPropuestas = async () => {
     try {
-      const response = await misPermutasPropuestas()
+      const response = await misPermutasPropuestas();
       if (response && response.result && Array.isArray(response.result.result)) {
         setPermutasPropuestas(response.result.result);
       } else {
@@ -57,16 +68,16 @@ export default function MisPermutas() {
     }
   };
 
-    const handleAceptarPermuta = async (solicitudId) => {
-      try {
-        await validarPermuta(solicitudId);
-        await cargarPermutasPropuestas();
-        alert("Permuta aceptada con éxito");
-      } catch (error) {
-        console.error("Error al aceptar la permuta:", error);
-        alert("Error al aceptar la permuta");
-      }
-    };
+  const handleAceptarPermuta = async (solicitudId) => {
+    try {
+      await validarPermuta(solicitudId);
+      await cargarPermutasPropuestas();
+      alert("Permuta aceptada con éxito");
+    } catch (error) {
+      console.error("Error al aceptar la permuta:", error);
+      alert("Error al aceptar la permuta");
+    }
+  };
 
   if (cargando) {
     return <div>Cargando permutas...</div>;
@@ -79,52 +90,73 @@ export default function MisPermutas() {
   return (
     <div className="mispermutas-container">
       <div className="mispermutas-columns">
+        {/* Carrusel para Permutas propuestas por mí */}
         <div className="mispermutascol">
           <h2>Permutas propuestas por mí</h2>
           {permutasPropuestasPorMi.length > 0 ? (
-            <div className="mispermutas-grid">
+            <Swiper
+              modules={[Navigation, Pagination]}
+              navigation
+              pagination={{ clickable: true }}
+              spaceBetween={20}
+              slidesPerView={1}
+            >
               {permutasPropuestasPorMi.map((permuta) => (
-                <div key={permuta.permuta_id} className="mispermuta-card">
-                  <div className="mispermuta-info">
-                    <p><strong>Estado:</strong> {permuta.estado}</p>
-                    <p><strong>Grupo Solicitante:</strong> {permuta.grupo_solicitante}</p>
-                    <p><strong>Grupo Solicitado:</strong> {permuta.grupo_solicitado}</p>
-                    <p><strong>Código Asignatura:</strong> {permuta.codigo_asignatura}</p>
-                    <p><strong>Nombre Asignatura:</strong> {permuta.nombre_asignatura}</p>
+                <SwiperSlide key={permuta.permuta_id}>
+                  <div className="mispermuta-card">
+                    <div className="mispermuta-info">
+                      <p><strong>Estado:</strong> {permuta.estado}</p>
+                      <p><strong>Grupo Solicitante:</strong> {permuta.grupo_solicitante}</p>
+                      <p><strong>Grupo Solicitado:</strong> {permuta.grupo_solicitado}</p>
+                      <p><strong>Código Asignatura:</strong> {permuta.codigo_asignatura}</p>
+                      <p><strong>Nombre Asignatura:</strong> {permuta.nombre_asignatura}</p>
+                    </div>
                   </div>
-                </div>
+                </SwiperSlide>
               ))}
-            </div>
+            </Swiper>
           ) : (
             <p>No has propuesto ninguna permuta</p>
           )}
         </div>
+
+        {/* Carrusel para Permutas propuestas */}
         <div className="mispermutascol">
           <h2>Permutas propuestas</h2>
           {permutasPropuestas.length > 0 ? (
-            <div className="mispermutas-grid">
+            <Swiper
+              modules={[Navigation, Pagination]}
+              navigation
+              pagination={{ clickable: true }}
+              spaceBetween={20}
+              slidesPerView={1}
+            >
               {permutasPropuestas.map((permuta) => (
-                <div key={permuta.permuta_id} className="mispermuta-card">
-                  <div className="mispermuta-info">
-                    <p><strong>Estado:</strong> {permuta.estado}</p>
-                    <p><strong>Grupo Solicitante:</strong> {permuta.grupo_solicitante}</p>
-                    <p><strong>Grupo Solicitado:</strong> {permuta.grupo_solicitado}</p>
-                    <p><strong>Código Asignatura:</strong> {permuta.codigo_asignatura}</p>
-                    <p><strong>Nombre Asignatura:</strong> {permuta.nombre_asignatura}</p>
+                <SwiperSlide key={permuta.permuta_id}>
+                  <div className="mispermuta-card">
+                    <div className="mispermuta-info">
+                      <p><strong>Estado:</strong> {permuta.estado}</p>
+                      <p><strong>Grupo Solicitante:</strong> {permuta.grupo_solicitante}</p>
+                      <p><strong>Grupo Solicitado:</strong> {permuta.grupo_solicitado}</p>
+                      <p><strong>Código Asignatura:</strong> {permuta.codigo_asignatura}</p>
+                      <p><strong>Nombre Asignatura:</strong> {permuta.nombre_asignatura}</p>
+                    </div>
+                    <button
+                      className="denegar-btn"
+                      onClick={() => handleDenegarPermuta(permuta.permuta_id)}
+                    >
+                      Denegar Permuta
+                    </button>
+                    <button
+                      className="aceptar-btn"
+                      onClick={() => handleAceptarPermuta(permuta.permuta_id)}
+                    >
+                      Aceptar Permuta
+                    </button>
                   </div>
-                  <button 
-                    className="denegar-btn"
-                    onClick={() => handleDenegarPermuta(permuta.permuta_id)}>
-                    Denegar Permuta
-                  </button>
-                  <button 
-                    className="aceptar-btn"
-                    onClick={() => handleAceptarPermuta(permuta.permuta_id)}>
-                    Aceptar Permuta
-                  </button>
-                </div>
+                </SwiperSlide>
               ))}
-            </div>
+            </Swiper>
           ) : (
             <p>No hay permutas disponibles</p>
           )}
@@ -132,5 +164,4 @@ export default function MisPermutas() {
       </div>
     </div>
   );
-  
 }
