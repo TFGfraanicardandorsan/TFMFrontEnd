@@ -83,6 +83,10 @@ export default function MisIncidencias() {
           </div>
         )}
       </div>
+      <br />
+      <br />
+      <br />
+      <br />
     </>
   );
 }
