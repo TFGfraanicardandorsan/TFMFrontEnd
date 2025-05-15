@@ -51,6 +51,10 @@ export default function SeleccionarEstudio () {
                         </option>
                     ))}
                 </select>
+                <p className="subtitulo">Recuerda que solo puedes seleccionar un estudio.</p>
+                <p className="subtitulo">Una vez seleccionado, podrás elegir las asignaturas y grupos.</p>
+                <p className="subtitulo">Si te equivocas a la hora de seleccionar el estudio, reporta una incidencia.</p>
+                <p className="subtitulo">Si no seleccionas nada, no podrás hacer uso del servicio.</p>
                 <button onClick={handleSubmit} disabled={!selectedEstudio}>
                     Enviar
                 </button>
