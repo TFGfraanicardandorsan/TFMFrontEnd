@@ -78,3 +78,15 @@ footer {
   text-align: center;
   margin-top: auto;
 }
+
+.filtro-container {
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filtro-container select {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
