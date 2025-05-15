@@ -88,6 +88,17 @@ export default function MisPermutas() {
   }
 
   return (
+    <>
+    <br />
+    <br />
+    <h1 className="mispermutas-title">Mis Permutas</h1>
+    <p className="mispermutas-subtitle">
+      Aquí puedes ver las permutas que has propuesto y las que te han propuesto.
+      <br />
+      Puedes aceptar o denegar las permutas propuestas por otros usuarios.
+      <br />
+      También puedes ver las permutas que has propuesto tú mismo.
+      </p>
     <div className="mispermutas-container">
       <div className="mispermutas-columns">
         {/* Carrusel para Permutas propuestas por mí */}
@@ -163,5 +174,8 @@ export default function MisPermutas() {
         </div>
       </div>
     </div>
+    <br />
+    <br />
+    </>
   );
 }
