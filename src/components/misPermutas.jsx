@@ -61,7 +61,9 @@ export default function MisPermutas() {
   const handleDenegarPermuta = async (solicitudId) => {
     try {
       await denegarPermuta(solicitudId);
-      await cargarPermutasPropuestas();
+      setPermutasPropuestas((prev) =>
+        prev.filter((permuta) => permuta.permuta_id !== solicitudId)
+      );
       alert("Permuta denegada con éxito");
     } catch (error) {
       console.error("Error al denegar la permuta:", error);
@@ -72,7 +74,9 @@ export default function MisPermutas() {
   const handleAceptarPermuta = async (solicitudId) => {
     try {
       await validarPermuta(solicitudId);
-      await cargarPermutasPropuestas();
+      setPermutasPropuestas((prev) =>
+        prev.filter((permuta) => permuta.permuta_id !== solicitudId)
+      );
       alert("Permuta aceptada con éxito");
     } catch (error) {
       console.error("Error al aceptar la permuta:", error);
