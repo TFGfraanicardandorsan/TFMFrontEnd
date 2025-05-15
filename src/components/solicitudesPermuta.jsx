@@ -62,8 +62,8 @@ export default function SolicitudesPermuta() {
               onChange={(e) => setFiltroEstado(e.target.value)}
             >
               <option value="todas">Todas</option>
-              <option value="solicitada">Solicitadas</option>
-              <option value="emparejada">Emparejadas</option>
+              <option value="SOLICITADA">Solicitadas</option>
+              <option value="EMPAREJADA">Emparejadas</option>
             </select>
           </div>
 
