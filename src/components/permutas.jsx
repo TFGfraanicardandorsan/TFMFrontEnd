@@ -49,7 +49,7 @@ export default function Permutas() {
   return (
 
     <div className="permutas-container">
-      <h2>Permutas Disponibles</h2>
+      <h2 className="permutas-title">Permutas Disponibles</h2>
       {permutas.length > 0 ? (
         <div className="permutas-grid">
           {permutas.map((permuta) => (

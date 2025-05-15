@@ -5,11 +5,13 @@ import { obtenerMiGrupoAsignatura } from "../services/grupo"; // Importar la nue
 import {superarAsignaturasUsuario} from "../services/asignaturas"; // Importar la nueva API
 import SeleccionarEstudio from "./seleccionarEstudio";
 import { useNavigate } from "react-router-dom";
+
 export default function MiPerfil() {
   const [usuario, setUsuario] = useState(null); // Estado para almacenar los datos del usuario
   const [asignaturas, setAsignaturas] = useState([]); // Estado para almacenar las asignaturas y grupos
   const [loading, setLoading] = useState(true); // Estado para la carga de datos
   const [error, setError] = useState(null); // Estado para manejar errores
+  const [mensajeExito, setMensajeExito] = useState(""); // Estado para manejar mensajes de éxito
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,15 +42,14 @@ export default function MiPerfil() {
   }, []);
 
   // Función para marcar una asignatura como aprobada
-  const manejarSuperarAsignatura = async (idAsignatura,codigo) => {
+  const manejarSuperarAsignatura = async (idAsignatura, codigo) => {
     try {
       const response = await superarAsignaturasUsuario(codigo);
       if (!response.err) {
         // Actualizar el estado local eliminando la asignatura aprobada
-        setAsignaturas(asignaturas.filter(asignatura => asignatura.id !== idAsignatura));
         const asignaturaAprobada = asignaturas.find(asignatura => asignatura.id === idAsignatura);
+        setAsignaturas(asignaturas.filter(asignatura => asignatura.id !== idAsignatura));
         setMensajeExito(`Enhorabuena por aprobar la asignatura ${asignaturaAprobada.asignatura}.`);
-
       } else {
         throw new Error(response.errmsg);
       }
@@ -56,6 +57,7 @@ export default function MiPerfil() {
       setError(error.message);
     }
   };
+
   // Muestra mensaje de carga
   if (loading) {
     return <div className="loading-text">Cargando...</div>;
@@ -67,7 +69,7 @@ export default function MiPerfil() {
 
   return (
     <div className="page-container">
-
+      {/* Mostrar SeleccionarEstudio solo si no hay grado */}
       {!usuario?.titulacion && <SeleccionarEstudio />}
       <div className="content-wrap">
         <div className="perfil-container">
@@ -75,11 +77,12 @@ export default function MiPerfil() {
           <div className="perfil-subtitle">
             <p>
               Este es tu perfil aquí podrás ver las asignaturas de las que estás actualmente matriculado y cuando apruebes marcarla como superada. Además podrás matricularte de nuevas asignaturas al principio de cada curso.
-              </p>
-            </div>
+            </p>
+          </div>
 
+          {/* Mostrar mensaje de éxito si existe */}
           {mensajeExito && <div className="success-text">{mensajeExito}</div>}
-          
+
           <div className="perfil-content">
             <div className="perfil-card">
               <h2 className="perfil-card-title">Información Personal</h2>
