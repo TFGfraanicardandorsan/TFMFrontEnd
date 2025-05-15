@@ -62,3 +62,19 @@
 .boton-guardar:hover {
   background-color: #0056b3;
 }
+
+.loading-message {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #555;
+  margin: 1rem 0;
+}
+
+.checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* Espacio entre el checkbox y el texto */
+  font-size: 16px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
