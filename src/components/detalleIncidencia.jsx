@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/detalleIncidencia-style.css";
 import { obtenerIncidenciaPorId } from "../services/incidencia";
+import { formatearFecha } from "../lib/formateadorFechas.js";
 
 export default function DetalleIncidencia() {
   const { id } = useParams();
   const [incidencia, setIncidencia] = useState(null);
-  const [archivoUrl, setArchivoUrl] = useState(null);
+  const [archivo, setArchivo] = useState(null);
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
@@ -14,7 +15,7 @@ export default function DetalleIncidencia() {
       try {
         const data = await obtenerIncidenciaPorId(id);
         setIncidencia(data.result.result);
-        setArchivoUrl(data.result.result.url);
+        setArchivo(data.result.result.archivo);
       } catch (error) {
         console.error("Error al obtener la incidencia:", error);
       } finally {
@@ -34,13 +35,12 @@ export default function DetalleIncidencia() {
         <p><strong>Descripción:</strong> {incidencia.descripcion}</p>
         <p><strong>Tipo de Incidencia:</strong> {incidencia.tipo_incidencia}</p>
         <p><strong>Estado:</strong> {incidencia.estado_incidencia}</p>
-        <p><strong>Fecha de creación:</strong> {incidencia.fechaCreacion}</p>
-        <p><strong>Prioridad:</strong> {incidencia.prioridad}</p>
+        <p><strong>Fecha de creación:</strong> {formatearFecha(incidencia.fecha_creacion)}</p>
       </div>
-      {archivoUrl && (
+      {archivo && (
         <div className="detalle-incidencia-archivo">
           <strong>Archivo adjunto:</strong>
-          <iframe src={archivoUrl} title="Archivo adjunto" />
+          <iframe src={archivo} title="Archivo adjunto" />
         </div>
       )}
     </div>
