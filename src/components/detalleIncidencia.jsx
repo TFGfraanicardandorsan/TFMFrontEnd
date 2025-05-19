@@ -53,7 +53,7 @@ useEffect(() => {
       </div>
     {archivo && (
       <div className="detalle-incidencia-archivo">
-        <strong>Archivo adjunto:</strong>
+          <strong className="archivo-label">Archivo adjunto:</strong>
         {archivo.tipo === "application/pdf" ? (
           <iframe src={archivo.url} title="Archivo adjunto" />
           ) : (
