@@ -57,6 +57,10 @@ const CrearAsignatura = () => {
   };
 
   return (
+    <>
+    <br/><br/>
+    <br/><br/>
+    <br/><br/>
     <form
       onSubmit={handleSubmit}
       style={{
@@ -139,6 +143,7 @@ const CrearAsignatura = () => {
       </button>
       {mensaje && <p style={{ color: mensaje.includes("Error") ? "red" : "green" }}>{mensaje}</p>}
     </form>
+    </>
   );
 };
 
