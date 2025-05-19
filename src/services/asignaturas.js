@@ -16,6 +16,6 @@ export const superarAsignaturasUsuario = async (paramAsignatura) => {
     return await postAPI("/api/v1/usuarioAsignatura/superarAsignaturasUsuario", {asignatura:paramAsignatura})
 }   
 
-export const crearAsignatura = async () => {
-    return await postAPI("/api/v1/asignatura/crearAsignatura")
+export const crearAsignatura = async (asignatura) => {
+    return await postAPI("/api/v1/asignatura/crearAsignatura", asignatura);
 }
