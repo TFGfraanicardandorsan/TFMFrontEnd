@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { postAPI } from "../lib/methodAPIs.js";
+import { crearAsignatura } from "../services/asignaturas.js";
 import { obtenerEstudios } from "../services/estudio.js";
 
 const CrearAsignatura = () => {
@@ -15,10 +15,11 @@ const CrearAsignatura = () => {
 
   useEffect(() => {
     const fetchEstudios = async () => {
-      try {
-        const res = await obtenerEstudios();
-        setEstudios(res.data || []);
-      } catch {
+      const response = await obtenerEstudios();
+      if (!response.err) {
+        // Si la respuesta tiene la estructura result.result
+        setEstudios(response.result?.result || []);
+      } else {
         setEstudios([]);
       }
     };
@@ -36,7 +37,7 @@ const CrearAsignatura = () => {
       return;
     }
     try {
-      await postAPI("/api/v1/asignatura/crearAsignatura", {
+      await crearAsignatura({
         nombre: form.nombre,
         siglas: form.siglas,
         curso: Number(form.curso),
