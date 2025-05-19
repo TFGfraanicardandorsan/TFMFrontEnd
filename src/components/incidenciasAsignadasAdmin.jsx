@@ -51,7 +51,6 @@ export default function IncidenciasAsignadasAdmin() {
         ) : (
           <div className="incidencias-container">
             {incidencias.map((incidencia) => (
-              console.log(incidencia),
               <div key={incidencia.id} className="incidencia-card">
                 <p>
                   <strong>Tipo de Incidencia:</strong> {incidencia.descripcion}
