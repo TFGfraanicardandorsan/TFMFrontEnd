@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { crearEstudio } from "../services/estudio";
-import "./CrearGradoAdmin.css"; // Asegúrate de importar el archivo CSS
+import "../styles/CrearGradoAdmin.css"; // Asegúrate de importar el archivo CSS
 
 export default function CrearGradoAdmin() {
   const [nombre, setNombre] = useState("");
