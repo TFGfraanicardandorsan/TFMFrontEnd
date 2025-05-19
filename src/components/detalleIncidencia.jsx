@@ -7,6 +7,7 @@ import { servirArchivo } from "../services/subidaArchivos.js";
 
 export default function DetalleIncidencia() {
   const { id } = useParams();
+  const idInt = parseInt(id, 10);  
   const [incidencia, setIncidencia] = useState(null);
   const [archivo, setArchivo] = useState(null);
   const [cargando, setCargando] = useState(true);
@@ -14,7 +15,7 @@ export default function DetalleIncidencia() {
 useEffect(() => {
   const cargarIncidencia = async () => {
     try {
-      const data = await obtenerIncidenciaPorId(id);
+      const data = await obtenerIncidenciaPorId(idInt);
       setIncidencia(data.result.result);
       const nombreArchivo = data.result.result.archivo;
       if (nombreArchivo) {
@@ -37,7 +38,7 @@ useEffect(() => {
     }
   };
   cargarIncidencia();
-}, [id]);
+}, [idInt]);
 
   if (cargando) return <p>Cargando incidencia...</p>;
   if (!incidencia) return <p>No se encontró la incidencia.</p>;
