@@ -32,7 +32,10 @@
   justify-content: center;
 }
 .archivo-label {
-  margin-bottom: 16px;
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  display: block;
   align-self: flex-start;
 }
 

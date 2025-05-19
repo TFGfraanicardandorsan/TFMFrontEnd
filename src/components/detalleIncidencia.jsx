@@ -52,14 +52,16 @@ useEffect(() => {
         <p><strong>Fecha de creación:</strong> {formatearFecha(incidencia.fecha_creacion)}</p>
       </div>
     {archivo && (
+      <>
+      <strong className="archivo-label">Archivo adjunto:</strong>
       <div className="detalle-incidencia-archivo">
-          <strong className="archivo-label">Archivo adjunto:</strong>
         {archivo.tipo === "application/pdf" ? (
           <iframe src={archivo.url} title="Archivo adjunto" />
           ) : (
           <img src={archivo.url} alt="Archivo adjunto" style={{ maxWidth: "100%", maxHeight: "600px" }} />
           )}
       </div>
+      </>
     )}
     </div>
   );
