@@ -30,6 +30,7 @@ import IncidenciasSinAsignar from "./components/incidenciasSinAsignar.jsx";
 import IncidenciasAsignadasAdmin from "./components/incidenciasAsignadasAdmin.jsx";
 import MiPerfilAdmin from "./components/miPerfilAdmin.jsx";
 import CrearGradoAdmin from "./components/CrearGradoAdmin.jsx";
+import DetalleIncidencia from "./components/detalleIncidencia.jsx";
 
 export function App() {
   return (
@@ -67,6 +68,7 @@ export function App() {
           <Route path="/estadisticas" element={<Estadisticas />} /> 
           <Route path="/incidenciasSinAsignar" element={<IncidenciasSinAsignar />} />
           <Route path="/incidencias" element={<IncidenciasAsignadasAdmin />} />
+          <Route path="/incidencias/:id" element={<DetalleIncidencia />} />
           <Route path="/crearNotificacion" element={<CrearNotificacion />} />
           <Route path="/miPerfilAdmin" element={<MiPerfilAdmin />} />
           <Route path="/crearGrado" element={<CrearGradoAdmin />} />

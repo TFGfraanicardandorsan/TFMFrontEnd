@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import "../styles/misIncidencias-style.css";
 import { obtenerIncidenciasAsignadasAdmin, solucionarIncidencia } from "../services/incidencia";
+import { useNavigate } from "react-router-dom";
 
 export default function IncidenciasAsignadasAdmin() {
   const [incidencias, setIncidencias] = useState([]);
   const [cargando, setCargando] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const cargarIncidencias = async () => {
@@ -60,6 +62,7 @@ export default function IncidenciasAsignadasAdmin() {
                   <strong>Comentario:</strong> {incidencia.tipo_incidencia}
                 </p>
                 <button className="big-button" onClick={() => handleResolverIncidencia(incidencia.id)}>Resolver Incidencia</button>
+                <button className="big-button" onClick={() => navigate(`/incidencias/${incidencia.id}`)}>Ver incidencia</button>
               </div>
             ))}
           </div>
