@@ -96,10 +96,10 @@ const CrearAsignatura = () => {
         style={{ padding: 8, borderRadius: 4, border: "1px solid #bbb" }}
       >
         <option value="">Selecciona curso</option>
-        <option value="1">Primero</option>
-        <option value="2">Segundo</option>
-        <option value="3">Tercero</option>
-        <option value="4">Cuarto</option>
+        <option value="PRIMERO">Primero</option>
+        <option value="SEGUNDO">Segundo</option>
+        <option value="TERCERO">Tercero</option>
+        <option value="CUARTO">Cuarto</option>
       </select>
       <input
         name="codigo"
