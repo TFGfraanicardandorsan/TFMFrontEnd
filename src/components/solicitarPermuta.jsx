@@ -19,8 +19,8 @@ export default function SeleccionarGruposSinGrupo() {
         if (response && Array.isArray(response.result.result)) {
           const agrupadas = response.result.result.reduce((acc, item) => {
             const { codasignatura, nombreasignatura, numgrupo } = item;
-            if (!acc[codasignatura]) {
-              acc[codasignatura] = {
+            if (!acc[parseInt(codasignatura)]) {
+              acc[parseInt(codasignatura)] = {
                 codasignatura,
                 nombreasignatura,
                 grupos: [],
@@ -99,7 +99,7 @@ export default function SeleccionarGruposSinGrupo() {
         ) : (
           <div className="tarjetas-grid">
             {asignaturas.map(({ codasignatura, nombreasignatura, grupos }) => (
-              <div key={codasignatura} className="tarjeta">
+              <div key={parseInt(codasignatura)} className="tarjeta">
                 <h3 className="nombre-asignatura">{nombreasignatura}</h3>
                 <div className="checkbox-grupos">
                   {grupos.map((grupo) => (
@@ -108,10 +108,10 @@ export default function SeleccionarGruposSinGrupo() {
                         type="checkbox"
                         value={grupo}
                         checked={
-                          seleccionados[codasignatura]?.includes(grupo) || false
+                          seleccionados[parseInt(codasignatura)]?.includes(grupo) || false
                         }
                         onChange={() =>
-                          handleGrupoSeleccionado(codasignatura, grupo)
+                          handleGrupoSeleccionado(parseInt(codasignatura), grupo)
                         }
                       />
                       Grupo {grupo}
@@ -130,13 +130,6 @@ export default function SeleccionarGruposSinGrupo() {
           Solicitar
         </button>
       </div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
     </>
   );
 }
