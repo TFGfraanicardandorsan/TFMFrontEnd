@@ -71,6 +71,23 @@ body {
   background-color: #0056b3;
 }
 
+.verIncidencia-button {
+  background-color: #e0a911;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  max-width: 300px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.verIncidencia-button:hover {
+  background-color: #e0a911;
+}
+
 footer {
   width: 100%;
   background-color: #f8f9fa;
