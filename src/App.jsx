@@ -29,6 +29,8 @@ import PermutasAceptadas from "./components/permutasAceptadas.jsx";
 import IncidenciasSinAsignar from "./components/incidenciasSinAsignar.jsx";
 import IncidenciasAsignadasAdmin from "./components/incidenciasAsignadasAdmin.jsx";
 import MiPerfilAdmin from "./components/miPerfilAdmin.jsx";
+import CrearGradoAdmin from "./components/CrearGradoAdmin.jsx";
+
 export function App() {
   return (
       <AuthProvider>
@@ -67,6 +69,7 @@ export function App() {
           <Route path="/incidencias" element={<IncidenciasAsignadasAdmin />} />
           <Route path="/crearNotificacion" element={<CrearNotificacion />} />
           <Route path="/miPerfilAdmin" element={<MiPerfilAdmin />} />
+          <Route path="/crearGrado" element={<CrearGradoAdmin />} />
           </Route>
         </Routes>
 

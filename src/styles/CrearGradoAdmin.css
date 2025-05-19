@@ -1,0 +1,12 @@
+.crear-grado-admin-container {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+}
+.crear-grado-form div {
+  margin-bottom: 1rem;
+}
+.success-message { color: green; }
+.error-message { color: red; }
