@@ -12,6 +12,10 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 24px;
 }
 
 .detalle-incidencia-archivo {
@@ -28,16 +32,25 @@
   justify-content: center;
 }
 
-.detalle-incidencia-archivo iframe,
-.detalle-incidencia-archivo img {
-  width: 100%;
-  min-height: 600px;
+.detalle-incidencia-archivo iframe {
+  width: 550px;
+  height: 700px;
   border: none;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   background: #f8f9fa;
   transition: box-shadow 0.2s;
-  max-width: 100%;
-  height: 700px;
-  width: 550px;
+}
+
+.detalle-incidencia-archivo img {
+  max-width: 550px;
+  max-height: 700px;
+  width: auto;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  background: #f8f9fa;
 }
