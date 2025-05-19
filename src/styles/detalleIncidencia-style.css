@@ -31,6 +31,10 @@
   align-items: center;
   justify-content: center;
 }
+.archivo-label {
+  margin-bottom: 16px;
+  align-self: flex-start;
+}
 
 .detalle-incidencia-archivo iframe {
   width: 550px;
