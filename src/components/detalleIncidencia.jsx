@@ -14,10 +14,8 @@ export default function DetalleIncidencia() {
 useEffect(() => {
   const cargarIncidencia = async () => {
     try {
-      console.log("ID de incidencia:", id);
       const data = await obtenerIncidenciaPorId(id);
       setIncidencia(data.result.result);
-
       const nombreArchivo = data.result.result.archivo;
       if (nombreArchivo) {
         const bytes = await servirArchivo("archivador", nombreArchivo);
