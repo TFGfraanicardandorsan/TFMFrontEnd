@@ -2,14 +2,12 @@ import { useState, useEffect } from "react";
 import "../styles/miPerfil-style.css";
 import { getTodasSolicitudesPermuta  } from "../services/permuta";
 import { obtenerDatosUsuarioAdmin } from "../services/usuario"; // Importar la nueva API
-import { useNavigate } from "react-router-dom";
 
 export default function MiPerfilAdmin() {
   const [usuario, setUsuario] = useState(null); // Estado para almacenar los datos del administrador
   const [permutas, setPermutas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const cargarDatos = async () => {
@@ -104,21 +102,6 @@ export default function MiPerfilAdmin() {
                 Exportar Permutas en CSV
               </button>
             </div>
-          </div>
-
-          <div className="perfil-card">
-            <h2 className="perfil-card-title">Lista de Permutas</h2>
-            <ul>
-              {permutas.length > 0 ? (
-                permutas.map((permuta, index) => (
-                  <li key={index}>
-                    <strong>ID:</strong> {permuta.solicitud_id} - <strong>Asignatura:</strong> {permuta.asignatura.nombre} - <strong>Grupos Deseados:</strong> {permuta.grupos_deseados.join(", ")}
-                  </li>
-                ))
-              ) : (
-                <p>No hay permutas disponibles.</p>
-              )}
-            </ul>
           </div>
         </div>
       </div>
