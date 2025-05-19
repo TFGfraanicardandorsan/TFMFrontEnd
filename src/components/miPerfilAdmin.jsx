@@ -66,8 +66,9 @@ export default function MiPerfilAdmin() {
     );
     const contenidoCSV = [encabezados, ...filas].join("\n");
 
-    // Crear y descargar el archivo CSV
-    const blob = new Blob([contenidoCSV], { type: "text/csv;charset=utf-8;" });
+    // Añadir BOM para que Excel reconozca UTF-8 y muestre bien los acentos
+    const BOM = "\uFEFF";
+    const blob = new Blob([BOM + contenidoCSV], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
