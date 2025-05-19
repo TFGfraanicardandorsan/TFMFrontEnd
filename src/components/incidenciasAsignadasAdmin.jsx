@@ -61,8 +61,8 @@ export default function IncidenciasAsignadasAdmin() {
                 <p>
                   <strong>Comentario:</strong> {incidencia.tipo_incidencia}
                 </p>
-                <button className="big-button" onClick={() => handleResolverIncidencia(incidencia.id)}>Resolver Incidencia</button>
                 <button className="verIncidencia-button" onClick={() => navigate(`/incidencias/${incidencia.id}`)}>Ver incidencia</button>
+                <button className="big-button" onClick={() => handleResolverIncidencia(incidencia.id)}>Resolver Incidencia</button>
               </div>
             ))}
           </div>
