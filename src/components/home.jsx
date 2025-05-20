@@ -38,7 +38,7 @@ export default function Home() {
         <div className="notificaciones">
           <h2>Últimas Notificaciones</h2>
           <div className="notificaciones-cards">
-            {notificaciones.map((notificacion) => (
+            {notificaciones.slice(0,9).map((notificacion) => (
               <div className="notificacion-card" key={notificacion.id}>
                 <div className="notificacion-contenido">
                   <h3>{notificacion.contenido}</h3>
@@ -49,9 +49,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <br />
-      <br />
-      <br />
     </div>
   );
 }

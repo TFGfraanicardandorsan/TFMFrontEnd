@@ -96,7 +96,7 @@ export default function NavbarEstudiante() {
         <div className="sidebar">
           <h2>Notificaciones</h2>
           {notificaciones.length > 0 ? (
-            notificaciones.map((notificacion) => (
+            notificaciones.slice(0,5).map((notificacion) => (
               <div key={notificacion.id} className="notification-item">
                 <p className="contenido">{notificacion.contenido}</p>
                 <p className="fecha">
