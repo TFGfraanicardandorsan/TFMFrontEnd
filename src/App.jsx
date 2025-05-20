@@ -86,7 +86,7 @@ export function App() {
           <a href="/cookies" style={{ color: "#E0AD0F", textDecoration: "underline", marginLeft: "5px" }}>Leer más</a>
         </CookieConsent>
       
-        <ToastContainer />
+        <ToastContainer position="top-center" />
       </AuthProvider>
   );
 }
