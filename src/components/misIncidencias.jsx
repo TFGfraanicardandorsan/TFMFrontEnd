@@ -3,6 +3,7 @@ import "../styles/misIncidencias-style.css";
 import { useNavigate } from "react-router-dom";
 import { obtenerIncidenciasAsignadasUsuario } from "../services/incidencia";
 import { formatearFecha } from "../lib/formateadorFechas.js";
+import { logError } from "../lib/logger.js";
 
 export default function MisIncidencias() {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ export default function MisIncidencias() {
         const data = await obtenerIncidenciasAsignadasUsuario();
         setIncidencias(data.result.result);
       } catch (error) {
-        console.error("Error al obtener las incidencias:", error);
+        logError(error);
       } finally {
         setCargando(false);
       }

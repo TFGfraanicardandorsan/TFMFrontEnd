@@ -2,10 +2,14 @@ import { useState, useEffect } from "react";
 import { obtenerEstudios } from "../services/estudio";
 import "../styles/seleccionarEstudio-style.css";
 import { actualizarEstudiosUsuario } from "../services/usuario";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { logError } from "../lib/logger";
 
 export default function SeleccionarEstudio () {    
-    const [estudios, setEstudio] = useState([]); // Estado para almacenar los diferentes estudios
+    const [estudios, setEstudio] = useState([]);
     const [selectedEstudio, setSelectedEstudio] = useState("");
+    const navigate = useNavigate();
 
   useEffect(() => {
     const obtenerEstudio = async () => {
@@ -13,9 +17,9 @@ export default function SeleccionarEstudio () {
     if (!response.err) {
       setEstudio(response.result.result); 
     } else {
-      console.error('Error al obtener los estudios:', response.errmsg);
+        logError(response.errmsg);
     }
-    };
+};
     obtenerEstudio();
   }, []);  
 
@@ -28,12 +32,14 @@ export default function SeleccionarEstudio () {
         try {
             const response = await actualizarEstudiosUsuario(selectedEstudio);
             if (response.result.result === 'Estudios seleccionados') {
-                window.location.href = "/miPerfil";
+                toast.success("Estudio seleccionado correctamente");
+                navigate("/miPerfil");
             } else {
-                alert(response.result.result)
+                toast.warning(response.result.result);
             }
         } catch (error) {
-            console.error("Error en la solicitud:", error);
+            toast.error("Error en la solicitud.");
+            logError(error);
         }
     };
 

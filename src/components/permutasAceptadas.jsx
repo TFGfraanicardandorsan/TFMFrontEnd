@@ -3,6 +3,9 @@ import "../styles/permutas-style.css";
 import { obtenerPermutasAgrupadasPorUsuario, generarBorradorPermuta } from "../services/permuta.js";
 import { useNavigate } from "react-router-dom";
 import { obtenerSesion } from "../services/login.js";
+import { toast } from "react-toastify";
+import { logError } from "../lib/logger.js";
+
 export default function PermutasAceptadas() {
   const [permutas, setPermutas] = useState([]);
   const [cargando, setCargando] = useState(true);
@@ -13,7 +16,6 @@ export default function PermutasAceptadas() {
   useEffect(() => {
     obtenerPermutasAgrupadas();
     obtenerDatosUsuario();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const obtenerPermutasAgrupadas = async () => {
@@ -26,17 +28,14 @@ export default function PermutasAceptadas() {
       ) {
         setPermutas(response.result.result);
       } else {
-        console.error("Formato de respuesta inesperado:", response);
         setError("Error al cargar los datos");
+        logError(response);
       }
       setCargando(false);
     } catch (error) {
-      console.error(
-        "Error al obtener las permutas agrupadas por usuario:",
-        error
-      );
       setError("Error al obtener las permutas agrupadas por usuario");
       setCargando(false);
+      logError(error);
     }
   };
 
@@ -57,11 +56,12 @@ export default function PermutasAceptadas() {
   const handleGenerarPermuta = async (IdsPermuta) => {
     try {
       await generarBorradorPermuta(IdsPermuta);
+      toast.success("Permuta generada con éxito");
       navigate("/generarPermuta");
-      alert("Permuta generada con éxito");
     } catch (error) {
-      console.error("Error al generar la permuta:", error);
-      alert("Error al generar la permuta");
+      toast.error("Error al generar la permuta");
+      setError("Error al generar la permuta");
+      logError(error);
     }
   };
 

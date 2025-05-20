@@ -12,6 +12,8 @@ import {
   validarPermuta,
   misPermutasPropuestasPorMi,
 } from "../services/permuta.js";
+import { toast } from "react-toastify";
+import { logError } from "../lib/logger.js";
 
 export default function MisPermutas() {
   const [permutasPropuestas, setPermutasPropuestas] = useState([]);
@@ -30,14 +32,14 @@ export default function MisPermutas() {
       if (response && response.result && Array.isArray(response.result.result)) {
         setPermutasPropuestasPorMi(response.result.result);
       } else {
-        console.error("Formato de respuesta inesperado:", response);
         setError("Error al cargar los datos");
+        logError(response);
       }
       setCargando(false);
     } catch (error) {
-      console.error("Error al cargar las permutas propuestas por mí:", error);
       setError("Error al cargar las permutas propuestas por mí");
       setCargando(false);
+      logError(error);
     }
   };
 
@@ -47,14 +49,14 @@ export default function MisPermutas() {
       if (response && response.result && Array.isArray(response.result.result)) {
         setPermutasPropuestas(response.result.result);
       } else {
-        console.error("Formato de respuesta inesperado:", response);
         setError("Error al cargar los datos");
+        logError(response);
       }
       setCargando(false);
     } catch (error) {
-      console.error("Error al cargar las permutas propuestas:", error);
       setError("Error al cargar las permutas propuestas");
       setCargando(false);
+      logError(error);
     }
   };
 
@@ -64,10 +66,10 @@ export default function MisPermutas() {
       setPermutasPropuestas((prev) =>
         prev.filter((permuta) => permuta.permuta_id !== solicitudId)
       );
-      alert("Permuta denegada con éxito");
+      toast.success("Permuta denegada con éxito");
     } catch (error) {
-      console.error("Error al denegar la permuta:", error);
-      alert("Error al denegar la permuta");
+      toast.error("Error al denegar la permuta");
+      logError(error);
     }
   };
 
@@ -77,10 +79,10 @@ export default function MisPermutas() {
       setPermutasPropuestas((prev) =>
         prev.filter((permuta) => permuta.permuta_id !== solicitudId)
       );
-      alert("Permuta aceptada con éxito");
+      toast.success("Permuta aceptada con éxito");
     } catch (error) {
-      console.error("Error al aceptar la permuta:", error);
-      alert("Error al aceptar la permuta");
+      toast.error("Error al aceptar la permuta");
+      logError(error);
     }
   };
 

@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import "../styles/permutas-style.css";
 import { obtenerPermutasInteresantes, aceptarPermutaSolicitudesPermuta } from "../services/permuta.js";
 import { useNavigate } from "react-router-dom";
+import { logError } from "../lib/logger.js";
+import { toast } from "react-toastify";
+
 export default function Permutas() {
   const [permutas, setPermutas] = useState([]);
   const [cargando, setCargando] = useState(true);
@@ -18,23 +21,26 @@ export default function Permutas() {
       if (response && response.result && Array.isArray(response.result.result)) {
         setPermutas(response.result.result);
       } else {
-        console.error("Formato de respuesta inesperado:", response);
         setError("Error al cargar los datos");
+        logError(response);
       }
       setCargando(false);
     } catch (error) {
-      console.error("Error al cargar las permutas:", error);
       setError("Error al cargar las permutas");
       setCargando(false);
+      logError(error);
     }
   };
 
   const handleAceptarPermuta = async (solicitudId) => {
     try {
       await aceptarPermutaSolicitudesPermuta(solicitudId);
+      toast.success("Permuta aceptada correctamente");
       navigate("/misPermutas");
     } catch (error) {
-      console.error("Error al aceptar la permuta:", error);
+      toast.error("Error al aceptar la permuta");
+      setError("Error al aceptar la permuta");
+      logError(error);
     }
   };
 

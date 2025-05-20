@@ -7,6 +7,7 @@ import { obtenerNotificaciones } from "../services/notificacion.js";
 import { logout } from "../services/login.js";
 import { formatearFecha } from "../lib/formateadorFechas.js";
 import { Link } from "react-router-dom";
+import { logError } from "../lib/logger.js";
 
 export default function NavbarAdmin() {
   const navigate = useNavigate();
@@ -22,10 +23,10 @@ export default function NavbarAdmin() {
         if (Array.isArray(data.result.result)) {
           setNotificaciones(data.result.result);
         } else {
-          console.error("La respuesta no es un arreglo", data);
+          logError(data);
         }
       } catch (error) {
-        console.error("Error al obtener las notificaciones:", error);
+        logError(error);
       } finally {
         setCargando(false);
       }

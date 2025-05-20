@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "../styles/miPerfil-style.css";
 import { getTodasSolicitudesPermuta  } from "../services/permuta";
 import { obtenerDatosUsuarioAdmin } from "../services/usuario"; 
+import { toast } from "react-toastify";
 
 export default function MiPerfilAdmin() {
   const [usuario, setUsuario] = useState(null); 
@@ -12,7 +13,6 @@ export default function MiPerfilAdmin() {
   useEffect(() => {
     const cargarDatos = async () => {
       try {
-        // Obtener datos del administrador
         const responseUsuario = await obtenerDatosUsuarioAdmin();
         if (!responseUsuario.err) {
           setUsuario(responseUsuario.result.result); 
@@ -40,7 +40,7 @@ export default function MiPerfilAdmin() {
 
   const exportarCSV = () => {
     if (permutas.length === 0) {
-      alert("No hay datos para exportar.");
+      toast.warning("No hay datos para exportar.");
       return;
     }
 

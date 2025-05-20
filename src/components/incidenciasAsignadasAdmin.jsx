@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import "../styles/misIncidencias-style.css";
 import { obtenerIncidenciasAsignadasAdmin, solucionarIncidencia } from "../services/incidencia";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { logError } from "../lib/logger.js";
 
 export default function IncidenciasAsignadasAdmin() {
   const [incidencias, setIncidencias] = useState([]);
@@ -14,7 +16,7 @@ export default function IncidenciasAsignadasAdmin() {
         const data = await obtenerIncidenciasAsignadasAdmin();
         setIncidencias(data.result.result);
       } catch (error) {
-        console.error("Error al obtener las incidencias:", error);
+        logError(error);
       } finally {
         setCargando(false);
       }
@@ -27,13 +29,13 @@ export default function IncidenciasAsignadasAdmin() {
       const response = await solucionarIncidencia(idIncidencia);
       if (!response.err) {
         setIncidencias(incidencias.filter((incidencia) => incidencia.id !== idIncidencia));
-        alert(`Incidencia ${idIncidencia} resuelta correctamente`);
+        toast.success(`Incidencia ${idIncidencia} resuelta correctamente`);
       } else {
-        throw new Error(response.errmsg);
+        logError(response.errmsg);
       }
     } catch (error) {
-      console.error("Error al resolver la incidencia:", error);
-      alert(`Error al resolver la incidencia ${idIncidencia}`);
+      toast.error(`Error al resolver la incidencia ${idIncidencia}`);
+      logError(error);
     }
   };
   return (

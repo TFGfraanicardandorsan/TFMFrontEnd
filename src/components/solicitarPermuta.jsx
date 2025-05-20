@@ -3,6 +3,8 @@ import { obtenerTodosGruposMisAsignaturasSinGrupoUsuario } from "../services/gru
 import { solicitarPermuta } from "../services/permuta.js";
 import { useNavigate } from "react-router-dom";
 import "../styles/seleccionarGrupos-style.css";
+import { toast } from "react-toastify";
+import { logError } from "../lib/logger.js";
 
 export default function SeleccionarGruposSinGrupo() {
   const [asignaturas, setAsignaturas] = useState([]);
@@ -32,13 +34,10 @@ export default function SeleccionarGruposSinGrupo() {
 
           setAsignaturas(Object.values(agrupadas));
         } else {
-          console.error("No se encontraron asignaturas disponibles.");
+          logError("No se encontraron asignaturas disponibles.");
         }
       } catch (error) {
-        console.error(
-          "Error al obtener las asignaturas sin grupo del usuario:",
-          error
-        );
+        logError(error);
       } finally {
         setCargando(false);
       }
@@ -71,17 +70,15 @@ export default function SeleccionarGruposSinGrupo() {
           await solicitarPermuta(codasignatura, gruposDeseados);
         }
       }
-      alert("Permutas solicitadas con éxito.");
+      toast.success("Permutas solicitadas con éxito.");
       navigate("/misSolicitudesPermuta");
     } catch (error) {
-      console.error("Error al enviar las solicitudes de permuta:", error);
-      alert("Ocurrió un error al solicitar las permutas. Intenta nuevamente.");
+      toast.error("Ocurrió un error al solicitar las permutas. Intenta nuevamente.");
+      logError(error);
     }
   };
 
-  const isSubmitDisabled = Object.values(seleccionados).every(
-    (grupos) => grupos.length === 0
-  );
+  const isSubmitDisabled = Object.values(seleccionados).every((grupos) => grupos.length === 0);
 
   return (
     <>

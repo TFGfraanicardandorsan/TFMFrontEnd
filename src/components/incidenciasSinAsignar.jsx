@@ -3,6 +3,8 @@ import "../styles/misIncidencias-style.css";
 import { useNavigate } from "react-router-dom";
 import { obtenerIncidenciasSinAsignar, asignarmeIncidencia } from "../services/incidencia";
 import { formatearFecha } from "../lib/formateadorFechas.js";
+import { toast } from "react-toastify";
+import { logError } from "../lib/logger.js";
 
 export default function IncidenciasSinAsignar() {
     const navigate = useNavigate();
@@ -16,8 +18,8 @@ export default function IncidenciasSinAsignar() {
                 const data = await obtenerIncidenciasSinAsignar();
                 setIncidencias(data.result.result);
             } catch (error) {
-                console.error("Error al obtener las incidencias:", error);
                 setError("Hubo un problema al cargar las incidencias. Por favor, inténtalo de nuevo más tarde.");
+                logError(error);
             } finally {
                 setCargando(false);
             }
@@ -30,13 +32,13 @@ export default function IncidenciasSinAsignar() {
             const response = await asignarmeIncidencia(idIncidencia);
             if (!response.err) {
                 setIncidencias(incidencias.filter((incidencia) => incidencia.id !== idIncidencia));
-                alert("Incidencia asignada correctamente.");
+                toast.success("Incidencia asignada correctamente.");
             } else {
                 throw new Error(response.errmsg);
             }
         } catch (error) {
-            console.error("Error al asignar la incidencia:", error);
-            alert("Hubo un problema al asignar la incidencia.");
+            toast.error("Hubo un problema al asignar la incidencia.");
+            logError(error);
         }
     };
 

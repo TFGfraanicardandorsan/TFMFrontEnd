@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { obtenerTodosGruposMisAsignaturasUsuario, insertarMisGrupos } from "../services/grupo.js";
 import "../styles/seleccionarGrupos-style.css";
 import { useNavigate } from "react-router-dom";
+import { logError } from "../lib/logger.js";
 
 export default function SeleccionarGrupos() {
   const [asignaturas, setAsignaturas] = useState([]);
   const [seleccionados, setSeleccionados] = useState({});
-  const [error, setError] = useState(""); // Estado para manejar errores
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,10 +31,9 @@ export default function SeleccionarGrupos() {
           setAsignaturas(Object.values(agrupadas));
         }
       } catch (error) {
-        console.error("Error al obtener las asignaturas del usuario:", error);
-      }
+        logError(error);
+        setError("Error al cargar los grupos de asignaturas");}
     };
-
     ObtenerTodosGruposMisAsignaturasUsuario();
   }, []);
 
@@ -60,10 +60,8 @@ export default function SeleccionarGrupos() {
       try {
         await insertarMisGrupos(numgrupo, codasignatura);
       } catch (error) {
-        console.error(
-          `Error al insertar grupo ${numgrupo} para asignatura ${codasignatura}:`,
-          error
-        );
+        setError(`Error al insertar grupo ${numgrupo} para asignatura ${codasignatura}`);
+        logError(error);
       }
     }
     navigate("/miPerfil");

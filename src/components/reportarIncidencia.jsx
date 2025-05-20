@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "../styles/reportarIncidencia-style.css";
 import { subidaArchivo } from "../services/subidaArchivos.js";
 import { crearIncidencia } from "../services/incidencia.js"; 
+import { toast } from "react-toastify";
+import { logError } from "../lib/logger.js";
 
 export default function ReportarIncidencia() {
     const navigate = useNavigate();
@@ -38,18 +40,18 @@ export default function ReportarIncidencia() {
                 const response = await subidaArchivo(formData);
                 fileId = response?.result?.fileId;
             } catch (error) {
-                console.error("Error subiendo el archivo:", error);
-                alert("Hubo un problema al subir el archivo.");
+                toast.error("Hubo un problema al subir el archivo.");
+                logError(error);
                 return;
             }
         }
         try {
             await crearIncidencia(descripcion, tipoIncidencia, fileId);
-            alert("Incidencia enviada correctamente");
+            toast.success("Incidencia enviada correctamente");
             navigate("/misIncidencias")
         } catch (error) {
-            console.error("Error creando incidencia:", error);
-            alert("Error al enviar la incidencia");
+            toast.error("Error al enviar la incidencia");
+            logError(error);
         }
     };
 

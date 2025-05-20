@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "../styles/home-style.css";
 import { obtenerNotificaciones } from "../services/notificacion.js";
 import { formatearFecha } from "../lib/formateadorFechas.js";
+import { logError } from "../lib/logger.js";
 
 export default function Home() {
   const [notificaciones, setNotificaciones] = useState([]);
@@ -14,11 +15,11 @@ export default function Home() {
         if (Array.isArray(data.result.result)) {
           setNotificaciones(data.result.result);
         } else {
-          console.error("La respuesta no es un arreglo", data);
+          logError(data);
           setNotificaciones([]);
         }
       } catch (error) {
-        console.error("Error al obtener las notificaciones:", error);
+        logError(error);
       } finally {
         setCargando(false);
       }

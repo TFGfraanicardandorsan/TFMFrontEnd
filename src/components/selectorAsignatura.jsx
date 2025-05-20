@@ -2,6 +2,8 @@ import "../styles/selectorAsignatura-style.css";
 import { useState, useEffect } from "react";
 import { obtenerAsignaturasEstudio , actualizarAsignaturasUsuario} from "../services/asignaturas";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { logError } from "../lib/logger";
 export default function SelectorAsignatura() {
   const [asignaturas, setAsignatura] = useState([]); // Estado para todas las asignaturas
   const [filteredAsignaturas, setFilteredAsignaturas] = useState([]); // Estado para las asignaturas filtradas
@@ -27,10 +29,10 @@ export default function SelectorAsignatura() {
           // Preseleccionar el primer curso por defecto
           setCursoSeleccionado(cursosUnicos[0]);
         } else {
-          console.error("Error al obtener las asignaturas:", response.errmsg);
+          logError(response.errmsg);
         }
       } catch (error) {
-        console.error("Error en la API:", error);
+        logError(error);
       }
     };
 
@@ -62,11 +64,11 @@ export default function SelectorAsignatura() {
       try {
         await actualizarAsignaturasUsuario(codigo);
       } catch (error) {
-        console.error(`Error al enviar la asignatura ${codigo}:`, error);
+        logError(`Error al enviar la asignatura ${codigo}: ${error}`);
       }
     }
     setLoading(false); 
-    alert("Todas las asignaturas seleccionadas han sido enviadas.");
+    toast.success("Todas las asignaturas seleccionadas han sido enviadas.");
     navigate("/seleccionarGrupos");
   };
 

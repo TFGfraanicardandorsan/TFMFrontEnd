@@ -4,6 +4,7 @@ import "../styles/detalleIncidencia-style.css";
 import { obtenerIncidenciaPorId } from "../services/incidencia";
 import { formatearFecha } from "../lib/formateadorFechas.js";
 import { servirArchivo } from "../services/subidaArchivos.js";
+import { logError } from "../lib/logger.js";
 
 export default function DetalleIncidencia() {
   const { id } = useParams();
@@ -32,7 +33,7 @@ useEffect(() => {
         setArchivo(null);
       }
     } catch (error) {
-      console.error("Error al obtener la incidencia:", error);
+      logError(error);
     } finally {
       setCargando(false);
     }

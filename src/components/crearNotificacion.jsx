@@ -2,6 +2,7 @@ import { useState } from "react";
 import { crearNotificacion } from "../services/notificacion";
 import "./../styles/crearNotificacion.css";
 import { toast } from "react-toastify";
+import { logError } from "../lib/logger";
 
 export default function CrearNotificacion() {
     const [contenido, setContenido] = useState("");
@@ -20,8 +21,8 @@ export default function CrearNotificacion() {
             setContenido("");
             setReceptor("");
         } catch (error) {
-            console.error("Error al enviar la notificación:", error);
             toast.error("Hubo un error al enviar la notificación.");
+            logError(error);
         }
     };
 

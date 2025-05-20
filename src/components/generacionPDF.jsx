@@ -24,6 +24,8 @@ import {
 } from "../lib/validadores.js";
 import Modal from "./Modal.jsx";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { logError } from "../lib/logger.js";
 
 export default function GeneracionPDF() {
   const [dni, setDni] = useState("");
@@ -79,7 +81,7 @@ export default function GeneracionPDF() {
           }
         }
       } catch (error) {
-        console.error("Error cargando datos:", error);
+        logError(error);
       }
     };
     cargarDatos();
@@ -202,14 +204,15 @@ export default function GeneracionPDF() {
       }
 
       return await pdfDoc.save();
-    } catch (e) {
-      console.error("Error generando PDF:", e);
+    } catch (error) {
+      toast.error("Error generando el PDF");
+      logError(error)
     }
   };
 
   const mostrarPDF = async () => {
     if (!validarFormulario()) {
-      alert("Por favor, corrige los errores en el formulario");
+      toast.warning("Por favor, corrige los errores en el formulario");
       return;
     }
     const pdfBytes = await generarPDF();
@@ -221,7 +224,7 @@ export default function GeneracionPDF() {
 
   const descargarPDF = async () => {
     if (!validarFormulario()) {
-      alert("Por favor, corrige los errores en el formulario");
+      toast.warning("Por favor, corrige los errores en el formulario");
       return;
     }
     const pdfBytes = await generarPDF();
@@ -238,7 +241,7 @@ export default function GeneracionPDF() {
 
   const handleUpload = async () => {
     if (!file) {
-      alert("Por favor, selecciona un archivo para subir.");
+      toast.warning("Por favor, selecciona un archivo para subir.");
       return;
     }
     const formData = new FormData();
@@ -248,7 +251,7 @@ export default function GeneracionPDF() {
       const response = await subidaArchivo(formData);
       const fileId = response?.result?.fileId;
       if (!fileId) {
-        alert("Error al subir el archivo PDF.");
+        toast.error("Error al subir el archivo PDF.");
         return;
       }
       if (estadoPermuta === "BORRADOR") {
@@ -256,16 +259,18 @@ export default function GeneracionPDF() {
       } else {
         await aceptarPermuta(fileId, permutaId);
       }
+      toast.success("Se ha enviado el PDF correctamente.");
       navigate("/permutasAceptadas");
     } catch (error) {
-      console.error("Error al enviar el PDF:", error);
-      alert("Error al enviar el PDF");
+      logError(error);
+      toast.error("Error al enviar el PDF");
     }
   };
 
   const handleValidarPermuta = async () => {
     await validarSolicitudPermuta(permutaId);
     setShowModal(false);
+    toast.success("La permuta ha sido validada correctamente.");
     navigate("/permutasAceptadas");
   };
 
