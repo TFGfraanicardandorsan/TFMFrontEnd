@@ -8,7 +8,7 @@ export default function MisIncidencias() {
   const navigate = useNavigate();
   const [incidencias, setIncidencias] = useState([]);
   const [cargando, setCargando] = useState(true);
-  const [filtroEstado, setFiltroEstado] = useState("abierta"); // Estado para el filtro
+  const [filtroEstado, setFiltroEstado] = useState("abierta");
 
   useEffect(() => {
     const cargarIncidencias = async () => {
@@ -65,28 +65,15 @@ export default function MisIncidencias() {
           <div className="incidencias-container">
             {incidenciasFiltradas.map((incidencia) => (
               <div key={incidencia.id} className="incidencia-card">
-                <p>
-                  <strong>Incidencia:</strong> {formatearFecha(incidencia.fecha_creacion)}
-                </p>
-                <p>
-                  <strong>Tipo de Incidencia:</strong>{" "}
-                  {incidencia.tipo_incidencia}
-                </p>
-                <p>
-                  <strong>Estado:</strong> {incidencia.estado_incidencia}
-                </p>
-                <p>
-                  <strong>Comentario:</strong> {incidencia.descripcion}
-                </p>
+                <p><strong>Estado:</strong> {incidencia.estado_incidencia}</p>
+                <p><strong>Fecha de creación:</strong> {formatearFecha(incidencia.fecha_creacion)}</p>
+                <p><strong>Tipo de Incidencia:</strong>{incidencia.tipo_incidencia}</p>
+                <p><strong>Descripción:</strong> {incidencia.descripcion}</p>
               </div>
             ))}
           </div>
         )}
       </div>
-      <br />
-      <br />
-      <br />
-      <br />
     </>
   );
 }

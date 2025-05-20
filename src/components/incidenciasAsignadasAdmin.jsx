@@ -52,15 +52,9 @@ export default function IncidenciasAsignadasAdmin() {
           <div className="incidencias-container">
             {incidencias.map((incidencia) => (
               <div key={incidencia.id} className="incidencia-card">
-                <p>
-                  <strong>Tipo de Incidencia:</strong> {incidencia.descripcion}
-                </p>
-                <p>
-                  <strong>Estado:</strong> {incidencia.estado_incidencia}
-                </p>
-                <p>
-                  <strong>Comentario:</strong> {incidencia.tipo_incidencia}
-                </p>
+                <p><strong>Estado:</strong> {incidencia.estado_incidencia}</p>
+                <p><strong>Tipo de Incidencia:</strong> {incidencia.tipo_incidencia}</p>
+                <p><strong>Descripción:</strong> {incidencia.descripcion}</p>
                 <button className="verIncidencia-button" onClick={() => navigate(`/incidencias/${incidencia.id}`)}>Ver incidencia</button>
                 <button className="big-button" onClick={() => handleResolverIncidencia(incidencia.id)}>Resolver Incidencia</button>
               </div>

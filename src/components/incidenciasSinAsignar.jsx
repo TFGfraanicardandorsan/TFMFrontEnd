@@ -28,7 +28,6 @@ export default function IncidenciasSinAsignar() {
         try {
             const response = await asignarmeIncidencia(idIncidencia);
             if (!response.err) {
-                // Actualizar la lista de incidencias eliminando la asignada
                 setIncidencias(incidencias.filter((incidencia) => incidencia.id !== idIncidencia));
                 alert("Incidencia asignada correctamente.");
             } else {
@@ -62,13 +61,10 @@ export default function IncidenciasSinAsignar() {
                     <div className="incidencias-container">
                         {incidencias.map((incidencia) => (
                             <div key={incidencia.id} className="incidencia-card">
-                                <p><strong>Tipo de Incidencia:</strong> {incidencia.descripcion}</p>
                                 <p><strong>Estado:</strong> {incidencia.estado_incidencia}</p>
-                                <p><strong>Comentario:</strong> {incidencia.tipo_incidencia}</p>
-                                <button
-                                    className="asignar-btn"
-                                    onClick={() => handleAsignarIncidencia(incidencia.id)}
-                                >
+                                <p><strong>Tipo de Incidencia:</strong> {incidencia.tipo_incidencia}</p>
+                                <p><strong>Descripción:</strong> {incidencia.descripcion}</p>
+                                <button className="asignar-btn" onClick={() => handleAsignarIncidencia(incidencia.id)}>
                                     Asignarme Incidencia
                                 </button>
                             </div>
