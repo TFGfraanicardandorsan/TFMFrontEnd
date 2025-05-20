@@ -32,6 +32,8 @@ import MiPerfilAdmin from "./components/miPerfilAdmin.jsx";
 import CrearGradoAdmin from "./components/CrearGradoAdmin.jsx";
 import DetalleIncidencia from "./components/detalleIncidencia.jsx";
 import CrearAsignatura from "./components/CrearAsignatura.jsx";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 export function App() {
   return (
@@ -84,6 +86,7 @@ export function App() {
           <a href="/cookies" style={{ color: "#E0AD0F", textDecoration: "underline", marginLeft: "5px" }}>Leer más</a>
         </CookieConsent>
       
+        <ToastContainer />
       </AuthProvider>
   );
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { crearNotificacion } from "../services/notificacion";
 import "./../styles/crearNotificacion.css";
+import { toast } from "react-toastify";
 
 export default function CrearNotificacion() {
     const [contenido, setContenido] = useState("");
@@ -10,17 +11,17 @@ export default function CrearNotificacion() {
         e.preventDefault();
 
         if (!contenido || !receptor) {
-            alert("Por favor, completa todos los campos.");
+            toast.warning("Por favor, completa todos los campos.");
             return;
         }
         try {
             await crearNotificacion(receptor, contenido);
-            alert("Notificación enviada correctamente.");
+            toast.success("Notificación enviada correctamente.");
             setContenido("");
             setReceptor("");
         } catch (error) {
             console.error("Error al enviar la notificación:", error);
-            alert("Hubo un error al enviar la notificación.");
+            toast.error("Hubo un error al enviar la notificación.");
         }
     };
 
