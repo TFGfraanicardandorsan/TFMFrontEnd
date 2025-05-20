@@ -34,8 +34,6 @@ export default function SeleccionarEstudio () {
             if (response.result.result === 'Estudios seleccionados') {
                 toast.success("Estudio seleccionado correctamente");
                 navigate("/miPerfil");
-            } else {
-                toast.warning(response.result.result);
             }
         } catch (error) {
             toast.error("Error en la solicitud.");
