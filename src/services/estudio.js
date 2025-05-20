@@ -4,6 +4,6 @@ export const obtenerEstudios = async () => {
     return await postAPI("/api/v1/estudio/obtenerEstudios")
 }
 
-export const crearEstudio = async (nombre,siglas) => {
-    return await postAPI("/api/v1/estudio/crearEstudio", {nombre, siglas})
+export const crearEstudio = async (estudio,siglas) => {
+    return await postAPI("/api/v1/estudio/crearEstudio", {estudio, siglas})
 }   
