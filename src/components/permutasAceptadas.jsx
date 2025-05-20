@@ -45,7 +45,6 @@ export default function PermutasAceptadas() {
       const response = await obtenerSesion();
       if (response) {
         setUsuario(response.user.uvus);
-        console.log("Usuario:", response.user.uvus);
       } else {
         setError("Error al cargar los datos del usuario");
       }
