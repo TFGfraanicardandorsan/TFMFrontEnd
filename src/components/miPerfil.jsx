@@ -112,8 +112,7 @@ export default function MiPerfil() {
           </div>
         </div>
       </div>
-      <br /><br /><br />
-      <br /><br /><br />
+<div style={{ height: "80px" }} />
     </div>
   );
 }

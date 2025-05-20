@@ -105,6 +105,7 @@ export default function Estadisticas() {
   return (
     <>
       <div className="estadisticas-container">
+        <div style={{ height: "40px" }} />
         <h1>Dashboard de Estadísticas</h1>
         
         <div className="stats-grid">
@@ -138,6 +139,7 @@ export default function Estadisticas() {
 
       </div>
     </div>
+<div style={{ height: "80px" }} />
     </>
   );
 }

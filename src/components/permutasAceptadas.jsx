@@ -146,11 +146,7 @@ export default function PermutasAceptadas() {
       ) : (
         <p>No hay permutas aceptadas</p>
       )}
-            <br />
-      <br />
-      <br />
-      <br />
-      <br />
+<div style={{ height: "80px" }} />
     </div>
     
   );

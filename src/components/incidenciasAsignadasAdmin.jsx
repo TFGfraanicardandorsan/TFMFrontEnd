@@ -64,6 +64,7 @@ export default function IncidenciasAsignadasAdmin() {
           </div>
         )}
       </div>
+<div style={{ height: "80px" }} /> {/* Espacio para el footer */}
     </>
   );
 }

@@ -179,8 +179,7 @@ export default function MisPermutas() {
         </div>
       </div>
     </div>
-    <br />
-    <br />
+<div style={{ height: "80px" }} />
     </>
   );
 }

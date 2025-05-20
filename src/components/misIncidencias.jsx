@@ -74,6 +74,7 @@ export default function MisIncidencias() {
             ))}
           </div>
         )}
+        <div style={{ height: "80px" }} />
       </div>
     </>
   );

@@ -30,8 +30,7 @@ export default function Login() {
           </div>
         </div>
       </div>
-      <br />
-      <br />
+<div style={{ height: "80px" }} />
       <Footer />
     </>
   );

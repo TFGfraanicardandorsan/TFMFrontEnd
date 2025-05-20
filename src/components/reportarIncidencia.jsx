@@ -101,6 +101,7 @@ export default function ReportarIncidencia() {
                     </form>
                 </div>
             </div>
+            <div style={{ height: "80px" }} />
         </>
     );
 }

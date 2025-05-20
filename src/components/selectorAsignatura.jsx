@@ -114,6 +114,7 @@ export default function SelectorAsignatura() {
           Guardar
         </button>
       </div>
+      <div style={{ height: "80px" }} />
     </>
   );
 }

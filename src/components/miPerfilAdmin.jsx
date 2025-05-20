@@ -111,6 +111,7 @@ export default function MiPerfilAdmin() {
           </div>
         </div>
       </div>
+      <div style={{ height: "80px" }} />
     </div>
   );
 }

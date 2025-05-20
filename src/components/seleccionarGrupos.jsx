@@ -108,6 +108,7 @@ export default function SeleccionarGrupos() {
           Guardar
         </button>
       </div>
+      <div style={{ height: "80px" }} />
     </>
   );
 }

@@ -78,6 +78,8 @@ export default function Permutas() {
       ) : (
         <p>No hay permutas disponibles</p>
       )}
+      <div style={{ height: "80px" }} />
     </div>
+    
   );
 }

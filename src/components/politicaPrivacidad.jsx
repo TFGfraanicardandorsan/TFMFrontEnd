@@ -96,6 +96,7 @@ export default function PrivacyPolicy() {
           </ul>
         </section>
       </div>
+      <div style={{ height: "80px" }} />
       <Footer />
     </>
   );

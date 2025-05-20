@@ -127,6 +127,7 @@ export default function SeleccionarGruposSinGrupo() {
           Solicitar
         </button>
       </div>
+      <div style={{ height: "80px" }} />
     </>
   );
 }

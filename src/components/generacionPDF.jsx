@@ -529,6 +529,7 @@ export default function GeneracionPDF() {
           {pdfUrl && <iframe className="pdf-iframe" src={pdfUrl} />}
         </div>
       </div>
+      <div style={{ height: "80px" }} />
     </>
   );
 }
