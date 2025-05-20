@@ -55,6 +55,8 @@ export default function IncidenciasAsignadasAdmin() {
           <div className="incidencias-container">
             {incidencias.map((incidencia) => (
               <div key={incidencia.id} className="incidencia-card">
+                <h2 className="incidencia-title">Incidencia {incidencia.id}</h2>
+                <p><strong>Fecha de Creación:</strong> {new Date(incidencia.fecha_creacion).toLocaleDateString()}</p>
                 <p><strong>Estado:</strong> {incidencia.estado_incidencia}</p>
                 <p><strong>Tipo de Incidencia:</strong> {incidencia.tipo_incidencia}</p>
                 <p><strong>Descripción:</strong> {incidencia.descripcion}</p>
