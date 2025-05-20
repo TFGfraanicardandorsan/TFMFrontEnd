@@ -87,11 +87,11 @@ export default function PrivacyPolicy() {
             </li>
             <li>
               <a
-                href="https://support.microsoft.com/es-es/help/17442/windows-internet-explorer-delete-manage-cookies"
+                href="https://support.microsoft.com/es-es/windows/administrar-cookies-en-microsoft-edge-ver-permitir-bloquear-eliminar-y-usar-168dab11-0753-043d-7c16-ede5947fc64d"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Internet Explorer
+                Microsoft Edge
               </a>
             </li>
           </ul>

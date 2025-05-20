@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import "../styles/miPerfil-style.css";
 import { obtenerDatosUsuario } from "../services/usuario"; 
-import { obtenerMiGrupoAsignatura } from "../services/grupo"; // Importar la nueva API
-import {superarAsignaturasUsuario} from "../services/asignaturas"; // Importar la nueva API
+import { obtenerMiGrupoAsignatura } from "../services/grupo"; 
+import {superarAsignaturasUsuario} from "../services/asignaturas"; 
 import SeleccionarEstudio from "./seleccionarEstudio";
 import { useNavigate } from "react-router-dom";
 
@@ -58,18 +58,15 @@ export default function MiPerfil() {
     }
   };
 
-  // Muestra mensaje de carga
   if (loading) {
     return <div className="loading-text">Cargando...</div>;
   }
-  // Muestra mensaje de error si hubo un problema
   if (error) {
     return <div className="error-text">Error: {error}</div>;
   }
 
   return (
     <div className="page-container">
-      {/* Mostrar SeleccionarEstudio solo si no hay grado */}
       {!usuario?.titulacion && <SeleccionarEstudio />}
       <div className="content-wrap">
         <div className="perfil-container">
@@ -80,7 +77,6 @@ export default function MiPerfil() {
             </p>
           </div>
 
-          {/* Mostrar mensaje de éxito si existe */}
           {mensajeExito && <div className="success-text">{mensajeExito}</div>}
 
           <div className="perfil-content">

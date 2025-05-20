@@ -47,10 +47,10 @@ useEffect(() => {
     <div className="detalle-incidencia-container">
       <div className="detalle-incidencia-info">
         <h2>Detalle de la Incidencia</h2>
-        <p><strong>Descripción:</strong> {incidencia.descripcion}</p>
-        <p><strong>Tipo de Incidencia:</strong> {incidencia.tipo_incidencia}</p>
         <p><strong>Estado:</strong> {incidencia.estado_incidencia}</p>
         <p><strong>Fecha de creación:</strong> {formatearFecha(incidencia.fecha_creacion)}</p>
+        <p><strong>Tipo de Incidencia:</strong> {incidencia.tipo_incidencia}</p>
+        <p><strong>Descripción:</strong> {incidencia.descripcion}</p>
       </div>
     {archivo && (
       <div className="detalle-incidencia-archivo">

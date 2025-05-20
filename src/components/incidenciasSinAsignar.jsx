@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "../styles/misIncidencias-style.css";
 import { useNavigate } from "react-router-dom";
 import { obtenerIncidenciasSinAsignar, asignarmeIncidencia } from "../services/incidencia";
+import { formatearFecha } from "../lib/formateadorFechas.js";
 
 export default function IncidenciasSinAsignar() {
     const navigate = useNavigate();
@@ -62,6 +63,7 @@ export default function IncidenciasSinAsignar() {
                         {incidencias.map((incidencia) => (
                             <div key={incidencia.id} className="incidencia-card">
                                 <p><strong>Estado:</strong> {incidencia.estado_incidencia}</p>
+                                <p><strong>Fecha de creación:</strong> {formatearFecha(incidencia.fecha_creacion)}</p>
                                 <p><strong>Tipo de Incidencia:</strong> {incidencia.tipo_incidencia}</p>
                                 <p><strong>Descripción:</strong> {incidencia.descripcion}</p>
                                 <button className="asignar-btn" onClick={() => handleAsignarIncidencia(incidencia.id)}>

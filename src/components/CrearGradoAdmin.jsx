@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { crearEstudio } from "../services/estudio";
-import "../styles/CrearGradoAdmin.css"; // Asegúrate de importar el archivo CSS
+import "../styles/CrearGradoAdmin.css"; 
 
 export default function CrearGradoAdmin() {
   const [nombre, setNombre] = useState("");
@@ -22,7 +22,7 @@ export default function CrearGradoAdmin() {
       setNombre("");
       setSiglas("");
     } catch (err) {
-      setError("Error al crear el grado.");
+      setError("Error al crear el grado.", err);
     }
   };
 

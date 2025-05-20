@@ -106,7 +106,6 @@ export default function MisPermutas() {
       </p>
     <div className="mispermutas-container">
       <div className="mispermutas-columns">
-        {/* Carrusel para Permutas propuestas por mí */}
         <div className="mispermutascol">
           <h2>Permutas propuestas por mí</h2>
           {permutasPropuestasPorMi.length > 0 ? (
@@ -136,7 +135,6 @@ export default function MisPermutas() {
           )}
         </div>
 
-        {/* Carrusel para Permutas propuestas */}
         <div className="mispermutascol">
           <h2>Permutas propuestas</h2>
           {permutasPropuestas.length > 0 ? (

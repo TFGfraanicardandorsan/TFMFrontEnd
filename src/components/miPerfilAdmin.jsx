@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import "../styles/miPerfil-style.css";
 import { getTodasSolicitudesPermuta  } from "../services/permuta";
-import { obtenerDatosUsuarioAdmin } from "../services/usuario"; // Importar la nueva API
+import { obtenerDatosUsuarioAdmin } from "../services/usuario"; 
 
 export default function MiPerfilAdmin() {
-  const [usuario, setUsuario] = useState(null); // Estado para almacenar los datos del administrador
+  const [usuario, setUsuario] = useState(null); 
   const [permutas, setPermutas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,7 +15,7 @@ export default function MiPerfilAdmin() {
         // Obtener datos del administrador
         const responseUsuario = await obtenerDatosUsuarioAdmin();
         if (!responseUsuario.err) {
-          setUsuario(responseUsuario.result.result); // Asume que los datos están en `result.result`
+          setUsuario(responseUsuario.result.result); 
         } else {
           throw new Error(responseUsuario.errmsg);
         }
@@ -23,7 +23,7 @@ export default function MiPerfilAdmin() {
         // Obtener lista de permutas
         const responsePermutas = await getTodasSolicitudesPermuta();
         if (!responsePermutas.err) {
-          setPermutas(responsePermutas.result.result); // Asume que los datos están en `result.result`
+          setPermutas(responsePermutas.result.result); 
         } else {
           throw new Error(responsePermutas.errmsg);
         }
@@ -44,7 +44,6 @@ export default function MiPerfilAdmin() {
       return;
     }
 
-    // Aplanar los datos del JSON
     const datosAplanados = permutas.map((permuta) => ({
       solicitud_id: permuta.solicitud_id,
       nombre_completo: permuta.usuario.nombre_completo,
@@ -53,18 +52,15 @@ export default function MiPerfilAdmin() {
       asignatura_nombre: permuta.asignatura.nombre,
       asignatura_codigo: permuta.asignatura.codigo,
       grupo_solicitante: permuta.grupo_solicitante,
-      grupos_deseados: permuta.grupos_deseados.join(" | "), // Convertir array a string separado por " | "
+      grupos_deseados: permuta.grupos_deseados.join(" | "), 
     }));
 
-    // Generar encabezados del CSV
     const encabezados = Object.keys(datosAplanados[0]).join(",");
-    // Generar filas del CSV
     const filas = datosAplanados.map((fila) =>
       Object.values(fila).map((valor) => `"${valor}"`).join(",")
     );
     const contenidoCSV = [encabezados, ...filas].join("\n");
 
-    // Añadir BOM para que Excel reconozca UTF-8 y muestre bien los acentos
     const BOM = "\uFEFF";
     const blob = new Blob([BOM + contenidoCSV], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);

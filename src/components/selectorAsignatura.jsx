@@ -55,7 +55,6 @@ export default function SelectorAsignatura() {
     );
   };
 
-  // Función para enviar cada asignatura de forma individual a la API
   const enviarSeleccion = async () => {
     if (selectedItems.length === 0) return;
     setLoading(true); 

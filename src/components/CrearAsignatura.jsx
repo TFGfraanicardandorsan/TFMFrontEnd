@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { crearAsignatura } from "../services/asignaturas.js";
 import { obtenerEstudios } from "../services/estudio.js";
 
@@ -17,7 +17,6 @@ const CrearAsignatura = () => {
     const fetchEstudios = async () => {
       const response = await obtenerEstudios();
       if (!response.err) {
-        // Si la respuesta tiene la estructura result.result
         setEstudios(response.result?.result || []);
       } else {
         setEstudios([]);
@@ -53,7 +52,7 @@ const CrearAsignatura = () => {
         estudios_id: ""
       });
     } catch (error) {
-      setMensaje("Error al crear la asignatura");
+      setMensaje("Error al crear la asignatura",error);
     }
   };
 

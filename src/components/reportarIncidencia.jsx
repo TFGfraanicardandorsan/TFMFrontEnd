@@ -22,7 +22,7 @@ export default function ReportarIncidencia() {
             } else {
                 setFile(null);
                 setFileError("Solo se permiten archivos PDF o PNG");
-                e.target.value = null; // Limpiar el input
+                e.target.value = null;
             }
         }
     };

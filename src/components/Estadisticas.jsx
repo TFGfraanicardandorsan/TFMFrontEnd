@@ -138,11 +138,6 @@ export default function Estadisticas() {
 
       </div>
     </div>
-
-    <br />
-    <br />
-    <br />
-    <br />
     </>
   );
 }

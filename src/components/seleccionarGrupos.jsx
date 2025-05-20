@@ -54,8 +54,7 @@ export default function SeleccionarGrupos() {
       setError("Por favor selecciona un grupo para todas las asignaturas.");
       return;
     }
-
-    setError(""); // Limpiar el error si todo está bien
+    setError("");
 
     for (let [codasignatura, numgrupo] of Object.entries(seleccionados)) {
       try {
@@ -106,7 +105,7 @@ export default function SeleccionarGrupos() {
           className="boton-guardar"
           disabled={asignaturas.some(
             ({ codasignatura }) => !seleccionados[codasignatura]
-          )} // Deshabilitar si falta algún grupo
+          )}
         >
           Guardar
         </button>
