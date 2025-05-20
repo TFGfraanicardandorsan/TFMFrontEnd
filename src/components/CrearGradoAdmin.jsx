@@ -12,12 +12,12 @@ export default function CrearGradoAdmin() {
     e.preventDefault();
     setMensaje("");
     setError("");
-    if (!nombre.trim() || !siglas.trim()) {
+    if (!estudio.trim() || !siglas.trim()) {
       setError("Por favor, rellena ambos campos.");
       return;
     }
     try {
-      await crearEstudio(nombre, siglas);
+      await crearEstudio(estudio, siglas);
       setMensaje("Grado creado correctamente.");
       setEstudio("");
       setSiglas("");
@@ -28,14 +28,13 @@ export default function CrearGradoAdmin() {
 
   return (
     <div className="crear-grado-admin-container">
-      <h2>Crear nuevo grado</h2>
       <form onSubmit={handleSubmit} className="crear-grado-form">
         <div>
-          <label htmlFor="nombre">Nombre del grado:</label>
+          <label htmlFor="estudio">Estudio del grado:</label>
           <input
-            id="nombre"
+            id="estudio"
             type="text"
-            value={nombre}
+            value={estudio}
             onChange={(e) => setEstudio(e.target.value)}
             required
           />
