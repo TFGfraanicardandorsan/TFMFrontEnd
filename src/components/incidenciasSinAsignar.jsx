@@ -76,6 +76,7 @@ export default function IncidenciasSinAsignar() {
                     </div>
                 )}
             </div>
+            <div style={{ height: "80px" }} /> {/* Espacio para el footer */}
         </>
     );
 }
