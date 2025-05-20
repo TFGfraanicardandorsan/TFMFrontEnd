@@ -58,14 +58,14 @@ export default function ReportarIncidencia() {
             <div className="report-issue-container">
                 <div className="report-issue-container-form">
                     <h1>Abrir incidencia</h1>
-                    <div className="    -issue-container-form-info">
+                    <div>
                         <p>Si tienes algún problema con la plataforma, por favor, indícalo aquí trata de ser lo más descriptivo posible e indica los pasos que has seguido para encontrar el error. Si quieres cambiar algún tipo de dato del servicio indica el campo y en qué lugar quieres cambiarlo.</p>
                         <p>Recuerda que puedes adjuntar un archivo (máx. 10MB) para ayudar a resolver el problema.</p>
                     </div>
                     <form className="report-form" onSubmit={handleSubmit}>
-                        <label htmlFor="descripcion">Tipo de Incidencia</label>
+                        <label htmlFor="tipoIncidencia">Tipo de Incidencia</label>
                         <select
-                            id="descripcion"
+                            id="tipoIncidencia"
                             value={tipoIncidencia}
                             onChange={(e) => setTipoIncidencia(e.target.value)}
                             required
@@ -76,9 +76,9 @@ export default function ReportarIncidencia() {
                             <option value="otro">Otro</option>
                         </select>
 
-                        <label htmlFor="tipoIncidencia">Detalles de la incidencia</label>
+                        <label htmlFor="descripcion">Detalles de la incidencia</label>
                         <textarea
-                            id="tipoIncidencia"
+                            id="descripcion"
                             value={descripcion}
                             onChange={(e) => setDescripcion(e.target.value)}
                             placeholder="Describe el problema..."
