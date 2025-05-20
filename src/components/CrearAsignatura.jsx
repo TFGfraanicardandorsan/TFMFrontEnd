@@ -39,7 +39,7 @@ const CrearAsignatura = () => {
       await crearAsignatura({
         nombre: form.nombre,
         siglas: form.siglas,
-        curso: Number(form.curso),
+        curso: form.curso,
         codigo: form.codigo,
         estudios_id: Number(form.estudios_id)
       });
