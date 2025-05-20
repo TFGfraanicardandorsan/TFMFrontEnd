@@ -40,7 +40,7 @@ const CrearAsignatura = () => {
         nombre: form.nombre,
         siglas: form.siglas,
         curso: form.curso,
-        codigo: form.codigo,
+        codigo: Number(form.codigo),
         estudios_id: Number(form.estudios_id)
       });
       setMensaje("Asignatura creada correctamente");
