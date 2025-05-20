@@ -3,7 +3,7 @@ import { crearEstudio } from "../services/estudio";
 import "../styles/CrearGradoAdmin.css"; 
 
 export default function CrearGradoAdmin() {
-  const [nombre, setNombre] = useState("");
+  const [estudio, setEstudio] = useState("");
   const [siglas, setSiglas] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [error, setError] = useState("");
@@ -19,7 +19,7 @@ export default function CrearGradoAdmin() {
     try {
       await crearEstudio(nombre, siglas);
       setMensaje("Grado creado correctamente.");
-      setNombre("");
+      setEstudio("");
       setSiglas("");
     } catch (err) {
       setError("Error al crear el grado.", err);
@@ -36,7 +36,7 @@ export default function CrearGradoAdmin() {
             id="nombre"
             type="text"
             value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
+            onChange={(e) => setEstudio(e.target.value)}
             required
           />
         </div>
