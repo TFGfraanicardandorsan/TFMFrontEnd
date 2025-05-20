@@ -31,6 +31,7 @@ export default function CrearNotificacion() {
             <div className="notificacion-container">
                 <div className="notificacion-form-wrapper">
                     <h1>Notificar</h1>
+                    <p>Envía una notificación al tipo de usuario seleccionados. Podrás generar una notificación a estudiantes, administradores o todos los usuarios.</p>
                     <form className="notificacion-form" onSubmit={handleSubmit}>
                         <label htmlFor="contenido">Contenido</label>
                         <textarea

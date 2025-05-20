@@ -43,6 +43,7 @@ export default function IncidenciasAsignadasAdmin() {
       <div className="container" style={{ display: "flow", paddingBottom: "40px" }}>
         <div className="header">
           <h1>Mis Incidencias</h1>
+          <p>Consulta el estado de tus incidencias. Puedes resolverlas haciendo clic en el botón correspondiente. Si presionas en ver incidencia verás el archivo adjunto si el usuario adjuntó algo.</p>
         </div>
         {cargando ? (
           <p className="loading-message">Cargando incidencias...</p>

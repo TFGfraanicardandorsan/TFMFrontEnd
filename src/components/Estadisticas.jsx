@@ -107,6 +107,7 @@ export default function Estadisticas() {
       <div className="estadisticas-container">
         <div style={{ height: "40px" }} />
         <h1>Dashboard de Estadísticas</h1>
+        <p>Consulta las estadísticas de las permutas, solicitudes e incidencias. Puedes ver los datos en gráficos de barras y gráficos circulares.</p>
         
         <div className="stats-grid">
           <div className="stat-card">

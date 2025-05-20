@@ -320,6 +320,10 @@ export default function GeneracionPDF() {
     <>
       <br />
       <h1>Generación documentación permuta</h1>
+      Este formulario permite generar la documentación necesaria para solicitar una permuta de asignaturas. Por favor, completa todos los campos obligatorios y asegúrate de que la información es correcta antes de enviar el formulario.
+      Una vez rellenes el formulario, podrás descargar un PDF con la solicitud de permuta. Este PDF deberá ser firmado y enviado al sistema para que tu compañero pueda rellenar sus datos.
+      Cuando tu compañero firme el PDF, podrás descargarlo y enviarlo a la administración.
+      <br />
       <div className="permuta-container">
         <div className="permuta-formulario">
           <div className="permuta-asociar">

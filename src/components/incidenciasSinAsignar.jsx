@@ -47,6 +47,7 @@ export default function IncidenciasSinAsignar() {
             <div className="container" style={{ display: "flow", paddingBottom: "40px" }}>
                 <div className="header">
                     <h1>Todas las Incidencias Sin Asignar</h1>
+                    <p>Consulta todas las incidencias sin asignar. Puedes asignarte una incidencia haciendo clic en el botón correspondiente.</p>
                 </div>
 
                 {cargando ? (

@@ -87,6 +87,11 @@ export default function MiPerfilAdmin() {
       <div className="content-wrap">
         <div className="perfil-container">
           <h1 className="perfil-title">Perfil de Administrador</h1>
+          <p className="perfil-subtitle">
+            Aquí puedes exportar la información de las permutas a través de un CSV.
+            <br />
+            Además, puedes crear nuevos grados y asignaturas.
+          </p>
           <div className="perfil-content">
             <div className="perfil-card">
               <h2 className="perfil-card-title">Información Personal</h2>

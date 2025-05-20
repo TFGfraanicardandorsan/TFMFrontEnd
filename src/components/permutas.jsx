@@ -56,6 +56,8 @@ export default function Permutas() {
 
     <div className="permutas-container">
       <h2 className="permutas-title">Permutas Disponibles</h2>
+      <p className="permutas-description">
+        Aquí puedes ver las permutas disponibles que puedan ser interesantes para ti, es decir de las asignaturas de las que estés matriculado y de los grupos a los que pertenezcas. Si estás interesado en alguna, puedes aceptarla para que si el estudiante que la propone le parece bien podáis permutar los grupos.</p>
       {permutas.length > 0 ? (
         <div className="permutas-grid">
           {permutas.map((permuta) => (
