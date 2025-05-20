@@ -75,6 +75,11 @@
 .permuta-input-error {
   border: 1px solid #dc3545;
 }
+.permuta-error-message{
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 5px;
+}
 
 .pdf-container {
   background: white;
