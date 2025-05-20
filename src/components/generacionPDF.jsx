@@ -11,7 +11,7 @@ import {
   listarPermutas,
   firmarPermuta,
   aceptarPermuta,
-  validarSolicitudPermuta
+  validarSolicitudPermuta,
 } from "../services/permuta.js";
 import "../styles/generacionPDF-style.css";
 import { dayValue, monthValue, yearValue } from "../lib/generadorFechas.js";
@@ -51,7 +51,6 @@ export default function GeneracionPDF() {
   const [pdfUrl, setPdfUrl] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const cargarDatos = async () => {
@@ -137,10 +136,10 @@ export default function GeneracionPDF() {
         const codigoField2 = form.getTextField(`COD2-${index + 1}`);
 
         if (asignatura) {
-          asignaturaField1.setText(asignatura.nombre_asignatura);
-          asignaturaField2.setText(asignatura.nombre_asignatura);
-          codigoField1.setText(asignatura.codigo_asignatura);
-          codigoField2.setText(asignatura.codigo_asignatura);
+          asignaturaField1.setText(String(asignatura.nombre_asignatura));
+          asignaturaField2.setText(String(asignatura.nombre_asignatura));
+          codigoField1.setText(String(asignatura.codigo_asignatura));
+          codigoField2.setText(String(asignatura.codigo_asignatura));
         }
         [
           asignaturaField1,
@@ -323,7 +322,9 @@ export default function GeneracionPDF() {
               DNI:
               <input
                 type="text"
-                disabled = {estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"}
+                disabled={
+                  estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"
+                }
                 value={dni}
                 onChange={handleDNIChange}
                 className={`permuta-input ${
@@ -338,7 +339,9 @@ export default function GeneracionPDF() {
               Letra DNI:
               <input
                 type="text"
-                disabled = {estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"}
+                disabled={
+                  estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"
+                }
                 value={letraDNI}
                 onChange={handleLetraDNIChange}
                 maxLength="1"
@@ -356,7 +359,9 @@ export default function GeneracionPDF() {
             Domicilio:
             <input
               type="text"
-              disabled = {estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"}
+              disabled={
+                estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"
+              }
               value={domicilio}
               onChange={(e) => {
                 setDomicilio(e.target.value);
@@ -381,7 +386,9 @@ export default function GeneracionPDF() {
             Población:
             <input
               type="text"
-              disabled = {estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"}
+              disabled={
+                estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"
+              }
               value={poblacion}
               onChange={(e) => {
                 setPoblacion(e.target.value);
@@ -407,7 +414,9 @@ export default function GeneracionPDF() {
               Código Postal:
               <input
                 type="text"
-                disabled = {estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"}
+                disabled={
+                  estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"
+                }
                 value={codigoPostal}
                 onChange={handleCodigoPostalChange}
                 className={`permuta-input ${
@@ -424,7 +433,9 @@ export default function GeneracionPDF() {
               Provincia:
               <input
                 type="text"
-                disabled = {estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"}
+                disabled={
+                  estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"
+                }
                 value={provincia}
                 onChange={(e) => {
                   setProvincia(e.target.value);
@@ -452,7 +463,9 @@ export default function GeneracionPDF() {
             Teléfono:
             <input
               type="text"
-              disabled = {estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"}
+              disabled={
+                estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"
+              }
               value={telefono}
               onChange={handleTelefonoChange}
               className={`permuta-input ${
