@@ -4,7 +4,7 @@ import { getTodasSolicitudesPermuta  } from "../services/permuta";
 import { obtenerDatosUsuarioAdmin } from "../services/usuario"; 
 import { toast } from "react-toastify";
 import CrearGradoAdmin from "./CrearGradoAdmin";
-import CrearAsignatura from "./CrearAsignaturaAdmin";
+import CrearAsignatura from "./CrearAsignatura";
 
 export default function MiPerfilAdmin() {
   const [usuario, setUsuario] = useState(null); 
