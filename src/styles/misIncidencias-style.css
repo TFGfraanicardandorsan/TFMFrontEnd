@@ -55,7 +55,7 @@ body {
 }
 
 .big-button {
-  background-color: #007bff;
+  background-color: #34a2e2;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -68,7 +68,7 @@ body {
 }
 
 .big-button:hover {
-  background-color: #0056b3;
+  background-color: #0a64ca;
 }
 
 .verIncidencia-button {

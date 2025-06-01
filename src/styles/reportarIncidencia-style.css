@@ -43,7 +43,7 @@ textarea {
 }
 
 button {
-    background-color: #2b579a;
+    background-color: #34a2e2;
     color: white;
     padding: 12px;
     font-size: 16px;
@@ -59,7 +59,7 @@ button {
 }
 
 button:hover {
-    background-color: #1e4a87;
+    background-color: #0a64ca;
 }
 
 .file-info {

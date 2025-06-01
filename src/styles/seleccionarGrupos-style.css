@@ -50,7 +50,7 @@
 .boton-guardar {
   display: block;
   width: 100%;
-  background-color: #007bff;
+  background-color: #34a2e2;
   color: white;
   font-size: 18px;
   padding: 10px;
@@ -61,7 +61,7 @@
 }
 
 .boton-guardar:hover {
-  background-color: #0056b3;
+  background-color: #0a64ca;
 }
 
 .loading-message {
