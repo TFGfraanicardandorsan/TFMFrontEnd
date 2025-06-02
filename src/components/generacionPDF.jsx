@@ -522,8 +522,8 @@ export default function GeneracionPDF() {
           {showModal && (
             <Modal
               title="Validar Permuta"
-              message={`Las solicitudes deberán remitirse de forma telemática (requiere certificado digital de la FNMT), a través del Registro de la Administración General del Estado, indicando como destinatario (usar buscador) “Universidad de Sevilla” y 
-              poniendo en asunto el nombre del centro "Para E.T.S. de Ingeniería Informática".`}
+              message={`Recuerde que las solicitudes deberán remitirse de forma telemática (requiere certificado digital de la FNMT), a través del Registro de la Administración General del Estado, indicando como destinatario (usar buscador) “Universidad de Sevilla” y 
+              poniendo en asunto el nombre del centro "Para E.T.S. de Ingeniería Informática". En caso contrario el trámite NO será registrado por la escuela y no se podrá realizar la permuta.`}
               onConfirm={handleValidarPermuta}
               onCancel={() => setShowModal(false)}
             />

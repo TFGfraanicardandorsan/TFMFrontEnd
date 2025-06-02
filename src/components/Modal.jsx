@@ -8,8 +8,8 @@ export default function Modal({ title, message, onConfirm, onCancel }) {
         <h2>{title}</h2>
         <p>{message}</p>
         <div className="modal-buttons">
-          <button className="confirm" onClick={onConfirm}>Confirmar</button>
-          <button className="cancel" onClick={onCancel}>Cancelar</button>
+          <button className="confirm" onClick={onConfirm}>Me doy por informado</button>
+          <button className="cancel" onClick={onCancel}>Cerrar</button>
         </div>
       </div>
     </div>
