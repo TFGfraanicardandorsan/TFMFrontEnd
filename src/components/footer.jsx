@@ -46,7 +46,7 @@ export default function Footer() {
                 <a href="#">Guía de uso</a>
               </li>
               <li>
-                <a href="#">Documentación</a>
+                <a href="https://github.com/TFGfraanicardandorsan/wiki/wiki">Documentación</a>
               </li>
             </ul>
           </div>
