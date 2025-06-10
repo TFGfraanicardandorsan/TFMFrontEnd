@@ -5,6 +5,7 @@ import { obtenerDatosUsuarioAdmin } from "../services/usuario";
 import { toast } from "react-toastify";
 import CrearGradoAdmin from "./CrearGradoAdmin";
 import CrearAsignatura from "./CrearAsignatura";
+import ImportAsignaturas from "./importAsignaturas"; 
 
 export default function MiPerfilAdmin() {
   const [usuario, setUsuario] = useState(null); 
@@ -105,6 +106,10 @@ export default function MiPerfilAdmin() {
                 Exportar Permutas en CSV
               </button>
             </div>
+          </div>
+          <div className="perfil-card">
+            <h2 className="perfil-card-title">Importar Asignaturas</h2>
+            <ImportAsignaturas />
           </div>
           <div className="perfil-card">
             <h2 className="perfil-card-title">Crear nuevo Grado</h2>
