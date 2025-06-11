@@ -6,7 +6,7 @@
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Dos columnas */
+  grid-template-columns: repeat(3, 1fr); /* Tres columnas */
   gap: 20px; /* Espaciado entre las tarjetas */
   margin-top: 20px;
 }
@@ -33,8 +33,27 @@
   padding: 20px 0;
 }
 
+/* Adaptación a móviles */
 @media (max-width: 768px) {
+  .estadisticas-container {
+    padding: 10px;
+    max-width: 100vw;
+  }
   .stats-grid {
     grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .stat-card {
+    padding: 12px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .stat-card h2 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  .stat-value {
+    font-size: 1.3rem;
+    padding: 12px 0;
   }
 }

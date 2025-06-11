@@ -10,3 +10,16 @@
 }
 .success-message { color: green; }
 .error-message { color: red; }
+
+/* Adaptación a móviles */
+@media (max-width: 600px) {
+  .crear-grado-admin-container {
+    max-width: 100%;
+    margin: 1rem 0;
+    padding: 1rem;
+    border-radius: 0;
+  }
+  .crear-grado-form div {
+    margin-bottom: 0.75rem;
+  }
+}
