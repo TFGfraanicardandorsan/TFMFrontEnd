@@ -12,6 +12,10 @@ export const obtenerEstadisticasIncidencias = async () => {
     return await postAPI("/api/v1/estadisticas/obtenerEstadisticasIncidencias");
 };
 
+export const obtenerEstadisticasUsuarios = async () => {
+    return await postAPI("/api/v1/estadisticas/estadisticasUsuarios");
+};
+
 export const importAsignaturas = async () => {
     return await postAPI("/api/v1/estadisticas/importar-asignaturas");
 }
