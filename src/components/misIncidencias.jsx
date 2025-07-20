@@ -59,7 +59,7 @@ export default function MisIncidencias() {
               onClick={() => navigate("/reportarIncidencia")}
               className="big-button"
             >
-              Solicitar Incidencia
+              Reportar Incidencia
             </button>
           </div>
         ) : (
