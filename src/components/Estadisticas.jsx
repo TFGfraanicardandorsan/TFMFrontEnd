@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import { Bar, Pie } from 'react-chartjs-2';
-import { obtenerEstadisticasPermutas, obtenerEstadisticasSolicitudes, obtenerEstadisticasIncidencias } from '../services/estadisticas';
+import { obtenerEstadisticasPermutas, obtenerEstadisticasSolicitudes, obtenerEstadisticasIncidencias,obtenerEstadisticasUsuarios } from '../services/estadisticas';
 import "../styles/estadisticas-style.css";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
@@ -10,20 +10,23 @@ export default function Estadisticas() {
   const [estadisticasPermutas, setEstadisticasPermutas] = useState(null);
   const [estadisticasSolicitudes, setEstadisticasSolicitudes] = useState(null);
   const [estadisticasIncidencias, setEstadisticasIncidencias] = useState(null);
+  const [estadisticasUsuarios, setEstadisticasUsuarios] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const cargarEstadisticas = async () => {
       try {
-        const [permutasData, solicitudesData,incidenciasData] = await Promise.all([
+        const [permutasData, solicitudesData, incidenciasData, usuariosData] = await Promise.all([
           obtenerEstadisticasPermutas(),
           obtenerEstadisticasSolicitudes(),
           obtenerEstadisticasIncidencias(),
+          obtenerEstadisticasUsuarios(),
         ]);
         setEstadisticasPermutas(permutasData.result.data);
         setEstadisticasSolicitudes(solicitudesData.result.data);
         setEstadisticasIncidencias(incidenciasData.result.result);
+        setEstadisticasUsuarios(usuariosData.result.data);
         setLoading(false);
       } catch (err) {
         setError('Error al cargar las estadísticas', err);
@@ -102,6 +105,39 @@ export default function Estadisticas() {
     }]
   };
 
+  // Función para generar colores aleatorios
+  function generarColoresAleatorios(n) {
+    return Array.from({ length: n }, () =>
+      `rgba(${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},0.5)`
+    );
+  }
+
+  const usuariosPorRolData = estadisticasUsuarios && estadisticasUsuarios.usuariosPorRol
+    ? {
+        labels: estadisticasUsuarios.usuariosPorRol.map(item => item.rol),
+        datasets: [{
+          label: 'Usuarios por Rol',
+          data: estadisticasUsuarios.usuariosPorRol.map(item => item.cantidad),
+          backgroundColor: [
+            'rgba(54, 162, 235, 0.5)',
+            'rgba(255, 206, 86, 0.5)',
+            'rgba(255, 99, 132, 0.5)',
+          ],
+        }]
+      }
+    : null;
+
+  const usuariosPorEstudioData = estadisticasUsuarios && estadisticasUsuarios.usuariosPorEstudio
+    ? {
+        labels: estadisticasUsuarios.usuariosPorEstudio.map(item => item.siglas),
+        datasets: [{
+          label: 'Usuarios por Estudio',
+          data: estadisticasUsuarios.usuariosPorEstudio.map(item => item.cantidad),
+          backgroundColor: generarColoresAleatorios(estadisticasUsuarios.usuariosPorEstudio.length),
+        }]
+      }
+    : null;
+
   return (
     <>
       <div className="estadisticas-container">
@@ -137,7 +173,14 @@ export default function Estadisticas() {
             <h2>Incidencias por Mes</h2>
             <Bar key="incidenciasPorMesData" data={incidenciasPorMesData} />
           </div>  
-
+          <div className="stat-card">
+            <h2>Usuarios por Rol</h2>
+            {usuariosPorRolData && <Bar key="usuariosPorRolData" data={usuariosPorRolData} />}
+          </div>
+          <div className="stat-card">
+            <h2>Usuarios por Estudio</h2>
+            {usuariosPorEstudioData && <Bar key="usuariosPorEstudioData" data={usuariosPorEstudioData} />}
+          </div>
       </div>
     </div>
 <div style={{ height: "80px" }} />
