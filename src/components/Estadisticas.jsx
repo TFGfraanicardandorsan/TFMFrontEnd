@@ -138,6 +138,17 @@ export default function Estadisticas() {
       }
     : null;
 
+  const solicitudesPorGradoData = estadisticasSolicitudes.solicitudesPorGrado
+    ? {
+        labels: estadisticasSolicitudes.solicitudesPorGrado.map(item => item.siglas),
+        datasets: [{
+          label: 'Solicitudes por Grado',
+          data: estadisticasSolicitudes.solicitudesPorGrado.map(item => item.cantidad),
+          backgroundColor: generarColoresAleatorios(estadisticasSolicitudes.solicitudesPorGrado.length),
+        }]
+      }
+    : null;
+
   return (
     <>
       <div className="estadisticas-container">
@@ -180,6 +191,10 @@ export default function Estadisticas() {
           <div className="stat-card">
             <h2>Usuarios por Estudio</h2>
             {usuariosPorEstudioData && <Bar key="usuariosPorEstudioData" data={usuariosPorEstudioData} />}
+          </div>
+          <div className="stat-card">
+            <h2>Solicitudes por Grado</h2>
+            {solicitudesPorGradoData && <Bar key="solicitudesPorGradoData" data={solicitudesPorGradoData} />}
           </div>
       </div>
     </div>
