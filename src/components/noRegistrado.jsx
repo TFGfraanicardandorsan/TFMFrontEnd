@@ -11,7 +11,8 @@ export default function RegistroTelegram() {
           </div>
           <div className="login-content" style={{ textAlign: "center" }}>
             <h1 className="login-title">Registro en Permutas ETSII</h1>
-            <p style={{ margin: "20px 0" }}>
+            <p style={{fontWeight: "bold", fontSize: 20 }}>No te hemos encontrado en la base de datos, eso significa que no te has registrado.</p>
+            <p style={{ margin: "20px 0", fontWeight: "bold" }}>
               Para registrarte en la plataforma, escanea el siguiente código QR y sigue las instrucciones del bot de Telegram.
             </p>
             <img
@@ -23,6 +24,13 @@ export default function RegistroTelegram() {
             <p style={{ marginTop: 16, fontWeight: "bold", color: "#34a2e2" }}>
               @PERMUTASETSII_BOT
             </p>
+          </div>
+          <div clsassName="boton-volver" style={{ marginTop: 20 }}>
+            <a href="/login" className="login-button" style={{ textDecoration: "none", padding: "10px 20px", backgroundColor: "#6099c4", color: "#fff", borderRadius: 4 }}>
+              Volver al Inicio de Sesión
+            </a>
+          </div>
+          <div style={{ flex: 1 }}>
           </div>
         </div>
       </div>

@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { login } from "../services/login";
 import "../styles/login-style.css";
 import Footer from "./footer";
@@ -6,17 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 
 export default function Login() {
-  const navigate = useNavigate();
-
-  const handleClickLogin = async () => {
-    const response = await login();
-    if (
-      response?.error === "Usuario no encontrado en la base de datos" ||
-      response?.mensaje === "Usuario no encontrado en la base de datos"
-    ) {
-      navigate("/noRegistrado");
-    }
-  };
+  const handleClickLogin = async () => await login();
 
   return (
     <>
@@ -41,7 +30,7 @@ export default function Login() {
           </div>
         </div>
       </div>
-      <div style={{ height: "80px" }} />
+<div style={{ height: "80px" }} />
       <Footer />
     </>
   );
