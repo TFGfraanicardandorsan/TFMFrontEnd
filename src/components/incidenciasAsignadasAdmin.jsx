@@ -4,10 +4,14 @@ import { obtenerIncidenciasAsignadasAdmin, solucionarIncidencia } from "../servi
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { logError } from "../lib/logger.js";
+import { notificarCierreIncidencia } from "../services/notificacion";
 
 export default function IncidenciasAsignadasAdmin() {
   const [incidencias, setIncidencias] = useState([]);
   const [cargando, setCargando] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [mensajeCierre, setMensajeCierre] = useState("");
+  const [incidenciaAResolver, setIncidenciaAResolver] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,6 +28,33 @@ export default function IncidenciasAsignadasAdmin() {
     cargarIncidencias();
   }, []);
 
+  const handleAbrirModal = (idIncidencia) => {
+    setIncidenciaAResolver(idIncidencia);
+    setMensajeCierre("");
+    setModalOpen(true);
+  };
+
+  const handleCerrarModal = () => {
+    setModalOpen(false);
+    setMensajeCierre("");
+    setIncidenciaAResolver(null);
+  };
+
+  const handleEnviarMensajeYCerrar = async () => {
+    if (!mensajeCierre.trim()) {
+      toast.error("El mensaje no puede estar vacío");
+      return;
+    }
+    try {
+      await notificarCierreIncidencia(incidenciaAResolver, mensajeCierre);
+      await handleResolverIncidencia(incidenciaAResolver);
+      handleCerrarModal();
+    } catch (error) {
+      toast.error("Error al notificar el cierre de la incidencia");
+      logError(error);
+    }
+  };
+
   const handleResolverIncidencia = async (idIncidencia) => {
     try {
       const response = await solucionarIncidencia(idIncidencia);
@@ -38,6 +69,7 @@ export default function IncidenciasAsignadasAdmin() {
       logError(error);
     }
   };
+
   return (
     <>
       <div className="container" style={{ display: "flow", paddingBottom: "40px" }}>
@@ -61,13 +93,33 @@ export default function IncidenciasAsignadasAdmin() {
                 <p><strong>Tipo de Incidencia:</strong> {incidencia.tipo_incidencia}</p>
                 <p><strong>Descripción:</strong> {incidencia.descripcion}</p>
                 <button className="verIncidencia-button" onClick={() => navigate(`/incidencias/${incidencia.id}`)}>Ver incidencia</button>
-                <button className="big-button" onClick={() => handleResolverIncidencia(incidencia.id)}>Resolver Incidencia</button>
+                <button className="big-button" onClick={() => handleAbrirModal(incidencia.id)}>Resolver Incidencia</button>
               </div>
             ))}
           </div>
         )}
       </div>
-<div style={{ height: "80px" }} /> {/* Espacio para el footer */}
+      {/* Modal */}
+      {modalOpen && (
+        <>
+          <div className="modal-overlay"></div>
+          <div className="modal">
+            <h3>Mensaje de cierre de incidencia</h3>
+            <textarea
+              value={mensajeCierre}
+              onChange={e => setMensajeCierre(e.target.value)}
+              placeholder="Escribe el mensaje que se enviará al usuario..."
+              rows={4}
+              style={{ width: "100%" }}
+            />
+            <div style={{ marginTop: 10, display: "flex", gap: 10 }}>
+              <button onClick={handleEnviarMensajeYCerrar} className="big-button">Enviar y cerrar</button>
+              <button onClick={handleCerrarModal} className="verIncidencia-button">Cancelar</button>
+            </div>
+          </div>
+        </>
+      )}
+      <div style={{ height: "80px" }} /> {/* Espacio para el footer */}
     </>
   );
 }
