@@ -46,6 +46,7 @@ export default function MisIncidencias() {
           onChange={(e) => setFiltroEstado(e.target.value)}
         >
           <option value="abierta">Abiertas</option>
+          <option value="asignada">En curso</option>
           <option value="solucionada">Solucionadas</option>
         </select>
       </div>
