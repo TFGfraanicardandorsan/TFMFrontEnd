@@ -26,7 +26,7 @@ export default function Estadisticas() {
         setEstadisticasPermutas(permutasData.result.data);
         setEstadisticasSolicitudes(solicitudesData.result.data);
         setEstadisticasIncidencias(incidenciasData.result.result);
-        setEstadisticasUsuarios(usuariosData.result.data);
+        setEstadisticasUsuarios(usuariosData.result.result);
         setLoading(false);
       } catch (err) {
         setError('Error al cargar las estadísticas', err);
