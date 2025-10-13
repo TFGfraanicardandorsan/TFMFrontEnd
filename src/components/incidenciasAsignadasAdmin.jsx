@@ -37,7 +37,6 @@ export default function IncidenciasAsignadasAdmin() {
   const handleCerrarModal = () => {
     setModalOpen(false);
     setMensajeCierre("");
-    setIncidenciaAResolver(null);
   };
 
   const handleEnviarMensajeYCerrar = async () => {
@@ -102,8 +101,33 @@ export default function IncidenciasAsignadasAdmin() {
       {/* Modal */}
       {modalOpen && (
         <>
-          <div className="modal-overlay"></div>
-          <div className="modal">
+          <div
+            className="modal-overlay"
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100vw",
+              height: "100vh",
+              background: "rgba(0,0,0,0.5)",
+              zIndex: 1000,
+            }}
+          ></div>
+          <div
+            className="modal"
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              background: "#fff",
+              padding: "30px",
+              borderRadius: "8px",
+              zIndex: 1001,
+              minWidth: "320px",
+              boxShadow: "0 2px 16px rgba(0,0,0,0.2)",
+            }}
+          >
             <h3>Mensaje de cierre de incidencia</h3>
             <textarea
               value={mensajeCierre}
