@@ -32,6 +32,7 @@ import MiPerfilAdmin from "./components/miPerfilAdmin.jsx";
 import CrearGradoAdmin from "./components/CrearGradoAdmin.jsx";
 import DetalleIncidencia from "./components/detalleIncidencia.jsx";
 import CrearAsignatura from "./components/CrearAsignatura.jsx";
+import NoRegistrado from "./components/noRegistrado.jsx";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 
@@ -45,6 +46,7 @@ export function App() {
           <Route path="/cookies" element={<Cookies />} />
           <Route path="/politicaPrivacidad" element={<PoliticaPrivacidad />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/noRegistrado" element={<NoRegistrado />} />
 
           {/* Redirigir al home adecuado dependiendo del rol */}
           <Route path="/" element={<RoleRoute allowedRoles={["administrador", "estudiante"]}><RedirectHome /></RoleRoute>}/>
