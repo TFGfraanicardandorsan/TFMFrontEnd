@@ -27,6 +27,10 @@ export const validarPermuta = async (solicitud) => {
     return await postAPI("/api/v1/solicitudPermuta/validarSolicitudPermuta", {solicitud});
 }
 
+export const actualizarVigenciaSolicitudes = async (solicitud) => {
+    return await postAPI("/api/v1/solicitudPermuta/actualizarLaVigenciaSolicitud");
+}
+
 export const denegarPermuta = async (solicitud) => {
     return await postAPI("/api/v1/permutas/rechazarSolicitudPermuta", {solicitud});
 }
@@ -60,4 +64,8 @@ export const obtenerPermutasAgrupadasPorUsuario = async () => {
 
 export const generarBorradorPermuta = async (IdsPermuta) => {
     return await postAPI("/api/v1/permutas/generarBorradorPermuta", {IdsPermuta});
+}
+
+export const actualizarVigenciaPermutas = async (solicitud) => {
+    return await postAPI("/api/v1/solicitudPermuta/actualizarVigenciaPermutas");
 }
