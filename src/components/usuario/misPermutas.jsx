@@ -11,9 +11,9 @@ import {
   denegarPermuta,
   validarPermuta,
   misPermutasPropuestasPorMi,
-} from "../services/permuta.js";
+} from "../../services/permuta.js";
 import { toast } from "react-toastify";
-import { logError } from "../lib/logger.js";
+import { logError } from "../../lib/logger.js";
 
 export default function MisPermutas() {
   const [permutasPropuestas, setPermutasPropuestas] = useState([]);

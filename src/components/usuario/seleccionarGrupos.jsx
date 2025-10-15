@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { obtenerTodosGruposMisAsignaturasUsuario, insertarMisGrupos } from "../services/grupo.js";
+import { obtenerTodosGruposMisAsignaturasUsuario, insertarMisGrupos } from "../../services/grupo.js";
 import "../styles/seleccionarGrupos-style.css";
 import { useNavigate } from "react-router-dom";
-import { logError } from "../lib/logger.js";
+import { logError } from "../../lib/logger.js";
 
 export default function SeleccionarGrupos() {
   const [asignaturas, setAsignaturas] = useState([]);

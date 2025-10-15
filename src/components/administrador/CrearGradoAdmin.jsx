@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { crearEstudio } from "../services/estudio";
+import { crearEstudio } from "../../services/estudio";
 import "../styles/CrearGradoAdmin.css"; 
 
 export default function CrearGradoAdmin() {

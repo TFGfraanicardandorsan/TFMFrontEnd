@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "../styles/solicitudesPermuta-style.css";
-import { obtenerSolicitudesPermuta } from "../services/permuta";
+import { obtenerSolicitudesPermuta } from "../../services/permuta";
 
 export default function SolicitudesPermuta() {
   const [solicitudes, setSolicitudes] = useState([]); // Estado para almacenar las solicitudes

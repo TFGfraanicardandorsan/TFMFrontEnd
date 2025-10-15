@@ -1,4 +1,4 @@
-import { login } from "../services/login";
+import { login } from "../../services/login";
 import "../styles/login-style.css";
 import Footer from "./footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

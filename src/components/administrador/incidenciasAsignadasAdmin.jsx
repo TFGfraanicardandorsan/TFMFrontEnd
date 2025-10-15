@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import "../styles/misIncidencias-style.css";
-import { obtenerIncidenciasAsignadasAdmin, solucionarIncidencia } from "../services/incidencia";
+import { obtenerIncidenciasAsignadasAdmin, solucionarIncidencia } from "../../services/incidencia.js";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { logError } from "../lib/logger.js";
-import { notificarCierreIncidencia } from "../services/notificacion";
+import { logError } from "../../lib/logger.js";
+import { notificarCierreIncidencia } from "../../services/notificacion.js";
 
 export default function IncidenciasAsignadasAdmin() {
   const [incidencias, setIncidencias] = useState([]);

@@ -3,10 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import "../styles/navbar-style.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
-import { obtenerNotificaciones } from "../services/notificacion.js";
-import { logout } from "../services/login.js";
-import { formatearFecha } from "../lib/formateadorFechas.js";
-import { logError } from "../lib/logger.js";
+import { obtenerNotificaciones } from "../../services/notificacion.js";
+import { logout } from "../../services/login.js";
+import { formatearFecha } from "../../lib/formateadorFechas.js";
+import { logError } from "../../lib/logger.js";
 
 const menu = [
   {

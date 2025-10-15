@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/reportarIncidencia-style.css";
-import { subidaArchivo } from "../services/subidaArchivos.js";
-import { crearIncidencia } from "../services/incidencia.js"; 
+import { subidaArchivo } from "../../services/subidaArchivos.js";
+import { crearIncidencia } from "../../services/incidencia.js"; 
 import { toast } from "react-toastify";
-import { logError } from "../lib/logger.js";
+import { logError } from "../../lib/logger.js";
 
 export default function ReportarIncidencia() {
     const navigate = useNavigate();

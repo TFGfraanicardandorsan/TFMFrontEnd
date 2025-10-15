@@ -5,27 +5,27 @@ import {
   obtenerPlantillaPermuta,
   subidaArchivo,
   servirArchivo,
-} from "../services/subidaArchivos.js";
+} from "../../services/subidaArchivos.js";
 import {
   verListaPermutas,
   listarPermutas,
   firmarPermuta,
   aceptarPermuta,
   validarSolicitudPermuta,
-} from "../services/permuta.js";
+} from "../../services/permuta.js";
 import "../styles/generacionPDF-style.css";
-import { dayValue, monthValue, yearValue } from "../lib/generadorFechas.js";
+import { dayValue, monthValue, yearValue } from "../../lib/generadorFechas.js";
 import {
   validarDNI,
   validarLetraDNI,
   validarCampoObligatorio,
   validarCodigoPostal,
   validarTelefono,
-} from "../lib/validadores.js";
+} from "../../lib/validadores.js";
 import Modal from "./Modal.jsx";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { logError } from "../lib/logger.js";
+import { logError } from "../../lib/logger.js";
 
 export default function GeneracionPDF() {
   const [dni, setDni] = useState("");
