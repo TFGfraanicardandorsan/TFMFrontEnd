@@ -6,13 +6,16 @@ import { toast } from "react-toastify";
 import CrearGradoAdmin from "./CrearGradoAdmin";
 import CrearAsignatura from "./CrearAsignatura";
 import ImportAsignaturas from "./importAsignaturas"; 
+import { actualizarVigenciaPermutas, actualizarVigenciaSolicitudes } from "../services/permuta";
 
 export default function MiPerfilAdmin() {
   const [usuario, setUsuario] = useState(null); 
   const [permutas, setPermutas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const [modalRetirarOpen, setModalRetirarOpen] = useState(false);
+  const [accionRetirarLoading, setAccionRetirarLoading] = useState(false);
+  
   useEffect(() => {
     const cargarDatos = async () => {
       try {
@@ -40,6 +43,37 @@ export default function MiPerfilAdmin() {
 
     cargarDatos();
   }, []);
+
+  const abrirModalRetirar = () => setModalRetirarOpen(true);
+  const cerrarModalRetirar = () => setModalRetirarOpen(false);
+  
+  const confirmarRetirarVigencia = async () => {
+    setAccionRetirarLoading(true);
+    try {
+      const [resPermutas, resSolicitudes] = await Promise.all([
+        actualizarVigenciaPermutas(),
+        actualizarVigenciaSolicitudes()
+      ]);
+      
+      const errores = [];
+      if (resPermutas?.err) errores.push(resPermutas.errmsg || "Error en permutas");
+      if (resSolicitudes?.err) errores.push(resSolicitudes.errmsg || "Error en solicitudes");
+      
+      if (errores.length === 0) {
+        toast.success("Se ha retirado la vigencia de permutas y solicitudes correctamente.");
+        // refrescar lista de permutas local
+        const ref = await getTodasSolicitudesPermuta();
+        if (!ref.err) setPermutas(ref.result.result);
+      } else {
+        toast.error(errores.join(" — "));
+      }
+    } catch (err) {
+      toast.error("Error al retirar la vigencia.");
+    } finally {
+      setAccionRetirarLoading(false);
+      setModalRetirarOpen(false);
+    }
+  };
 
   const exportarCSV = () => {
     if (permutas.length === 0) {
@@ -74,15 +108,15 @@ export default function MiPerfilAdmin() {
     link.click();
     document.body.removeChild(link);
   };
-
+  
   if (loading) {
     return <div className="loading-text">Cargando datos...</div>;
   }
-
+  
   if (error) {
     return <div className="error-text">Error: {error}</div>;
   }
-
+  
   return (
     <div className="page-container">
       <div className="content-wrap">
@@ -106,6 +140,13 @@ export default function MiPerfilAdmin() {
                 Exportar Permutas en CSV
               </button>
             </div>
+            <div className="perfil-card">
+              <h2 className="perfil-card-title">Retirar vigencia</h2>
+              <p>Al realizar esta acción todas las permutas y solicitudes dejarán de estar vigentes. Esta acción no puede deshacerse.</p>
+              <button className="danger-btn" onClick={abrirModalRetirar}>
+                Retirar la vigencia de las permutas
+              </button>
+            </div>
           </div>
           <div className="perfil-card">
             <h2 className="perfil-card-title">Importar Asignaturas</h2>
@@ -121,6 +162,22 @@ export default function MiPerfilAdmin() {
           </div>
         </div>
       </div>
+
+     {/* Modal de confirmación para retirar vigencia */}
+     {modalRetirarOpen && (
+       <div className="modal-overlay" onClick={cerrarModalRetirar}>
+         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+           <h3>Confirmar acción</h3>
+           <p>Al realizar esta acción todas las permutas y solicitudes no estarán vigentes. Esta acción no puede deshacerse.</p>
+           <div className="modal-actions">
+             <button onClick={cerrarModalRetirar} disabled={accionRetirarLoading}>Cancelar</button>
+             <button onClick={confirmarRetirarVigencia} disabled={accionRetirarLoading}>
+               {accionRetirarLoading ? "Procesando..." : "Aceptar"}
+             </button>
+           </div>
+         </div>
+       </div>
+     )}
       <div style={{ height: "80px" }} />
     </div>
   );
