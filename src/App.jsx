@@ -35,6 +35,7 @@ import CrearAsignatura from "./components/CrearAsignatura.jsx";
 import NoRegistrado from "./components/noRegistrado.jsx";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import PanelGestionUsuarios from "./components/panelGestionUsuarios.jsx";
 
 export function App() {
   return (
@@ -78,6 +79,7 @@ export function App() {
           <Route path="/miPerfilAdmin" element={<MiPerfilAdmin />} />
           <Route path="/crearGrado" element={<CrearGradoAdmin />} />
           <Route path="/crearAsignatura" element={<CrearAsignatura />} />
+          <Route path="/gestionUsuarios" element={<PanelGestionUsuarios />} />
           </Route>
         </Routes>
 
