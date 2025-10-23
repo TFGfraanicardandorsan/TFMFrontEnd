@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import "../styles/miPerfil-style.css";
-import { obtenerDatosUsuario } from "../services/usuario"; 
-import { obtenerMiGrupoAsignatura } from "../services/grupo"; 
-import {superarAsignaturasUsuario} from "../services/asignaturas"; 
-import SeleccionarEstudio from "./seleccionarEstudio";
+import { obtenerDatosUsuario } from "../../services/usuario"; 
+import { obtenerMiGrupoAsignatura } from "../../services/grupo"; 
+import {superarAsignaturasUsuario} from "../../services/asignaturas"; 
+import SeleccionarEstudio from "../seleccionarEstudio";
 import { useNavigate } from "react-router-dom";
 
 export default function MiPerfil() {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { importAsignaturas } from "../services/estadisticas";
+import { importAsignaturas } from "../../services/estadisticas";
 
 const ImportarAsignaturas = () => {
   const [archivo, setArchivo] = useState(null);

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { crearAsignatura } from "../services/asignaturas.js";
-import { obtenerEstudios } from "../services/estudio.js";
+import { crearAsignatura } from "../../services/asignaturas.js";
+import { obtenerEstudios } from "../../services/estudio.js";
 
 const CrearAsignatura = () => {
   const [form, setForm] = useState({

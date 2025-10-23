@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/detalleIncidencia-style.css";
-import { obtenerIncidenciaPorId } from "../services/incidencia";
-import { formatearFecha } from "../lib/formateadorFechas.js";
-import { servirArchivo } from "../services/subidaArchivos.js";
-import { logError } from "../lib/logger.js";
+import { obtenerIncidenciaPorId } from "../../services/incidencia.js";
+import { formatearFecha } from "../../lib/formateadorFechas.js";
+import { servirArchivo } from "../../services/subidaArchivos.js";
+import { logError } from "../../lib/logger.js";
 
 export default function DetalleIncidencia() {
   const { id } = useParams();

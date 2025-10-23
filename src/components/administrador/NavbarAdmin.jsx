@@ -3,11 +3,11 @@ import "../styles/navbar-style.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faBell,faUser,faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { obtenerNotificaciones } from "../services/notificacion.js";
-import { logout } from "../services/login.js";
-import { formatearFecha } from "../lib/formateadorFechas.js";
+import { obtenerNotificaciones } from "../../services/notificacion.js";
+import { logout } from "../../services/login.js";
+import { formatearFecha } from "../../lib/formateadorFechas.js";
 import { Link } from "react-router-dom";
-import { logError } from "../lib/logger.js";
+import { logError } from "../../lib/logger.js";
 
 export default function NavbarAdmin() {
   const navigate = useNavigate();

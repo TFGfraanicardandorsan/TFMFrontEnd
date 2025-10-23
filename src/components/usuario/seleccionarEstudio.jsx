@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { obtenerEstudios } from "../services/estudio";
+import { obtenerEstudios } from "../../services/estudio";
 import "../styles/seleccionarEstudio-style.css";
-import { actualizarEstudiosUsuario } from "../services/usuario";
+import { actualizarEstudiosUsuario } from "../../services/usuario";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { logError } from "../lib/logger";
+import { logError } from "../../lib/logger";
 
 export default function SeleccionarEstudio () {    
     const [estudios, setEstudio] = useState([]);

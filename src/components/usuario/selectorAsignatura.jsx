@@ -1,9 +1,9 @@
 import "../styles/selectorAsignatura-style.css";
 import { useState, useEffect } from "react";
-import { obtenerAsignaturasEstudio , actualizarAsignaturasUsuario} from "../services/asignaturas";
+import { obtenerAsignaturasEstudio , actualizarAsignaturasUsuario} from "../../services/asignaturas";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { logError } from "../lib/logger";
+import { logError } from "../../lib/logger";
 export default function SelectorAsignatura() {
   const [asignaturas, setAsignatura] = useState([]); // Estado para todas las asignaturas
   const [filteredAsignaturas, setFilteredAsignaturas] = useState([]); // Estado para las asignaturas filtradas

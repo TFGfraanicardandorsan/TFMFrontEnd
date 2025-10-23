@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import "../styles/permutas-style.css";
-import { obtenerPermutasAgrupadasPorUsuario, generarBorradorPermuta } from "../services/permuta.js";
+import { obtenerPermutasAgrupadasPorUsuario, generarBorradorPermuta } from "../../services/permuta.js";
 import { useNavigate } from "react-router-dom";
-import { obtenerSesion } from "../services/login.js";
+import { obtenerSesion } from "../../services/login.js";
 import { toast } from "react-toastify";
-import { logError } from "../lib/logger.js";
+import { logError } from "../../lib/logger.js";
 
 export default function PermutasAceptadas() {
   const [permutas, setPermutas] = useState([]);

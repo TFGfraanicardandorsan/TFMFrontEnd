@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import "../styles/solicitudesPermuta-style.css";
-import { obtenerSolicitudesPermuta, cancelarSolicitudPermuta } from "../services/permuta";
+import { obtenerSolicitudesPermuta } from "../../services/permuta";
 import { toast } from "react-toastify";
-
+import { cancelarSolicitudPermuta } from "../../services/permuta";
 export default function SolicitudesPermuta() {
     const [solicitudes, setSolicitudes] = useState([]);
     const [loading, setLoading] = useState(true);

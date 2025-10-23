@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import "../styles/misIncidencias-style.css";
 import { useNavigate } from "react-router-dom";
-import { obtenerIncidenciasAsignadasUsuario } from "../services/incidencia";
-import { formatearFecha } from "../lib/formateadorFechas.js";
-import { logError } from "../lib/logger.js";
+import { obtenerIncidenciasAsignadasUsuario } from "../../services/incidencia.js";
+import { formatearFecha } from "../../lib/formateadorFechas.js";
+import { logError } from "../../lib/logger.js";
 
 export default function MisIncidencias() {
   const navigate = useNavigate();

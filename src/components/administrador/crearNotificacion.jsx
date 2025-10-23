@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { crearNotificacion } from "../services/notificacion";
+import { crearNotificacion } from "../../services/notificacion";
 import "./../styles/crearNotificacion.css";
 import { toast } from "react-toastify";
-import { logError } from "../lib/logger";
+import { logError } from "../../lib/logger";
 
 export default function CrearNotificacion() {
     const [contenido, setContenido] = useState("");
