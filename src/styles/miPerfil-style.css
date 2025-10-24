@@ -4,10 +4,16 @@
     min-height: 100vh;
     justify-content: center;   /* Centra verticalmente */
     align-items: center;       /* Centra horizontalmente */
+    max-width: 100vw;
+    padding: 8px;
+    box-sizing: border-box;
 }
 
 .content-wrap {
     flex: 1; /* Hace que el contenido empuje el footer hacia abajo */
+    max-width: 100vw;
+    padding: 8px;
+    box-sizing: border-box;
 }
 
 .perfil-container {
@@ -17,6 +23,9 @@
     display: flex;
     flex-direction: column;
     align-items: center; /* Centra el título */
+    max-width: 100vw;
+    padding: 8px;
+    box-sizing: border-box;
 }
 
 .perfil-title {
@@ -50,3 +59,49 @@
     border-top: 1px solid #ccc;
     margin: 20px 0;
   }
+
+/* Ejemplo general para móviles */
+@media (max-width: 600px) {
+  body, .navbar, .footer, .perfil-title, .perfil-card-title {
+    font-size: 0.95em;
+  }
+  .navbar, .footer {
+    position: static !important; /* Ya no fijos */
+    width: 100%;
+  }
+  .navbar .nav-links,
+  .navbar .nav-links-responsive {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 0.95em;
+  }
+  .footer-container {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 0.95em;
+  }
+  .perfil-container, .perfil-card {
+    padding: 10px;
+    margin: 0;
+  }
+  .perfil-title {
+    font-size: 1.3em;
+  }
+  .perfil-card-title {
+    font-size: 1.1em;
+  }
+  .aprobar-btn, .nav-link-btn {
+    font-size: 0.95em;
+    padding: 8px 12px;
+  }
+  .page-container, .content-wrap, .perfil-container {
+    padding: 4px;
+  }
+  button, .aprobar-btn, .nav-link-btn {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+  ul, li {
+    font-size: 1em;
+  }
+}
