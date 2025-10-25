@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { obtenerTodosGruposMisAsignaturasSinGrupoUsuario } from "../../services/grupo.js";
 import { solicitarPermuta } from "../../services/permuta.js";
 import { useNavigate } from "react-router-dom";
-import "../styles/seleccionarGrupos-style.css";
+import "../../styles/seleccionarGrupos-style.css";
 import { toast } from "react-toastify";
 import { logError } from "../../lib/logger.js";
 
@@ -10,6 +10,7 @@ export default function SeleccionarGruposSinGrupo() {
   const [asignaturas, setAsignaturas] = useState([]);
   const [seleccionados, setSeleccionados] = useState({});
   const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,6 +39,7 @@ export default function SeleccionarGruposSinGrupo() {
         }
       } catch (error) {
         logError(error);
+        setError("Ocurrió un error al cargar las asignaturas.");
       } finally {
         setCargando(false);
       }
@@ -46,28 +48,18 @@ export default function SeleccionarGruposSinGrupo() {
     ObtenerTodosGruposMisAsignaturasSinGrupoUsuario();
   }, []);
 
-  const handleGrupoSeleccionado = (codasignatura, numgrupo) => {
-    setSeleccionados((prev) => {
-      const gruposSeleccionados = prev[codasignatura] || [];
-      if (gruposSeleccionados.includes(numgrupo)) {
-        return {
-          ...prev,
-          [codasignatura]: gruposSeleccionados.filter((g) => g !== numgrupo),
-        };
-      } else {
-        return {
-          ...prev,
-          [codasignatura]: [...gruposSeleccionados, numgrupo],
-        };
-      }
-    });
+  const handleGrupoSeleccionadoParaAsignatura = (codasignatura, numgrupo) => {
+    setSeleccionados((prev) => ({
+      ...prev,
+      [codasignatura]: numgrupo,
+    }));
   };
 
   const handleSubmit = async () => {
     try {
-      for (const [codasignatura, gruposDeseados] of Object.entries(seleccionados)) {
-        if (gruposDeseados.length > 0) {
-          await solicitarPermuta(codasignatura, gruposDeseados);
+      for (const [codasignatura, grupoDeseado] of Object.entries(seleccionados)) {
+        if (grupoDeseado) {
+          await solicitarPermuta(codasignatura, [grupoDeseado]);
         }
       }
       toast.success("Permutas solicitadas con éxito.");
@@ -78,19 +70,13 @@ export default function SeleccionarGruposSinGrupo() {
     }
   };
 
-  const isSubmitDisabled = Object.values(seleccionados).every((grupos) => grupos.length === 0);
-
   return (
     <>
-    <br />
-    <br />
+      <br />
+      <br />
       <div className="contenedor">
         <h2 className="titulo">Selecciona tus grupos</h2>
-        <p className="subtitulo">
-          Selecciona los grupos de las asignaturas que quieres permutar. Puedes
-          seleccionar varios grupos de la misma asignatura. Puedes seleccionar más de una asignatura.
-          <br />
-        </p>
+        {error && <p className="error">{error}</p>}
         {cargando ? (
           <p className="loading-message">Cargando asignaturas...</p>
         ) : (
@@ -98,23 +84,25 @@ export default function SeleccionarGruposSinGrupo() {
             {asignaturas.map(({ codasignatura, nombreasignatura, grupos }) => (
               <div key={parseInt(codasignatura)} className="tarjeta">
                 <h3 className="nombre-asignatura">{nombreasignatura}</h3>
-                <div className="checkbox-grupos">
+                <select
+                  className="select-grupo"
+                  value={seleccionados[parseInt(codasignatura)] || ""}
+                  onChange={(e) =>
+                    handleGrupoSeleccionadoParaAsignatura(
+                      parseInt(codasignatura),
+                      e.target.value
+                    )
+                  }
+                >
+                  <option value="" disabled>
+                    -- Selecciona un grupo --
+                  </option>
                   {grupos.map((grupo) => (
-                    <label key={grupo} className="checkbox-label">
-                      <input
-                        type="checkbox"
-                        value={grupo}
-                        checked={
-                          seleccionados[parseInt(codasignatura)]?.includes(grupo) || false
-                        }
-                        onChange={() =>
-                          handleGrupoSeleccionado(parseInt(codasignatura), grupo)
-                        }
-                      />
+                    <option key={grupo} value={grupo}>
                       Grupo {grupo}
-                    </label>
+                    </option>
                   ))}
-                </div>
+                </select>
               </div>
             ))}
           </div>
@@ -122,7 +110,9 @@ export default function SeleccionarGruposSinGrupo() {
         <button
           onClick={handleSubmit}
           className="boton-guardar"
-          disabled={isSubmitDisabled}
+          disabled={asignaturas.some(
+            ({ codasignatura }) => !seleccionados[parseInt(codasignatura)]
+          )}
         >
           Solicitar
         </button>
