@@ -35,7 +35,7 @@ import CrearAsignatura from "./components/CrearAsignatura.jsx";
 import NoRegistrado from "./components/noRegistrado.jsx";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import PanelGestionUsuarios from "./components/panelGestionUsuarios.jsx";
+import PanelGestionUsuarios from "./components/administrador/panelGestionUsuarios.jsx";
 import VolverArriba from "./components/comun/volverArriba";
 
 export function App() {
