@@ -1,4 +1,4 @@
-import "../styles/selectorAsignatura-style.css";
+import "../../styles/selectorAsignatura-style.css";
 import { useState, useEffect } from "react";
 import { obtenerAsignaturasEstudio , actualizarAsignaturasUsuario} from "../../services/asignaturas";
 import { useNavigate } from "react-router-dom";
@@ -80,7 +80,6 @@ export default function SelectorAsignatura() {
     <>
       <div className="checkbox-container">
         <h2 className="checkbox-title">Selecciona asignaturas por curso:</h2>
-
         <div className="curso-selector">
           <label htmlFor="curso">Filtrar por curso:</label>
           <select
@@ -96,7 +95,6 @@ export default function SelectorAsignatura() {
             ))}
           </select>
         </div>
-
         <div className="checkbox-list">
           {filteredAsignaturas.map((asignatura) => (
             <label key={asignatura.codigo} className="checkbox-label">
