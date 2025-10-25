@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { obtenerEstudios } from "../../services/estudio";
-import "../styles/seleccionarEstudio-style.css";
+import "../../styles/seleccionarEstudio-style.css";
 import { actualizarEstudiosUsuario } from "../../services/usuario";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -42,9 +42,11 @@ export default function SeleccionarEstudio () {
     };
 
     return (
-        <>
-            <div style={{ marginTop: "60px" }}>
-                <p className="titulo">Selecciona tu grado o master:</p>
+        <div className="container" style={{ marginTop: "60px" }}>
+            <div className="header">
+                <h1 className="titulo">Selecciona tu grado o master:</h1>
+            </div>
+            <div className="form-group">
                 <select value={selectedEstudio} onChange={handleSelectChange}>
                     <option value="" disabled>
                         Selecciona un estudio
@@ -55,14 +57,16 @@ export default function SeleccionarEstudio () {
                         </option>
                     ))}
                 </select>
-                <p className="subtitulo">Recuerda que solo puedes seleccionar un estudio.</p>
-                <p className="subtitulo">Una vez seleccionado, podrás elegir las asignaturas y grupos.</p>
-                <p className="subtitulo">Si te equivocas a la hora de seleccionar el estudio, reporta una incidencia.</p>
-                <p className="subtitulo">Si no seleccionas nada, no podrás hacer uso del servicio.</p>
+            </div>
+            <p className="subtitulo">Recuerda que solo puedes seleccionar un estudio.</p>
+            <p className="subtitulo">Una vez seleccionado, podrás elegir las asignaturas y grupos.</p>
+            <p className="subtitulo">Si te equivocas a la hora de seleccionar el estudio, reporta una incidencia.</p>
+            <p className="subtitulo">Si no seleccionas nada, no podrás hacer uso del servicio.</p>
+            <div className="button-group">
                 <button onClick={handleSubmit} disabled={!selectedEstudio}>
                     Enviar
                 </button>
             </div>
-        </>
+        </div>
     );
 };
