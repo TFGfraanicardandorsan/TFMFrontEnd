@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "../styles/permutas-style.css";
+import "../../styles/permutas-style.css";
 import { obtenerPermutasAgrupadasPorUsuario, generarBorradorPermuta } from "../../services/permuta.js";
 import { useNavigate } from "react-router-dom";
 import { obtenerSesion } from "../../services/login.js";
@@ -77,7 +77,8 @@ export default function PermutasAceptadas() {
     <div className="permutas-container">
       <h2>Permutas aceptadas</h2>
       <p className="subtitulo">
-        Selecciona las permutas que deseas generar. Puedes generar una permuta por cada grupo de asignaturas que vayas a permutar con un estudiante. Puedes generar más de una permuta que tendrás que enviar a la escuela.</p>
+        Selecciona las permutas que deseas generar. Puedes generar una permuta por cada grupo de asignaturas que vayas a permutar con un estudiante. Puedes generar más de una permuta que tendrás que enviar a la escuela.
+      </p>
       {cargando ? (
         <div>Cargando permutas...</div>
       ) : error ? (
@@ -148,8 +149,7 @@ export default function PermutasAceptadas() {
       ) : (
         <p>No hay permutas aceptadas</p>
       )}
-<div style={{ height: "80px" }} />
+      <div style={{ height: "80px" }} />
     </div>
-    
   );
 }
