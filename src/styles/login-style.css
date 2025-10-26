@@ -111,3 +111,55 @@
   font-size: 14px;
   color: #666;
 }
+
+/* Adaptación móvil */
+@media (max-width: 600px) {
+  .app-container {
+    min-height: 100vh;
+    padding: 0;
+  }
+  .content {
+    padding: 12px 2px;
+  }
+  .logo-container {
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+  .logo-container img {
+    max-width: 180px;
+    height: auto;
+  }
+  .login-content {
+    padding: 10px 0;
+  }
+  .login-title {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .login-button {
+    width: 100%;
+    font-size: 1em;
+    padding: 14px;
+    margin-top: 16px;
+    border-radius: 0;
+  }
+  .qr-section {
+    margin-top: 18px;
+    gap: 8px;
+  }
+  .qr-info-text {
+    font-size: 0.95em;
+    max-width: 95vw;
+    margin-bottom: 8px;
+  }
+  .qr-image {
+    width: 140px;
+    height: 140px;
+    border-radius: 8px;
+  }
+  .footer {
+    font-size: 0.95em;
+    padding: 12px;
+  }
+}

@@ -1,5 +1,6 @@
 import Footer from "./footer";
 import { Link } from "react-router-dom";
+import "../../styles/cookies-style.css";
 export default function PrivacyPolicy() {
   return (
     <>

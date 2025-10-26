@@ -65,4 +65,56 @@
     border: 1px solid #ccc;
     cursor: pointer;
   }
-  
+
+/* Adaptación móvil */
+@media (max-width: 600px) {
+  .checkbox-container {
+    padding: 8px 2px;
+    max-width: 100vw;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0;
+  }
+  .checkbox-title {
+    font-size: 1.1em;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .curso-selector {
+    margin-bottom: 10px;
+  }
+  .curso-selector label {
+    font-size: 1em;
+    margin-right: 6px;
+  }
+  .curso-dropdown {
+    font-size: 0.95em;
+    padding: 8px;
+    margin-bottom: 8px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .checkbox-list {
+    gap: 6px;
+  }
+  .checkbox-label {
+    padding: 6px;
+    font-size: 0.95em;
+    border-radius: 0;
+  }
+  .checkbox-text {
+    font-size: 0.95em;
+  }
+  .checkbox-input {
+    width: 18px;
+    height: 18px;
+  }
+  .submit-button {
+    width: 100%;
+    font-size: 1em;
+    padding: 12px;
+    margin-top: 12px;
+    box-sizing: border-box;
+    border-radius: 0;
+  }
+}

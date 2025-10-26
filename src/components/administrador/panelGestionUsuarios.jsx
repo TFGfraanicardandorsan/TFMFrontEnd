@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { obtenerTodosUsuarios, actualizarUsuario } from '../services/usuario';
+import { obtenerTodosUsuarios, actualizarUsuario } from '../../services/usuario';
+import "../../styles/panelGestionUsuarios-style.css";
 
 const UserManagementPanel = () => {
     const [users, setUsers] = useState([]);
@@ -34,14 +35,15 @@ const UserManagementPanel = () => {
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <div>
-            <h1>Panel de Gestión de Usuarios</h1>
-            <ul>
+        <div className="panel-usuarios-container">
+            <h1 className="panel-usuarios-title">Panel de Gestión de Usuarios</h1>
+            <ul className="usuarios-list">
                 {users.map(user => (
-                    <li key={user.id}>
+                    <li key={user.id} className="usuario-item">
                         {user.name} - {user.email}
-                        {/* Add functionality to update user fields here */}
-                        <button onClick={() => handleUpdateUser(user.id, { /* updated fields */ })}>Actualizar</button>
+                        <button onClick={() => handleUpdateUser(user.id, { /* updated fields */ })}>
+                            Actualizar
+                        </button>
                     </li>
                 ))}
             </ul>

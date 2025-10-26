@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "../styles/permutas-style.css";
+import "../../styles/permutas-style.css";
 import { obtenerPermutasInteresantes, aceptarPermutaSolicitudesPermuta } from "../../services/permuta.js";
 import { useNavigate } from "react-router-dom";
 import { logError } from "../../lib/logger.js";
@@ -53,11 +53,11 @@ export default function Permutas() {
   }
 
   return (
-
     <div className="permutas-container">
       <h2 className="permutas-title">Permutas Disponibles</h2>
       <p className="permutas-description">
-        Aquí puedes ver las permutas disponibles que puedan ser interesantes para ti, es decir de las asignaturas de las que estés matriculado y de los grupos a los que pertenezcas. Si estás interesado en alguna, puedes aceptarla para que si el estudiante que la propone le parece bien podáis permutar los grupos.</p>
+        Aquí puedes ver las permutas disponibles que puedan ser interesantes para ti, es decir de las asignaturas de las que estés matriculado y de los grupos a los que pertenezcas. Si estás interesado en alguna, puedes aceptarla para que si el estudiante que la propone le parece bien podáis permutar los grupos.
+      </p>
       {permutas.length > 0 ? (
         <div className="permutas-grid">
           {permutas.map((permuta) => (
@@ -82,6 +82,5 @@ export default function Permutas() {
       )}
       <div style={{ height: "80px" }} />
     </div>
-    
   );
 }

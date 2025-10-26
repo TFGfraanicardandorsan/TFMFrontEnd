@@ -125,3 +125,54 @@ footer {
   max-width: 90vw;
   box-shadow: 0 2px 16px rgba(0,0,0,0.2);
 }
+
+/* Adaptación móvil */
+@media (max-width: 600px) {
+  .contenedorIncidencia {
+    max-width: 100vw;
+    padding: 12px 4px;
+    margin: 0;
+  }
+  .header {
+    font-size: 1.1em;
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+  .incidencias-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+  .incidencia-card {
+    padding: 10px;
+    font-size: 0.95em;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100vw;
+  }
+  .big-button, .verIncidencia-button {
+    font-size: 1em;
+    padding: 12px;
+    width: 100%;
+    margin-bottom: 8px;
+    max-width: 100vw;
+  }
+  .filtro-container {
+    flex-direction: column;
+    align-items: stretch;
+    font-size: 0.95em;
+    gap: 0.5rem;
+    margin-bottom: 12px;
+  }
+  .filtro-container label, .filtro-container select {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+  .loading-message, .no-incidencias {
+    font-size: 1em;
+    text-align: center;
+    margin-top: 12px;
+  }
+}

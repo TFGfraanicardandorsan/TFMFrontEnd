@@ -1,0 +1,49 @@
+/* Adaptación móvil */
+@media (max-width: 600px) {
+  .cookies-policy {
+    padding: 8px 2px;
+    max-width: 100vw;
+    margin: 0;
+    font-size: 0.95em;
+    background: #fff;
+    box-sizing: border-box;
+  }
+  .cookies-policy h1 {
+    font-size: 1.2em;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .cookies-policy h2 {
+    font-size: 1em;
+    margin-top: 18px;
+    margin-bottom: 8px;
+  }
+  .cookies-policy p,
+  .cookies-policy ul,
+  .cookies-policy li {
+    font-size: 0.95em;
+    margin-bottom: 8px;
+    text-align: left;
+  }
+  .actualizacion {
+    font-size: 0.95em;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .cookies-list {
+    padding-left: 18px;
+  }
+  .cookies-policy section {
+    margin-bottom: 18px;
+  }
+  .cookies-policy a {
+    word-break: break-all;
+    font-size: 0.95em;
+  }
+  .cookies-policy ul {
+    padding-left: 18px;
+  }
+  .cookies-policy ul li {
+    margin-bottom: 6px;
+  }
+}
