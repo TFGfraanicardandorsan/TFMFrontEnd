@@ -11,7 +11,8 @@ import { logError } from "../../lib/logger.js";
 
 export default function NavbarAdmin() {
   const navigate = useNavigate();
-
+  const [open, setOpen] = useState(false);
+  const [openGroup, setOpenGroup] = useState(null);
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [notificaciones, setNotificaciones] = useState([]);
   const [cargando, setCargando] = useState(true);
@@ -42,12 +43,83 @@ export default function NavbarAdmin() {
     setSidebarVisible(!sidebarVisible);
   };
 
+  const handleLinkClick = (to) => {
+    setOpen(false);
+    if (to === "/logout") {
+      handleClickLogout();
+    } else {
+      navigate(to);
+    }
+  };
+
   if (cargando) {
     return <div className="loading-text">Cargando...</div>;
   }
   return (
     <>
       <nav className="navbar">
+        <div className="navbar-brand">Permutas ETSII - Admin</div>
+        <button className="hamburger" onClick={() => setOpen(!open)}>
+          ☰
+        </button>
+        <ul className={`nav-links-responsive ${open ? "open" : ""}`}>
+          <li className="nav-group">
+            <button
+              className="nav-group-btn"
+              onClick={() => setOpenGroup(openGroup === 0 ? null : 0)}
+            >
+              Gestión
+            </button>
+            <ul className={`nav-submenu ${openGroup === 0 ? "show" : ""}`}>
+              <li>
+                <button className="nav-link-btn" onClick={() => handleLinkClick("/")}>
+                  Inicio
+                </button>
+              </li>
+              <li>
+                <button className="nav-link-btn" onClick={() => handleLinkClick("/incidenciasSinAsignar")}>
+                  Incidencias
+                </button>
+              </li>
+              <li>
+                <button className="nav-link-btn" onClick={() => handleLinkClick("/incidencias")}>
+                  Mis Incidencias
+                </button>
+              </li>
+              <li>
+                <button className="nav-link-btn" onClick={() => handleLinkClick("/crearNotificacion")}>
+                  Crear notificación
+                </button>
+              </li>
+              <li>
+                <button className="nav-link-btn" onClick={() => handleLinkClick("/estadisticas")}>
+                  Ver estadísticas
+                </button>
+              </li>
+            </ul>
+          </li>
+          <li className="nav-group">
+            <button
+              className="nav-group-btn"
+              onClick={() => setOpenGroup(openGroup === 1 ? null : 1)}
+            >
+              Perfil
+            </button>
+            <ul className={`nav-submenu ${openGroup === 1 ? "show" : ""}`}>
+              <li>
+                <button className="nav-link-btn" onClick={() => handleLinkClick("/miPerfilAdmin")}>
+                  Mi perfil
+                </button>
+              </li>
+              <li>
+                <button className="nav-link-btn" onClick={() => handleLinkClick("/logout")}>
+                  Cerrar sesión
+                </button>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        {/* Menú clásico para escritorio */}
         <ul className="nav-links">
           <li>
             <Link to="/">Inicio</Link>
