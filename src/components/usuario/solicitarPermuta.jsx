@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { obtenerTodosGruposMisAsignaturasSinGrupoUsuario } from "../../services/grupo.js";
 import { solicitarPermuta } from "../../services/permuta.js";
 import { useNavigate } from "react-router-dom";
-import "../../../styles/seleccionarGrupos-style.css";
+import "../../styles/seleccionarGrupos-style.css";
 import { toast } from "react-toastify";
 import { logError } from "../../lib/logger.js";
 

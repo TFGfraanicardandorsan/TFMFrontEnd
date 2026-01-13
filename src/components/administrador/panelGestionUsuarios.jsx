@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { obtenerTodosUsuarios, actualizarUsuario } from '../../services/usuario';
-import "../../../styles/panelGestionUsuarios-style.css";
+import "../../styles/panelGestionUsuarios-style.css";
 
 const UserManagementPanel = () => {
     const [users, setUsers] = useState([]);

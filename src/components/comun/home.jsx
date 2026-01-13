@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "../../../styles/home-style.css";
+import "../../styles/home-style.css";
 import { obtenerNotificaciones } from "../../services/notificacion.js";
 import { formatearFecha } from "../../lib/formateadorFechas.js";
 import { logError } from "../../lib/logger.js";

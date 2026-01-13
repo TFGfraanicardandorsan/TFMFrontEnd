@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import Footer from "./footer";
-import "../../../styles/notFound-style.css";
+import "../../styles/notFound-style.css";
 
 const NotFound = () => {
     return (

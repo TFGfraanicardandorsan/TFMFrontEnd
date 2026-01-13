@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import Footer from "./footer";
-import "../../../styles/unauthorized-style.css";
+import "../../styles/unauthorized-style.css";
 
 export default function Unauthorized() {
     return (

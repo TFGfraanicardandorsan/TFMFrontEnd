@@ -1,4 +1,4 @@
-import "../../../styles/selectorAsignatura-style.css";
+import "../../styles/selectorAsignatura-style.css";
 import { useState, useEffect } from "react";
 import { obtenerAsignaturasEstudio, actualizarAsignaturasUsuario } from "../../services/asignaturas";
 import { useNavigate } from "react-router-dom";

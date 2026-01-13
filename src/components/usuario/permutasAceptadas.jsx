@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "../../../styles/permutas-style.css";
+import "../../styles/permutas-style.css";
 import { obtenerPermutasAgrupadasPorUsuario, generarBorradorPermuta } from "../../services/permuta.js";
 import { useNavigate } from "react-router-dom";
 import { obtenerSesion } from "../../services/login.js";

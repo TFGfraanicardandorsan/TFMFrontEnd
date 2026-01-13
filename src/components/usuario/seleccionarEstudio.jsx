@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { obtenerEstudios } from "../../services/estudio";
-import "../../../styles/seleccionarEstudio-style.css";
+import "../../styles/seleccionarEstudio-style.css";
 import { actualizarEstudiosUsuario } from "../../services/usuario";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";

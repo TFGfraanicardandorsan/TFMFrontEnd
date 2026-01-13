@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "../../../styles/solicitudesPermuta-style.css";
+import "../../styles/solicitudesPermuta-style.css";
 import { obtenerSolicitudesPermuta } from "../../services/permuta";
 import { toast } from "react-toastify";
 import { cancelarSolicitudPermuta } from "../../services/permuta";
