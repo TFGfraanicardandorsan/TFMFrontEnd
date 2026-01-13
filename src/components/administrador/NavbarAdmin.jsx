@@ -57,7 +57,7 @@ export default function NavbarAdmin() {
   }
   return (
     <>
-      <nav className="navbar">
+      <nav className="navbar navbar-admin">
         <div className="navbar-brand">Permutas ETSII - Admin</div>
         <button className="hamburger" onClick={() => setOpen(!open)}>
           ☰
