@@ -19,93 +19,36 @@
 }
 
 /* Responsive: 1 columna en pantallas pequeñas */
+/* Responsive: 1 columna en pantallas pequeñas */
 @media (max-width: 768px) {
   .tarjetas-grid {
     grid-template-columns: 1fr;
-  }
-}
-
-.tarjeta {
-  background-color: #f8f9fa;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.nombre-asignatura {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color:rgb(31, 31, 31);
-}
-
-.select-grupo {
-  width: 100%;
-  padding: 8px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-.boton-guardar {
-  display: block;
-  width: 100%;
-  background-color: #34a2e2;
-  color: white;
-  font-size: 18px;
-  padding: 10px;
-  margin-top: 30px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.boton-guardar:hover {
-  background-color: #0a64ca;
-}
-
-.loading-message {
-  text-align: center;
-  font-size: 1.2rem;
-  color: #555;
-  margin: 1rem 0;
-}
-
-.checkbox-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px; /* Espacio entre el checkbox y el texto */
-  font-size: 16px;
-  margin-bottom: 5px;
-  cursor: pointer;
-  color:rgb(31, 31, 31);
-}
-
-/* Adaptación móvil */
-@media (max-width: 600px) {
-  .contenedor {
-    padding: 8px 2px;
-    width: 100vw;
-    box-sizing: border-box;
-    margin: 0;
-  }
-  .titulo {
-    font-size: 1.1em;
-    margin-bottom: 12px;
-    text-align: center;
-  }
-  .subtitulo {
-    font-size: 0.95em;
-    margin-bottom: 8px;
-    text-align: center;
-  }
-  .tarjetas-grid {
     display: flex;
     flex-direction: column;
     gap: 12px;
     margin-top: 12px;
     width: 100%;
   }
+
+  .contenedor {
+    padding: 8px 2px;
+    width: 100vw;
+    box-sizing: border-box;
+    margin: 0;
+  }
+
+  .titulo {
+    font-size: 1.1em;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  .subtitulo {
+    font-size: 0.95em;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+
   .tarjeta {
     padding: 10px;
     font-size: 0.95em;
@@ -116,16 +59,19 @@
     border-radius: 0;
     box-shadow: none;
   }
+
   .nombre-asignatura {
     font-size: 1em;
     margin-bottom: 8px;
   }
+
   .select-grupo,
   .checkbox-grupos input[type="checkbox"] {
     font-size: 0.95em;
     padding: 8px;
     margin-bottom: 8px;
   }
+
   .checkbox-label {
     font-size: 0.95em;
     margin-bottom: 6px;
@@ -133,6 +79,7 @@
     align-items: center;
     gap: 8px;
   }
+
   .boton-guardar {
     width: 100%;
     font-size: 1em;
@@ -141,12 +88,14 @@
     box-sizing: border-box;
     border-radius: 0;
   }
+
   .error {
     font-size: 0.95em;
     color: #d32f2f;
     margin-bottom: 8px;
     text-align: center;
   }
+
   .loading-message {
     font-size: 1em;
     text-align: center;

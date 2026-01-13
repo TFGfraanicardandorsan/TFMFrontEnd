@@ -47,3 +47,22 @@ a:hover {
     text-decoration: underline;  /* Agrega subrayado */
     color: #0056b3;  /* Oscurece el color del enlace */
 }
+
+@media (max-width: 768px) {
+    .footer {
+        position: relative; /* Evita que ocupe espacio fijo en pantallas pequeñas */
+        padding: 15px;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .footer-section {
+        max-width: 100%;
+        margin-bottom: 10px;
+    }
+}

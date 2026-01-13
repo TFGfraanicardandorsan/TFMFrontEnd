@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { crearEstudio } from "../../services/estudio";
-import "../styles/CrearGradoAdmin.css"; 
+import "../../styles/CrearGradoAdmin.css"; 
 
 export default function CrearGradoAdmin() {
   const [estudio, setEstudio] = useState("");
@@ -29,7 +29,7 @@ export default function CrearGradoAdmin() {
   return (
     <div className="crear-grado-admin-container">
       <form onSubmit={handleSubmit} className="crear-grado-form">
-        <div>
+        <div className="form-group">
           <label htmlFor="estudio">Estudio del grado:</label>
           <input
             id="estudio"
@@ -39,7 +39,7 @@ export default function CrearGradoAdmin() {
             required
           />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="siglas">Siglas:</label>
           <input
             id="siglas"
@@ -49,7 +49,7 @@ export default function CrearGradoAdmin() {
             required
           />
         </div>
-        <button type="submit">Crear grado</button>
+        <button type="submit" className="crear-btn">Crear grado</button>
       </form>
       {mensaje && <p className="success-message">{mensaje}</p>}
       {error && <p className="error-message">{error}</p>}

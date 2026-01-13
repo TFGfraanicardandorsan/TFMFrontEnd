@@ -1,74 +1,77 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
-    width: 80%;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .header {
-    text-align: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd;
+  text-align: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
 }
 
 .header h1 {
-    margin: 0;
-    font-size: 24px;
-    color: #333;
+  margin: 0;
+  font-size: 24px;
+  color: #333;
 }
+
 .titulo {
-    font-size: 24px;
-    color: #333;
+  font-size: 24px;
+  color: #333;
 }
+
 .form-group {
-    margin: 15px 0;
+  margin: 15px 0;
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #333;
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
 }
 
 .form-group input,
 .form-group select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
 .button-group {
-    text-align: right;
-    margin-top: 20px;
+  text-align: right;
+  margin-top: 20px;
 }
 
 .button-group button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    background-color: #34a2e2;
-    color: #fff;
-    cursor: pointer;
-    font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #34a2e2;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 .button-group button:hover {
-    background-color: #0a64ca;
+  background-color: #0a64ca;
 }
 
 /* Adaptación móvil */
-@media (max-width: 600px) {
+/* Adaptación móvil */
+@media (max-width: 768px) {
   .container {
     width: 100vw;
     margin: 0;
@@ -76,27 +79,34 @@ body {
     box-shadow: none;
     background-color: #fff;
   }
+
   .header {
     padding: 6px 0;
     border-bottom: 1px solid #ddd;
   }
-  .header h1, .titulo {
+
+  .header h1,
+  .titulo {
     font-size: 1.1em;
     margin: 0;
     text-align: center;
   }
+
   .subtitulo {
     font-size: 0.95em;
     margin-bottom: 6px;
     text-align: center;
   }
+
   .form-group {
     margin: 10px 0;
   }
+
   .form-group label {
     font-size: 1em;
     margin-bottom: 4px;
   }
+
   .form-group input,
   .form-group select,
   select {
@@ -104,6 +114,7 @@ body {
     padding: 8px;
     margin-bottom: 8px;
   }
+
   button,
   .button-group button {
     width: 100%;

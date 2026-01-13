@@ -1,20 +1,24 @@
 /* Adaptación móvil para panel de gestión de usuarios */
-@media (max-width: 600px) {
+/* Adaptación móvil para panel de gestión de usuarios */
+@media (max-width: 768px) {
   .panel-usuarios-container {
     padding: 12px 4px;
     width: 100vw;
     box-sizing: border-box;
   }
+
   .panel-usuarios-title {
     font-size: 1.2em;
     margin-bottom: 12px;
     text-align: center;
   }
+
   .usuarios-list {
     padding: 0;
     margin: 0;
     list-style: none;
   }
+
   .usuario-item {
     padding: 10px;
     margin-bottom: 10px;
@@ -26,6 +30,7 @@
     flex-direction: column;
     gap: 6px;
   }
+
   .usuario-item button {
     width: 100%;
     font-size: 1em;

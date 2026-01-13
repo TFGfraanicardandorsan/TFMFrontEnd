@@ -1,5 +1,6 @@
 /* Adaptación móvil */
-@media (max-width: 600px) {
+/* Adaptación móvil */
+@media (max-width: 768px) {
   .privacy-policy {
     padding: 8px 2px;
     max-width: 100vw;
@@ -8,16 +9,19 @@
     background: #fff;
     box-sizing: border-box;
   }
+
   .privacy-policy h1 {
     font-size: 1.2em;
     text-align: center;
     margin-bottom: 12px;
   }
+
   .privacy-policy h2 {
     font-size: 1em;
     margin-top: 18px;
     margin-bottom: 8px;
   }
+
   .privacy-policy p,
   .privacy-policy ul,
   .privacy-policy li {
@@ -25,12 +29,15 @@
     margin-bottom: 8px;
     text-align: left;
   }
+
   .privacy-policy section {
     margin-bottom: 18px;
   }
+
   .privacy-policy ul {
     padding-left: 18px;
   }
+
   .privacy-policy ul li {
     margin-bottom: 6px;
   }
