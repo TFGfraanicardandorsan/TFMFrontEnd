@@ -1,4 +1,4 @@
-import "../styles/footer-style.css";
+import "../../styles/footer-style.css";
 import { yearValue } from "../../lib/generadorFechas"
 
 export default function Footer() {

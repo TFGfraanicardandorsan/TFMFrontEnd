@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "../../styles/permutas-style.css";
+import "../../../styles/permutas-style.css";
 import { obtenerPermutasAgrupadasPorUsuario, generarBorradorPermuta } from "../../services/permuta.js";
 import { useNavigate } from "react-router-dom";
 import { obtenerSesion } from "../../services/login.js";
@@ -48,7 +48,7 @@ export default function PermutasAceptadas() {
         setError("Error al cargar los datos del usuario");
       }
     } catch (error) {
-      setError("Error al obtener los datos del usuario",error);
+      setError("Error al obtener los datos del usuario", error);
     }
   };
 
@@ -93,7 +93,7 @@ export default function PermutasAceptadas() {
             const puedeGenerarPermuta = usuario === usuarios[0] && todasNull
             const puedeContinuarPermuta = usuario === usuarios[0] && todasBorrador;
             const todasFirmadas = permutasDetalles.length > 0 && permutasDetalles.every((permuta) => permuta.estado_permuta_asociada === "FIRMADA");
-            const puedeCompletarPermuta = usuario === usuarios[1] && todasFirmadas; 
+            const puedeCompletarPermuta = usuario === usuarios[1] && todasFirmadas;
             const todasFinalizadas = permutasDetalles.every((permuta) => (permuta.estado_permuta_asociada === "ACEPTADA" || permuta.estado_permuta_asociada === "VALIDADA"));
             const IdsPermuta = permutasDetalles.map((permuta) => permuta.permuta_id);
 
@@ -101,7 +101,7 @@ export default function PermutasAceptadas() {
             if (usuarios.length < 2 || permutasDetalles.length === 0) {
               return null;
             }
-  
+
             return (
               <div key={index} className="permuta-card">
                 <div className="permuta-info">
@@ -131,16 +131,16 @@ export default function PermutasAceptadas() {
                   ))}
                 </div>
                 {puedeGenerarPermuta && (
-                <button className="aceptar-btn" onClick={() => handleGenerarPermuta(IdsPermuta)}>Generar Permuta</button>
-          )}
-            {puedeContinuarPermuta && (
-             <button className="aceptar-btn"  onClick={() => navigate("/generarPermuta")}>Continuar Permuta</button>
-       )}
-          {puedeCompletarPermuta && (
-                <button className="aceptar-btn"  onClick={() => navigate("/generarPermuta")}>Completar Permuta</button>
-          )}
+                  <button className="aceptar-btn" onClick={() => handleGenerarPermuta(IdsPermuta)}>Generar Permuta</button>
+                )}
+                {puedeContinuarPermuta && (
+                  <button className="aceptar-btn" onClick={() => navigate("/generarPermuta")}>Continuar Permuta</button>
+                )}
+                {puedeCompletarPermuta && (
+                  <button className="aceptar-btn" onClick={() => navigate("/generarPermuta")}>Completar Permuta</button>
+                )}
                 {todasFinalizadas && (
-                <button className="ver-btn"  onClick={() => navigate("/generarPermuta")}>Ver Permuta</button>
+                  <button className="ver-btn" onClick={() => navigate("/generarPermuta")}>Ver Permuta</button>
                 )}
               </div>
             );

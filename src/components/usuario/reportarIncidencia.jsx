@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../styles/reportarIncidencia-style.css";
+import "../../../styles/reportarIncidencia-style.css";
 import { subidaArchivo } from "../../services/subidaArchivos.js";
-import { crearIncidencia } from "../../services/incidencia.js"; 
+import { crearIncidencia } from "../../services/incidencia.js";
 import { toast } from "react-toastify";
 import { logError } from "../../lib/logger.js";
 
@@ -34,7 +34,7 @@ export default function ReportarIncidencia() {
         let fileId = null;
         if (file) {
             const formData = new FormData();
-            formData.append("tipo","archivador")
+            formData.append("tipo", "archivador")
             formData.append("file", file);
             try {
                 const response = await subidaArchivo(formData);

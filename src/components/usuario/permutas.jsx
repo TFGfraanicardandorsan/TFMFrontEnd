@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "../../styles/permutas-style.css";
+import "../../../styles/permutas-style.css";
 import { obtenerPermutasInteresantes, aceptarPermutaSolicitudesPermuta } from "../../services/permuta.js";
 import { useNavigate } from "react-router-dom";
 import { logError } from "../../lib/logger.js";
@@ -69,7 +69,7 @@ export default function Permutas() {
                 <p><strong>Grupos Deseados:</strong> {permuta.grupo_deseado}</p>
                 <p><strong>Código Asignatura:</strong> {permuta.codigo_asignatura}</p>
               </div>
-              <button 
+              <button
                 className="aceptar-btn"
                 onClick={() => handleAceptarPermuta(permuta.solicitud_id)}>
                 Aceptar Permuta

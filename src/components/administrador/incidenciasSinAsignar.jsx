@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "../styles/misIncidencias-style.css";
+import "../../styles/misIncidencias-style.css";
 import { useNavigate } from "react-router-dom";
 import { obtenerIncidenciasSinAsignar, asignarmeIncidencia } from "../../services/incidencia.js";
 import { formatearFecha } from "../../lib/formateadorFechas.js";

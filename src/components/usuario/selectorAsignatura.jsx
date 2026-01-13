@@ -1,6 +1,6 @@
-import "../../styles/selectorAsignatura-style.css";
+import "../../../styles/selectorAsignatura-style.css";
 import { useState, useEffect } from "react";
-import { obtenerAsignaturasEstudio , actualizarAsignaturasUsuario} from "../../services/asignaturas";
+import { obtenerAsignaturasEstudio, actualizarAsignaturasUsuario } from "../../services/asignaturas";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { logError } from "../../lib/logger";
@@ -59,7 +59,7 @@ export default function SelectorAsignatura() {
 
   const enviarSeleccion = async () => {
     if (selectedItems.length === 0) return;
-    setLoading(true); 
+    setLoading(true);
     for (const codigo of selectedItems) {
       try {
         await actualizarAsignaturasUsuario(codigo);
@@ -67,7 +67,7 @@ export default function SelectorAsignatura() {
         logError(`Error al enviar la asignatura ${codigo}: ${error}`);
       }
     }
-    setLoading(false); 
+    setLoading(false);
     toast.success("Todas las asignaturas seleccionadas han sido enviadas.");
     navigate("/seleccionarGrupos");
   };
@@ -108,7 +108,7 @@ export default function SelectorAsignatura() {
             </label>
           ))}
         </div>
-        <button className="submit-button" onClick={enviarSeleccion} disabled={selectedItems.length === 0}> 
+        <button className="submit-button" onClick={enviarSeleccion} disabled={selectedItems.length === 0}>
           Guardar
         </button>
       </div>

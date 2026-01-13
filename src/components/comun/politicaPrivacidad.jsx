@@ -1,5 +1,5 @@
 import Footer from "./footer";
-import "../../styles/politicaPrivacidad-style.css";
+import "../../../styles/politicaPrivacidad-style.css";
 import { Link } from "react-router-dom";
 export default function PrivacyPolicy() {
   return (

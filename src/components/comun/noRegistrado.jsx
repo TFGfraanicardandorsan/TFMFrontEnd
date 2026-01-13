@@ -1,5 +1,5 @@
 import Footer from "./footer";
-import "../styles/login-style.css"; // Puedes reutilizar estilos de login o crear unos nuevos
+import "../../styles/login-style.css"; // Puedes reutilizar estilos de login o crear unos nuevos
 
 export default function RegistroTelegram() {
   return (
@@ -11,7 +11,7 @@ export default function RegistroTelegram() {
           </div>
           <div className="login-content" style={{ textAlign: "center" }}>
             <h1 className="login-title">Registro en Permutas ETSII</h1>
-            <p style={{fontWeight: "bold", fontSize: 20 }}>No te hemos encontrado en la base de datos, eso significa que no te has registrado.</p>
+            <p style={{ fontWeight: "bold", fontSize: 20 }}>No te hemos encontrado en la base de datos, eso significa que no te has registrado.</p>
             <p style={{ margin: "20px 0", fontWeight: "bold" }}>
               Para registrarte en la plataforma, escanea el siguiente código QR y sigue las instrucciones del bot de Telegram.
             </p>

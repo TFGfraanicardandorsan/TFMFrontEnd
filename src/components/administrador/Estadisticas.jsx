@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import { Bar, Pie } from 'react-chartjs-2';
-import { obtenerEstadisticasPermutas, obtenerEstadisticasSolicitudes, obtenerEstadisticasIncidencias,obtenerEstadisticasUsuarios } from '../../services/estadisticas';
-import "../styles/estadisticas-style.css";
+import { obtenerEstadisticasPermutas, obtenerEstadisticasSolicitudes, obtenerEstadisticasIncidencias, obtenerEstadisticasUsuarios } from '../../services/estadisticas';
+import "../../styles/estadisticas-style.css";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
@@ -108,45 +108,45 @@ export default function Estadisticas() {
   // Función para generar colores aleatorios
   function generarColoresAleatorios(n) {
     return Array.from({ length: n }, () =>
-      `rgba(${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},0.5)`
+      `rgba(${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)},0.5)`
     );
   }
 
   const usuariosPorRolData = estadisticasUsuarios && estadisticasUsuarios.usuariosPorRol
     ? {
-        labels: estadisticasUsuarios.usuariosPorRol.map(item => item.rol),
-        datasets: [{
-          label: 'Usuarios por Rol',
-          data: estadisticasUsuarios.usuariosPorRol.map(item => item.cantidad),
-          backgroundColor: [
-            'rgba(54, 162, 235, 0.5)',
-            'rgba(255, 206, 86, 0.5)',
-            'rgba(255, 99, 132, 0.5)',
-          ],
-        }]
-      }
+      labels: estadisticasUsuarios.usuariosPorRol.map(item => item.rol),
+      datasets: [{
+        label: 'Usuarios por Rol',
+        data: estadisticasUsuarios.usuariosPorRol.map(item => item.cantidad),
+        backgroundColor: [
+          'rgba(54, 162, 235, 0.5)',
+          'rgba(255, 206, 86, 0.5)',
+          'rgba(255, 99, 132, 0.5)',
+        ],
+      }]
+    }
     : null;
 
   const usuariosPorEstudioData = estadisticasUsuarios && estadisticasUsuarios.usuariosPorEstudio
     ? {
-        labels: estadisticasUsuarios.usuariosPorEstudio.map(item => item.siglas),
-        datasets: [{
-          label: 'Usuarios por Estudio',
-          data: estadisticasUsuarios.usuariosPorEstudio.map(item => item.cantidad),
-          backgroundColor: generarColoresAleatorios(estadisticasUsuarios.usuariosPorEstudio.length),
-        }]
-      }
+      labels: estadisticasUsuarios.usuariosPorEstudio.map(item => item.siglas),
+      datasets: [{
+        label: 'Usuarios por Estudio',
+        data: estadisticasUsuarios.usuariosPorEstudio.map(item => item.cantidad),
+        backgroundColor: generarColoresAleatorios(estadisticasUsuarios.usuariosPorEstudio.length),
+      }]
+    }
     : null;
 
   const solicitudesPorGradoData = estadisticasSolicitudes.solicitudesPorGrado
     ? {
-        labels: estadisticasSolicitudes.solicitudesPorGrado.map(item => item.siglas),
-        datasets: [{
-          label: 'Solicitudes por Grado',
-          data: estadisticasSolicitudes.solicitudesPorGrado.map(item => item.cantidad),
-          backgroundColor: generarColoresAleatorios(estadisticasSolicitudes.solicitudesPorGrado.length),
-        }]
-      }
+      labels: estadisticasSolicitudes.solicitudesPorGrado.map(item => item.siglas),
+      datasets: [{
+        label: 'Solicitudes por Grado',
+        data: estadisticasSolicitudes.solicitudesPorGrado.map(item => item.cantidad),
+        backgroundColor: generarColoresAleatorios(estadisticasSolicitudes.solicitudesPorGrado.length),
+      }]
+    }
     : null;
 
   return (
@@ -155,7 +155,7 @@ export default function Estadisticas() {
         <div style={{ height: "40px" }} />
         <h1>Dashboard de Estadísticas</h1>
         <p>Consulta las estadísticas de las permutas, solicitudes e incidencias. Puedes ver los datos en gráficos de barras y gráficos circulares.</p>
-        
+
         <div className="stats-grid">
           <div className="stat-card">
             <h2>Permutas por Estado</h2>
@@ -174,7 +174,7 @@ export default function Estadisticas() {
           <div className="stat-card">
             <h2>Incidencias por Estado</h2>
             <Pie key="incidenciasPorEstadoData" data={incidenciasPorEstadoData} />
-        </div>
+          </div>
           <div className="stat-card">
             <h2>Incidencias por Tipo</h2>
             <Pie key="incidenciasPorTipoData" data={incidenciasPorTipoData} />
@@ -183,7 +183,7 @@ export default function Estadisticas() {
           <div className="stat-card">
             <h2>Incidencias por Mes</h2>
             <Bar key="incidenciasPorMesData" data={incidenciasPorMesData} />
-          </div>  
+          </div>
           <div className="stat-card">
             <h2>Usuarios por Rol</h2>
             {usuariosPorRolData && <Bar key="usuariosPorRolData" data={usuariosPorRolData} />}
@@ -196,9 +196,9 @@ export default function Estadisticas() {
             <h2>Solicitudes por Grado</h2>
             {solicitudesPorGradoData && <Bar key="solicitudesPorGradoData" data={solicitudesPorGradoData} />}
           </div>
+        </div>
       </div>
-    </div>
-<div style={{ height: "80px" }} />
+      <div style={{ height: "80px" }} />
     </>
   );
 }

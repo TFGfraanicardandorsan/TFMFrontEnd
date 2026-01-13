@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "../styles/navbar-style.css";
+import "../../styles/navbar-style.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { obtenerNotificaciones } from "../../services/notificacion.js";
@@ -116,7 +116,7 @@ export default function NavbarEstudiante() {
         {/* Menú clásico para escritorio */}
         <ul className="nav-links">
           <li>
-            <Link to= "/">Inicio</Link>
+            <Link to="/">Inicio</Link>
           </li>
           <li>
             <Link to="/permutas">Permutas</Link>

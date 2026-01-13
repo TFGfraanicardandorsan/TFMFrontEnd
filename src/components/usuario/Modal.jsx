@@ -1,4 +1,4 @@
-import "../styles/modal.css";
+import "../../styles/modal.css";
 import PropTypes from "prop-types";
 
 export default function Modal({ title, message, onConfirm, onCancel }) {

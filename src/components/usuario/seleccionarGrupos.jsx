@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { obtenerTodosGruposMisAsignaturasUsuario, insertarMisGrupos } from "../../services/grupo.js";
-import "../../styles/seleccionarGrupos-style.css";
+import "../../../styles/seleccionarGrupos-style.css";
 import { useNavigate } from "react-router-dom";
 import { logError } from "../../lib/logger.js";
 
@@ -32,7 +32,8 @@ export default function SeleccionarGrupos() {
         }
       } catch (error) {
         logError(error);
-        setError("Error al cargar los grupos de asignaturas");}
+        setError("Error al cargar los grupos de asignaturas");
+      }
     };
     ObtenerTodosGruposMisAsignaturasUsuario();
   }, []);

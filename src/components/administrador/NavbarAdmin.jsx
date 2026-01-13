@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import "../styles/navbar-style.css";
+import "../../styles/navbar-style.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faBell,faUser,faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
+import { faBell, faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { obtenerNotificaciones } from "../../services/notificacion.js";
 import { logout } from "../../services/login.js";
@@ -87,7 +87,7 @@ export default function NavbarAdmin() {
         <div className="sidebar">
           <h2>Notificaciones</h2>
           {notificaciones.length > 0 ? (
-            notificaciones.slice(0,5).map((notificacion) => (
+            notificaciones.slice(0, 5).map((notificacion) => (
               <div key={notificacion.id} className="notification-item">
                 <p className="contenido">{notificacion.contenido}</p>
                 <p className="fecha">

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "../../styles/home-style.css";
+import "../../../styles/home-style.css";
 import { obtenerNotificaciones } from "../../services/notificacion.js";
 import { formatearFecha } from "../../lib/formateadorFechas.js";
 import { logError } from "../../lib/logger.js";
@@ -39,7 +39,7 @@ export default function Home() {
         <div className="notificaciones">
           <h2>Últimas Notificaciones</h2>
           <div className="notificaciones-cards">
-            {notificaciones.slice(0,9).map((notificacion) => (
+            {notificaciones.slice(0, 9).map((notificacion) => (
               <div className="notificacion-card" key={notificacion.id}>
                 <div className="notificacion-contenido">
                   <h3>{notificacion.contenido}</h3>

@@ -1,27 +1,27 @@
 import { useState, useEffect } from "react";
 import { obtenerEstudios } from "../../services/estudio";
-import "../../styles/seleccionarEstudio-style.css";
+import "../../../styles/seleccionarEstudio-style.css";
 import { actualizarEstudiosUsuario } from "../../services/usuario";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { logError } from "../../lib/logger";
 
-export default function SeleccionarEstudio () {    
+export default function SeleccionarEstudio() {
     const [estudios, setEstudio] = useState([]);
     const [selectedEstudio, setSelectedEstudio] = useState("");
     const navigate = useNavigate();
 
-  useEffect(() => {
-    const obtenerEstudio = async () => {
-    const response = await obtenerEstudios();
-    if (!response.err) {
-      setEstudio(response.result.result); 
-    } else {
-        logError(response.errmsg);
-    }
-};
-    obtenerEstudio();
-  }, []);  
+    useEffect(() => {
+        const obtenerEstudio = async () => {
+            const response = await obtenerEstudios();
+            if (!response.err) {
+                setEstudio(response.result.result);
+            } else {
+                logError(response.errmsg);
+            }
+        };
+        obtenerEstudio();
+    }, []);
 
 
     const handleSelectChange = (event) => {

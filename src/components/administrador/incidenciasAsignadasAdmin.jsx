@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "../styles/misIncidencias-style.css";
+import "../../styles/misIncidencias-style.css";
 import { obtenerIncidenciasAsignadasAdmin, solucionarIncidencia } from "../../services/incidencia.js";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";

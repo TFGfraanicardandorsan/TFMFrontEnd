@@ -1,27 +1,27 @@
 import { useState, useEffect } from "react";
-import "../styles/miPerfil-style.css";
-import { getTodasSolicitudesPermuta  } from "../../services/permuta";
-import { obtenerDatosUsuarioAdmin } from "../../services/usuario"; 
+import "../../styles/miPerfil-style.css";
+import { getTodasSolicitudesPermuta } from "../../services/permuta";
+import { obtenerDatosUsuarioAdmin } from "../../services/usuario";
 import { toast } from "react-toastify";
 import CrearGradoAdmin from "./CrearGradoAdmin";
 import CrearAsignatura from "./CrearAsignatura";
-import ImportAsignaturas from "./importAsignaturas"; 
+import ImportAsignaturas from "./importAsignaturas";
 import { actualizarVigenciaPermutas, actualizarVigenciaSolicitudes } from "../services/permuta";
 
 export default function MiPerfilAdmin() {
-  const [usuario, setUsuario] = useState(null); 
+  const [usuario, setUsuario] = useState(null);
   const [permutas, setPermutas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [modalRetirarOpen, setModalRetirarOpen] = useState(false);
   const [accionRetirarLoading, setAccionRetirarLoading] = useState(false);
-  
+
   useEffect(() => {
     const cargarDatos = async () => {
       try {
         const responseUsuario = await obtenerDatosUsuarioAdmin();
         if (!responseUsuario.err) {
-          setUsuario(responseUsuario.result.result); 
+          setUsuario(responseUsuario.result.result);
         } else {
           throw new Error(responseUsuario.errmsg);
         }
@@ -29,7 +29,7 @@ export default function MiPerfilAdmin() {
         // Obtener lista de permutas
         const responsePermutas = await getTodasSolicitudesPermuta();
         if (!responsePermutas.err) {
-          setPermutas(responsePermutas.result.result); 
+          setPermutas(responsePermutas.result.result);
         } else {
           throw new Error(responsePermutas.errmsg);
         }
@@ -46,7 +46,7 @@ export default function MiPerfilAdmin() {
 
   const abrirModalRetirar = () => setModalRetirarOpen(true);
   const cerrarModalRetirar = () => setModalRetirarOpen(false);
-  
+
   const confirmarRetirarVigencia = async () => {
     setAccionRetirarLoading(true);
     try {
@@ -54,11 +54,11 @@ export default function MiPerfilAdmin() {
         actualizarVigenciaPermutas(),
         actualizarVigenciaSolicitudes()
       ]);
-      
+
       const errores = [];
       if (resPermutas?.err) errores.push(resPermutas.errmsg || "Error en permutas");
       if (resSolicitudes?.err) errores.push(resSolicitudes.errmsg || "Error en solicitudes");
-      
+
       if (errores.length === 0) {
         toast.success("Se ha retirado la vigencia de permutas y solicitudes correctamente.");
         // refrescar lista de permutas local
@@ -89,7 +89,7 @@ export default function MiPerfilAdmin() {
       asignatura_nombre: permuta.asignatura.nombre,
       asignatura_codigo: permuta.asignatura.codigo,
       grupo_solicitante: permuta.grupo_solicitante,
-      grupos_deseados: permuta.grupos_deseados.join(" | "), 
+      grupos_deseados: permuta.grupos_deseados.join(" | "),
     }));
 
     const encabezados = Object.keys(datosAplanados[0]).join(",");
@@ -108,15 +108,15 @@ export default function MiPerfilAdmin() {
     link.click();
     document.body.removeChild(link);
   };
-  
+
   if (loading) {
     return <div className="loading-text">Cargando datos...</div>;
   }
-  
+
   if (error) {
     return <div className="error-text">Error: {error}</div>;
   }
-  
+
   return (
     <div className="page-container">
       <div className="content-wrap">
@@ -163,21 +163,21 @@ export default function MiPerfilAdmin() {
         </div>
       </div>
 
-     {/* Modal de confirmación para retirar vigencia */}
-     {modalRetirarOpen && (
-       <div className="modal-overlay" onClick={cerrarModalRetirar}>
-         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-           <h3>Confirmar acción</h3>
-           <p>Al realizar esta acción todas las permutas y solicitudes no estarán vigentes. Esta acción no puede deshacerse.</p>
-           <div className="modal-actions">
-             <button onClick={cerrarModalRetirar} disabled={accionRetirarLoading}>Cancelar</button>
-             <button onClick={confirmarRetirarVigencia} disabled={accionRetirarLoading}>
-               {accionRetirarLoading ? "Procesando..." : "Aceptar"}
-             </button>
-           </div>
-         </div>
-       </div>
-     )}
+      {/* Modal de confirmación para retirar vigencia */}
+      {modalRetirarOpen && (
+        <div className="modal-overlay" onClick={cerrarModalRetirar}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3>Confirmar acción</h3>
+            <p>Al realizar esta acción todas las permutas y solicitudes no estarán vigentes. Esta acción no puede deshacerse.</p>
+            <div className="modal-actions">
+              <button onClick={cerrarModalRetirar} disabled={accionRetirarLoading}>Cancelar</button>
+              <button onClick={confirmarRetirarVigencia} disabled={accionRetirarLoading}>
+                {accionRetirarLoading ? "Procesando..." : "Aceptar"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div style={{ height: "80px" }} />
     </div>
   );

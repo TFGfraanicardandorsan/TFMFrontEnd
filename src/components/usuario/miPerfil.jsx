@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import "../styles/miPerfil-style.css";
-import { obtenerDatosUsuario } from "../../services/usuario"; 
-import { obtenerMiGrupoAsignatura } from "../../services/grupo"; 
-import {superarAsignaturasUsuario} from "../../services/asignaturas"; 
+import "../../styles/miPerfil-style.css";
+import { obtenerDatosUsuario } from "../../services/usuario";
+import { obtenerMiGrupoAsignatura } from "../../services/grupo";
+import { superarAsignaturasUsuario } from "../../services/asignaturas";
 import SeleccionarEstudio from "../seleccionarEstudio";
 import { useNavigate } from "react-router-dom";
 
@@ -86,7 +86,7 @@ export default function MiPerfil() {
               <p><strong>Correo:</strong> {usuario.correo}</p>
               <p><strong>Grado:</strong> {usuario.titulacion}</p>
             </div>
-  
+
             <div className="perfil-card">
               <h2 className="perfil-card-title">Asignaturas y Grupos</h2>
               <ul>
@@ -112,7 +112,7 @@ export default function MiPerfil() {
           </div>
         </div>
       </div>
-<div style={{ height: "80px" }} />
+      <div style={{ height: "80px" }} />
     </div>
   );
 }

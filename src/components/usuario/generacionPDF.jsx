@@ -13,7 +13,7 @@ import {
   aceptarPermuta,
   validarSolicitudPermuta,
 } from "../../services/permuta.js";
-import "../styles/generacionPDF-style.css";
+import "../../styles/generacionPDF-style.css";
 import { dayValue, monthValue, yearValue } from "../../lib/generadorFechas.js";
 import {
   validarDNI,
@@ -336,9 +336,8 @@ export default function GeneracionPDF() {
                 }
                 value={dni}
                 onChange={handleDNIChange}
-                className={`permuta-input ${
-                  errors.dni ? "permuta-input-error" : ""
-                }`}
+                className={`permuta-input ${errors.dni ? "permuta-input-error" : ""
+                  }`}
               />
               {errors.dni && (
                 <span className="permuta-error-message">{errors.dni}</span>
@@ -354,9 +353,8 @@ export default function GeneracionPDF() {
                 value={letraDNI}
                 onChange={handleLetraDNIChange}
                 maxLength="1"
-                className={`permuta-input ${
-                  errors.letraDNI ? "permuta-input-error" : ""
-                }`}
+                className={`permuta-input ${errors.letraDNI ? "permuta-input-error" : ""
+                  }`}
               />
               {errors.letraDNI && (
                 <span className="permuta-error-message">{errors.letraDNI}</span>
@@ -382,9 +380,8 @@ export default function GeneracionPDF() {
                   ),
                 }));
               }}
-              className={`permuta-input ${
-                errors.domicilio ? "permuta-input-error" : ""
-              }`}
+              className={`permuta-input ${errors.domicilio ? "permuta-input-error" : ""
+                }`}
             />
             {errors.domicilio && (
               <span className="permuta-error-message">{errors.domicilio}</span>
@@ -409,9 +406,8 @@ export default function GeneracionPDF() {
                   ),
                 }));
               }}
-              className={`permuta-input ${
-                errors.poblacion ? "permuta-input-error" : ""
-              }`}
+              className={`permuta-input ${errors.poblacion ? "permuta-input-error" : ""
+                }`}
             />
             {errors.poblacion && (
               <span className="permuta-error-message">{errors.poblacion}</span>
@@ -428,9 +424,8 @@ export default function GeneracionPDF() {
                 }
                 value={codigoPostal}
                 onChange={handleCodigoPostalChange}
-                className={`permuta-input ${
-                  errors.codigoPostal ? "permuta-input-error" : ""
-                }`}
+                className={`permuta-input ${errors.codigoPostal ? "permuta-input-error" : ""
+                  }`}
               />
               {errors.codigoPostal && (
                 <span className="permuta-error-message">
@@ -456,9 +451,8 @@ export default function GeneracionPDF() {
                     ),
                   }));
                 }}
-                className={`permuta-input ${
-                  errors.provincia ? "permuta-input-error" : ""
-                }`}
+                className={`permuta-input ${errors.provincia ? "permuta-input-error" : ""
+                  }`}
               />
               {errors.provincia && (
                 <span className="permuta-error-message">
@@ -477,9 +471,8 @@ export default function GeneracionPDF() {
               }
               value={telefono}
               onChange={handleTelefonoChange}
-              className={`permuta-input ${
-                errors.telefono ? "permuta-input-error" : ""
-              }`}
+              className={`permuta-input ${errors.telefono ? "permuta-input-error" : ""
+                }`}
             />
             {errors.telefono && (
               <span className="permuta-error-message">{errors.telefono}</span>

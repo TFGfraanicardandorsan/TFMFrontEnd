@@ -1,5 +1,5 @@
 import { login } from "../../services/login";
-import "../../styles/login-style.css";
+import "../../../styles/login-style.css";
 import Footer from "./footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
@@ -30,7 +30,7 @@ export default function Login() {
           </div>
         </div>
       </div>
-<div style={{ height: "80px" }} />
+      <div style={{ height: "80px" }} />
       <Footer />
     </>
   );
