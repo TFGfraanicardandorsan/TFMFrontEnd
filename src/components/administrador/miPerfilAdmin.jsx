@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "../../styles/miPerfil-style.css";
+
 import { getTodasSolicitudesPermuta } from "../../services/permuta";
 import { obtenerDatosUsuarioAdmin } from "../../services/usuario";
 import { toast } from "react-toastify";
