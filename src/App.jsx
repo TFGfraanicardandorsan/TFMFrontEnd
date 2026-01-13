@@ -12,7 +12,7 @@ import RedirectHome from "./components/comun/RedirectHome.jsx";
 import LayoutEstudiante from "./layouts/LayoutEstudiante.jsx";
 import LayoutAdmin from "./layouts/LayoutAdmin.jsx";
 import Home from "./components/comun/home.jsx";
-import MiPerfil from "./components/comun/miPerfil.jsx";
+import MiPerfil from "./components/usuario/miPerfil.jsx";
 import ReportarIncidencia from "./components/usuario/reportarIncidencia.jsx";
 import MisIncidencias from "./components/usuario/misIncidencias.jsx";
 import SeleccionarEstudio from "./components/comun/seleccionarEstudio.jsx";
