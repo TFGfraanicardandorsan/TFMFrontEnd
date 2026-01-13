@@ -6,7 +6,7 @@ import CookieConsent from "react-cookie-consent";
 import Cookies from "./components/comun/cookies.jsx";
 import Login from "./components/comun/login.jsx";
 import PoliticaPrivacidad from "./components/comun/politicaPrivacidad.jsx";
-import Unauthorized from "./components/comun/unauthorized.jsx";
+import Unauthorized from "./components/comun/Unauthorized.jsx";
 import NotFound from "./components/comun/notFound.jsx";
 import RedirectHome from "./components/comun/redirectHome.jsx";
 import LayoutEstudiante from "./layouts/LayoutEstudiante.jsx";
