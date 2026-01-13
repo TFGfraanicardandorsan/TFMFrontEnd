@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { crearNotificacion } from "../../services/notificacion";
-import "./../styles/crearNotificacion.css";
+import "../../styles/crearNotificacion.css";
 import { toast } from "react-toastify";
 import { logError } from "../../lib/logger";
 
