@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
 import "../../styles/miPerfil-style.css";
-
-import { getTodasSolicitudesPermuta } from "../../services/permuta";
+import { getTodasSolicitudesPermuta, actualizarVigenciaPermutas, actualizarVigenciaSolicitudes } from "../../services/permuta";
 import { obtenerDatosUsuarioAdmin } from "../../services/usuario";
 import { toast } from "react-toastify";
 import CrearGradoAdmin from "./CrearGradoAdmin";
 import CrearAsignatura from "./CrearAsignatura";
 import ImportAsignaturas from "./importAsignaturas";
-import { actualizarVigenciaPermutas, actualizarVigenciaSolicitudes } from "../services/permuta";
 
 export default function MiPerfilAdmin() {
   const [usuario, setUsuario] = useState(null);
