@@ -167,6 +167,50 @@ export default function Estadisticas() {
             <Bar key="permutasPorAsignaturaData" data={permutasPorAsignaturaData} />
           </div>
 
+          {/* Nueva sección: Permutas agrupadas por grado */}
+          {estadisticasPermutas && estadisticasPermutas.permutasPorGrado && (() => {
+            // Agrupar datos por grado
+            const permutasPorGradoGrouped = estadisticasPermutas.permutasPorGrado.reduce((acc, curr) => {
+              if (!acc[curr.grado_nombre]) {
+                acc[curr.grado_nombre] = {
+                  labels: [],
+                  data: [],
+                  grado_siglas: curr.grado_siglas
+                };
+              }
+              acc[curr.grado_nombre].labels.push(curr.asignatura_siglas + ' (' + curr.asignatura_codigo + ')');
+              acc[curr.grado_nombre].data.push(curr.cantidad);
+              return acc;
+            }, {});
+
+            return Object.entries(permutasPorGradoGrouped).map(([gradoNombre, datos]) => {
+              const data = {
+                labels: datos.labels,
+                datasets: [{
+                  label: `Permutas en ${datos.grado_siglas}`,
+                  data: datos.data,
+                  backgroundColor: generarColoresAleatorios(datos.data.length),
+                }]
+              };
+              return (
+                <div className="stat-card" key={gradoNombre}>
+                  <h2>Permutas en {gradoNombre}</h2>
+                  <Bar data={data} options={{
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: `Permutas en ${datos.grado_siglas}`
+                            }
+                        }
+                    }}/>
+                </div>
+              );
+            });
+          })()}
+
           <div className="stat-card">
             <h2>Solicitudes por Estado</h2>
             <Pie key="solicitudesPorEstadoData" data={solicitudesPorEstadoData} />
