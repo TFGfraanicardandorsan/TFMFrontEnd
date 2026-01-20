@@ -1,24 +1,32 @@
 import { useState, useEffect } from "react";
 import "../styles/miPerfil-style.css";
-import { getTodasSolicitudesPermuta  } from "../services/permuta";
-import { obtenerDatosUsuarioAdmin } from "../services/usuario"; 
+import { getTodasSolicitudesPermuta } from "../services/permuta";
+import { obtenerDatosUsuarioAdmin } from "../services/usuario";
 import { toast } from "react-toastify";
 import CrearGradoAdmin from "./CrearGradoAdmin";
 import CrearAsignatura from "./CrearAsignatura";
-import ImportAsignaturas from "./importAsignaturas"; 
+import CrearAsignatura from "./CrearAsignatura";
+import ImportAsignaturas from "./importAsignaturas";
+import { subidaArchivo } from "../services/subidaArchivos";
 
 export default function MiPerfilAdmin() {
-  const [usuario, setUsuario] = useState(null); 
+  const [usuario, setUsuario] = useState(null);
   const [permutas, setPermutas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [filePlantilla, setFilePlantilla] = useState(null);
+  const [activeSection, setActiveSection] = useState(null);
+
+  const toggleSection = (sectionName) => {
+    setActiveSection(activeSection === sectionName ? null : sectionName);
+  };
 
   useEffect(() => {
     const cargarDatos = async () => {
       try {
         const responseUsuario = await obtenerDatosUsuarioAdmin();
         if (!responseUsuario.err) {
-          setUsuario(responseUsuario.result.result); 
+          setUsuario(responseUsuario.result.result);
         } else {
           throw new Error(responseUsuario.errmsg);
         }
@@ -26,7 +34,7 @@ export default function MiPerfilAdmin() {
         // Obtener lista de permutas
         const responsePermutas = await getTodasSolicitudesPermuta();
         if (!responsePermutas.err) {
-          setPermutas(responsePermutas.result.result); 
+          setPermutas(responsePermutas.result.result);
         } else {
           throw new Error(responsePermutas.errmsg);
         }
@@ -55,7 +63,7 @@ export default function MiPerfilAdmin() {
       asignatura_nombre: permuta.asignatura.nombre,
       asignatura_codigo: permuta.asignatura.codigo,
       grupo_solicitante: permuta.grupo_solicitante,
-      grupos_deseados: permuta.grupos_deseados.join(" | "), 
+      grupos_deseados: permuta.grupos_deseados.join(" | "),
     }));
 
     const encabezados = Object.keys(datosAplanados[0]).join(",");
@@ -75,6 +83,39 @@ export default function MiPerfilAdmin() {
     document.body.removeChild(link);
   };
 
+  const handleUploadPlantilla = async () => {
+    if (!filePlantilla) {
+      toast.warning("Por favor, selecciona un archivo.");
+      return;
+    }
+
+    if (filePlantilla.type !== "application/pdf") {
+      toast.error("El archivo debe ser un PDF.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("tipo", "plantilla");
+    formData.append("file", filePlantilla);
+
+    const promise = subidaArchivo(formData);
+
+    toast.promise(promise, {
+      pending: "Subiendo plantilla...",
+      success: "Plantilla actualizada correctamente",
+      error: "Error al subir la plantilla"
+    });
+
+    try {
+      await promise;
+      setFilePlantilla(null);
+      // Reset input value if possible, or just rely on state
+      document.getElementById("file-upload-plantilla").value = "";
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   if (loading) {
     return <div className="loading-text">Cargando datos...</div>;
   }
@@ -89,36 +130,93 @@ export default function MiPerfilAdmin() {
         <div className="perfil-container">
           <h1 className="perfil-title">Perfil de Administrador</h1>
           <p className="perfil-subtitle">
-            Aquí puedes exportar la información de las permutas a través de un CSV.
-            <br />
-            Además, puedes crear nuevos grados y asignaturas.
+            Gestione permutas, grados, asignaturas y configuraciones del sistema desde este panel centralizado.
           </p>
-          <div className="perfil-content">
-            <div className="perfil-card">
-              <h2 className="perfil-card-title">Información Personal</h2>
-              <p><strong>Nombre:</strong> {usuario?.nombre_completo}</p>
-              <p><strong>Correo:</strong> {usuario?.correo}</p>
-            </div>
 
-            <div className="perfil-card">
-              <h2 className="perfil-card-title">Exportar Permutas</h2>
-              <button className="exportar-btn" onClick={exportarCSV}>
-                Exportar Permutas en CSV
-              </button>
+          {/* Información Personal (Always Visible) */}
+          <div className="info-personal-card">
+            <h2>Información Personal</h2>
+            <div className="info-item">
+              <strong>Nombre:</strong> {usuario?.nombre_completo}
+            </div>
+            <div className="info-item">
+              <strong>Correo:</strong> {usuario?.correo}
             </div>
           </div>
-          <div className="perfil-card">
-            <h2 className="perfil-card-title">Importar Asignaturas</h2>
-            <ImportAsignaturas />
+
+          {/* Gestión de Permutas */}
+          <div className="accordion-section">
+            <button
+              className={`accordion-header ${activeSection === 'permutas' ? 'active' : ''}`}
+              onClick={() => toggleSection('permutas')}
+            >
+              <span>Gestión de Permutas</span>
+              <span className="icon">▼</span>
+            </button>
+            <div className={`accordion-content ${activeSection === 'permutas' ? 'open' : ''}`}>
+              <div className="sub-section">
+                <h3>Exportar Datos</h3>
+                <button className="exportar-btn" onClick={exportarCSV}>
+                  Exportar Permutas en CSV
+                </button>
+              </div>
+
+              <div className="sub-section">
+                <h3>Actualizar Plantilla de Solicitud</h3>
+                <div className="file-input-wrapper">
+                  <input
+                    type="file"
+                    id="file-upload-plantilla"
+                    accept=".pdf"
+                    onChange={(e) => setFilePlantilla(e.target.files[0])}
+                  />
+                  <button
+                    className="action-btn"
+                    onClick={handleUploadPlantilla}
+                    disabled={!filePlantilla}
+                  >
+                    Subir Plantilla
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="perfil-card">
-            <h2 className="perfil-card-title">Crear nuevo Grado</h2>
-            <CrearGradoAdmin />
+
+          {/* Gestión de Asignaturas */}
+          <div className="accordion-section">
+            <button
+              className={`accordion-header ${activeSection === 'asignaturas' ? 'active' : ''}`}
+              onClick={() => toggleSection('asignaturas')}
+            >
+              <span>Gestión de Asignaturas</span>
+              <span className="icon">▼</span>
+            </button>
+            <div className={`accordion-content ${activeSection === 'asignaturas' ? 'open' : ''}`}>
+              <div className="sub-section">
+                <h3>Importar Masivamente</h3>
+                <ImportAsignaturas />
+              </div>
+              <div className="sub-section">
+                <h3>Crear Individualmente</h3>
+                <CrearAsignatura />
+              </div>
+            </div>
           </div>
-          <div className="perfil-card">
-            <h2 className="perfil-card-title">Crear nueva Asignatura</h2>
-            <CrearAsignatura />
+
+          {/* Gestión de Grados */}
+          <div className="accordion-section">
+            <button
+              className={`accordion-header ${activeSection === 'grados' ? 'active' : ''}`}
+              onClick={() => toggleSection('grados')}
+            >
+              <span>Gestión de Grados</span>
+              <span className="icon">▼</span>
+            </button>
+            <div className={`accordion-content ${activeSection === 'grados' ? 'open' : ''}`}>
+              <CrearGradoAdmin />
+            </div>
           </div>
+
         </div>
       </div>
       <div style={{ height: "80px" }} />

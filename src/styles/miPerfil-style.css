@@ -2,51 +2,203 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    justify-content: center;   /* Centra verticalmente */
-    align-items: center;       /* Centra horizontalmente */
+    background-color: #f8f9fa;
+    /* Light background for better contrast */
 }
 
 .content-wrap {
-    flex: 1; /* Hace que el contenido empuje el footer hacia abajo */
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
 }
 
 .perfil-container {
-    max-width: 600px;
-    margin: 40px auto;
-    padding: 20px;
+    width: 100%;
+    max-width: 800px;
+    /* Increased max-width for better use of space */
+    margin-top: 40px;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centra el título */
+    gap: 20px;
 }
 
 .perfil-title {
     text-align: center;
-    font-size: 24px;
-    margin-bottom: 16px;
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
 }
 
-/* Contenedor de las tarjetas alineadas a la izquierda */
-.perfil-content {
+.perfil-subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+/* Personal Info Top Card */
+.info-personal-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    border: 1px solid #eaeaea;
+}
+
+.info-personal-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+.info-item {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.info-item strong {
+    color: #34495e;
+    min-width: 80px;
+    display: inline-block;
+}
+
+/* Accordion Styles */
+.accordion-section {
+    border: 1px solid #eaeaea;
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.accordion-section:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.accordion-header {
+    width: 100%;
+    padding: 20px 25px;
+    background: white;
+    border: none;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2c3e50;
+    transition: background-color 0.2s;
+}
+
+.accordion-header:hover {
+    background-color: #f8f9fa;
+}
+
+.accordion-header .icon {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.accordion-header.active .icon {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease;
+    background-color: #fff;
+}
+
+.accordion-content.open {
+    padding: 0 25px 25px 25px;
+    /* max-height needs to be set dynamically or large enough via JS/CSS trick, 
+       but for simplicity within CSS we can leave it to 'auto' or handling via JS classes 
+       strictly controlling visibility. 
+       Actually, standard simple accordion usually uses specific max-height. 
+       Let's stick to conditional rendering in React for simplicity or manage visibility.
+    */
+    max-height: 2000px;
+    /* Arbitrary large number for pure CSS transition */
+}
+
+/* Content specific styles */
+.action-group {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
+    gap: 15px;
 }
 
-.perfil-card {
-    width: 100%;
-    max-width: 400px;
-    padding: 16px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-    background-color: white;
-    text-align: left;
-    align-self: flex-start;
+.sub-section {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
 }
 
-.separadorSelectorAsignatura {
+.sub-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.sub-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    color: #7f8c8d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.file-input-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Buttons */
+.exportar-btn,
+.action-btn {
+    background-color: #3498db;
+    color: white;
     border: none;
-    border-top: 1px solid #ccc;
-    margin: 20px 0;
-  }
+    padding: 12px 20px;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    font-weight: 500;
+}
+
+.exportar-btn:hover,
+.action-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-1px);
+}
+
+.exportar-btn:disabled,
+.action-btn:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .perfil-container {
+        padding: 0 10px;
+    }
+
+    .perfil-title {
+        font-size: 2rem;
+    }
+}
