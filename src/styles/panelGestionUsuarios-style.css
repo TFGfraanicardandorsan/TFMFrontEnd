@@ -1,0 +1,41 @@
+/* Adaptación móvil para panel de gestión de usuarios */
+/* Adaptación móvil para panel de gestión de usuarios */
+@media (max-width: 768px) {
+  .panel-usuarios-container {
+    padding: 12px 4px;
+    width: 100vw;
+    box-sizing: border-box;
+  }
+
+  .panel-usuarios-title {
+    font-size: 1.2em;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  .usuarios-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .usuario-item {
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #fff;
+    border-radius: 0;
+    box-shadow: none;
+    font-size: 0.95em;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .usuario-item button {
+    width: 100%;
+    font-size: 1em;
+    padding: 10px;
+    border-radius: 0;
+    margin-top: 6px;
+  }
+}

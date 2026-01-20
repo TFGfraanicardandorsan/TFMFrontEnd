@@ -1,63 +1,137 @@
-p{
-    color: rgb(31, 31, 31);
+p {
+  color: rgb(31, 31, 31);
 
-}
-.notificaciones{
-    color: rgb(31, 31, 31);
-}
-.home-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Asegura que el contenido ocupe toda la pantalla */
-}
-
-.content {
-    flex: 1;
-    text-align: center;
-    padding: 40px;
-    margin-top: 60px; /* Evita que quede oculto detrás de la Navbar */
-}
-
-.explore-button {
-    padding: 15px 30px;
-    font-size: 18px;
-    background-color: red;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
 }
 
 .notificaciones {
-    margin-top: 30px;
+  color: rgb(31, 31, 31);
+}
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* Asegura que el contenido ocupe toda la pantalla */
+}
+
+.content {
+  flex: 1;
+  text-align: center;
+  padding: 40px;
+  margin-top: 60px;
+  /* Evita que quede oculto detrás de la Navbar */
+}
+
+.explore-button {
+  padding: 15px 30px;
+  font-size: 18px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.notificaciones {
+  margin-top: 30px;
 }
 
 .notificaciones-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 20px;
 }
 
 .notificacion-card {
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    transition: transform 0.3s ease-in-out;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: transform 0.3s ease-in-out;
 }
 
 .notificacion-card:hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
 .notificacion-contenido h3 {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 10px;
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
 }
 
 .notificacion-contenido p {
-    font-size: 14px;
-    color: #777;
+  font-size: 14px;
+  color: #777;
+}
+
+/* Adaptación móvil */
+@media (max-width: 768px) {
+  .home-container {
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .content {
+    padding: 12px 2px;
+    margin-top: 24px;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 1.2em;
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-size: 1em;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 0.95em;
+    margin-bottom: 8px;
+  }
+
+  .explore-button {
+    width: 100%;
+    font-size: 1em;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 0;
+  }
+
+  .notificaciones {
+    margin-top: 18px;
+  }
+
+  .notificaciones-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .notificacion-card {
+    padding: 10px;
+    font-size: 0.95em;
+    margin-bottom: 8px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100vw;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .notificacion-contenido h3 {
+    font-size: 1em;
+    margin-bottom: 6px;
+  }
+
+  .notificacion-contenido p {
+    font-size: 0.95em;
+    margin-bottom: 4px;
+  }
 }
