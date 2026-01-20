@@ -53,26 +53,31 @@
 }
 
 /* Adaptación a móviles */
-@media (max-width: 600px) {
+/* Adaptación a móviles */
+@media (max-width: 768px) {
     .notificacion-page {
         height: auto;
         padding: 10px;
     }
+
     .notificacion-container {
         max-width: 100%;
         padding: 10px;
         border-radius: 0;
         box-shadow: none;
     }
+
     .notificacion-form-wrapper {
         gap: 10px;
     }
+
     .notificacion-form button {
         width: 100%;
         padding: 12px 0;
         font-size: 18px;
         margin-top: 20px;
     }
+
     .notificacion-form textarea,
     .notificacion-form select {
         font-size: 15px;

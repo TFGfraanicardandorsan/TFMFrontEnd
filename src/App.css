@@ -4,3 +4,13 @@
   padding: 2rem;
   text-align: center;
 }
+
+.volver-arriba-btn {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .volver-arriba-btn {
+    display: block;
+  }
+}
