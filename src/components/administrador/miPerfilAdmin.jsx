@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import CrearGradoAdmin from "./CrearGradoAdmin";
 import CrearAsignatura from "./CrearAsignatura";
 import ImportAsignaturas from "./importAsignaturas";
-import { subidaArchivo } from "../services/subidaArchivos";
+import { subidaArchivo } from "../../services/subidaArchivos";
 
 export default function MiPerfilAdmin() {
   const [usuario, setUsuario] = useState(null);
