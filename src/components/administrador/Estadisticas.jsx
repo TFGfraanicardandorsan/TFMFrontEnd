@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import { Bar, Pie } from 'react-chartjs-2';
 import { obtenerEstadisticasPermutas, obtenerEstadisticasSolicitudes, obtenerEstadisticasIncidencias, obtenerEstadisticasUsuarios } from '../../services/estadisticas';
+import "../../styles/admin-common.css";
 import "../../styles/estadisticas-style.css";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
@@ -36,8 +37,8 @@ export default function Estadisticas() {
     cargarEstadisticas();
   }, []);
 
-  if (loading) return <div>Cargando estadísticas...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading) return <div className="admin-loading">Cargando estadísticas...</div>;
+  if (error) return <div className="admin-error">{error}</div>;
 
   const permutasPorEstadoData = {
     labels: estadisticasPermutas.permutasPorEstado.map(item => item.estado),
@@ -151,94 +152,176 @@ export default function Estadisticas() {
 
   return (
     <>
-      <div className="estadisticas-container">
-        <div style={{ height: "40px" }} />
-        <h1>Dashboard de Estadísticas</h1>
-        <p>Consulta las estadísticas de las permutas, solicitudes e incidencias. Puedes ver los datos en gráficos de barras y gráficos circulares.</p>
-
-        <div className="stats-grid">
-          <div className="stat-card">
-            <h2>Permutas por Estado</h2>
-            <Pie key="permutasPorEstadoData" data={permutasPorEstadoData} />
+      <div className="admin-page-container">
+        <div className="admin-content-wrap">
+          {/* Header */}
+          <div className="admin-page-header">
+            <h1 className="admin-page-title">📊 Dashboard de Estadísticas</h1>
+            <p className="admin-page-subtitle">
+              Consulta las estadísticas de permutas, solicitudes, incidencias y usuarios.
+              Analiza los datos a través de gráficos interactivos de barras y circulares.
+            </p>
           </div>
 
-          <div className="stat-card">
-            <h2>Permutas por Asignatura</h2>
-            <Bar key="permutasPorAsignaturaData" data={permutasPorAsignaturaData} />
-          </div>
+          {/* Grid de Estadísticas */}
+          <div className="admin-grid admin-grid-2">
+            <div className="admin-card">
+              <div className="admin-card-header">
+                <h2 className="admin-card-title">
+                  <span className="admin-card-icon">🔄</span>
+                  Permutas por Estado
+                </h2>
+              </div>
+              <div className="admin-card-body">
+                <Pie key="permutasPorEstadoData" data={permutasPorEstadoData} />
+              </div>
+            </div>
 
-          {/* Nueva sección: Permutas agrupadas por grado */}
-          {estadisticasPermutas && estadisticasPermutas.permutasPorGrado && (() => {
-            // Agrupar datos por grado
-            const permutasPorGradoGrouped = estadisticasPermutas.permutasPorGrado.reduce((acc, curr) => {
-              if (!acc[curr.grado_nombre]) {
-                acc[curr.grado_nombre] = {
-                  labels: [],
-                  data: [],
-                  grado_siglas: curr.grado_siglas
+            <div className="admin-card">
+              <div className="admin-card-header">
+                <h2 className="admin-card-title">
+                  <span className="admin-card-icon">📚</span>
+                  Permutas por Asignatura
+                </h2>
+              </div>
+              <div className="admin-card-body">
+                <Bar key="permutasPorAsignaturaData" data={permutasPorAsignaturaData} />
+              </div>
+            </div>
+
+            {/* Permutas agrupadas por grado */}
+            {estadisticasPermutas && estadisticasPermutas.permutasPorGrado && (() => {
+              const permutasPorGradoGrouped = estadisticasPermutas.permutasPorGrado.reduce((acc, curr) => {
+                if (!acc[curr.grado_nombre]) {
+                  acc[curr.grado_nombre] = {
+                    labels: [],
+                    data: [],
+                    grado_siglas: curr.grado_siglas
+                  };
+                }
+                acc[curr.grado_nombre].labels.push(curr.asignatura_siglas + ' (' + curr.asignatura_codigo + ')');
+                acc[curr.grado_nombre].data.push(curr.cantidad);
+                return acc;
+              }, {});
+
+              return Object.entries(permutasPorGradoGrouped).map(([gradoNombre, datos]) => {
+                const data = {
+                  labels: datos.labels,
+                  datasets: [{
+                    label: `Permutas en ${datos.grado_siglas}`,
+                    data: datos.data,
+                    backgroundColor: generarColoresAleatorios(datos.data.length),
+                  }]
                 };
-              }
-              acc[curr.grado_nombre].labels.push(curr.asignatura_siglas + ' (' + curr.asignatura_codigo + ')');
-              acc[curr.grado_nombre].data.push(curr.cantidad);
-              return acc;
-            }, {});
-
-            return Object.entries(permutasPorGradoGrouped).map(([gradoNombre, datos]) => {
-              const data = {
-                labels: datos.labels,
-                datasets: [{
-                  label: `Permutas en ${datos.grado_siglas}`,
-                  data: datos.data,
-                  backgroundColor: generarColoresAleatorios(datos.data.length),
-                }]
-              };
-              return (
-                <div className="stat-card" key={gradoNombre}>
-                  <h2>Permutas en {gradoNombre}</h2>
-                  <Bar data={data} options={{
+                return (
+                  <div className="admin-card" key={gradoNombre}>
+                    <div className="admin-card-header">
+                      <h2 className="admin-card-title">
+                        <span className="admin-card-icon">🎓</span>
+                        Permutas en {gradoNombre}
+                      </h2>
+                    </div>
+                    <div className="admin-card-body">
+                      <Bar data={data} options={{
                         plugins: {
-                            legend: {
-                                display: false
-                            },
-                            title: {
-                                display: true,
-                                text: `Permutas en ${datos.grado_siglas}`
-                            }
+                          legend: {
+                            display: false
+                          },
+                          title: {
+                            display: true,
+                            text: `Permutas en ${datos.grado_siglas}`
+                          }
                         }
-                    }}/>
-                </div>
-              );
-            });
-          })()}
+                      }} />
+                    </div>
+                  </div>
+                );
+              });
+            })()}
 
-          <div className="stat-card">
-            <h2>Solicitudes por Estado</h2>
-            <Pie key="solicitudesPorEstadoData" data={solicitudesPorEstadoData} />
-          </div>
-          <div className="stat-card">
-            <h2>Incidencias por Estado</h2>
-            <Pie key="incidenciasPorEstadoData" data={incidenciasPorEstadoData} />
-          </div>
-          <div className="stat-card">
-            <h2>Incidencias por Tipo</h2>
-            <Pie key="incidenciasPorTipoData" data={incidenciasPorTipoData} />
-          </div>
+            <div className="admin-card">
+              <div className="admin-card-header">
+                <h2 className="admin-card-title">
+                  <span className="admin-card-icon">📝</span>
+                  Solicitudes por Estado
+                </h2>
+              </div>
+              <div className="admin-card-body">
+                <Pie key="solicitudesPorEstadoData" data={solicitudesPorEstadoData} />
+              </div>
+            </div>
 
-          <div className="stat-card">
-            <h2>Incidencias por Mes</h2>
-            <Bar key="incidenciasPorMesData" data={incidenciasPorMesData} />
-          </div>
-          <div className="stat-card">
-            <h2>Usuarios por Rol</h2>
-            {usuariosPorRolData && <Bar key="usuariosPorRolData" data={usuariosPorRolData} />}
-          </div>
-          <div className="stat-card">
-            <h2>Usuarios por Estudio</h2>
-            {usuariosPorEstudioData && <Bar key="usuariosPorEstudioData" data={usuariosPorEstudioData} />}
-          </div>
-          <div className="stat-card">
-            <h2>Solicitudes por Grado</h2>
-            {solicitudesPorGradoData && <Bar key="solicitudesPorGradoData" data={solicitudesPorGradoData} />}
+            <div className="admin-card">
+              <div className="admin-card-header">
+                <h2 className="admin-card-title">
+                  <span className="admin-card-icon">🐛</span>
+                  Incidencias por Estado
+                </h2>
+              </div>
+              <div className="admin-card-body">
+                <Pie key="incidenciasPorEstadoData" data={incidenciasPorEstadoData} />
+              </div>
+            </div>
+
+            <div className="admin-card">
+              <div className="admin-card-header">
+                <h2 className="admin-card-title">
+                  <span className="admin-card-icon">📋</span>
+                  Incidencias por Tipo
+                </h2>
+              </div>
+              <div className="admin-card-body">
+                <Pie key="incidenciasPorTipoData" data={incidenciasPorTipoData} />
+              </div>
+            </div>
+
+            <div className="admin-card">
+              <div className="admin-card-header">
+                <h2 className="admin-card-title">
+                  <span className="admin-card-icon">📅</span>
+                  Incidencias por Mes
+                </h2>
+              </div>
+              <div className="admin-card-body">
+                <Bar key="incidenciasPorMesData" data={incidenciasPorMesData} />
+              </div>
+            </div>
+
+            <div className="admin-card">
+              <div className="admin-card-header">
+                <h2 className="admin-card-title">
+                  <span className="admin-card-icon">👥</span>
+                  Usuarios por Rol
+                </h2>
+              </div>
+              <div className="admin-card-body">
+                {usuariosPorRolData && <Bar key="usuariosPorRolData" data={usuariosPorRolData} />}
+              </div>
+            </div>
+
+            <div className="admin-card">
+              <div className="admin-card-header">
+                <h2 className="admin-card-title">
+                  <span className="admin-card-icon">🎓</span>
+                  Usuarios por Estudio
+                </h2>
+              </div>
+              <div className="admin-card-body">
+                {usuariosPorEstudioData && <Bar key="usuariosPorEstudioData" data={usuariosPorEstudioData} />}
+              </div>
+            </div>
+
+            <div className="admin-card">
+              <div className="admin-card-header">
+                <h2 className="admin-card-title">
+                  <span className="admin-card-icon">📊</span>
+                  Solicitudes por Grado
+                </h2>
+              </div>
+              <div className="admin-card-body">
+                {solicitudesPorGradoData && <Bar key="solicitudesPorGradoData" data={solicitudesPorGradoData} />}
+              </div>
+            </div>
           </div>
         </div>
       </div>

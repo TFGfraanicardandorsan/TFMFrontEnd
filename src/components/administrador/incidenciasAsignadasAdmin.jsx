@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "../../styles/admin-common.css";
 import "../../styles/misIncidencias-style.css";
 import { obtenerIncidenciasAsignadasAdmin, solucionarIncidencia } from "../../services/incidencia.js";
 import { useNavigate } from "react-router-dom";
@@ -71,79 +72,90 @@ export default function IncidenciasAsignadasAdmin() {
 
   return (
     <>
-      <div className="container" style={{ display: "flow", paddingBottom: "40px" }}>
-        <div className="header">
-          <h1>Mis Incidencias</h1>
-          <p>Consulta el estado de tus incidencias. Puedes resolverlas haciendo clic en el botón correspondiente. Si presionas en ver incidencia verás el archivo adjunto si el usuario adjuntó algo.</p>
+      <div className="admin-page-container">
+        <div className="admin-content-wrap">
+          {/* Header */}
+          <div className="admin-page-header">
+            <h1 className="admin-page-title">🐛 Mis Incidencias</h1>
+            <p className="admin-page-subtitle">
+              Consulta el estado de tus incidencias asignadas. Puedes resolverlas haciendo clic en el botón correspondiente.
+              Si presionas en ver incidencia verás el archivo adjunto si el usuario adjuntó algo.
+            </p>
+          </div>
+
+          {/* Contenido */}
+          {cargando ? (
+            <div className="admin-loading">Cargando incidencias...</div>
+          ) : incidencias.length === 0 ? (
+            <div className="admin-empty-state">
+              <div className="admin-empty-state-icon">📭</div>
+              <p className="admin-empty-state-text">No tienes incidencias asignadas.</p>
+            </div>
+          ) : (
+            <div className="admin-grid admin-grid-2">
+              {incidencias.map((incidencia) => (
+                <div key={incidencia.id} className="admin-card">
+                  <div className="admin-card-header">
+                    <h2 className="admin-card-title">
+                      <span className="admin-card-icon">🎫</span>
+                      Incidencia #{incidencia.id}
+                    </h2>
+                    <span className="admin-badge admin-badge-warning">
+                      {incidencia.estado_incidencia}
+                    </span>
+                  </div>
+                  <div className="admin-card-body">
+                    <p><strong>Fecha de Creación:</strong> {new Date(incidencia.fecha_creacion).toLocaleDateString()}</p>
+                    <p><strong>Tipo:</strong> {incidencia.tipo_incidencia}</p>
+                    <p><strong>Descripción:</strong> {incidencia.descripcion}</p>
+                  </div>
+                  <div className="admin-card-footer">
+                    <button className="admin-btn admin-btn-secondary admin-btn-sm" onClick={() => navigate(`/incidencias/${incidencia.id}`)}>
+                      Ver Detalle
+                    </button>
+                    <button className="admin-btn admin-btn-success admin-btn-sm" onClick={() => handleAbrirModal(incidencia.id)}>
+                      ✓ Resolver
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-        {cargando ? (
-          <p className="loading-message">Cargando incidencias...</p>
-        ) : incidencias.length === 0 ? (
-          <div className="no-incidencias">
-            <p>No tienes incidencias abiertas.</p>
-          </div>
-        ) : (
-          <div className="incidencias-container">
-            {incidencias.map((incidencia) => (
-              <div key={incidencia.id} className="incidencia-card">
-                <h2 className="incidencia-title">Incidencia {incidencia.id}</h2>
-                <p><strong>Fecha de Creación:</strong> {new Date(incidencia.fecha_creacion).toLocaleDateString()}</p>
-                <p><strong>Estado:</strong> {incidencia.estado_incidencia}</p>
-                <p><strong>Tipo de Incidencia:</strong> {incidencia.tipo_incidencia}</p>
-                <p><strong>Descripción:</strong> {incidencia.descripcion}</p>
-                <button className="verIncidencia-button" onClick={() => navigate(`/incidencias/${incidencia.id}`)}>Ver incidencia</button>
-                <button className="big-button" onClick={() => handleAbrirModal(incidencia.id)}>Resolver Incidencia</button>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
+
       {/* Modal */}
       {modalOpen && (
-        <>
-          <div
-            className="modal-overlay"
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100vw",
-              height: "100vh",
-              background: "rgba(0,0,0,0.5)",
-              zIndex: 1000,
-            }}
-          ></div>
-          <div
-            className="modal"
-            style={{
-              position: "fixed",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              background: "#fff",
-              padding: "30px",
-              borderRadius: "8px",
-              zIndex: 1001,
-              minWidth: "320px",
-              boxShadow: "0 2px 16px rgba(0,0,0,0.2)",
-            }}
-          >
-            <h3>Mensaje de cierre de incidencia</h3>
-            <textarea
-              value={mensajeCierre}
-              onChange={e => setMensajeCierre(e.target.value)}
-              placeholder="Escribe el mensaje que se enviará al usuario..."
-              rows={4}
-              style={{ width: "100%" }}
-            />
-            <div style={{ marginTop: 10, display: "flex", gap: 10 }}>
-              <button onClick={handleEnviarMensajeYCerrar} className="big-button">Enviar y cerrar</button>
-              <button onClick={handleCerrarModal} className="verIncidencia-button">Cancelar</button>
+        <div className="admin-modal-overlay" onClick={handleCerrarModal}>
+          <div className="admin-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="admin-modal-header">
+              <h3 className="admin-modal-title">✉️ Mensaje de Cierre</h3>
+            </div>
+            <div className="admin-modal-body">
+              <div className="admin-form-group">
+                <label className="admin-label">Mensaje para el usuario</label>
+                <textarea
+                  className="admin-textarea"
+                  value={mensajeCierre}
+                  onChange={(e) => setMensajeCierre(e.target.value)}
+                  placeholder="Escribe el mensaje que se enviará al usuario..."
+                  rows={6}
+                />
+              </div>
+            </div>
+            <div className="admin-modal-footer">
+              <button className="admin-btn admin-btn-secondary" onClick={handleCerrarModal}>
+                Cancelar
+              </button>
+              <button className="admin-btn admin-btn-primary" onClick={handleEnviarMensajeYCerrar}>
+                Enviar y Cerrar
+              </button>
             </div>
           </div>
-        </>
+        </div>
       )}
-      <div style={{ height: "80px" }} /> {/* Espacio para el footer */}
+
+      <div style={{ height: "80px" }} />
     </>
   );
 }

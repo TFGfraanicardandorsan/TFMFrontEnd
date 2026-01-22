@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "../../styles/admin-common.css";
 import "../../styles/misIncidencias-style.css";
 import { useNavigate } from "react-router-dom";
 import { obtenerIncidenciasSinAsignar, asignarmeIncidencia } from "../../services/incidencia.js";
@@ -44,40 +45,64 @@ export default function IncidenciasSinAsignar() {
 
     return (
         <>
-            <div className="container" style={{ display: "flow", paddingBottom: "40px" }}>
-                <div className="header">
-                    <h1>Todas las Incidencias Sin Asignar</h1>
-                    <p>Consulta todas las incidencias sin asignar. Puedes asignarte una incidencia haciendo clic en el botón correspondiente.</p>
-                </div>
+            <div className="admin-page-container">
+                <div className="admin-content-wrap">
+                    {/* Header */}
+                    <div className="admin-page-header">
+                        <h1 className="admin-page-title">📋 Incidencias Sin Asignar</h1>
+                        <p className="admin-page-subtitle">
+                            Consulta todas las incidencias sin asignar. Puedes asignarte una incidencia haciendo clic en el botón correspondiente.
+                        </p>
+                    </div>
 
-                {cargando ? (
-                    <p className="loading-message">Cargando incidencias...</p>
-                ) : error ? (
-                    <div className="error-message">
-                        <p>{error}</p>
-                        <button onClick={() => navigate("/")}>Volver al inicio</button>
-                    </div>
-                ) : incidencias.length === 0 ? (
-                    <div className="no-incidencias">
-                        <p>No hay incidencias sin asignar.</p>
-                    </div>
-                ) : (
-                    <div className="incidencias-container">
-                        {incidencias.map((incidencia) => (
-                            <div key={incidencia.id} className="incidencia-card">
-                                <p><strong>Estado:</strong> {incidencia.estado_incidencia}</p>
-                                <p><strong>Fecha de creación:</strong> {formatearFecha(incidencia.fecha_creacion)}</p>
-                                <p><strong>Tipo de Incidencia:</strong> {incidencia.tipo_incidencia}</p>
-                                <p><strong>Descripción:</strong> {incidencia.descripcion}</p>
-                                <button className="asignar-btn" onClick={() => handleAsignarIncidencia(incidencia.id)}>
-                                    Asignarme Incidencia
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                )}
+                    {/* Contenido */}
+                    {cargando ? (
+                        <div className="admin-loading">Cargando incidencias...</div>
+                    ) : error ? (
+                        <div className="admin-error">
+                            <p>{error}</p>
+                            <button className="admin-btn admin-btn-primary admin-mt-md" onClick={() => navigate("/")}>
+                                Volver al inicio
+                            </button>
+                        </div>
+                    ) : incidencias.length === 0 ? (
+                        <div className="admin-empty-state">
+                            <div className="admin-empty-state-icon">✅</div>
+                            <p className="admin-empty-state-text">No hay incidencias sin asignar.</p>
+                        </div>
+                    ) : (
+                        <div className="admin-grid admin-grid-2">
+                            {incidencias.map((incidencia) => (
+                                <div key={incidencia.id} className="admin-card">
+                                    <div className="admin-card-header">
+                                        <h2 className="admin-card-title">
+                                            <span className="admin-card-icon">🎫</span>
+                                            Incidencia #{incidencia.id}
+                                        </h2>
+                                        <span className="admin-badge admin-badge-danger">
+                                            {incidencia.estado_incidencia}
+                                        </span>
+                                    </div>
+                                    <div className="admin-card-body">
+                                        <p><strong>Fecha de creación:</strong> {formatearFecha(incidencia.fecha_creacion)}</p>
+                                        <p><strong>Tipo:</strong> {incidencia.tipo_incidencia}</p>
+                                        <p><strong>Descripción:</strong> {incidencia.descripcion}</p>
+                                    </div>
+                                    <div className="admin-card-footer">
+                                        <button
+                                            className="admin-btn admin-btn-primary"
+                                            onClick={() => handleAsignarIncidencia(incidencia.id)}
+                                        >
+                                            👤 Asignarme
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
-            <div style={{ height: "80px" }} /> {/* Espacio para el footer */}
+            <div style={{ height: "80px" }} />
         </>
     );
 }
