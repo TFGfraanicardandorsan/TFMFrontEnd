@@ -40,82 +40,91 @@ import VolverArriba from "./components/comun/volverArriba";
 import { ThemeProvider, useTheme } from "./contexts/ThemeContext";
 
 export function App() {
-  const { theme } = useTheme();
-
   return (
     <AuthProvider>
       <ThemeProvider>
-        <Routes>
-          {/* Rutas públicas */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/unauthorized" element={<Unauthorized />} />
-          <Route path="/cookies" element={<Cookies />} />
-          <Route path="/politicaPrivacidad" element={<PoliticaPrivacidad />} />
-          <Route path="*" element={<NotFound />} />
-          <Route path="/noRegistrado" element={<NoRegistrado />} />
-
-          {/* Redirigir al home adecuado dependiendo del rol */}
-          <Route path="/" element={<RoleRoute allowedRoles={["administrador", "estudiante"]}><RedirectHome /></RoleRoute>} />
-          {/* Layout para estudiantes */}
-          <Route element={<RoleRoute allowedRoles={["estudiante"]}><LayoutEstudiante /></RoleRoute>}>
-            <Route path="/estudiante" element={<Home />} />
-            <Route path="/miPerfil" element={<MiPerfil />} />
-            <Route path="/seleccionarEstudios" element={<SeleccionarEstudio />} />
-            <Route path="/seleccionarAsignaturas" element={<SeleccionarAsignatura />} />
-            <Route path="/seleccionarGrupos" element={<SolicitarGrupos />} />
-            <Route path="/misIncidencias" element={<MisIncidencias />} />
-            <Route path="/reportarIncidencia" element={<ReportarIncidencia />} />
-            <Route path="/generarPermuta" element={<GeneracionPDF />} />
-            <Route path="/permutasAceptadas" element={<PermutasAceptadas />} />
-            <Route path="/misPermutas" element={<MisPermutas />} />
-            <Route path="/solicitarPermuta" element={<SolicitarPermuta />} />
-            <Route path="/misSolicitudesPermuta" element={<MisSolicitudesPermuta />} />
-            <Route path="/permutas" element={<Permutas />} />
-          </Route>
-
-          {/* Layout para administradores */}
-          <Route element={<RoleRoute allowedRoles={["administrador"]}><LayoutAdmin /></RoleRoute>}>
-            <Route path="/admin" element={<Home />} />
-            <Route path="/estadisticas" element={<Estadisticas />} />
-            <Route path="/incidenciasSinAsignar" element={<IncidenciasSinAsignar />} />
-            <Route path="/incidencias" element={<IncidenciasAsignadasAdmin />} />
-            <Route path="/incidencias/:id" element={<DetalleIncidencia />} />
-            <Route path="/crearNotificacion" element={<CrearNotificacion />} />
-            <Route path="/miPerfilAdmin" element={<MiPerfilAdmin />} />
-            <Route path="/crearGrado" element={<CrearGradoAdmin />} />
-            <Route path="/crearAsignatura" element={<CrearAsignatura />} />
-            <Route path="/gestionUsuarios" element={<PanelGestionUsuarios />} />
-          </Route>
-        </Routes>
-
-        <CookieConsent
-          location="bottom"
-          buttonText="Aceptar"
-          cookieName="permutasCookies"
-          style={{
-            background: theme === 'dark' ? "#1e293b" : "#6099c4",
-            padding: "1rem",
-            color: theme === 'dark' ? "#f1f5f9" : "#fff",
-            borderTop: theme === 'dark' ? "1px solid #334155" : "none"
-          }}
-          buttonStyle={{
-            color: "#fff",
-            background: "#E0AD0F",
-            padding: "8px 16px",
-            margin: "auto",
-            border: "none",
-            borderRadius: "4px"
-          }}
-          expires={150}
-        >
-          Utilizamos cookies para mejorar la experiencia del usuario.
-          <a href="/cookies" style={{ color: "#E0AD0F", textDecoration: "underline", marginLeft: "5px" }}>Leer más</a>
-        </CookieConsent>
-
-        <ToastContainer position="top-center" theme={theme} />
-        <VolverArriba />
+        <AppContent />
       </ThemeProvider>
     </AuthProvider>
   );
 }
+
+function AppContent() {
+  const { theme } = useTheme();
+
+  return (
+    <>
+      <Routes>
+        {/* Rutas públicas */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
+        <Route path="/cookies" element={<Cookies />} />
+        <Route path="/politicaPrivacidad" element={<PoliticaPrivacidad />} />
+        <Route path="*" element={<NotFound />} />
+        <Route path="/noRegistrado" element={<NoRegistrado />} />
+
+        {/* Redirigir al home adecuado dependiendo del rol */}
+        <Route path="/" element={<RoleRoute allowedRoles={["administrador", "estudiante"]}><RedirectHome /></RoleRoute>} />
+        {/* Layout para estudiantes */}
+        <Route element={<RoleRoute allowedRoles={["estudiante"]}><LayoutEstudiante /></RoleRoute>}>
+          <Route path="/estudiante" element={<Home />} />
+          <Route path="/miPerfil" element={<MiPerfil />} />
+          <Route path="/seleccionarEstudios" element={<SeleccionarEstudio />} />
+          <Route path="/seleccionarAsignaturas" element={<SeleccionarAsignatura />} />
+          <Route path="/seleccionarGrupos" element={<SolicitarGrupos />} />
+          <Route path="/misIncidencias" element={<MisIncidencias />} />
+          <Route path="/reportarIncidencia" element={<ReportarIncidencia />} />
+          <Route path="/generarPermuta" element={<GeneracionPDF />} />
+          <Route path="/permutasAceptadas" element={<PermutasAceptadas />} />
+          <Route path="/misPermutas" element={<MisPermutas />} />
+          <Route path="/solicitarPermuta" element={<SolicitarPermuta />} />
+          <Route path="/misSolicitudesPermuta" element={<MisSolicitudesPermuta />} />
+          <Route path="/permutas" element={<Permutas />} />
+        </Route>
+
+        {/* Layout para administradores */}
+        <Route element={<RoleRoute allowedRoles={["administrador"]}><LayoutAdmin /></RoleRoute>}>
+          <Route path="/admin" element={<Home />} />
+          <Route path="/estadisticas" element={<Estadisticas />} />
+          <Route path="/incidenciasSinAsignar" element={<IncidenciasSinAsignar />} />
+          <Route path="/incidencias" element={<IncidenciasAsignadasAdmin />} />
+          <Route path="/incidencias/:id" element={<DetalleIncidencia />} />
+          <Route path="/crearNotificacion" element={<CrearNotificacion />} />
+          <Route path="/miPerfilAdmin" element={<MiPerfilAdmin />} />
+          <Route path="/crearGrado" element={<CrearGradoAdmin />} />
+          <Route path="/crearAsignatura" element={<CrearAsignatura />} />
+          <Route path="/gestionUsuarios" element={<PanelGestionUsuarios />} />
+        </Route>
+      </Routes>
+
+      <CookieConsent
+        location="bottom"
+        buttonText="Aceptar"
+        cookieName="permutasCookies"
+        style={{
+          background: theme === 'dark' ? "#1e293b" : "#6099c4",
+          padding: "1rem",
+          color: theme === 'dark' ? "#f1f5f9" : "#fff",
+          borderTop: theme === 'dark' ? "1px solid #334155" : "none"
+        }}
+        buttonStyle={{
+          color: "#fff",
+          background: "#E0AD0F",
+          padding: "8px 16px",
+          margin: "auto",
+          border: "none",
+          borderRadius: "4px"
+        }}
+        expires={150}
+      >
+        Utilizamos cookies para mejorar la experiencia del usuario.
+        <a href="/cookies" style={{ color: "#E0AD0F", textDecoration: "underline", marginLeft: "5px" }}>Leer más</a>
+      </CookieConsent>
+
+      <ToastContainer position="top-center" theme={theme} />
+      <VolverArriba />
+    </>
+  );
+}
+
 export default App;
