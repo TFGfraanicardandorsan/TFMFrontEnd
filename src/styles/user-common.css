@@ -187,6 +187,8 @@
     font-size: 1rem;
     transition: var(--transition);
     box-sizing: border-box;
+    background-color: var(--card-bg);
+    color: var(--text-primary);
 }
 
 .form-input:focus,
@@ -224,4 +226,70 @@
     .page-title {
         font-size: 2rem;
     }
+}
+
+/* ========================================
+   Modo Oscuro
+   ======================================== */
+body.dark-mode {
+    --bg-gradient-start: #0f172a;
+    --bg-gradient-end: #1e293b;
+    --card-bg: #1e293b;
+
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+
+    --user-primary-hover: #3b82f6;
+    /* Un poco más brillante en oscuro */
+
+    /* Sombras más sutiles en fondo oscuro */
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+    --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+
+    --border-color: #334155;
+    background-color: #0f172a;
+    /* Fallback */
+}
+
+body.dark-mode .user-card {
+    border: 1px solid var(--border-color);
+}
+
+body.dark-mode .page-title {
+    /* Gradiente ajustado para oscuro */
+    background: linear-gradient(135deg, #60a5fa, #22d3ee);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+body.dark-mode .form-input,
+body.dark-mode .form-select,
+body.dark-mode .form-textarea {
+    background-color: #0f172a;
+    border-color: #334155;
+    color: #e2e8f0;
+}
+
+body.dark-mode .form-input:focus,
+body.dark-mode .form-select:focus,
+body.dark-mode .form-textarea:focus {
+    border-color: var(--user-secondary);
+    box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.15);
+}
+
+/* Ajustes específicos de componentes */
+body.dark-mode .checkbox-label {
+    background-color: #1e293b;
+    border-color: #334155;
+}
+
+body.dark-mode .checkbox-label:hover {
+    background-color: #334155;
+}
+
+body.dark-mode .theme-toggle-btn {
+    color: #fbbf24;
+    /* Color luna/sol */
 }

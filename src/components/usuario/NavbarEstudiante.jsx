@@ -4,6 +4,7 @@ import "../../styles/navbar-style.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { obtenerNotificaciones } from "../../services/notificacion.js";
+import ThemeToggle from "../comun/ThemeToggle";
 import { logout } from "../../services/login.js";
 import { formatearFecha } from "../../lib/formateadorFechas.js";
 import { logError } from "../../lib/logger.js";
@@ -154,6 +155,7 @@ export default function NavbarEstudiante() {
           </li>
         </ul>
         <div className="nav-icons">
+          <ThemeToggle />
           <FontAwesomeIcon
             icon={faBell}
             className="icon bell-icon"

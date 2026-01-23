@@ -8,6 +8,7 @@ import { logout } from "../../services/login.js";
 import { formatearFecha } from "../../lib/formateadorFechas.js";
 import { Link } from "react-router-dom";
 import { logError } from "../../lib/logger.js";
+import ThemeToggle from "../comun/ThemeToggle";
 
 export default function NavbarAdmin() {
   const navigate = useNavigate();
@@ -142,6 +143,7 @@ export default function NavbarAdmin() {
           </li>
         </ul>
         <div className="nav-icons">
+          <ThemeToggle />
           <FontAwesomeIcon
             icon={faBell}
             className="icon bell-icon"

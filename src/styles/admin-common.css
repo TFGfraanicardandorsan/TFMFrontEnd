@@ -807,3 +807,79 @@
         padding: var(--admin-spacing-md);
     }
 }
+
+/* ========================================
+   Modo Oscuro Admin
+   ======================================== */
+body.dark-mode {
+    --admin-bg: #0f172a;
+    --admin-card-bg: #1e293b;
+
+    --admin-text-primary: #f8fafc;
+    --admin-text-secondary: #cbd5e1;
+    --admin-border-color: #334155;
+
+    /* Sombras adaptadas */
+    --admin-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+
+    background-color: var(--admin-bg);
+}
+
+body.dark-mode .admin-header-card {
+    background-image: linear-gradient(var(--admin-card-bg), var(--admin-card-bg)),
+        linear-gradient(135deg, var(--admin-primary), var(--admin-secondary));
+    border-color: transparent;
+}
+
+body.dark-mode .admin-accordion-header {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    color: var(--admin-text-primary);
+}
+
+body.dark-mode .admin-accordion-header:hover {
+    background: linear-gradient(135deg, #312e81 0%, #4338ca 100%);
+}
+
+body.dark-mode .admin-sub-section {
+    background: #0f172a;
+    border-left-color: var(--admin-primary);
+}
+
+body.dark-mode .admin-sub-section:hover {
+    background: #1e293b;
+}
+
+body.dark-mode .admin-input,
+body.dark-mode .admin-select,
+body.dark-mode .admin-textarea {
+    background-color: #0f172a;
+    border-color: #334155;
+    color: white;
+}
+
+body.dark-mode .admin-input:focus,
+body.dark-mode .admin-select:focus,
+body.dark-mode .admin-textarea:focus {
+    border-color: var(--admin-secondary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+body.dark-mode .admin-file-label {
+    background: #0f172a;
+    color: var(--admin-text-secondary);
+    border-color: var(--admin-primary);
+}
+
+body.dark-mode .admin-file-label:hover {
+    background: #1e293b;
+    color: white;
+}
+
+body.dark-mode .admin-modal-content {
+    background: #1e293b;
+    border: 1px solid #334155;
+}
+
+body.dark-mode .admin-modal-title {
+    color: white;
+}
