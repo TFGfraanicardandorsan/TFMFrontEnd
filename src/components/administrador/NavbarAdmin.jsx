@@ -62,38 +62,42 @@ export default function NavbarAdmin() {
         <button className="hamburger" onClick={() => setOpen(!open)}>
           ☰
         </button>
+
+        {/* Overlay para cerrar menú al hacer click fuera */}
+        <div className={`navbar-overlay ${open ? "open" : ""}`} onClick={() => setOpen(false)}></div>
+
         <ul className={`nav-links-responsive ${open ? "open" : ""}`}>
           <li className="nav-group">
             <button
               className="nav-group-btn"
               onClick={() => setOpenGroup(openGroup === 0 ? null : 0)}
             >
-              Gestión
+              Gestión {openGroup === 0 ? "▲" : "▼"}
             </button>
             <ul className={`nav-submenu ${openGroup === 0 ? "show" : ""}`}>
               <li>
                 <button className="nav-link-btn" onClick={() => handleLinkClick("/")}>
-                  Inicio
+                  <span className="nav-icon">🏠</span> Inicio
                 </button>
               </li>
               <li>
                 <button className="nav-link-btn" onClick={() => handleLinkClick("/incidenciasSinAsignar")}>
-                  Incidencias
+                  <span className="nav-icon">📋</span> Incidencias
                 </button>
               </li>
               <li>
                 <button className="nav-link-btn" onClick={() => handleLinkClick("/incidencias")}>
-                  Mis Incidencias
+                  <span className="nav-icon">🐛</span> Mis Incidencias
                 </button>
               </li>
               <li>
                 <button className="nav-link-btn" onClick={() => handleLinkClick("/crearNotificacion")}>
-                  Crear notificación
+                  <span className="nav-icon">📢</span> Crear notificación
                 </button>
               </li>
               <li>
                 <button className="nav-link-btn" onClick={() => handleLinkClick("/estadisticas")}>
-                  Ver estadísticas
+                  <span className="nav-icon">📊</span> Ver estadísticas
                 </button>
               </li>
             </ul>
@@ -103,17 +107,17 @@ export default function NavbarAdmin() {
               className="nav-group-btn"
               onClick={() => setOpenGroup(openGroup === 1 ? null : 1)}
             >
-              Perfil
+              Perfil {openGroup === 1 ? "▲" : "▼"}
             </button>
             <ul className={`nav-submenu ${openGroup === 1 ? "show" : ""}`}>
               <li>
                 <button className="nav-link-btn" onClick={() => handleLinkClick("/miPerfilAdmin")}>
-                  Mi perfil
+                  <span className="nav-icon">👤</span> Mi perfil
                 </button>
               </li>
               <li>
                 <button className="nav-link-btn" onClick={() => handleLinkClick("/logout")}>
-                  Cerrar sesión
+                  <span className="nav-icon">🚪</span> Cerrar sesión
                 </button>
               </li>
             </ul>

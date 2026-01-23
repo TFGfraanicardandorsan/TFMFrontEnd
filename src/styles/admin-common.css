@@ -62,6 +62,8 @@
     min-height: 100vh;
     background: linear-gradient(135deg, var(--admin-bg-gradient-start) 0%, var(--admin-bg-gradient-end) 100%);
     padding: var(--admin-spacing-lg);
+    padding-top: 76px;
+    /* 56px navbar + 20px espacio adicional */
     box-sizing: border-box;
 }
 
@@ -488,6 +490,8 @@
 
     .admin-page-container {
         padding: var(--admin-spacing-sm);
+        padding-top: 68px;
+        /* 56px navbar + espacio reducido para móvil */
     }
 
     .admin-content-wrap {
