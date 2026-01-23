@@ -580,3 +580,230 @@
 .admin-gap-md {
     gap: var(--admin-spacing-md);
 }
+
+/* ========================================
+   Admin Header Profile Card
+   ======================================== */
+.admin-header-card {
+    background: var(--admin-card-bg);
+    border-radius: var(--admin-border-radius);
+    padding: var(--admin-spacing-lg);
+    margin-bottom: var(--admin-spacing-xl);
+    box-shadow: var(--admin-shadow);
+    transition: var(--admin-transition);
+    border: 2px solid transparent;
+    background-image: linear-gradient(white, white),
+        linear-gradient(135deg, var(--admin-primary), var(--admin-secondary));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+
+.admin-header-card:hover {
+    box-shadow: var(--admin-shadow-lg);
+    transform: translateY(-2px);
+}
+
+.admin-info {
+    display: flex;
+    align-items: center;
+    gap: var(--admin-spacing-lg);
+}
+
+.admin-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--admin-primary), var(--admin-secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    flex-shrink: 0;
+}
+
+.admin-avatar-icon {
+    font-size: 2.5rem;
+    filter: brightness(0) invert(1);
+}
+
+.admin-details {
+    flex: 1;
+}
+
+.admin-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--admin-text-primary);
+    margin: 0 0 var(--admin-spacing-xs) 0;
+}
+
+.admin-email {
+    font-size: 1rem;
+    color: var(--admin-text-secondary);
+    margin: 0;
+}
+
+/* ========================================
+   Admin Accordion Sections
+   ======================================== */
+.admin-accordion-section {
+    background: var(--admin-card-bg);
+    border-radius: var(--admin-border-radius);
+    box-shadow: var(--admin-shadow);
+    overflow: hidden;
+    transition: var(--admin-transition);
+    margin-bottom: var(--admin-spacing-lg);
+}
+
+.admin-accordion-section:hover {
+    box-shadow: var(--admin-shadow-lg);
+}
+
+.admin-accordion-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--admin-spacing-md);
+    padding: var(--admin-spacing-lg);
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--admin-text-primary);
+    transition: var(--admin-transition);
+    text-align: left;
+}
+
+.admin-accordion-header:hover {
+    background: linear-gradient(135deg, #e0e7ff 0%, #ddd6fe 100%);
+}
+
+.admin-accordion-header.active {
+    background: linear-gradient(135deg, var(--admin-primary), var(--admin-secondary));
+    color: white;
+}
+
+.admin-section-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.admin-section-title {
+    flex: 1;
+}
+
+.admin-accordion-icon {
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.admin-accordion-icon.rotate {
+    transform: rotate(180deg);
+}
+
+.admin-accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.admin-accordion-content.open {
+    max-height: 2000px;
+    padding: var(--admin-spacing-lg);
+    border-top: 1px solid #e2e8f0;
+}
+
+/* Sub-secciones del acordeón */
+.admin-sub-section {
+    padding: var(--admin-spacing-lg);
+    border-radius: var(--admin-border-radius-sm);
+    background: #f8fafc;
+    margin-bottom: var(--admin-spacing-md);
+    border-left: 4px solid var(--admin-primary);
+    transition: var(--admin-transition);
+}
+
+.admin-sub-section:last-child {
+    margin-bottom: 0;
+}
+
+.admin-sub-section:hover {
+    background: #f1f5f9;
+    border-left-color: var(--admin-secondary);
+    transform: translateX(4px);
+}
+
+.admin-sub-section h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--admin-text-primary);
+    margin: 0 0 var(--admin-spacing-sm) 0;
+}
+
+.admin-sub-section p {
+    color: var(--admin-text-secondary);
+    font-size: 0.95rem;
+    margin: 0 0 var(--admin-spacing-md) 0;
+    line-height: 1.5;
+}
+
+.admin-sub-section.danger-section {
+    border-left-color: var(--admin-danger);
+    background: #fef2f2;
+}
+
+.admin-sub-section.danger-section:hover {
+    background: #fee2e2;
+}
+
+/* File Input Styles */
+.admin-file-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--admin-spacing-md);
+}
+
+.admin-file-input {
+    display: none;
+}
+
+.admin-file-label {
+    display: inline-block;
+    padding: 12px 20px;
+    background: #f1f5f9;
+    border: 2px dashed var(--admin-primary);
+    border-radius: var(--admin-border-radius-sm);
+    cursor: pointer;
+    transition: var(--admin-transition);
+    text-align: center;
+    color: var(--admin-text-secondary);
+    font-weight: 500;
+}
+
+.admin-file-label:hover {
+    background: #e0e7ff;
+    border-color: var(--admin-secondary);
+}
+
+/* Responsive adjustments for new components */
+@media (max-width: 768px) {
+    .admin-info {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .admin-accordion-header {
+        padding: var(--admin-spacing-md);
+        font-size: 1.1rem;
+    }
+
+    .admin-accordion-content.open {
+        padding: var(--admin-spacing-md);
+    }
+
+    .admin-sub-section {
+        padding: var(--admin-spacing-md);
+    }
+}
