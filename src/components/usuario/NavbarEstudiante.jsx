@@ -11,6 +11,10 @@ import { logError } from "../../lib/logger.js";
 
 const menu = [
   {
+    label: "Inicio",
+    to: "/",
+  },
+  {
     label: "Permutas",
     sub: [
       { to: "/permutas", label: "Ver permutas" },
@@ -25,13 +29,6 @@ const menu = [
     sub: [
       { to: "/misIncidencias", label: "Mis incidencias" },
       { to: "/reportarIncidencia", label: "Reportar incidencia" },
-    ],
-  },
-  {
-    label: "Perfil",
-    sub: [
-      { to: "/miPerfil", label: "Mi perfil" },
-      { to: "/logout", label: "Cerrar sesión" },
     ],
   },
 ];
@@ -97,62 +94,68 @@ export default function NavbarEstudiante() {
         <ul className={`nav-links-responsive ${open ? "open" : ""}`}>
           {menu.map((group, idx) => (
             <li key={group.label} className="nav-group">
-              <button
-                className="nav-group-btn"
-                onClick={() => setOpenGroup(openGroup === idx ? null : idx)}
-              >
-                {group.label} {openGroup === idx ? "▲" : "▼"}
-              </button>
-              <ul className={`nav-submenu ${openGroup === idx ? "show" : ""}`}>
-                {group.sub.map((item) => (
-                  <li key={item.to}>
-                    <button
-                      className="nav-link-btn"
-                      onClick={() => handleLinkClick(item.to)}
-                    >
-                      <span className="nav-icon">
-                        {/* Iconos simples basados en el label mientras no importamos fontawesome para todo */}
-                        {item.label.includes("Ver") ? "👁️" :
-                          item.label.includes("Mis") ? "👤" :
-                            item.label.includes("Solicitar") ? "📝" :
-                              item.label.includes("Reportar") ? "⚠️" :
-                                item.label.includes("Perfil") ? "⚙️" :
-                                  item.label.includes("Cerrar") ? "🚪" : "📄"}
-                      </span>
-                      {item.label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
+              {group.to ? (
+                <button
+                  className="nav-group-btn"
+                  onClick={() => handleLinkClick(group.to)}
+                >
+                  <span className="nav-icon">🏠</span> {group.label}
+                </button>
+              ) : (
+                <>
+                  <button
+                    className="nav-group-btn"
+                    onClick={() => setOpenGroup(openGroup === idx ? null : idx)}
+                  >
+                    {group.label} {openGroup === idx ? "▲" : "▼"}
+                  </button>
+                  <ul className={`nav-submenu ${openGroup === idx ? "show" : ""}`}>
+                    {group.sub.map((item) => (
+                      <li key={item.to}>
+                        <button
+                          className="nav-link-btn"
+                          onClick={() => handleLinkClick(item.to)}
+                        >
+                          <span className="nav-icon">
+                            {item.label.includes("Ver") ? "👁️" :
+                              item.label.includes("Mis") ? "👤" :
+                                item.label.includes("Solicitar") ? "📝" :
+                                  item.label.includes("Reportar") ? "⚠️" :
+                                    item.label.includes("Perfil") ? "⚙️" :
+                                      item.label.includes("Cerrar") ? "🚪" : "📄"}
+                          </span>
+                          {item.label}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
             </li>
           ))}
         </ul>
         {/* Menú clásico para escritorio */}
         <ul className="nav-links">
-          <li>
-            <Link to="/">Inicio</Link>
-          </li>
-          <li>
-            <Link to="/permutas">Permutas</Link>
-          </li>
-          <li>
-            <Link to="/misPermutas">Mis Permutas</Link>
-          </li>
-          <li>
-            <Link to="/solicitarPermuta">Solicitar Permutas</Link>
-          </li>
-          <li>
-            <Link to="/misSolicitudesPermuta">Mis Solicitudes</Link>
-          </li>
-          <li>
-            <Link to="/permutasAceptadas">Permutas Aceptadas</Link>
-          </li>
-          <li>
-            <Link to="/misIncidencias">Mis incidencias</Link>
-          </li>
-          <li>
-            <Link to="/reportarIncidencia">Reportar incidencia</Link>
-          </li>
+          {menu.map((group) => (
+            <li key={group.label} className={group.sub ? "dropdown" : ""}>
+              {group.to ? (
+                <Link to={group.to}>{group.label}</Link>
+              ) : (
+                <>
+                  <button className="dropdown-btn">
+                    {group.label} <span className="arrow">▼</span>
+                  </button>
+                  <ul className="dropdown-content">
+                    {group.sub.map((item) => (
+                      <li key={item.to}>
+                        <Link to={item.to}>{item.label}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </li>
+          ))}
         </ul>
         <div className="nav-icons">
           <ThemeToggle />
