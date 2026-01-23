@@ -5,13 +5,15 @@ import { obtenerMiGrupoAsignatura } from "../../services/grupo";
 import { superarAsignaturasUsuario } from "../../services/asignaturas";
 import SeleccionarEstudio from "../usuario/seleccionarEstudio";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckCircle, faBookOpen, faUserGraduate, faEnvelope, faUniversity } from "@fortawesome/free-solid-svg-icons";
 
 export default function MiPerfil() {
-  const [usuario, setUsuario] = useState(null); // Estado para almacenar los datos del usuario
-  const [asignaturas, setAsignaturas] = useState([]); // Estado para almacenar las asignaturas y grupos
-  const [loading, setLoading] = useState(true); // Estado para la carga de datos
-  const [error, setError] = useState(null); // Estado para manejar errores
-  const [mensajeExito, setMensajeExito] = useState(""); // Estado para manejar mensajes de éxito
+  const [usuario, setUsuario] = useState(null);
+  const [asignaturas, setAsignaturas] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [mensajeExito, setMensajeExito] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,15 +43,16 @@ export default function MiPerfil() {
     obtenerDatos();
   }, []);
 
-  // Función para marcar una asignatura como aprobada
   const manejarSuperarAsignatura = async (idAsignatura, codigo) => {
     try {
       const response = await superarAsignaturasUsuario(codigo);
       if (!response.err) {
-        // Actualizar el estado local eliminando la asignatura aprobada
         const asignaturaAprobada = asignaturas.find(asignatura => asignatura.id === idAsignatura);
         setAsignaturas(asignaturas.filter(asignatura => asignatura.id !== idAsignatura));
-        setMensajeExito(`Enhorabuena por aprobar la asignatura ${asignaturaAprobada.asignatura}.`);
+        setMensajeExito(`¡Enhorabuena! Has aprobado ${asignaturaAprobada.asignatura}.`);
+
+        // Limpiar mensaje después de 5 segundos
+        setTimeout(() => setMensajeExito(""), 5000);
       } else {
         throw new Error(response.errmsg);
       }
@@ -59,57 +62,123 @@ export default function MiPerfil() {
   };
 
   if (loading) {
-    return <div className="loading-text">Cargando...</div>;
+    return (
+      <div className="page-container">
+        <div className="loading-container">
+          Cargando tu perfil...
+        </div>
+      </div>
+    );
   }
+
   if (error) {
-    return <div className="error-text">Error: {error}</div>;
+    return (
+      <div className="page-container">
+        <div className="empty-state">
+          <h2>⚠️ Ocurrió un error</h2>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="page-container">
       {!usuario?.titulacion && <SeleccionarEstudio />}
+
       <div className="content-wrap">
         <div className="perfil-container">
-          <h1 className="perfil-title">Mi Perfil</h1>
-          <div className="perfil-subtitle">
-            <p>
-              Este es tu perfil aquí podrás ver las asignaturas de las que estás actualmente matriculado y cuando apruebes marcarla como superada. Además podrás matricularte de nuevas asignaturas al principio de cada curso.
-            </p>
+
+          {/* Header de Página */}
+          <div className="perfil-header-section">
+            <h1 className="perfil-title">Mi Perfil</h1>
+            <div className="perfil-subtitle">
+              <p>Gestiona tus asignaturas matriculadas y celebra tus aprobados. Mantén tu progreso al día.</p>
+            </div>
           </div>
 
-          {mensajeExito && <div className="success-text">{mensajeExito}</div>}
+          {/* Mensaje de Éxito */}
+          {mensajeExito && (
+            <div className="success-banner">
+              <FontAwesomeIcon icon={faCheckCircle} size="lg" />
+              <span>{mensajeExito}</span>
+            </div>
+          )}
 
-          <div className="perfil-content">
-            <div className="perfil-card">
-              <h2 className="perfil-card-title">Información Personal</h2>
-              <p><strong>Nombre:</strong> {usuario.nombre_completo}</p>
-              <p><strong>Correo:</strong> {usuario.correo}</p>
-              <p><strong>Grado:</strong> {usuario.titulacion}</p>
+          {/* User Header Card */}
+          <div className="user-header-card">
+            <div className="user-avatar-container">
+              <FontAwesomeIcon icon={faUserGraduate} className="user-avatar-icon" />
+            </div>
+            <div className="user-info">
+              <h2 className="user-name">{usuario.nombre_completo}</h2>
+              <div className="user-email">
+                <FontAwesomeIcon icon={faEnvelope} /> {usuario.correo}
+              </div>
+              <div className="user-badges">
+                {usuario.titulacion && (
+                  <span className="badge badge-degree">
+                    <FontAwesomeIcon icon={faUniversity} style={{ marginRight: '6px' }} />
+                    {usuario.titulacion}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Sección de Asignaturas */}
+          <div className="section-card">
+            <div className="section-header">
+              <div className="section-title">
+                <FontAwesomeIcon icon={faBookOpen} />
+                <span>Mis Asignaturas en Curso</span>
+              </div>
+              <button
+                className="btn btn-outline"
+                style={{ width: 'auto' }}
+                onClick={() => navigate("/seleccionarAsignaturas")}
+              >
+                + Matricular Nuevas
+              </button>
             </div>
 
-            <div className="perfil-card">
-              <h2 className="perfil-card-title">Asignaturas y Grupos</h2>
-              <ul>
-                {asignaturas.length > 0 ? (
-                  asignaturas.map((asignatura) => (
-                    <li key={asignatura.id}>
-                      <strong>{asignatura.asignatura}:</strong> Grupo {asignatura.numgrupo}
+            {asignaturas.length > 0 ? (
+              <div className="asignaturas-grid">
+                {asignaturas.map((asignatura) => (
+                  <div key={asignatura.id} className="asignatura-card">
+                    <div className="asignatura-header">
+                      <span className="grupo-badge">Grupo {asignatura.numgrupo}</span>
+                    </div>
+                    <div className="asignatura-name">{asignatura.asignatura}</div>
+
+                    <div className="asignatura-actions">
                       <button
-                        className="aprobar-btn"
+                        className="btn btn-success"
                         onClick={() => manejarSuperarAsignatura(asignatura.id, asignatura.codigo)}
                       >
-                        Marcar como aprobada
+                        <FontAwesomeIcon icon={faCheckCircle} />
+                        Marcar como Aprobada
                       </button>
-                    </li>
-                  ))
-                ) : (
-                  <p>No tienes asignaturas registradas.</p>
-                )}
-              </ul>
-              <hr className="separadorSelectorAsignatura" />
-              <button className="aprobar-btn" onClick={() => navigate("/seleccionarAsignaturas")}>Selecciona tus asignaturas</button>
-            </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="empty-state">
+                <div style={{ fontSize: '3rem', marginBottom: '16px' }}>📚</div>
+                <h3>No tienes asignaturas en curso</h3>
+                <p>¡Es un buen momento para matricularte en nuevas asignaturas!</p>
+                <button
+                  className="btn btn-primary"
+                  style={{ maxWidth: '200px', margin: '20px auto' }}
+                  onClick={() => navigate("/seleccionarAsignaturas")}
+                >
+                  Seleccionar Asignaturas
+                </button>
+              </div>
+            )}
           </div>
+
         </div>
       </div>
       <div style={{ height: "80px" }} />
