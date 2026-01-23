@@ -14,9 +14,13 @@
     background-color: var(--footer-bg, #f8f9fa);
     padding: 20px;
     border-top: 1px solid var(--border-color, #ddd);
+    position: fixed;
+    bottom: 0;
+    left: 0;
     color: var(--text-primary, rgb(31, 31, 31));
-    margin-top: auto;
+    z-index: 1000;
 }
+
 
 
 

@@ -156,25 +156,20 @@ export default function SeleccionarGruposSinGrupo() {
             </div>
 
             <div style={{
-              position: 'sticky',
-              bottom: '20px',
-              left: '50%',
+              margin: '40px auto',
               width: '100%',
               maxWidth: '800px',
-              margin: '30px auto 0 auto',
               background: 'var(--card-bg)',
-              padding: '15px 25px',
+              padding: '20px 30px',
               borderRadius: '16px',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
+              boxShadow: 'var(--card-shadow)',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              zIndex: 900, // Menor que la navbar (1001)
-              border: '1px solid var(--user-primary, #2b579a)',
-              backdropFilter: 'blur(8px)'
+              border: '1px solid rgba(43, 87, 154, 0.2)',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--text-primary)' }}>
-                <FontAwesomeIcon icon={faInfoCircle} className="fa-beat" style={{ color: 'var(--user-primary)' }} />
+                <FontAwesomeIcon icon={faInfoCircle} style={{ color: 'var(--user-primary)' }} />
                 <span className="info-text-responsive" style={{ fontWeight: 500 }}>
                   {haySeleccion ? "¡Todo listo para solicitar!" : "Selecciona grupo para continuar"}
                 </span>
@@ -184,15 +179,18 @@ export default function SeleccionarGruposSinGrupo() {
                 className="btn btn-primary"
                 disabled={!haySeleccion}
                 style={{
-                  minWidth: '150px',
-                  padding: '12px 24px',
-                  borderRadius: '10px',
+                  minWidth: '180px',
+                  padding: '14px 28px',
+                  borderRadius: '12px',
                   fontSize: '1rem'
                 }}
               >
                 <FontAwesomeIcon icon={faSave} /> Solicitar Ahora
               </button>
             </div>
+            {/* Espaciador para no solapar con el footer fixed */}
+            <div style={{ height: '120px' }} />
+
           </>
         ) : (
           <div className="user-card empty-state">
