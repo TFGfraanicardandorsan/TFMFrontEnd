@@ -883,3 +883,43 @@ body.dark-mode .admin-modal-content {
 body.dark-mode .admin-modal-title {
     color: white;
 }
+
+body.dark-mode .admin-badge-secondary {
+    background: #334155;
+    color: #cbd5e1;
+}
+
+body.dark-mode .admin-list-item {
+    background: #1e293b;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .admin-list-item:hover {
+    background: #2d3e50;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .admin-btn-secondary {
+    background: #334155;
+    color: #f1f5f9;
+}
+
+body.dark-mode .admin-btn-secondary:hover:not(:disabled) {
+    background: #475569;
+}
+
+body.dark-mode .admin-card-header {
+    border-bottom-color: #334155;
+}
+
+body.dark-mode .admin-card-footer {
+    border-top-color: #334155;
+}
+
+body.dark-mode .admin-modal-header {
+    border-bottom-color: #334155;
+}
+
+body.dark-mode .admin-modal-footer {
+    border-top-color: #334155;
+}

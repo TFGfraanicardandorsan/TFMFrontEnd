@@ -291,5 +291,19 @@ body.dark-mode .checkbox-label:hover {
 
 body.dark-mode .theme-toggle-btn {
     color: #fbbf24;
-    /* Color luna/sol */
+}
+
+body.dark-mode .success-banner {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.3);
+    color: #34d399;
+}
+
+body.dark-mode .empty-state {
+    background: rgba(30, 41, 59, 0.5);
+    color: var(--text-secondary);
+}
+
+body.dark-mode .info-text-responsive {
+    color: var(--text-primary);
 }

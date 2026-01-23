@@ -37,8 +37,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import PanelGestionUsuarios from "./components/administrador/panelGestionUsuarios.jsx";
 import VolverArriba from "./components/comun/volverArriba";
+import { ThemeProvider, useTheme } from "./contexts/ThemeContext";
 
 export function App() {
+  const { theme } = useTheme();
+
   return (
     <AuthProvider>
       <ThemeProvider>
@@ -85,16 +88,31 @@ export function App() {
           </Route>
         </Routes>
 
-        <CookieConsent location="bottom" buttonText="Aceptar" cookieName="permutasCookies" style={{ background: "#6099c4", padding: "1rem" }}
+        <CookieConsent
+          location="bottom"
+          buttonText="Aceptar"
+          cookieName="permutasCookies"
+          style={{
+            background: theme === 'dark' ? "#1e293b" : "#6099c4",
+            padding: "1rem",
+            color: theme === 'dark' ? "#f1f5f9" : "#fff",
+            borderTop: theme === 'dark' ? "1px solid #334155" : "none"
+          }}
           buttonStyle={{
-            color: "#fff", background: "#E0AD0F", padding: "8px 16px",
-            margin: "auto", border: "none", borderRadius: "4px"
-          }} expires={150} >
+            color: "#fff",
+            background: "#E0AD0F",
+            padding: "8px 16px",
+            margin: "auto",
+            border: "none",
+            borderRadius: "4px"
+          }}
+          expires={150}
+        >
           Utilizamos cookies para mejorar la experiencia del usuario.
           <a href="/cookies" style={{ color: "#E0AD0F", textDecoration: "underline", marginLeft: "5px" }}>Leer más</a>
         </CookieConsent>
 
-        <ToastContainer position="top-center" />
+        <ToastContainer position="top-center" theme={theme} />
         <VolverArriba />
       </ThemeProvider>
     </AuthProvider>
