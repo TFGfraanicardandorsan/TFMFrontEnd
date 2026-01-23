@@ -156,22 +156,22 @@ export default function SeleccionarGruposSinGrupo() {
             </div>
 
             <div style={{
-              position: 'fixed',
-              bottom: '30px', // Un pelín más arriba
+              position: 'sticky',
+              bottom: '20px',
               left: '50%',
-              transform: 'translateX(-50%)',
-              width: '90%',
+              width: '100%',
               maxWidth: '800px',
+              margin: '30px auto 0 auto',
               background: 'var(--card-bg)',
               padding: '15px 25px',
               borderRadius: '16px',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.4)',
+              boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              zIndex: 9999, // Z-INDEX MUY ALTO para asegurar visibilidad
+              zIndex: 900, // Menor que la navbar (1001)
               border: '1px solid var(--user-primary, #2b579a)',
-              backdropFilter: 'blur(8px)' // Toque premium
+              backdropFilter: 'blur(8px)'
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--text-primary)' }}>
                 <FontAwesomeIcon icon={faInfoCircle} className="fa-beat" style={{ color: 'var(--user-primary)' }} />
@@ -202,8 +202,8 @@ export default function SeleccionarGruposSinGrupo() {
           </div>
         )}
       </div>
-      <div style={{ height: "120px" }} />
     </div>
+
 
   );
 }

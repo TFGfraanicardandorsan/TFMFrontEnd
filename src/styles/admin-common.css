@@ -46,6 +46,9 @@
     --admin-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --admin-transition-fast: all 0.15s ease;
 
+    /* Footer */
+    --footer-bg: #f8f9fa;
+
     /* Espaciado */
     --admin-spacing-xs: 8px;
     --admin-spacing-sm: 12px;
@@ -818,6 +821,7 @@ body.dark-mode {
     --admin-text-primary: #f8fafc;
     --admin-text-secondary: #cbd5e1;
     --admin-border-color: #334155;
+    --footer-bg: #1e293b;
 
     /* Sombras adaptadas */
     --admin-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
