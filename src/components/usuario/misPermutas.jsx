@@ -1,11 +1,11 @@
-"use client;"
 import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "../../styles/mispermutas-style.css";
+import "../../styles/user-common.css";
+import "../../styles/mispermutas-style.css"; // Mantenemos estilos específicos secundarios si son necesarios
 import {
   misPermutasPropuestas,
   denegarPermuta,
@@ -14,6 +14,8 @@ import {
 } from "../../services/permuta.js";
 import { toast } from "react-toastify";
 import { logError } from "../../lib/logger.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExchangeAlt, faBan, faCheck, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 export default function MisPermutas() {
   const [permutasPropuestas, setPermutasPropuestas] = useState([]);
@@ -87,25 +89,31 @@ export default function MisPermutas() {
   };
 
   if (cargando) {
-    return <div>Cargando permutas...</div>;
+    return <div className="user-loading">Cargando permutas...</div>;
   }
 
   if (error) {
-    return <div className="error-message">{error}</div>;
+    return <div className="user-error">{error}</div>;
   }
 
   return (
-    <>
-      <h1 className="mispermutas-title">Mis Permutas</h1>
-      <p className="mispermutas-subtitle">
-        Aquí puedes ver las permutas que has propuesto y las que te han propuesto.<br />
-        Puedes aceptar o denegar las permutas propuestas por otros usuarios.<br />
-        También puedes ver las permutas que has propuesto tú mismo.
-      </p>
-      <div className="mispermutas-container">
-        <div className="mispermutas-columns">
-          <div className="mispermutascol">
-            <h2>Permutas propuestas por mí</h2>
+    <div className="page-container">
+      <div className="content-wrap">
+        <div className="page-header">
+          <h1 className="page-title">Mis Permutas</h1>
+          <p className="page-subtitle">
+            Aquí puedes ver las permutas que has propuesto y las que te han propuesto.
+            Gestiona tus intercambios de manera sencilla.
+          </p>
+        </div>
+
+        <div className="mispermutas-columns" style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+
+          {/* Columna: Propuestas por mí */}
+          <div className="mispermutascol" style={{ flex: 1, minWidth: '300px' }}>
+            <h2 style={{ color: 'var(--user-primary)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <FontAwesomeIcon icon={faExchangeAlt} /> Propuestas por mí
+            </h2>
             {permutasPropuestasPorMi.length > 0 ? (
               <Swiper
                 modules={[Navigation, Pagination]}
@@ -113,28 +121,36 @@ export default function MisPermutas() {
                 pagination={{ clickable: true }}
                 spaceBetween={20}
                 slidesPerView={1}
+                className="user-swiper"
               >
                 {permutasPropuestasPorMi.map((permuta) => (
-                  <SwiperSlide key={permuta.permuta_id}>
-                    <div className="mispermuta-card">
+                  <SwiperSlide key={permuta.permuta_id} style={{ padding: '10px 5px 30px 5px' }}>
+                    <div className="user-card" style={{ height: '100%', borderRadius: '12px' }}>
                       <div className="mispermuta-info">
-                        <p><strong>Estado:</strong> {permuta.estado}</p>
-                        <p><strong>Grupo Solicitante:</strong> {permuta.grupo_solicitante}</p>
-                        <p><strong>Grupo Solicitado:</strong> {permuta.grupo_solicitado}</p>
-                        <p><strong>Código Asignatura:</strong> {permuta.codigo_asignatura}</p>
-                        <p><strong>Nombre Asignatura:</strong> {permuta.nombre_asignatura}</p>
+                        <p><strong><FontAwesomeIcon icon={faInfoCircle} /> Estado:</strong> {permuta.estado}</p>
+                        <hr style={{ margin: '10px 0', borderColor: '#eee' }} />
+                        <p><strong>Asignatura:</strong> {permuta.nombre_asignatura} ({permuta.codigo_asignatura})</p>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px', background: '#f8fafc', padding: '10px', borderRadius: '8px' }}>
+                          <span><strong>De Grupo:</strong> {permuta.grupo_solicitante}</span>
+                          <span><strong>A Grupo:</strong> {permuta.grupo_solicitado}</span>
+                        </div>
                       </div>
                     </div>
                   </SwiperSlide>
                 ))}
               </Swiper>
             ) : (
-              <p>No has propuesto ninguna permuta</p>
+              <div className="empty-state">
+                <p>No has propuesto ninguna permuta aún</p>
+              </div>
             )}
           </div>
 
-          <div className="mispermutascol">
-            <h2>Permutas propuestas</h2>
+          {/* Columna: Permutas recibidas */}
+          <div className="mispermutascol" style={{ flex: 1, minWidth: '300px' }}>
+            <h2 style={{ color: 'var(--user-primary)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <FontAwesomeIcon icon={faExchangeAlt} /> Permutas recibidas
+            </h2>
             {permutasPropuestas.length > 0 ? (
               <Swiper
                 modules={[Navigation, Pagination]}
@@ -142,40 +158,48 @@ export default function MisPermutas() {
                 pagination={{ clickable: true }}
                 spaceBetween={20}
                 slidesPerView={1}
+                className="user-swiper"
               >
                 {permutasPropuestas.map((permuta) => (
-                  <SwiperSlide key={permuta.permuta_id}>
-                    <div className="mispermuta-card">
+                  <SwiperSlide key={permuta.permuta_id} style={{ padding: '10px 5px 30px 5px' }}>
+                    <div className="user-card" style={{ height: '100%', borderRadius: '12px' }}>
                       <div className="mispermuta-info">
-                        <p><strong>Estado:</strong> {permuta.estado}</p>
-                        <p><strong>Grupo Solicitante:</strong> {permuta.grupo_solicitante}</p>
-                        <p><strong>Grupo Solicitado:</strong> {permuta.grupo_solicitado}</p>
-                        <p><strong>Código Asignatura:</strong> {permuta.codigo_asignatura}</p>
-                        <p><strong>Nombre Asignatura:</strong> {permuta.nombre_asignatura}</p>
+                        <p><strong><FontAwesomeIcon icon={faInfoCircle} /> Estado:</strong> {permuta.estado}</p>
+                        <hr style={{ margin: '10px 0', borderColor: '#eee' }} />
+                        <p><strong>Asignatura:</strong> {permuta.nombre_asignatura} ({permuta.codigo_asignatura})</p>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px', background: '#f8fafc', padding: '10px', borderRadius: '8px', marginBottom: '15px' }}>
+                          <span><strong>Solicitante:</strong> G. {permuta.grupo_solicitante}</span>
+                          <span><strong>Tu Grupo:</strong> G. {permuta.grupo_solicitado}</span>
+                        </div>
                       </div>
-                      <button
-                        className="denegar-btn"
-                        onClick={() => handleDenegarPermuta(permuta.permuta_id)}
-                      >
-                        Denegar Permuta
-                      </button>
-                      <button
-                        className="aceptar-btn"
-                        onClick={() => handleAceptarPermuta(permuta.permuta_id)}
-                      >
-                        Aceptar Permuta
-                      </button>
+                      <div style={{ display: 'flex', gap: '10px' }}>
+                        <button
+                          className="btn btn-danger btn-full"
+                          onClick={() => handleDenegarPermuta(permuta.permuta_id)}
+                        >
+                          <FontAwesomeIcon icon={faBan} /> Denegar
+                        </button>
+                        <button
+                          className="btn btn-success btn-full"
+                          onClick={() => handleAceptarPermuta(permuta.permuta_id)}
+                        >
+                          <FontAwesomeIcon icon={faCheck} /> Aceptar
+                        </button>
+                      </div>
                     </div>
                   </SwiperSlide>
                 ))}
               </Swiper>
             ) : (
-              <p>No hay permutas disponibles</p>
+              <div className="empty-state">
+                <p>No has recibido propuestas de permuta</p>
+              </div>
             )}
           </div>
         </div>
       </div>
       <div style={{ height: "80px" }} />
-    </>
+    </div>
   );
 }
+

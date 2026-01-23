@@ -89,6 +89,10 @@ export default function NavbarEstudiante() {
         <button className="hamburger" onClick={() => setOpen(!open)}>
           ☰
         </button>
+
+        {/* Overlay para cerrar menú al hacer click fuera */}
+        <div className={`navbar-overlay ${open ? "open" : ""}`} onClick={() => setOpen(false)}></div>
+
         <ul className={`nav-links-responsive ${open ? "open" : ""}`}>
           {menu.map((group, idx) => (
             <li key={group.label} className="nav-group">
@@ -96,7 +100,7 @@ export default function NavbarEstudiante() {
                 className="nav-group-btn"
                 onClick={() => setOpenGroup(openGroup === idx ? null : idx)}
               >
-                {group.label}
+                {group.label} {openGroup === idx ? "▲" : "▼"}
               </button>
               <ul className={`nav-submenu ${openGroup === idx ? "show" : ""}`}>
                 {group.sub.map((item) => (
@@ -105,6 +109,15 @@ export default function NavbarEstudiante() {
                       className="nav-link-btn"
                       onClick={() => handleLinkClick(item.to)}
                     >
+                      <span className="nav-icon">
+                        {/* Iconos simples basados en el label mientras no importamos fontawesome para todo */}
+                        {item.label.includes("Ver") ? "👁️" :
+                          item.label.includes("Mis") ? "👤" :
+                            item.label.includes("Solicitar") ? "📝" :
+                              item.label.includes("Reportar") ? "⚠️" :
+                                item.label.includes("Perfil") ? "⚙️" :
+                                  item.label.includes("Cerrar") ? "🚪" : "📄"}
+                      </span>
                       {item.label}
                     </button>
                   </li>
