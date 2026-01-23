@@ -37,6 +37,7 @@ export default function SolicitudesPermuta() {
 
     const handleCancelar = async (solicitud_id) => {
         try {
+            console.log("Cancelando solicitud con ID:", solicitud_id);
             const res = await cancelarSolicitudPermuta(solicitud_id);
             if (!res.err) {
                 // eliminar la solicitud cancelada de la lista local
