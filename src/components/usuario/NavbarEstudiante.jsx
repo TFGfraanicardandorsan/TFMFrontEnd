@@ -17,7 +17,7 @@ const menu = [
   {
     label: "Permutas",
     sub: [
-      { to: "/permutas", label: "Ver permutas" },
+      { to: "/permutas", label: "Ver permutas disponibles" },
       { to: "/misPermutas", label: "Mis permutas" },
       { to: "/solicitarPermuta", label: "Solicitar permuta" },
       { to: "/misSolicitudesPermuta", label: "Mis solicitudes" },

@@ -3,7 +3,10 @@ import "../../styles/solicitudesPermuta-style.css";
 import { obtenerSolicitudesPermuta } from "../../services/permuta";
 import { toast } from "react-toastify";
 import { cancelarSolicitudPermuta } from "../../services/permuta";
+import { useNavigate } from "react-router-dom";
 export default function SolicitudesPermuta() {
+    const navigate = useNavigate();
+
     const [solicitudes, setSolicitudes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -97,39 +100,99 @@ export default function SolicitudesPermuta() {
 
                     <div className="solicitudes-content">
                         {solicitudesFiltradas.length > 0 ? (
-                            solicitudesFiltradas.map((solicitud) => (
-                                <div key={solicitud.solicitud_id} className="solicitud-card">
-                                    <p>
-                                        <strong>Asignatura:</strong> {solicitud.nombre_asignatura} ({solicitud.codigo_asignatura})
-                                        <br />
-                                        <strong>Grupo Actual:</strong> {solicitud.grupo_solicitante}
-                                    </p>
-                                    <p>
-                                        <strong>Grupos Deseados:</strong> {Array.isArray(solicitud.grupos_deseados) ? solicitud.grupos_deseados.join(", ") : solicitud.grupos_deseados}
-                                    </p>
-                                    <p><strong>Estado:</strong> {solicitud.estado}</p>
+                            <div style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+                                gap: '20px'
+                            }}>
+                                {solicitudesFiltradas.map((solicitud) => {
+                                    const sId = solicitud.solicitud_id || solicitud.id;
+                                    return (
+                                        <div key={sId} className="user-card" style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <div style={{ flex: 1 }}>
+                                                <h3 style={{ color: 'var(--user-primary)', marginBottom: '12px' }}>
+                                                    {solicitud.nombre_asignatura}
+                                                </h3>
+                                                <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '8px' }}>
+                                                    <strong>Código:</strong> {solicitud.codigo_asignatura}
+                                                </p>
+                                                <p><strong>Grupo Actual:</strong> {solicitud.grupo_solicitante}</p>
+                                                <p>
+                                                    <strong>Grupos Deseados:</strong> {Array.isArray(solicitud.grupos_deseados) ? solicitud.grupos_deseados.join(", ") : solicitud.grupos_deseados}
+                                                </p>
+                                                <div style={{
+                                                    marginTop: '12px',
+                                                    padding: '4px 12px',
+                                                    borderRadius: '20px',
+                                                    display: 'inline-block',
+                                                    fontSize: '0.85rem',
+                                                    fontWeight: 'bold',
+                                                    backgroundColor: solicitud.estado === 'SOLICITADA' ? 'var(--user-accent)' :
+                                                        solicitud.estado === 'ACEPTADA' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(100, 116, 139, 0.1)',
+                                                    color: solicitud.estado === 'SOLICITADA' ? 'var(--user-primary)' :
+                                                        solicitud.estado === 'ACEPTADA' ? 'var(--success-color)' : 'var(--text-secondary)'
+                                                }}>
+                                                    {solicitud.estado}
+                                                </div>
+                                            </div>
 
-                                    <div className="solicitud-actions">
-                                        <button className="detalles-btn" onClick={() => abrirModal(solicitud)}>
-                                            Ver detalles
-                                        </button>
+                                            <div className="solicitud-actions" style={{ marginTop: '20px', display: 'flex', gap: '10px' }}>
+                                                <button className="btn btn-primary btn-full" onClick={() => abrirModal(solicitud)}>
+                                                    Detalles
+                                                </button>
 
-                                        {/* Botón cancelar mostrado sólo en la lista y sólo si está en SOLICITADA */}
-                                        {solicitud.estado === "SOLICITADA" && (
-                                            <button
-                                                className="cancelar-btn"
-                                                onClick={() => handleCancelar(solicitud.solicitud_id)}
-                                            >
-                                                Cancelar
-                                            </button>
-                                        )}
-                                    </div>
-                                </div>
-                            ))
+                                                {solicitud.estado === "SOLICITADA" && (
+                                                    <button
+                                                        className="btn btn-danger btn-full"
+                                                        onClick={() => handleCancelar(sId)}
+                                                    >
+                                                        Cancelar
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
                         ) : (
-                            <p>No tienes solicitudes de permuta registradas.</p>
+                            <div className="user-card empty-state" style={{
+                                textAlign: 'center',
+                                padding: '60px 40px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                gap: '20px',
+                                marginTop: '20px'
+                            }}>
+                                <div style={{
+                                    fontSize: '5rem',
+                                    background: 'var(--user-accent)',
+                                    width: '120px',
+                                    height: '120px',
+                                    borderRadius: '50%',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    marginBottom: '10px'
+                                }}>
+                                    📨
+                                </div>
+                                <h3 style={{ fontSize: '1.8rem', color: 'var(--user-primary)' }}>No tienes solicitudes de permutas registradas</h3>
+                                <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', maxWidth: '500px' }}>
+                                    Parece que aún no has solicitado ningún intercambio de grupo. ¡Empieza hoy mismo y encuentra el horario que mejor te venga!
+                                </p>
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={() => navigate("/solicitarPermuta")}
+                                    style={{ padding: '12px 30px', fontSize: '1.1rem', marginTop: '10px' }}
+                                >
+                                    ¡Solicitar Permuta Ahora!
+                                </button>
+                            </div>
                         )}
+
                     </div>
+
                 </div>
             </div>
 
