@@ -67,12 +67,18 @@ export default function SeleccionarGruposSinGrupo() {
         return;
       }
 
-      for (const codasignatura of keys) {
-        const grupoDeseado = seleccionados[codasignatura];
-        if (grupoDeseado) {
-          // El servicio espera (asignatura, grupos_deseados)
-          // paramNumGrupo es el primer parámetro, paramCodigo el segundo (ver services/permuta.js)
-          await solicitarPermuta(codasignatura, [grupoDeseado]);
+      for (const rawCod of keys) {
+        const rawGrupo = seleccionados[rawCod];
+        if (rawGrupo) {
+          // Limpiar y convertir a entero por seguridad (el backend espera enteros)
+          // El replace(/\D/g, '') elimina cualquier carácter que no sea un dígito (como la 'G')
+          const codasignatura = parseInt(rawCod.toString().replace(/\D/g, ''), 10);
+          const grupoDeseado = parseInt(rawGrupo.toString().replace(/\D/g, ''), 10);
+
+          if (!isNaN(codasignatura) && !isNaN(grupoDeseado)) {
+            // El servicio espera (asignatura, grupos_deseados)
+            await solicitarPermuta(codasignatura, [grupoDeseado]);
+          }
         }
       }
       toast.success("Permutas solicitadas con éxito.");
@@ -82,6 +88,7 @@ export default function SeleccionarGruposSinGrupo() {
       logError(error);
     }
   };
+
 
   const haySeleccion = asignaturas.some(
     ({ codasignatura }) => seleccionados[codasignatura.toString()]
