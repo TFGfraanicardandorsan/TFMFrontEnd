@@ -19,16 +19,18 @@
     list-style: none;
   }
 
+
   .usuario-item {
     padding: 10px;
     margin-bottom: 10px;
-    background: #fff;
+    background: var(--admin-card-bg, #fff);
     border-radius: 0;
     box-shadow: none;
     font-size: 0.95em;
     display: flex;
     flex-direction: column;
     gap: 6px;
+    color: var(--admin-text-primary, #1e293b);
   }
 
   .usuario-item button {
@@ -37,5 +39,26 @@
     padding: 10px;
     border-radius: 0;
     margin-top: 6px;
+    background: var(--admin-primary, #4f46e5);
+    color: #fff;
+    border: none;
+    transition: var(--admin-transition, all 0.3s);
+  }
+
+  .usuario-item button:hover {
+    background: var(--admin-primary-hover, #4338ca);
+  }
+
+  /* Modo oscuro específico para el panel de usuarios */
+  body.dark-mode .usuario-item {
+    background: var(--admin-card-bg, #1e293b);
+    color: var(--admin-text-primary, #f8fafc);
+  }
+  body.dark-mode .usuario-item button {
+    background: var(--admin-primary, #4f46e5);
+    color: #fff;
+  }
+  body.dark-mode .usuario-item button:hover {
+    background: var(--admin-primary-hover, #4338ca);
   }
 }

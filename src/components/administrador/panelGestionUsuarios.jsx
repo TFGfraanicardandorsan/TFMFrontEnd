@@ -15,9 +15,15 @@ const UserManagementPanel = () => {
         const fetchUsers = async () => {
             try {
                 const response = await obtenerTodosUsuarios();
-                setUsers(response.data);
+                // Asegurarse de que la respuesta es un array
+                if (Array.isArray(response?.data)) {
+                    setUsers(response.data);
+                } else {
+                    setUsers([]);
+                }
             } catch (err) {
                 setError(err.message);
+                setUsers([]);
             } finally {
                 setLoading(false);
             }
@@ -71,14 +77,14 @@ const UserManagementPanel = () => {
                         <div className="admin-loading">Cargando usuarios...</div>
                     ) : error ? (
                         <div className="admin-error">Error: {error}</div>
-                    ) : users.length === 0 ? (
+                    ) : !Array.isArray(users) || users.length === 0 ? (
                         <div className="admin-empty-state">
                             <div className="admin-empty-state-icon">👤</div>
                             <p className="admin-empty-state-text">No hay usuarios registrados.</p>
                         </div>
                     ) : (
                         <div className="admin-grid admin-grid-3">
-                            {users.map(user => (
+                            {Array.isArray(users) && users.map(user => (
                                 <div key={user.id} className="admin-card">
                                     <div className="admin-card-header">
                                         <h2 className="admin-card-title">
