@@ -41,7 +41,7 @@ const UserManagementPanel = () => {
     const handleUpdateUser = async (e) => {
         e.preventDefault();
         try {
-            await actualizarUsuario(editingUser.id, formData);
+            await actualizarUsuario({ ...formData, id: editingUser.id });
             setUsers(users.map(user => (user.id === editingUser.id ? { ...user, ...formData } : user)));
             handleCloseModal();
         } catch (err) {

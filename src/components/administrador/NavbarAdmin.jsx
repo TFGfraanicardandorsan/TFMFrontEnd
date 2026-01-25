@@ -101,6 +101,11 @@ export default function NavbarAdmin() {
                   <span className="nav-icon">📊</span> Ver estadísticas
                 </button>
               </li>
+              <li>
+                <button className="nav-link-btn" onClick={() => handleLinkClick("/gestionUsuarios")}>
+                  <span className="nav-icon">👥</span> Gestión de usuarios
+                </button>
+              </li>
             </ul>
           </li>
           <li className="nav-group">
@@ -140,6 +145,9 @@ export default function NavbarAdmin() {
           </li>
           <li>
             <Link to="/estadisticas">Ver estadísticas</Link>
+          </li>
+          <li>
+            <Link to="/gestionUsuarios">Gestión de usuarios</Link>
           </li>
         </ul>
         <div className="nav-icons">
