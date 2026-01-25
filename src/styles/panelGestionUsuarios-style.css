@@ -1,3 +1,8 @@
+
+.admin-content-wrap--full-width {
+    max-width: none;
+}
+
 /* Estilos para la barra de filtros */
 .admin-filters-bar {
     display: flex;
