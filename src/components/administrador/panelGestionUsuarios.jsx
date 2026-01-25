@@ -98,7 +98,7 @@ const UserManagementPanel = () => {
     return (
         <>
             <div className="admin-page-container">
-                <div className="admin-content-wrap">
+                <div className="admin-content-wrap admin-content-wrap--full-width">
                     {/* Header */}
                     <div className="admin-page-header">
                         <h1 className="admin-page-title">👥 Panel de Gestión de Usuarios</h1>
