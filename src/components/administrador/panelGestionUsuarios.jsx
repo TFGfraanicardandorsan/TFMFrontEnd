@@ -227,6 +227,19 @@ const UserManagementPanel = () => {
                                         required
                                     />
                                 </div>
+                                <div className="admin-form-group">
+                                    <label className="admin-label">Rol</label>
+                                    <select
+                                        name="rol"
+                                        className="admin-input"
+                                        value={formData.rol || ''}
+                                        onChange={handleInputChange}
+                                        required
+                                    >
+                                        <option value="estudiante">Estudiante</option>
+                                        <option value="administrador">Administrador</option>
+                                    </select>
+                                </div>
                                 {formData.estudio !== undefined && (
                                     <div className="admin-form-group">
                                         <label className="admin-label">Estudio</label>
