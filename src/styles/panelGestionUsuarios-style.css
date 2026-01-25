@@ -1,6 +1,62 @@
-/* Adaptación móvil para panel de gestión de usuarios */
-/* Adaptación móvil para panel de gestión de usuarios */
+/* Estilos para la barra de filtros */
+.admin-filters-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.admin-search-input,
+.admin-filter-select {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--admin-border, #e2e8f0);
+    background-color: var(--admin-input-bg, #fff);
+    font-size: 1rem;
+    color: var(--admin-text-primary, #1e293b);
+    transition: var(--admin-transition, all 0.3s);
+}
+
+.admin-search-input {
+    flex-grow: 1;
+    min-width: 200px;
+}
+
+.admin-filter-select {
+    min-width: 180px;
+}
+
+.admin-search-input:focus,
+.admin-filter-select:focus {
+    outline: none;
+    border-color: var(--admin-primary, #4f46e5);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* Estilos para la paginación */
+.admin-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 24px;
+    gap: 16px;
+}
+
+.admin-pagination-info {
+    font-size: 1rem;
+    color: var(--admin-text-secondary, #64748b);
+    font-weight: 500;
+}
+
+/* Adaptación móvil */
 @media (max-width: 768px) {
+  .admin-filters-bar {
+      flex-direction: column;
+      align-items: stretch;
+  }
+
   .panel-usuarios-container {
     padding: 12px 4px;
     width: 100vw;

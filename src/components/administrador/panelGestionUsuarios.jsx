@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { obtenerTodosUsuarios, actualizarUsuario } from '../../services/usuario';
 import "../../styles/admin-common.css";
 import "../../styles/panelGestionUsuarios-style.css";
@@ -11,14 +11,17 @@ const UserManagementPanel = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [formData, setFormData] = useState({});
 
+    // Estados para filtros y paginación
+    const [searchTerm, setSearchTerm] = useState('');
+    const [roleFilter, setRoleFilter] = useState('todos');
+    const [currentPage, setCurrentPage] = useState(1);
+    const usersPerPage = 9;
+
     useEffect(() => {
         const fetchUsers = async () => {
             try {
                 const response = await obtenerTodosUsuarios();
-                // Asegurarse de que la respuesta es un array
-                console.log(response.result.result);
                 if (Array.isArray(response?.result.result)) {
-                    // Mapear claves del backend a las esperadas por el frontend
                     const mappedUsers = response.result.result.map(u => ({
                         id: u.uvus || u.id,
                         name: u.nombre_completo || u.name,
@@ -70,6 +73,24 @@ const UserManagementPanel = () => {
         setFormData({ ...formData, [name]: value });
     };
 
+    // Lógica de filtrado y paginación
+    const filteredUsers = useMemo(() => {
+        return users
+            .filter(user =>
+                user.name.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+            .filter(user =>
+                roleFilter === 'todos' || (user.rol && user.rol.toLowerCase() === roleFilter.toLowerCase())
+            );
+    }, [users, searchTerm, roleFilter]);
+
+    const paginatedUsers = useMemo(() => {
+        const startIndex = (currentPage - 1) * usersPerPage;
+        return filteredUsers.slice(startIndex, startIndex + usersPerPage);
+    }, [filteredUsers, currentPage, usersPerPage]);
+
+    const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+
     return (
         <>
             <div className="admin-page-container">
@@ -82,19 +103,45 @@ const UserManagementPanel = () => {
                         </p>
                     </div>
 
+                    {/* Filtros y Búsqueda */}
+                    <div className="admin-filters-bar">
+                        <input
+                            type="text"
+                            placeholder="Buscar por nombre..."
+                            className="admin-search-input"
+                            value={searchTerm}
+                            onChange={(e) => {
+                                setSearchTerm(e.target.value);
+                                setCurrentPage(1);
+                            }}
+                        />
+                        <select
+                            className="admin-filter-select"
+                            value={roleFilter}
+                            onChange={(e) => {
+                                setRoleFilter(e.target.value);
+                                setCurrentPage(1);
+                            }}
+                        >
+                            <option value="todos">Todos los roles</option>
+                            <option value="estudiante">Estudiante</option>
+                            <option value="administrador">Administrador</option>
+                        </select>
+                    </div>
+
                     {/* Contenido */}
                     {loading ? (
                         <div className="admin-loading">Cargando usuarios...</div>
                     ) : error ? (
                         <div className="admin-error">Error: {error}</div>
-                    ) : !Array.isArray(users) || users.length === 0 ? (
+                    ) : paginatedUsers.length === 0 ? (
                         <div className="admin-empty-state">
                             <div className="admin-empty-state-icon">👤</div>
-                            <p className="admin-empty-state-text">No hay usuarios registrados.</p>
+                            <p className="admin-empty-state-text">No se encontraron usuarios con los filtros aplicados.</p>
                         </div>
                     ) : (
                         <div className="admin-grid admin-grid-3">
-                            {Array.isArray(users) && users.map(user => (
+                            {paginatedUsers.map(user => (
                                 <div key={user.id} className="admin-card">
                                     <div className="admin-card-header">
                                         <h2 className="admin-card-title">
@@ -122,6 +169,30 @@ const UserManagementPanel = () => {
                             ))}
                         </div>
                     )}
+
+                    {/* Paginación */}
+                    {totalPages > 1 && (
+                        <div className="admin-pagination">
+                            <button
+                                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                disabled={currentPage === 1}
+                                className="admin-btn"
+                            >
+                                Anterior
+                            </button>
+                            <span className="admin-pagination-info">
+                                Página {currentPage} de {totalPages}
+                            </span>
+                            <button
+                                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                disabled={currentPage === totalPages}
+                                className="admin-btn"
+                            >
+                                Siguiente
+                            </button>
+                        </div>
+                    )}
+
                 </div>
             </div>
 
