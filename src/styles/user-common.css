@@ -42,8 +42,6 @@
    Layout Principal
    ======================================== */
 .page-container {
-    display: flex;
-    flex-direction: column;
     min-height: 100vh;
     background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
     padding: var(--spacing-md);
@@ -53,7 +51,6 @@
 }
 
 .content-wrap {
-    flex: 1;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
