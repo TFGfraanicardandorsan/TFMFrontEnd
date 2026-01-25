@@ -19,7 +19,7 @@ const UserManagementPanel = () => {
                 console.log(response.result.result);
                 if (Array.isArray(response?.result.result)) {
                     // Mapear claves del backend a las esperadas por el frontend
-                    const mappedUsers = response.data.map(u => ({
+                    const mappedUsers = response.result.result.map(u => ({
                         id: u.uvus || u.id,
                         name: u.nombre_completo || u.name,
                         email: u.correo || u.email,
