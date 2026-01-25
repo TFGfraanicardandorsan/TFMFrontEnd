@@ -16,8 +16,8 @@ const UserManagementPanel = () => {
             try {
                 const response = await obtenerTodosUsuarios();
                 // Asegurarse de que la respuesta es un array
-                console.log(response);
-                if (Array.isArray(response?.data.result)) {
+                console.log(response.result.result);
+                if (Array.isArray(response?.result.result)) {
                     // Mapear claves del backend a las esperadas por el frontend
                     const mappedUsers = response.data.map(u => ({
                         id: u.uvus || u.id,
