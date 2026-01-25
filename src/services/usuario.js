@@ -16,6 +16,10 @@ export const obtenerTodosUsuarios = async () => {
     return await postAPI("/api/v1/usuario/obtenerTodosUsuarios");
 }
 
-export const actualizarUsuario = async (userData) => {
-    return await postAPI(`/api/v1/usuario/actualizarUsuario/`, userData);
+export const actualizarUsuario = async (uvus, userData) => {
+    const payload = {
+        uvus,
+        ...userData
+    };
+    return await postAPI(`/api/v1/usuario/actualizarUsuario/`, payload);
 }
