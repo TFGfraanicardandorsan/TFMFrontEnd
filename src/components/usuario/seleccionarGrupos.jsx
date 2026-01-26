@@ -21,19 +21,23 @@ export default function SeleccionarGrupos() {
         const response = await obtenerTodosGruposMisAsignaturasUsuario();
         if (response && response.result && response.result.result) {
           const agrupadas = response.result.result.reduce((acc, item) => {
-            const { codasignatura, nombreasignatura, numgrupo } = item;
+            const { codasignatura, nombreasignatura, numgrupo, curso } = item;
             if (!acc[codasignatura]) {
               acc[codasignatura] = {
                 codasignatura,
                 nombreasignatura,
+                curso: curso || "Otros",
                 grupos: [],
               };
             }
-            acc[codasignatura].grupos.push(numgrupo);
+            if (!acc[codasignatura].grupos.includes(numgrupo)) {
+              acc[codasignatura].grupos.push(numgrupo);
+            }
             return acc;
           }, {});
 
-          setAsignaturas(Object.values(agrupadas));
+          const asignaturasData = Object.values(agrupadas);
+          setAsignaturas(asignaturasData);
         }
       } catch (error) {
         logError(error);
@@ -50,6 +54,19 @@ export default function SeleccionarGrupos() {
       ...prev,
       [codasignatura]: numGrupo,
     }));
+  };
+
+  const handleGrupoPorCursoChange = (curso, numGrupo) => {
+    const actualizaciones = {};
+    asignaturas.forEach(asignatura => {
+      if (asignatura.curso === curso) {
+        // Solo asignamos si el grupo existe para esa asignatura
+        if (asignatura.grupos.includes(parseInt(numGrupo)) || asignatura.grupos.includes(numGrupo.toString())) {
+          actualizaciones[asignatura.codasignatura] = numGrupo;
+        }
+      }
+    });
+    setSeleccionados(prev => ({ ...prev, ...actualizaciones }));
   };
 
   const handleSubmit = async () => {
@@ -100,6 +117,32 @@ export default function SeleccionarGrupos() {
 
         {asignaturas.length > 0 ? (
           <>
+            <div className="user-card" style={{ marginBottom: '30px', borderLeft: '4px solid var(--user-primary)' }}>
+              <div style={{ fontWeight: 700, marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <FontAwesomeIcon icon={faInfoCircle} style={{ color: 'var(--user-primary)' }} />
+                <span>Configuración Rápida por Curso</span>
+              </div>
+              <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '20px' }}>
+                Asigna automáticamente un grupo a todas las asignaturas de un mismo curso.
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+                {[...new Set(asignaturas.map(a => a.curso))].sort().map(curso => (
+                  <div key={curso} style={{ flex: '1 1 200px' }}>
+                    <label className="form-label" style={{ fontSize: '0.85rem' }}>Curso {curso}:</label>
+                    <select
+                      className="form-select"
+                      onChange={(e) => handleGrupoPorCursoChange(curso, e.target.value)}
+                      defaultValue=""
+                    >
+                      <option value="" disabled>-- Asignar grupo --</option>
+                      {[...new Set(asignaturas.filter(a => a.curso === curso).flatMap(a => a.grupos))].sort((a, b) => a - b).map(grupo => (
+                        <option key={grupo} value={grupo}>Grupo {grupo}</option>
+                      ))}
+                    </select>
+                  </div>
+                ))}
+              </div>
+            </div>
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
