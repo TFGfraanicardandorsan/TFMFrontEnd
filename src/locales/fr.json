@@ -1,0 +1,51 @@
+{
+    "common": {
+        "loading": "Chargement...",
+        "welcome": "Bienvenue sur Permutes ETSII",
+        "description": "Une plateforme pour gérer les échanges efficacement.",
+        "last_notifications": "Dernières Notifications",
+        "no_notifications": "Aucune notification",
+        "notifications": "Notifications",
+        "accept": "Accepter",
+        "read_more": "Lire plus",
+        "cookie_consent": "Nous utilisons des cookies pour améliorer l'expérience utilisateur."
+    },
+    "navbar": {
+        "brand": "Permutes ETSII - Admin",
+        "management": "Gestion",
+        "home": "Accueil",
+        "incidents": "Incidents",
+        "my_incidents": "Mes Incidents",
+        "create_notification": "Créer une notification",
+        "view_stats": "Voir les statistiques",
+        "user_management": "Gestion des utilisateurs",
+        "profile": "Profil",
+        "my_profile": "Mon profil",
+        "logout": "Se déconnecter",
+        "exchanges": "Permutes",
+        "view_available": "Voir les permutes disponibles",
+        "my_exchanges": "Mes permutes",
+        "request_exchange": "Demander une permute",
+        "my_requests": "Mes demandes",
+        "accepted_exchanges": "Permutes acceptées",
+        "report_incident": "Signaler un incident"
+    },
+    "login": {
+        "title": "Connexion à Permutes ETSII",
+        "button": "Se connecter",
+        "telegram_info": "Les utilisateurs qui ne sont pas encore enregistrés dans le système peuvent le demander au bot Telegram."
+    },
+    "footer": {
+        "students_delegation": "Délégation des Étudiants",
+        "school_name": "École Technique Supérieure de Génie Informatique",
+        "university_name": "Université de Séville",
+        "policies": "Politiques",
+        "privacy_policy": "Politique de Confidentialité",
+        "cookies_policy": "Politique de Cookies",
+        "guides": "Guides",
+        "user_guide": "Guide d'Utilisation",
+        "documentation": "Documentation",
+        "contact_us": "Contactez-nous",
+        "send_email": "Envoyez-nous un e-mail"
+    }
+}

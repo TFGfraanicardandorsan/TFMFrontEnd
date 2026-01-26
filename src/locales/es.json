@@ -1,0 +1,51 @@
+{
+    "common": {
+        "loading": "Cargando...",
+        "welcome": "Bienvenido a Permutas ETSII",
+        "description": "Una plataforma para gestionar permutas de manera eficiente.",
+        "last_notifications": "Últimas Notificaciones",
+        "no_notifications": "No hay notificaciones",
+        "notifications": "Notificaciones",
+        "accept": "Aceptar",
+        "read_more": "Leer más",
+        "cookie_consent": "Utilizamos cookies para mejorar la experiencia del usuario."
+    },
+    "navbar": {
+        "brand": "Permutas ETSII - Admin",
+        "management": "Gestión",
+        "home": "Inicio",
+        "incidents": "Incidencias",
+        "my_incidents": "Mis Incidencias",
+        "create_notification": "Crear notificación",
+        "view_stats": "Ver estadísticas",
+        "user_management": "Gestión de usuarios",
+        "profile": "Perfil",
+        "my_profile": "Mi perfil",
+        "logout": "Cerrar sesión",
+        "exchanges": "Permutas",
+        "view_available": "Ver permutas disponibles",
+        "my_exchanges": "Mis permutas",
+        "request_exchange": "Solicitar permuta",
+        "my_requests": "Mis solicitudes",
+        "accepted_exchanges": "Permutas aceptadas",
+        "report_incident": "Reportar incidencia"
+    },
+    "login": {
+        "title": "Inicio sesión en Permutas ETSII",
+        "button": "Inicia Sesión",
+        "telegram_info": "Los usuarios que todavía no estén dados de alta en el sistema pueden solicitarlo al bot de Telegram."
+    },
+    "footer": {
+        "students_delegation": "Delegación de Alumnos",
+        "school_name": "Escuela Técnica Superior de Ingeniería Informática",
+        "university_name": "Universidad de Sevilla",
+        "policies": "Políticas",
+        "privacy_policy": "Política de Privacidad",
+        "cookies_policy": "Política de Cookies",
+        "guides": "Guías",
+        "user_guide": "Guía de uso",
+        "documentation": "Documentación",
+        "contact_us": "Contáctanos",
+        "send_email": "Envíanos un correo"
+    }
+}

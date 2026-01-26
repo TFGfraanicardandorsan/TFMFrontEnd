@@ -9,9 +9,14 @@ import { formatearFecha } from "../../lib/formateadorFechas.js";
 import { Link } from "react-router-dom";
 import { logError } from "../../lib/logger.js";
 import ThemeToggle from "../comun/ThemeToggle";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "../comun/LanguageSwitcher";
+
 
 export default function NavbarAdmin() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
   const [openGroup, setOpenGroup] = useState(null);
   const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -54,8 +59,9 @@ export default function NavbarAdmin() {
   };
 
   if (cargando) {
-    return <div className="loading-text">Cargando...</div>;
+    return <div className="loading-text">{t("common.loading")}</div>;
   }
+
   return (
     <>
       <nav className="navbar navbar-admin">
@@ -73,85 +79,92 @@ export default function NavbarAdmin() {
               className="nav-group-btn"
               onClick={() => setOpenGroup(openGroup === 0 ? null : 0)}
             >
-              Gestión {openGroup === 0 ? "▲" : "▼"}
+              {t("navbar.management")} {openGroup === 0 ? "▲" : "▼"}
             </button>
+
             <ul className={`nav-submenu ${openGroup === 0 ? "show" : ""}`}>
               <li>
                 <button className="nav-link-btn" onClick={() => handleLinkClick("/")}>
-                  <span className="nav-icon">🏠</span> Inicio
+                  <span className="nav-icon">🏠</span> {t("navbar.home")}
                 </button>
               </li>
               <li>
                 <button className="nav-link-btn" onClick={() => handleLinkClick("/incidenciasSinAsignar")}>
-                  <span className="nav-icon">📋</span> Incidencias
+                  <span className="nav-icon">📋</span> {t("navbar.incidents")}
                 </button>
               </li>
               <li>
                 <button className="nav-link-btn" onClick={() => handleLinkClick("/incidencias")}>
-                  <span className="nav-icon">🐛</span> Mis Incidencias
+                  <span className="nav-icon">🐛</span> {t("navbar.my_incidents")}
                 </button>
               </li>
               <li>
                 <button className="nav-link-btn" onClick={() => handleLinkClick("/crearNotificacion")}>
-                  <span className="nav-icon">📢</span> Crear notificación
+                  <span className="nav-icon">📢</span> {t("navbar.create_notification")}
                 </button>
               </li>
               <li>
                 <button className="nav-link-btn" onClick={() => handleLinkClick("/estadisticas")}>
-                  <span className="nav-icon">📊</span> Ver estadísticas
+                  <span className="nav-icon">📊</span> {t("navbar.view_stats")}
                 </button>
               </li>
               <li>
                 <button className="nav-link-btn" onClick={() => handleLinkClick("/gestionUsuarios")}>
-                  <span className="nav-icon">👥</span> Gestión de usuarios
+                  <span className="nav-icon">👥</span> {t("navbar.user_management")}
                 </button>
               </li>
             </ul>
+
           </li>
           <li className="nav-group">
             <button
               className="nav-group-btn"
               onClick={() => setOpenGroup(openGroup === 1 ? null : 1)}
             >
-              Perfil {openGroup === 1 ? "▲" : "▼"}
+              {t("navbar.profile")} {openGroup === 1 ? "▲" : "▼"}
             </button>
+
             <ul className={`nav-submenu ${openGroup === 1 ? "show" : ""}`}>
               <li>
                 <button className="nav-link-btn" onClick={() => handleLinkClick("/miPerfilAdmin")}>
-                  <span className="nav-icon">👤</span> Mi perfil
+                  <span className="nav-icon">👤</span> {t("navbar.my_profile")}
                 </button>
               </li>
               <li>
                 <button className="nav-link-btn" onClick={() => handleLinkClick("/logout")}>
-                  <span className="nav-icon">🚪</span> Cerrar sesión
+                  <span className="nav-icon">🚪</span> {t("navbar.logout")}
                 </button>
               </li>
             </ul>
+
           </li>
         </ul>
         {/* Menú clásico para escritorio */}
         <ul className="nav-links">
           <li>
-            <Link to="/">Inicio</Link>
+            <Link to="/">{t("navbar.home")}</Link>
           </li>
           <li>
-            <Link to="/incidenciasSinAsignar">Incidencias</Link>
+            <Link to="/incidenciasSinAsignar">{t("navbar.incidents")}</Link>
           </li>
           <li>
-            <Link to="/incidencias">Mis Incidencias</Link>
+            <Link to="/incidencias">{t("navbar.my_incidents")}</Link>
           </li>
           <li>
-            <Link to="/crearNotificacion">Crear notificación</Link>
+            <Link to="/crearNotificacion">{t("navbar.create_notification")}</Link>
           </li>
           <li>
-            <Link to="/estadisticas">Ver estadísticas</Link>
+            <Link to="/estadisticas">{t("navbar.view_stats")}</Link>
           </li>
           <li>
-            <Link to="/gestionUsuarios">Gestión de usuarios</Link>
+            <Link to="/gestionUsuarios">{t("navbar.user_management")}</Link>
           </li>
         </ul>
+
         <div className="nav-icons">
+          <LanguageSwitcher />
           <ThemeToggle />
+
           <FontAwesomeIcon
             icon={faBell}
             className="icon bell-icon"
@@ -171,7 +184,8 @@ export default function NavbarAdmin() {
       </nav>
       {sidebarVisible && (
         <div className="sidebar">
-          <h2>Notificaciones</h2>
+          <h2>{t("common.notifications")}</h2>
+
           {notificaciones.length > 0 ? (
             notificaciones.slice(0, 5).map((notificacion) => (
               <div key={notificacion.id} className="notification-item">
@@ -182,7 +196,7 @@ export default function NavbarAdmin() {
               </div>
             ))
           ) : (
-            <p>No hay notificaciones</p>
+            <p>{t("common.no_notifications")}</p>
           )}
         </div>
       )}

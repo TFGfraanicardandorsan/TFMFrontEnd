@@ -8,32 +8,36 @@ import ThemeToggle from "../comun/ThemeToggle";
 import { logout } from "../../services/login.js";
 import { formatearFecha } from "../../lib/formateadorFechas.js";
 import { logError } from "../../lib/logger.js";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "../comun/LanguageSwitcher";
 
 const menu = [
   {
-    label: "Inicio",
+    label: "navbar.home",
     to: "/",
+    icon: "🏠"
   },
   {
-    label: "Permutas",
+    label: "navbar.exchanges",
     sub: [
-      { to: "/permutas", label: "Ver permutas disponibles" },
-      { to: "/misPermutas", label: "Mis permutas" },
-      { to: "/solicitarPermuta", label: "Solicitar permuta" },
-      { to: "/misSolicitudesPermuta", label: "Mis solicitudes" },
-      { to: "/permutasAceptadas", label: "Permutas aceptadas" },
+      { to: "/permutas", label: "navbar.view_available", icon: "👁️" },
+      { to: "/misPermutas", label: "navbar.my_exchanges", icon: "👤" },
+      { to: "/solicitarPermuta", label: "navbar.request_exchange", icon: "📝" },
+      { to: "/misSolicitudesPermuta", label: "navbar.my_requests", icon: "📄" },
+      { to: "/permutasAceptadas", label: "navbar.accepted_exchanges", icon: "📄" },
     ],
   },
   {
-    label: "Incidencias",
+    label: "navbar.incidents",
     sub: [
-      { to: "/misIncidencias", label: "Mis incidencias" },
-      { to: "/reportarIncidencia", label: "Reportar incidencia" },
+      { to: "/misIncidencias", label: "navbar.my_incidents", icon: "👤" },
+      { to: "/reportarIncidencia", label: "navbar.report_incident", icon: "⚠️" },
     ],
   },
 ];
 
 export default function NavbarEstudiante() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [openGroup, setOpenGroup] = useState(null);
@@ -67,7 +71,6 @@ export default function NavbarEstudiante() {
     setSidebarVisible(!sidebarVisible);
   };
 
-  // Cierra el menú al navegar
   const handleLinkClick = (to) => {
     setOpen(false);
     if (to === "/logout") {
@@ -78,8 +81,9 @@ export default function NavbarEstudiante() {
   };
 
   if (cargando) {
-    return <div className="loading-text">Cargando...</div>;
+    return <div className="loading-text">{t("common.loading")}</div>;
   }
+
   return (
     <>
       <nav className="navbar">
@@ -99,7 +103,7 @@ export default function NavbarEstudiante() {
                   className="nav-group-btn"
                   onClick={() => handleLinkClick(group.to)}
                 >
-                  <span className="nav-icon">🏠</span> {group.label}
+                  <span className="nav-icon">{group.icon}</span> {t(group.label)}
                 </button>
               ) : (
                 <>
@@ -107,7 +111,7 @@ export default function NavbarEstudiante() {
                     className="nav-group-btn"
                     onClick={() => setOpenGroup(openGroup === idx ? null : idx)}
                   >
-                    {group.label} {openGroup === idx ? "▲" : "▼"}
+                    {t(group.label)} {openGroup === idx ? "▲" : "▼"}
                   </button>
                   <ul className={`nav-submenu ${openGroup === idx ? "show" : ""}`}>
                     {group.sub.map((item) => (
@@ -116,15 +120,8 @@ export default function NavbarEstudiante() {
                           className="nav-link-btn"
                           onClick={() => handleLinkClick(item.to)}
                         >
-                          <span className="nav-icon">
-                            {item.label.includes("Ver") ? "👁️" :
-                              item.label.includes("Mis") ? "👤" :
-                                item.label.includes("Solicitar") ? "📝" :
-                                  item.label.includes("Reportar") ? "⚠️" :
-                                    item.label.includes("Perfil") ? "⚙️" :
-                                      item.label.includes("Cerrar") ? "🚪" : "📄"}
-                          </span>
-                          {item.label}
+                          <span className="nav-icon">{item.icon}</span>
+                          {t(item.label)}
                         </button>
                       </li>
                     ))}
@@ -139,16 +136,16 @@ export default function NavbarEstudiante() {
           {menu.map((group) => (
             <li key={group.label} className={group.sub ? "dropdown" : ""}>
               {group.to ? (
-                <Link to={group.to}>{group.label}</Link>
+                <Link to={group.to}>{t(group.label)}</Link>
               ) : (
                 <>
                   <button className="dropdown-btn">
-                    {group.label} <span className="arrow">▼</span>
+                    {t(group.label)} <span className="arrow">▼</span>
                   </button>
                   <ul className="dropdown-content">
                     {group.sub.map((item) => (
                       <li key={item.to}>
-                        <Link to={item.to}>{item.label}</Link>
+                        <Link to={item.to}>{t(item.label)}</Link>
                       </li>
                     ))}
                   </ul>
@@ -158,6 +155,7 @@ export default function NavbarEstudiante() {
           ))}
         </ul>
         <div className="nav-icons">
+          <LanguageSwitcher />
           <ThemeToggle />
           <FontAwesomeIcon
             icon={faBell}
@@ -178,7 +176,7 @@ export default function NavbarEstudiante() {
       </nav>
       {sidebarVisible && (
         <div className="sidebar">
-          <h2>Notificaciones</h2>
+          <h2>{t("common.notifications")}</h2>
           {notificaciones.length > 0 ? (
             notificaciones.slice(0, 5).map((notificacion) => (
               <div key={notificacion.id} className="notification-item">
@@ -189,7 +187,7 @@ export default function NavbarEstudiante() {
               </div>
             ))
           ) : (
-            <p>No hay notificaciones</p>
+            <p>{t("common.no_notifications")}</p>
           )}
         </div>
       )}

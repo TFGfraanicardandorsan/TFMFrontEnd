@@ -1,0 +1,51 @@
+{
+    "common": {
+        "loading": "Loading...",
+        "welcome": "Welcome to ETSII Exchanges",
+        "description": "A platform to manage exchanges efficiently.",
+        "last_notifications": "Latest Notifications",
+        "no_notifications": "No notifications",
+        "notifications": "Notifications",
+        "accept": "Accept",
+        "read_more": "Read more",
+        "cookie_consent": "We use cookies to improve user experience."
+    },
+    "navbar": {
+        "brand": "ETSII Exchanges - Admin",
+        "management": "Management",
+        "home": "Home",
+        "incidents": "Incidents",
+        "my_incidents": "My Incidents",
+        "create_notification": "Create notification",
+        "view_stats": "View statistics",
+        "user_management": "User management",
+        "profile": "Profile",
+        "my_profile": "My profile",
+        "logout": "Logout",
+        "exchanges": "Exchanges",
+        "view_available": "View available exchanges",
+        "my_exchanges": "My exchanges",
+        "request_exchange": "Request exchange",
+        "my_requests": "My requests",
+        "accepted_exchanges": "Accepted exchanges",
+        "report_incident": "Report incident"
+    },
+    "login": {
+        "title": "Login to ETSII Exchanges",
+        "button": "Sign In",
+        "telegram_info": "Users who are not yet registered in the system can request it from the Telegram bot."
+    },
+    "footer": {
+        "students_delegation": "Students Delegation",
+        "school_name": "Higher Technical School of Computer Engineering",
+        "university_name": "University of Seville",
+        "policies": "Policies",
+        "privacy_policy": "Privacy Policy",
+        "cookies_policy": "Cookies Policy",
+        "guides": "Guides",
+        "user_guide": "User Guide",
+        "documentation": "Documentation",
+        "contact_us": "Contact Us",
+        "send_email": "Send us an email"
+    }
+}

@@ -3,9 +3,13 @@ import "../../styles/home-style.css";
 import { obtenerNotificaciones } from "../../services/notificacion.js";
 import { formatearFecha } from "../../lib/formateadorFechas.js";
 import { logError } from "../../lib/logger.js";
+import { useTranslation } from "react-i18next";
+
 
 export default function Home() {
+  const { t } = useTranslation();
   const [notificaciones, setNotificaciones] = useState([]);
+
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
@@ -28,16 +32,18 @@ export default function Home() {
   }, []);
 
   if (cargando) {
-    return <div className="loading-text">Cargando...</div>;
+    return <div className="loading-text">{t("common.loading")}</div>;
   }
+
 
   return (
     <div className="home-container">
       <div className="content">
-        <h1>Bienvenido a Permutas ETSII</h1>
-        <p>Una plataforma para gestionar permutas de manera eficiente.</p>
+        <h1>{t("common.welcome")}</h1>
+        <p>{t("common.description")}</p>
         <div className="notificaciones">
-          <h2>Últimas Notificaciones</h2>
+          <h2>{t("common.last_notifications")}</h2>
+
           <div className="notificaciones-cards">
             {notificaciones.slice(0, 9).map((notificacion) => (
               <div className="notificacion-card" key={notificacion.id}>
