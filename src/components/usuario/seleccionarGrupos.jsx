@@ -1,18 +1,23 @@
 import { useState, useEffect } from "react";
 import { obtenerTodosGruposMisAsignaturasUsuario, insertarMisGrupos } from "../../services/grupo.js";
-import "../../styles/seleccionarGrupos-style.css";
 import { useNavigate } from "react-router-dom";
 import { logError } from "../../lib/logger.js";
+import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLayersGroup, faSave, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import "../../styles/user-common.css";
 
 export default function SeleccionarGrupos() {
   const [asignaturas, setAsignaturas] = useState([]);
   const [seleccionados, setSeleccionados] = useState({});
+  const [cargando, setCargando] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     const ObtenerTodosGruposMisAsignaturasUsuario = async () => {
       try {
+        setCargando(true);
         const response = await obtenerTodosGruposMisAsignaturasUsuario();
         if (response && response.result && response.result.result) {
           const agrupadas = response.result.result.reduce((acc, item) => {
@@ -33,6 +38,8 @@ export default function SeleccionarGrupos() {
       } catch (error) {
         logError(error);
         setError("Error al cargar los grupos de asignaturas");
+      } finally {
+        setCargando(false);
       }
     };
     ObtenerTodosGruposMisAsignaturasUsuario();
@@ -46,70 +53,133 @@ export default function SeleccionarGrupos() {
   };
 
   const handleSubmit = async () => {
-    // Validar que todos los grupos estén seleccionados
     const asignaturasSinGrupo = asignaturas.filter(
       ({ codasignatura }) => !seleccionados[codasignatura]
     );
 
     if (asignaturasSinGrupo.length > 0) {
-      setError("Por favor selecciona un grupo para todas las asignaturas.");
+      toast.warning("Por favor selecciona un grupo para todas las asignaturas.");
       return;
     }
-    setError("");
 
-    for (let [codasignatura, numgrupo] of Object.entries(seleccionados)) {
-      try {
+    try {
+      for (let [codasignatura, numgrupo] of Object.entries(seleccionados)) {
         await insertarMisGrupos(numgrupo, codasignatura);
-      } catch (error) {
-        setError(`Error al insertar grupo ${numgrupo} para asignatura ${codasignatura}`);
-        logError(error);
       }
+      toast.success("Grupos asignados con éxito");
+      navigate("/miPerfil");
+    } catch (error) {
+      toast.error("Ocurrió un error al guardar los grupos");
+      logError(error);
     }
-    navigate("/miPerfil");
   };
 
-  return (
-    <>
-      <div className="contenedor">
-        <h2 className="titulo">Selecciona tus grupos</h2>
-        {error && <p className="error">{error}</p>}
-        <div className="tarjetas-grid">
-          {asignaturas.map(({ codasignatura, nombreasignatura, grupos }) => (
-            <div key={codasignatura} className="tarjeta">
-              <h3 className="nombre-asignatura">{nombreasignatura}</h3>
-              <select
-                className="select-grupo"
-                value={seleccionados[codasignatura] || ""}
-                onChange={(e) =>
-                  handleGrupoSeleccionadoParaAsignatura(
-                    codasignatura,
-                    e.target.value
-                  )
-                }
-              >
-                <option value="" disabled>
-                  -- Selecciona un grupo --
-                </option>
-                {grupos.map((grupo) => (
-                  <option key={grupo} value={grupo}>
-                    Grupo {grupo}
-                  </option>
-                ))}
-              </select>
-            </div>
-          ))}
-        </div>
-        <button
-          onClick={handleSubmit}
-          className="boton-guardar"
-          disabled={asignaturas.some(
-            ({ codasignatura }) => !seleccionados[codasignatura]
-          )}
-        >
-          Guardar
-        </button>
+  if (cargando) {
+    return (
+      <div className="page-container">
+        <div className="user-loading">Cargando grupos disponibles...</div>
       </div>
-      <div style={{ height: "80px" }} />
-    </>
+    );
+  }
+
+  const todasSeleccionadas = asignaturas.length > 0 &&
+    asignaturas.every(({ codasignatura }) => seleccionados[codasignatura]);
+
+  return (
+    <div className="page-container">
+      <div className="content-wrap">
+        <div className="page-header">
+          <h1 className="page-title">Selección de Grupos</h1>
+          <p className="page-subtitle">
+            Indica el grupo asignado para cada una de tus asignaturas matriculadas.
+            Esto es necesario para gestionar tus permutas correctamente.
+          </p>
+        </div>
+
+        {error && <div className="user-error">{error}</div>}
+
+        {asignaturas.length > 0 ? (
+          <>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+              gap: '24px',
+              marginBottom: '40px'
+            }}>
+              {asignaturas.map(({ codasignatura, nombreasignatura, grupos }) => (
+                <div key={codasignatura} className="user-card" style={{ display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ marginBottom: '15px', color: 'var(--user-primary)', fontSize: '1.2rem', fontWeight: 700, display: 'flex', gap: '10px' }}>
+                    <FontAwesomeIcon icon={faLayersGroup} style={{ marginTop: '4px' }} />
+                    <span>{nombreasignatura}</span>
+                  </div>
+
+                  <div className="form-group" style={{ marginTop: 'auto' }}>
+                    <label className="form-label" style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                      Tu grupo actual:
+                    </label>
+                    <select
+                      className="form-select"
+                      value={seleccionados[codasignatura] || ""}
+                      onChange={(e) =>
+                        handleGrupoSeleccionadoParaAsignatura(
+                          codasignatura,
+                          e.target.value
+                        )
+                      }
+                    >
+                      <option value="" disabled>-- Selecciona tu grupo --</option>
+                      {grupos.map((grupo) => (
+                        <option key={grupo} value={grupo}>
+                          Grupo {grupo}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{
+              margin: '20px auto 100px auto',
+              width: '100%',
+              maxWidth: '800px',
+              background: 'var(--card-bg)',
+              padding: '24px 32px',
+              borderRadius: '16px',
+              boxShadow: 'var(--card-shadow)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              border: '1px solid var(--border-color)',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <FontAwesomeIcon icon={faInfoCircle} style={{ color: todasSeleccionadas ? 'var(--success-color)' : 'var(--user-primary)' }} />
+                <span style={{ fontWeight: 500, color: 'var(--text-primary)' }}>
+                  {todasSeleccionadas ? "¡Todo listo para guardar!" : "Faltan grupos por seleccionar"}
+                </span>
+              </div>
+              <button
+                onClick={handleSubmit}
+                className="btn btn-primary"
+                disabled={!todasSeleccionadas}
+                style={{ minWidth: '180px', padding: '14px 28px' }}
+              >
+                <FontAwesomeIcon icon={faSave} /> Guardar Grupos
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className="user-card empty-state" style={{ textAlign: 'center', padding: '60px' }}>
+            <div style={{ fontSize: '4rem', marginBottom: '20px' }}>📚</div>
+            <h3>No se encontraron asignaturas pendientes</h3>
+            <p>Parece que ya tienes todos tus grupos asignados o no tienes asignaturas nuevas.</p>
+            <button className="btn btn-primary" onClick={() => navigate("/miPerfil")} style={{ marginTop: '20px', maxWidth: '250px' }}>
+              Ir a mi Perfil
+            </button>
+          </div>
+        )}
+      </div>
+      <div style={{ height: "40px" }} />
+    </div>
   );
 }
