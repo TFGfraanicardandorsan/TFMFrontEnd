@@ -19,6 +19,7 @@
     left: 0;
     color: var(--text-primary, #333);
     z-index: 1000;
+    box-sizing: border-box;
 }
 
 .footer h4 {
@@ -51,6 +52,7 @@
 ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 a {
@@ -105,10 +107,16 @@ body.dark-mode .footer a:hover {
         align-items: center;
         text-align: center;
         gap: 20px;
+        width: 100%;
     }
 
     .footer-section {
         max-width: 100%;
+        width: 100%;
         margin-bottom: 10px;
+    }
+
+    .footer div {
+        width: 100%;
     }
 }
