@@ -10,25 +10,36 @@ export default function LayoutEstudiante() {
 
     useEffect(() => {
         const verificarAsignaturas = async () => {
-            // No redirigir si ya estamos en la página de selección de grupos o asignaturas
             const ignorePaths = ["/seleccionarGrupos", "/seleccionarAsignaturas", "/login", "/noRegistrado"];
+
             if (ignorePaths.includes(location.pathname)) {
                 return;
             }
 
             try {
                 const res = await comprobarAsignaturasSinGrupo();
-                // Si el API devuelve true (como booleano dentro de result)
-                if (!res.err && res.result?.result === true) {
+                console.log("[LayoutEstudiante] Comprobando asignaturas sin grupo...");
+                console.log("[LayoutEstudiante] Ruta actual:", location.pathname);
+                console.log("[LayoutEstudiante] Respuesta completa API:", JSON.stringify(res));
+
+                // Comprobamos si hay asignaturas sin grupo (el API puede devolver {result: true} o directamente true)
+                // Usamos una comprobación flexible por si el backend devuelve la estructura anidada
+                const hasUnassignedSubjects = res.result === true || res.result?.result === true;
+
+                if (!res.err && hasUnassignedSubjects) {
+                    console.log("[LayoutEstudiante] ¡Se detectaron asignaturas sin grupo! Redirigiendo...");
                     navigate("/seleccionarGrupos");
+                } else {
+                    console.log("[LayoutEstudiante] Todo correcto o error en la respuesta.");
                 }
             } catch (error) {
-                console.error("Error al comprobar asignaturas sin grupo:", error);
+                console.error("[LayoutEstudiante] Error en el proceso de verificación:", error);
             }
         };
 
         verificarAsignaturas();
     }, [location.pathname, navigate]);
+
 
     return (
         <>
