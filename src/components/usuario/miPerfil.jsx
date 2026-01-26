@@ -61,6 +61,27 @@ export default function MiPerfil() {
     }
   };
 
+  const manejarSuperarTodasAsignaturas = async () => {
+    if (asignaturas.length === 0) return;
+
+    setLoading(true);
+    try {
+      for (const asignatura of asignaturas) {
+        const response = await superarAsignaturasUsuario(asignatura.codigo);
+        if (response.err) {
+          throw new Error(`Error al superar ${asignatura.asignatura}: ${response.errmsg}`);
+        }
+      }
+      setAsignaturas([]);
+      setMensajeExito("¡Enhorabuena! Has aprobado todas tus asignaturas.");
+      setTimeout(() => setMensajeExito(""), 5000);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="page-container">
@@ -133,13 +154,24 @@ export default function MiPerfil() {
                 <FontAwesomeIcon icon={faBookOpen} />
                 <span>Mis Asignaturas en Curso</span>
               </div>
-              <button
-                className="btn btn-outline"
-                style={{ width: 'auto' }}
-                onClick={() => navigate("/seleccionarAsignaturas")}
-              >
-                + Matricular Nuevas
-              </button>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                {asignaturas.length > 0 && (
+                  <button
+                    className="btn btn-success"
+                    style={{ width: 'auto' }}
+                    onClick={manejarSuperarTodasAsignaturas}
+                  >
+                    <FontAwesomeIcon icon={faCheckCircle} /> Aprobar Todas
+                  </button>
+                )}
+                <button
+                  className="btn btn-outline"
+                  style={{ width: 'auto' }}
+                  onClick={() => navigate("/seleccionarAsignaturas")}
+                >
+                  + Matricular Nuevas
+                </button>
+              </div>
             </div>
 
             {asignaturas.length > 0 ? (
