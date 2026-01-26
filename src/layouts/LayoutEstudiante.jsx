@@ -18,23 +18,35 @@ export default function LayoutEstudiante() {
 
             try {
                 const res = await comprobarAsignaturasSinGrupo();
-                console.log("[LayoutEstudiante] Comprobando asignaturas sin grupo...");
                 console.log("[LayoutEstudiante] Ruta actual:", location.pathname);
-                console.log("[LayoutEstudiante] Respuesta completa API:", JSON.stringify(res));
+                console.log("[LayoutEstudiante] Respuesta API bruta (JSON):", JSON.stringify(res));
 
-                // Comprobamos si hay asignaturas sin grupo (el API puede devolver {result: true} o directamente true)
-                // Usamos una comprobación flexible por si el backend devuelve la estructura anidada
-                const hasUnassignedSubjects = res.result === true || res.result?.result === true;
+                // Analizamos la respuesta para encontrar un valor true
+                // Estructura posible A: { err: false, result: true }
+                // Estructura posible B: { err: false, result: { result: true } }
+                // Estructura posible C: { err: false, result: { err: false, result: { result: true } } }
+
+                let hasUnassignedSubjects = false;
+                const data = res.result;
+
+                if (data === true) {
+                    hasUnassignedSubjects = true;
+                } else if (data?.result === true) {
+                    hasUnassignedSubjects = true;
+                } else if (data?.result?.result === true) {
+                    hasUnassignedSubjects = true;
+                }
+
+                console.log("[LayoutEstudiante] ¿Tiene asignaturas sin grupo?:", hasUnassignedSubjects);
 
                 if (!res.err && hasUnassignedSubjects) {
-                    console.log("[LayoutEstudiante] ¡Se detectaron asignaturas sin grupo! Redirigiendo...");
+                    console.log("[LayoutEstudiante] Redirigiendo a /seleccionarGrupos...");
                     navigate("/seleccionarGrupos");
-                } else {
-                    console.log("[LayoutEstudiante] Todo correcto o error en la respuesta.");
                 }
             } catch (error) {
-                console.error("[LayoutEstudiante] Error en el proceso de verificación:", error);
+                console.error("[LayoutEstudiante] Error crítico en verificación:", error);
             }
+
         };
 
         verificarAsignaturas();
