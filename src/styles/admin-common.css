@@ -927,3 +927,27 @@ body.dark-mode .admin-modal-header {
 body.dark-mode .admin-modal-footer {
     border-top-color: #334155;
 }
+
+/* Estilo base para el botón de toggle (aplicable a ambos modos) */
+.theme-toggle-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    border-radius: 50%;
+    color: var(--nav-text, #ffffff);
+}
+
+.theme-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+}
+
+body.dark-mode .theme-toggle-btn {
+    color: #fbbf24;
+}

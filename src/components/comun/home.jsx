@@ -34,7 +34,7 @@ export default function Home() {
   return (
     <div className="home-container">
       <div className="content">
-        <h1 style={{ color: "red" }}>Bienvenido a Permutas ETSII</h1>
+        <h1>Bienvenido a Permutas ETSII</h1>
         <p>Una plataforma para gestionar permutas de manera eficiente.</p>
         <div className="notificaciones">
           <h2>Últimas Notificaciones</h2>

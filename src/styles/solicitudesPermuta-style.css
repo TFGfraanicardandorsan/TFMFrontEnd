@@ -101,7 +101,13 @@
 .modal-content p {
   margin-bottom: 12px;
   line-height: 1.6;
+  color: var(--text-primary);
 }
+
+.modal-content strong {
+  color: var(--text-primary);
+}
+
 
 .modal-actions {
   margin-top: 24px;

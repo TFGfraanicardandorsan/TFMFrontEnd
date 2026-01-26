@@ -36,7 +36,6 @@ import NoRegistrado from "./components/comun/noRegistrado.jsx";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import PanelGestionUsuarios from "./components/administrador/panelGestionUsuarios.jsx";
-import VolverArriba from "./components/comun/volverArriba";
 import { ThemeProvider, useTheme } from "./contexts/ThemeContext";
 
 export function App() {
@@ -122,7 +121,6 @@ function AppContent() {
       </CookieConsent>
 
       <ToastContainer position="top-center" theme={theme} />
-      <VolverArriba />
     </>
   );
 }
