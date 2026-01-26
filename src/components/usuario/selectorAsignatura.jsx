@@ -116,13 +116,13 @@ export default function SelectorAsignatura() {
                   onClick={() => handleCheckboxChange(asignatura.codigo)}
                   style={{
                     padding: '15px',
-                    border: `2px solid ${isSelected ? 'var(--user-primary)' : '#e2e8f0'}`,
+                    border: `2px solid ${isSelected ? 'var(--user-primary)' : 'var(--border-color)'}`,
                     borderRadius: '8px',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '15px',
-                    background: isSelected ? 'var(--user-accent)' : 'white',
+                    background: isSelected ? 'var(--user-accent)' : 'var(--card-bg)',
                     transition: 'all 0.2s ease'
                   }}
                 >

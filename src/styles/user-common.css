@@ -9,6 +9,8 @@
     --user-primary-hover: #20406a;
     --user-secondary: #00bcd4;
     --user-accent: #e3f2fd;
+    --user-accent-hover: #bbdefb;
+    --border-color: #e2e8f0;
 
     --danger-color: #ef4444;
     --danger-hover: #dc2626;
@@ -265,6 +267,8 @@ body.dark-mode {
 
     --border-color: #334155;
     --footer-bg: #1e293b;
+    --user-accent: #1e293b;
+    --user-accent-hover: #334155;
     background-color: #0f172a;
     /* Fallback */
 }
