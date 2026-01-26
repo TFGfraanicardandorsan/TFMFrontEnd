@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { logError } from "../../lib/logger.js";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLayersGroup, faSave, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { faLayerGroup, faSave, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import "../../styles/user-common.css";
 
 export default function SeleccionarGrupos() {
@@ -109,7 +109,7 @@ export default function SeleccionarGrupos() {
               {asignaturas.map(({ codasignatura, nombreasignatura, grupos }) => (
                 <div key={codasignatura} className="user-card" style={{ display: 'flex', flexDirection: 'column' }}>
                   <div style={{ marginBottom: '15px', color: 'var(--user-primary)', fontSize: '1.2rem', fontWeight: 700, display: 'flex', gap: '10px' }}>
-                    <FontAwesomeIcon icon={faLayersGroup} style={{ marginTop: '4px' }} />
+                    <FontAwesomeIcon icon={faLayerGroup} style={{ marginTop: '4px' }} />
                     <span>{nombreasignatura}</span>
                   </div>
 
