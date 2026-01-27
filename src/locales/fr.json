@@ -65,5 +65,19 @@
         "error_loading": "Erreur lors du chargement des données",
         "success_generated": "Permute générée avec succès",
         "error_generated": "Erreur lors de la génération de la permute"
+    },
+    "available_swaps": {
+        "title": "Permutes Disponibles",
+        "subtitle": "Ici, vous trouverez des permutes compatibles avec votre inscription. Si vous en voyez une intéressante, acceptez la proposition pour commencer l'échange de groupe.",
+        "swap_label": "Permute",
+        "code_label": "Code",
+        "accept_btn": "Accepter Proposition",
+        "empty_title": "Aucune permute disponible pour le moment",
+        "empty_msg": "Revenez plus tard ou créez votre propre demande de permute.",
+        "request_btn": "Demander une permute",
+        "loading": "Chargement des permutes intéressantes...",
+        "error_loading": "Erreur lors du chargement des permutes",
+        "success_accepted": "Permute acceptée avec succès",
+        "error_accepted": "Erreur lors de l'acceptation de la permute"
     }
 }

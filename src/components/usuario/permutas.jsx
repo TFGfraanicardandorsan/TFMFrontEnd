@@ -6,8 +6,10 @@ import { logError } from "../../lib/logger.js";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExchangeAlt, faCheck, faBookReader } from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from "react-i18next";
 
 export default function Permutas() {
+  const { t } = useTranslation();
   const [permutas, setPermutas] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
@@ -23,12 +25,12 @@ export default function Permutas() {
       if (response && response.result && Array.isArray(response.result.result)) {
         setPermutas(response.result.result);
       } else {
-        setError("Error al cargar los datos");
+        setError(t("available_swaps.error_loading"));
         logError(response);
       }
       setCargando(false);
     } catch (error) {
-      setError("Error al cargar las permutas");
+      setError(t("available_swaps.error_loading"));
       setCargando(false);
       logError(error);
     }
@@ -37,11 +39,11 @@ export default function Permutas() {
   const handleAceptarPermuta = async (solicitudId) => {
     try {
       await aceptarPermutaSolicitudesPermuta(solicitudId);
-      toast.success("Permuta aceptada correctamente");
+      toast.success(t("available_swaps.success_accepted"));
       navigate("/misPermutas");
     } catch (error) {
-      toast.error("Error al aceptar la permuta");
-      setError("Error al aceptar la permuta");
+      toast.error(t("available_swaps.error_accepted"));
+      setError(t("available_swaps.error_accepted"));
       logError(error);
     }
   };
@@ -49,7 +51,7 @@ export default function Permutas() {
   if (cargando) {
     return (
       <div className="page-container">
-        <div className="user-loading">Cargando permutas interesantes...</div>
+        <div className="user-loading">{t("available_swaps.loading")}</div>
       </div>
     );
   }
@@ -66,10 +68,9 @@ export default function Permutas() {
     <div className="page-container">
       <div className="content-wrap">
         <div className="page-header">
-          <h1 className="page-title">Permutas Disponibles</h1>
+          <h1 className="page-title">{t("available_swaps.title")}</h1>
           <p className="page-subtitle">
-            Aquí encontrarás permutas compatibles con tu matrícula. Si ves alguna interesante,
-            acepta la propuesta para iniciar el intercambio de grupo.
+            {t("available_swaps.subtitle")}
           </p>
         </div>
 
@@ -87,16 +88,16 @@ export default function Permutas() {
                     <h3 style={{ margin: 0, fontSize: '1.2rem' }}>{permuta.siglas_asignatura}</h3>
                   </div>
                   <hr style={{ margin: '10px 0', borderColor: '#eee' }} />
-                  <p><strong><FontAwesomeIcon icon={faExchangeAlt} /> Permuta:</strong> G.{permuta.grupo_solicitante} ➝ G.{permuta.grupo_deseado}</p>
+                  <p><strong><FontAwesomeIcon icon={faExchangeAlt} /> {t("available_swaps.swap_label")}:</strong> G.{permuta.grupo_solicitante} ➝ G.{permuta.grupo_deseado}</p>
                   <p style={{ marginTop: '5px', color: 'var(--text-secondary)' }}>
-                    <small>Código: {permuta.codigo_asignatura}</small>
+                    <small>{t("available_swaps.code_label")}: {permuta.codigo_asignatura}</small>
                   </p>
                 </div>
                 <div style={{ marginTop: '20px' }}>
                   <button
                     className="btn btn-success btn-full"
                     onClick={() => handleAceptarPermuta(permuta.solicitud_id)}>
-                    <FontAwesomeIcon icon={faCheck} /> Aceptar Propuesta
+                    <FontAwesomeIcon icon={faCheck} /> {t("available_swaps.accept_btn")}
                   </button>
                 </div>
               </div>
@@ -105,10 +106,10 @@ export default function Permutas() {
         ) : (
           <div className="user-card empty-state" style={{ textAlign: 'center', padding: '40px' }}>
             <div style={{ fontSize: '3rem', marginBottom: '10px' }}>📭</div>
-            <h3>No hay permutas disponibles por el momento</h3>
-            <p>Vuelve más tarde o crea tu propia solicitud de permuta.</p>
+            <h3>{t("available_swaps.empty_title")}</h3>
+            <p>{t("available_swaps.empty_msg")}</p>
             <button className="btn btn-primary" onClick={() => navigate("/solicitarPermuta")} style={{ marginTop: '20px' }}>
-              Solicitar una permuta
+              {t("available_swaps.request_btn")}
             </button>
           </div>
         )}

@@ -65,5 +65,19 @@
         "error_loading": "Error loading data",
         "success_generated": "Swap generated successfully",
         "error_generated": "Error generating swap"
+    },
+    "available_swaps": {
+        "title": "Available Swaps",
+        "subtitle": "Here you will find swaps compatible with your enrollment. If you see one interesting, accept the proposal to start the group exchange.",
+        "swap_label": "Swap",
+        "code_label": "Code",
+        "accept_btn": "Accept Proposal",
+        "empty_title": "No swaps available at the moment",
+        "empty_msg": "Come back later or create your own swap request.",
+        "request_btn": "Request a swap",
+        "loading": "Loading available swaps...",
+        "error_loading": "Error loading swaps",
+        "success_accepted": "Swap accepted successfully",
+        "error_accepted": "Error accepting swap"
     }
 }

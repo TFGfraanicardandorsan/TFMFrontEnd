@@ -65,5 +65,19 @@
         "error_loading": "Error al cargar los datos",
         "success_generated": "Permuta generada con éxito",
         "error_generated": "Error al generar la permuta"
+    },
+    "available_swaps": {
+        "title": "Permutas Disponibles",
+        "subtitle": "Aquí encontrarás permutas compatibles con tu matrícula. Si ves alguna interesante, acepta la propuesta para iniciar el intercambio de grupo.",
+        "swap_label": "Permuta",
+        "code_label": "Código",
+        "accept_btn": "Aceptar Propuesta",
+        "empty_title": "No hay permutas disponibles por el momento",
+        "empty_msg": "Vuelve más tarde o crea tu propia solicitud de permuta.",
+        "request_btn": "Solicitar una permuta",
+        "loading": "Cargando permutas interesantes...",
+        "error_loading": "Error al cargar las permutas",
+        "success_accepted": "Permuta aceptada correctamente",
+        "error_accepted": "Error al aceptar la permuta"
     }
 }
