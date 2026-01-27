@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import "../../styles/user-common.css";
-// Mantenemos estilos específicos si son necesarios, pero priorizamos user-common
-import "../../styles/permutas-style.css";
 import { obtenerPermutasInteresantes, aceptarPermutaSolicitudesPermuta } from "../../services/permuta.js";
 import { useNavigate } from "react-router-dom";
 import { logError } from "../../lib/logger.js";
