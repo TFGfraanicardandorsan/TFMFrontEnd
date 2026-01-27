@@ -79,5 +79,39 @@
         "error_loading": "Error loading swaps",
         "success_accepted": "Swap accepted successfully",
         "error_accepted": "Error accepting swap"
+    },
+    "pdf_generation": {
+        "title": "Permutation Document Generation",
+        "description": "This form allows you to generate the necessary documentation to request a subject permutation. Please complete all mandatory fields and ensure the information is correct before submitting the form.",
+        "instructions_1": "Once you fill out the form, you can download a PDF with the permutation request. This PDF must be signed and sent to the system so your partner can fill in their data.",
+        "instructions_2": "When your partner signs the PDF, you can download it and send it to the administration.",
+        "labels": {
+            "dni": "ID Card (DNI):",
+            "dni_letter": "DNI Letter:",
+            "address": "Address:",
+            "city": "City:",
+            "zip_code": "Zip Code:",
+            "province": "Province:",
+            "phone": "Phone:"
+        },
+        "buttons": {
+            "visualize": "Visualize",
+            "download": "Download",
+            "upload": "Send PDF",
+            "validate": "Validate"
+        },
+        "errors": {
+            "fix_errors": "Please correct the errors in the form",
+            "select_file": "Please select a file to upload.",
+            "upload_error": "Error uploading PDF file.",
+            "send_success": "PDF sent successfully.",
+            "send_error": "Error sending PDF",
+            "validate_success": "The permutation has been validated successfully.",
+            "generation_error": "Error generating PDF"
+        },
+        "modal": {
+            "title": "Validate Permutation",
+            "message": "Remember that requests must be submitted electronically (requires FNMT digital certificate), through the General State Administration Registry, indicating as recipient (use search engine) “University of Seville” and stating in the subject the name of the center \"For E.T.S. of Computer Engineering\". Otherwise, the procedure will NOT be registered by the school and the permutation cannot be performed."
+        }
     }
 }

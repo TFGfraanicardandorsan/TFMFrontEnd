@@ -13,7 +13,7 @@ import {
   aceptarPermuta,
   validarSolicitudPermuta,
 } from "../../services/permuta.js";
-import "../../styles/generacionPDF-style.css";
+import "../../styles/user-common.css";
 import { dayValue, monthValue, yearValue } from "../../lib/generadorFechas.js";
 import {
   validarDNI,
@@ -26,8 +26,10 @@ import Modal from "./Modal.jsx";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { logError } from "../../lib/logger.js";
+import { useTranslation } from "react-i18next";
 
 export default function GeneracionPDF() {
+  const { t } = useTranslation();
   const [dni, setDni] = useState("");
   const [letraDNI, setLetraDNI] = useState("");
   const [domicilio, setDomicilio] = useState("");
@@ -205,14 +207,14 @@ export default function GeneracionPDF() {
 
       return await pdfDoc.save();
     } catch (error) {
-      toast.error("Error generando el PDF");
+      toast.error(t("pdf_generation.errors.generation_error"));
       logError(error)
     }
   };
 
   const mostrarPDF = async () => {
     if (!validarFormulario()) {
-      toast.warning("Por favor, corrige los errores en el formulario");
+      toast.warning(t("pdf_generation.errors.fix_errors"));
       return;
     }
     const pdfBytes = await generarPDF();
@@ -224,7 +226,7 @@ export default function GeneracionPDF() {
 
   const descargarPDF = async () => {
     if (!validarFormulario()) {
-      toast.warning("Por favor, corrige los errores en el formulario");
+      toast.warning(t("pdf_generation.errors.fix_errors"));
       return;
     }
     const pdfBytes = await generarPDF();
@@ -241,7 +243,7 @@ export default function GeneracionPDF() {
 
   const handleUpload = async () => {
     if (!file) {
-      toast.warning("Por favor, selecciona un archivo para subir.");
+      toast.warning(t("pdf_generation.errors.select_file"));
       return;
     }
     const formData = new FormData();
@@ -251,7 +253,7 @@ export default function GeneracionPDF() {
       const response = await subidaArchivo(formData);
       const fileId = response?.result?.fileId;
       if (!fileId) {
-        toast.error("Error al subir el archivo PDF.");
+        toast.error(t("pdf_generation.errors.upload_error"));
         return;
       }
       if (estadoPermuta === "BORRADOR") {
@@ -259,18 +261,18 @@ export default function GeneracionPDF() {
       } else {
         await aceptarPermuta(fileId, permutaId);
       }
-      toast.success("Se ha enviado el PDF correctamente.");
+      toast.success(t("pdf_generation.errors.send_success"));
       navigate("/permutasAceptadas");
     } catch (error) {
       logError(error);
-      toast.error("Error al enviar el PDF");
+      toast.error(t("pdf_generation.errors.send_error"));
     }
   };
 
   const handleValidarPermuta = async () => {
     await validarSolicitudPermuta(permutaId);
     setShowModal(false);
-    toast.success("La permuta ha sido validada correctamente.");
+    toast.success(t("pdf_generation.errors.validate_success"));
     navigate("/permutasAceptadas");
   };
 
@@ -317,216 +319,201 @@ export default function GeneracionPDF() {
   };
 
   return (
-    <>
-      <br />
-      <h1>Generación documentación permuta</h1>
-      Este formulario permite generar la documentación necesaria para solicitar una permuta de asignaturas. Por favor, completa todos los campos obligatorios y asegúrate de que la información es correcta antes de enviar el formulario.
-      Una vez rellenes el formulario, podrás descargar un PDF con la solicitud de permuta. Este PDF deberá ser firmado y enviado al sistema para que tu compañero pueda rellenar sus datos.
-      Cuando tu compañero firme el PDF, podrás descargarlo y enviarlo a la administración.
-      <br />
-      <div className="permuta-container">
-        <div className="permuta-formulario">
-          <div className="permuta-asociar">
-            <label className="permuta-label">
-              DNI:
-              <input
-                type="text"
-                disabled={
-                  estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"
-                }
-                value={dni}
-                onChange={handleDNIChange}
-                className={`permuta-input ${errors.dni ? "permuta-input-error" : ""
-                  }`}
-              />
-              {errors.dni && (
-                <span className="permuta-error-message">{errors.dni}</span>
-              )}
-            </label>
-            <label className="permuta-label">
-              Letra DNI:
-              <input
-                type="text"
-                disabled={
-                  estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"
-                }
-                value={letraDNI}
-                onChange={handleLetraDNIChange}
-                maxLength="1"
-                className={`permuta-input ${errors.letraDNI ? "permuta-input-error" : ""
-                  }`}
-              />
-              {errors.letraDNI && (
-                <span className="permuta-error-message">{errors.letraDNI}</span>
-              )}
-            </label>
-          </div>
+    <div className="page-container">
+      <div className="content-wrap">
+        <div className="page-header">
+          <h1 className="page-title">{t("pdf_generation.title")}</h1>
+          <p className="page-subtitle">
+            {t("pdf_generation.description")}
+          </p>
+          <p style={{ maxWidth: '800px', margin: '15px auto', color: 'var(--text-secondary)' }}>
+            {t("pdf_generation.instructions_1")}
+          </p>
+          <p style={{ maxWidth: '800px', margin: '0 auto', color: 'var(--text-secondary)' }}>
+            {t("pdf_generation.instructions_2")}
+          </p>
+        </div>
 
-          <label className="permuta-label">
-            Domicilio:
-            <input
-              type="text"
-              disabled={
-                estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"
-              }
-              value={domicilio}
-              onChange={(e) => {
-                setDomicilio(e.target.value);
-                setErrors((prev) => ({
-                  ...prev,
-                  domicilio: validarCampoObligatorio(
-                    e.target.value,
-                    "domicilio"
-                  ),
-                }));
-              }}
-              className={`permuta-input ${errors.domicilio ? "permuta-input-error" : ""
-                }`}
-            />
-            {errors.domicilio && (
-              <span className="permuta-error-message">{errors.domicilio}</span>
-            )}
-          </label>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '30px' }}>
 
-          <label className="permuta-label">
-            Población:
-            <input
-              type="text"
-              disabled={
-                estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"
-              }
-              value={poblacion}
-              onChange={(e) => {
-                setPoblacion(e.target.value);
-                setErrors((prev) => ({
-                  ...prev,
-                  poblacion: validarCampoObligatorio(
-                    e.target.value,
-                    "población"
-                  ),
-                }));
-              }}
-              className={`permuta-input ${errors.poblacion ? "permuta-input-error" : ""
-                }`}
-            />
-            {errors.poblacion && (
-              <span className="permuta-error-message">{errors.poblacion}</span>
-            )}
-          </label>
+          {/* Columna Izquierda: Formulario */}
+          <div className="user-card">
+            <div style={{ display: 'flex', gap: '20px', marginBottom: '15px' }}>
+              <div style={{ flex: 2 }} className="form-group">
+                <label className="form-label">{t("pdf_generation.labels.dni")}</label>
+                <input
+                  type="text"
+                  disabled={estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"}
+                  value={dni}
+                  onChange={handleDNIChange}
+                  className={`form-input ${errors.dni ? "input-error" : ""}`}
+                  style={{ borderColor: errors.dni ? 'var(--danger-color)' : '' }}
+                />
+                {errors.dni && <span style={{ color: 'var(--danger-color)', fontSize: '0.85rem' }}>{errors.dni}</span>}
+              </div>
+              <div style={{ flex: 1 }} className="form-group">
+                <label className="form-label">{t("pdf_generation.labels.dni_letter")}</label>
+                <input
+                  type="text"
+                  disabled={estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"}
+                  value={letraDNI}
+                  onChange={handleLetraDNIChange}
+                  maxLength="1"
+                  className={`form-input ${errors.letraDNI ? "input-error" : ""}`}
+                  style={{ borderColor: errors.letraDNI ? 'var(--danger-color)' : '' }}
+                />
+                {errors.letraDNI && <span style={{ color: 'var(--danger-color)', fontSize: '0.85rem' }}>{errors.letraDNI}</span>}
+              </div>
+            </div>
 
-          <div className="permuta-asociar">
-            <label className="permuta-label">
-              Código Postal:
+            <div className="form-group">
+              <label className="form-label">{t("pdf_generation.labels.address")}</label>
               <input
                 type="text"
-                disabled={
-                  estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"
-                }
-                value={codigoPostal}
-                onChange={handleCodigoPostalChange}
-                className={`permuta-input ${errors.codigoPostal ? "permuta-input-error" : ""
-                  }`}
-              />
-              {errors.codigoPostal && (
-                <span className="permuta-error-message">
-                  {errors.codigoPostal}
-                </span>
-              )}
-            </label>
-            <label className="permuta-label">
-              Provincia:
-              <input
-                type="text"
-                disabled={
-                  estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"
-                }
-                value={provincia}
+                disabled={estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"}
+                value={domicilio}
                 onChange={(e) => {
-                  setProvincia(e.target.value);
+                  setDomicilio(e.target.value);
                   setErrors((prev) => ({
                     ...prev,
-                    provincia: validarCampoObligatorio(
-                      e.target.value,
-                      "provincia"
-                    ),
+                    domicilio: validarCampoObligatorio(e.target.value, "domicilio"),
                   }));
                 }}
-                className={`permuta-input ${errors.provincia ? "permuta-input-error" : ""
-                  }`}
+                className={`form-input ${errors.domicilio ? "input-error" : ""}`}
+                style={{ borderColor: errors.domicilio ? 'var(--danger-color)' : '' }}
               />
-              {errors.provincia && (
-                <span className="permuta-error-message">
-                  {errors.provincia}
-                </span>
-              )}
-            </label>
-          </div>
+              {errors.domicilio && <span style={{ color: 'var(--danger-color)', fontSize: '0.85rem' }}>{errors.domicilio}</span>}
+            </div>
 
-          <label className="permuta-label">
-            Teléfono:
-            <input
-              type="text"
-              disabled={
-                estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"
-              }
-              value={telefono}
-              onChange={handleTelefonoChange}
-              className={`permuta-input ${errors.telefono ? "permuta-input-error" : ""
-                }`}
-            />
-            {errors.telefono && (
-              <span className="permuta-error-message">{errors.telefono}</span>
-            )}
-          </label>
-
-          <div className="permuta-botones">
-            {estadoPermuta !== "ACEPTADA" && estadoPermuta !== "VALIDADA" && (
-              <button className="permuta-button" onClick={mostrarPDF}>
-                Visualizar
-              </button>
-            )}
-            <button className="permuta-button" onClick={descargarPDF}>
-              Descargar
-            </button>
-          </div>
-
-          {estadoPermuta !== "ACEPTADA" && estadoPermuta !== "VALIDADA" && (
-            <div className="permuta-boton-enviar">
+            <div className="form-group">
+              <label className="form-label">{t("pdf_generation.labels.city")}</label>
               <input
-                type="file"
-                id="file"
-                accept="application/pdf"
-                onChange={handleFileChange}
+                type="text"
+                disabled={estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"}
+                value={poblacion}
+                onChange={(e) => {
+                  setPoblacion(e.target.value);
+                  setErrors((prev) => ({
+                    ...prev,
+                    poblacion: validarCampoObligatorio(e.target.value, "población"),
+                  }));
+                }}
+                className={`form-input ${errors.poblacion ? "input-error" : ""}`}
+                style={{ borderColor: errors.poblacion ? 'var(--danger-color)' : '' }}
               />
-              <button className="permuta-button" onClick={handleUpload}>
-                Enviar PDF
+              {errors.poblacion && <span style={{ color: 'var(--danger-color)', fontSize: '0.85rem' }}>{errors.poblacion}</span>}
+            </div>
+
+            <div style={{ display: 'flex', gap: '20px', marginBottom: '15px' }}>
+              <div className="form-group" style={{ flex: 1 }}>
+                <label className="form-label">{t("pdf_generation.labels.zip_code")}</label>
+                <input
+                  type="text"
+                  disabled={estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"}
+                  value={codigoPostal}
+                  onChange={handleCodigoPostalChange}
+                  className={`form-input ${errors.codigoPostal ? "input-error" : ""}`}
+                  style={{ borderColor: errors.codigoPostal ? 'var(--danger-color)' : '' }}
+                />
+                {errors.codigoPostal && <span style={{ color: 'var(--danger-color)', fontSize: '0.85rem' }}>{errors.codigoPostal}</span>}
+              </div>
+              <div className="form-group" style={{ flex: 1 }}>
+                <label className="form-label">{t("pdf_generation.labels.province")}</label>
+                <input
+                  type="text"
+                  disabled={estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"}
+                  value={provincia}
+                  onChange={(e) => {
+                    setProvincia(e.target.value);
+                    setErrors((prev) => ({
+                      ...prev,
+                      provincia: validarCampoObligatorio(e.target.value, "provincia"),
+                    }));
+                  }}
+                  className={`form-input ${errors.provincia ? "input-error" : ""}`}
+                  style={{ borderColor: errors.provincia ? 'var(--danger-color)' : '' }}
+                />
+                {errors.provincia && <span style={{ color: 'var(--danger-color)', fontSize: '0.85rem' }}>{errors.provincia}</span>}
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">{t("pdf_generation.labels.phone")}</label>
+              <input
+                type="text"
+                disabled={estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"}
+                value={telefono}
+                onChange={handleTelefonoChange}
+                className={`form-input ${errors.telefono ? "input-error" : ""}`}
+                style={{ borderColor: errors.telefono ? 'var(--danger-color)' : '' }}
+              />
+              {errors.telefono && <span style={{ color: 'var(--danger-color)', fontSize: '0.85rem' }}>{errors.telefono}</span>}
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '20px' }}>
+              {estadoPermuta !== "ACEPTADA" && estadoPermuta !== "VALIDADA" && (
+                <button className="btn btn-primary" onClick={mostrarPDF}>
+                  {t("pdf_generation.buttons.visualize")}
+                </button>
+              )}
+              <button className="btn btn-secondary" onClick={descargarPDF} style={{ width: '100%', backgroundColor: '#6c757d', color: 'white' }}>
+                {t("pdf_generation.buttons.download")}
               </button>
             </div>
-          )}
-          {estadoPermuta === "ACEPTADA" && estadoPermuta !== "VALIDADA" && (
-            <button
-              className="permuta-button-validar"
-              onClick={() => setShowModal(true)}
-            >
-              Validar
-            </button>
-          )}
 
-          {showModal && (
-            <Modal
-              title="Validar Permuta"
-              message={`Recuerde que las solicitudes deberán remitirse de forma telemática (requiere certificado digital de la FNMT), a través del Registro de la Administración General del Estado, indicando como destinatario (usar buscador) “Universidad de Sevilla” y 
-              poniendo en asunto el nombre del centro "Para E.T.S. de Ingeniería Informática". En caso contrario el trámite NO será registrado por la escuela y no se podrá realizar la permuta.`}
-              onConfirm={handleValidarPermuta}
-              onCancel={() => setShowModal(false)}
-            />
-          )}
+            {estadoPermuta !== "ACEPTADA" && estadoPermuta !== "VALIDADA" && (
+              <div className="file-upload-wrapper" style={{ marginTop: '20px', padding: '20px' }}>
+                <input
+                  type="file"
+                  id="file"
+                  accept="application/pdf"
+                  onChange={handleFileChange}
+                  style={{ marginBottom: '10px', width: '100%' }}
+                />
+                <button className="btn btn-success btn-full" onClick={handleUpload}>
+                  {t("pdf_generation.buttons.upload")}
+                </button>
+              </div>
+            )}
+
+            {estadoPermuta === "ACEPTADA" && estadoPermuta !== "VALIDADA" && (
+              <button
+                className="btn btn-warning btn-full"
+                style={{ marginTop: '20px', backgroundColor: 'var(--warning-color)', color: 'white' }}
+                onClick={() => setShowModal(true)}
+              >
+                {t("pdf_generation.buttons.validate")}
+              </button>
+            )}
+          </div>
+
+          {/* Columna Derecha: PDF Preview */}
+          <div className="user-card" style={{ display: 'flex', flexDirection: 'column', height: 'fit-content', minHeight: '600px', padding: '0', overflow: 'hidden' }}>
+            {pdfUrl ? (
+              <iframe
+                src={pdfUrl}
+                style={{ width: '100%', height: '700px', border: 'none' }}
+                title="PDF Preview"
+              />
+            ) : (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', minHeight: '300px', backgroundColor: '#f8f9fa', color: '#6c757d' }}>
+                <p>{t("pdf_generation.buttons.visualize")}...</p>
+              </div>
+            )}
+          </div>
+
         </div>
-        <div className="permuta-pdf-container">
-          {pdfUrl && <iframe className="pdf-iframe" src={pdfUrl} />}
-        </div>
+
+        {showModal && (
+          <Modal
+            title={t("pdf_generation.modal.title")}
+            message={t("pdf_generation.modal.message")}
+            onConfirm={handleValidarPermuta}
+            onCancel={() => setShowModal(false)}
+          />
+        )}
       </div>
       <div style={{ height: "80px" }} />
-    </>
+    </div>
   );
 }

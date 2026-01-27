@@ -79,5 +79,39 @@
         "error_loading": "Error al cargar las permutas",
         "success_accepted": "Permuta aceptada correctamente",
         "error_accepted": "Error al aceptar la permuta"
+    },
+    "pdf_generation": {
+        "title": "Generación documentación permuta",
+        "description": "Este formulario permite generar la documentación necesaria para solicitar una permuta de asignaturas. Por favor, completa todos los campos obligatorios y asegúrate de que la información es correcta antes de enviar el formulario.",
+        "instructions_1": "Una vez rellenes el formulario, podrás descargar un PDF con la solicitud de permuta. Este PDF deberá ser firmado y enviado al sistema para que tu compañero pueda rellenar sus datos.",
+        "instructions_2": "Cuando tu compañero firme el PDF, podrás descargarlo y enviarlo a la administración.",
+        "labels": {
+            "dni": "DNI:",
+            "dni_letter": "Letra DNI:",
+            "address": "Domicilio:",
+            "city": "Población:",
+            "zip_code": "Código Postal:",
+            "province": "Provincia:",
+            "phone": "Teléfono:"
+        },
+        "buttons": {
+            "visualize": "Visualizar",
+            "download": "Descargar",
+            "upload": "Enviar PDF",
+            "validate": "Validar"
+        },
+        "errors": {
+            "fix_errors": "Por favor, corrige los errores en el formulario",
+            "select_file": "Por favor, selecciona un archivo para subir.",
+            "upload_error": "Error al subir el archivo PDF.",
+            "send_success": "Se ha enviado el PDF correctamente.",
+            "send_error": "Error al enviar el PDF",
+            "validate_success": "La permuta ha sido validada correctamente.",
+            "generation_error": "Error generando el PDF"
+        },
+        "modal": {
+            "title": "Validar Permuta",
+            "message": "Recuerde que las solicitudes deberán remitirse de forma telemática (requiere certificado digital de la FNMT), a través del Registro de la Administración General del Estado, indicando como destinatario (usar buscador) “Universidad de Sevilla” y poniendo en asunto el nombre del centro \"Para E.T.S. de Ingeniería Informática\". En caso contrario el trámite NO será registrado por la escuela y no se podrá realizar la permuta."
+        }
     }
 }
