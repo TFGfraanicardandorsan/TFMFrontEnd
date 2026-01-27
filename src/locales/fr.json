@@ -47,5 +47,23 @@
         "documentation": "Documentation",
         "contact_us": "Contactez-nous",
         "send_email": "Envoyez-nous un e-mail"
+    },
+    "accepted_swaps": {
+        "title": "Permutes Acceptées",
+        "subtitle": "Sélectionnez les permutes que vous souhaitez générer. Vous pouvez générer une permute pour chaque groupe de matières que vous échangez avec un étudiant.",
+        "student_1": "Étudiant 1",
+        "student_2": "Étudiant 2",
+        "subject": "Matière",
+        "code": "Code",
+        "group": "Groupe",
+        "generate_swap": "Générer Permute",
+        "continue_swap": "Continuer Permute",
+        "complete_swap": "Terminer Permute",
+        "view_swap": "Voir Permute",
+        "no_swaps": "Aucune permute acceptée",
+        "loading": "Chargement des permutes...",
+        "error_loading": "Erreur lors du chargement des données",
+        "success_generated": "Permute générée avec succès",
+        "error_generated": "Erreur lors de la génération de la permute"
     }
 }

@@ -47,5 +47,23 @@
         "documentation": "Documentación",
         "contact_us": "Contáctanos",
         "send_email": "Envíanos un correo"
+    },
+    "accepted_swaps": {
+        "title": "Permutas Aceptadas",
+        "subtitle": "Selecciona las permutas que deseas generar. Puedes generar una permuta por cada grupo de asignaturas que vayas a permutar con un estudiante.",
+        "student_1": "Estudiante 1",
+        "student_2": "Estudiante 2",
+        "subject": "Asignatura",
+        "code": "Código",
+        "group": "Grupo",
+        "generate_swap": "Generar Permuta",
+        "continue_swap": "Continuar Permuta",
+        "complete_swap": "Completar Permuta",
+        "view_swap": "Ver Permuta",
+        "no_swaps": "No hay permutas aceptadas",
+        "loading": "Cargando permutas...",
+        "error_loading": "Error al cargar los datos",
+        "success_generated": "Permuta generada con éxito",
+        "error_generated": "Error al generar la permuta"
     }
 }

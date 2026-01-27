@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import "../../styles/permutas-style.css";
+import "../../styles/user-common.css";
 import { obtenerPermutasAgrupadasPorUsuario, generarBorradorPermuta } from "../../services/permuta.js";
 import { useNavigate } from "react-router-dom";
 import { obtenerSesion } from "../../services/login.js";
 import { toast } from "react-toastify";
 import { logError } from "../../lib/logger.js";
+import { useTranslation } from "react-i18next";
 
 export default function PermutasAceptadas() {
+  const { t } = useTranslation();
   const [permutas, setPermutas] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
@@ -28,12 +30,12 @@ export default function PermutasAceptadas() {
       ) {
         setPermutas(response.result.result);
       } else {
-        setError("Error al cargar los datos");
+        setError(t("accepted_swaps.error_loading"));
         logError(response);
       }
       setCargando(false);
     } catch (error) {
-      setError("Error al obtener las permutas agrupadas por usuario");
+      setError(t("accepted_swaps.error_loading"));
       setCargando(false);
       logError(error);
     }
@@ -45,10 +47,10 @@ export default function PermutasAceptadas() {
       if (response) {
         setUsuario(response.user.uvus);
       } else {
-        setError("Error al cargar los datos del usuario");
+        setError(t("accepted_swaps.error_loading"));
       }
     } catch (error) {
-      setError("Error al obtener los datos del usuario", error);
+      setError(t("accepted_swaps.error_loading"), error);
     }
   };
 
@@ -56,100 +58,102 @@ export default function PermutasAceptadas() {
   const handleGenerarPermuta = async (IdsPermuta) => {
     try {
       await generarBorradorPermuta(IdsPermuta);
-      toast.success("Permuta generada con éxito");
+      toast.success(t("accepted_swaps.success_generated"));
       navigate("/generarPermuta");
     } catch (error) {
-      toast.error("Error al generar la permuta");
-      setError("Error al generar la permuta");
+      toast.error(t("accepted_swaps.error_generated"));
+      setError(t("accepted_swaps.error_generated"));
       logError(error);
     }
   };
 
   if (cargando) {
-    return <div>Cargando permutas...</div>;
+    return <div className="user-loading">{t("accepted_swaps.loading")}</div>;
   }
 
   if (error) {
-    return <div className="error-message">{error}</div>;
+    return <div className="user-error">{error}</div>;
   }
 
   return (
-    <div className="permutas-container">
-      <h2>Permutas aceptadas</h2>
-      <p className="subtitulo">
-        Selecciona las permutas que deseas generar. Puedes generar una permuta por cada grupo de asignaturas que vayas a permutar con un estudiante. Puedes generar más de una permuta que tendrás que enviar a la escuela.
-      </p>
-      {cargando ? (
-        <div>Cargando permutas...</div>
-      ) : error ? (
-        <div className="error-message">{error}</div>
-      ) : permutas.length > 0 ? (
-        <div className="permutas-grid">
-          {permutas.map((grupoPermuta, index) => {
-            const usuarios = grupoPermuta.usuarios ?? [];
-            const permutasDetalles = grupoPermuta.permutas ?? [];
-            const todasNull = permutasDetalles.every((permuta) => permuta.estado_permuta_asociada === null);
-            const todasBorrador = permutasDetalles.every((permuta) => permuta.estado_permuta_asociada === "BORRADOR");
-            const puedeGenerarPermuta = usuario === usuarios[0] && todasNull
-            const puedeContinuarPermuta = usuario === usuarios[0] && todasBorrador;
-            const todasFirmadas = permutasDetalles.length > 0 && permutasDetalles.every((permuta) => permuta.estado_permuta_asociada === "FIRMADA");
-            const puedeCompletarPermuta = usuario === usuarios[1] && todasFirmadas;
-            const todasFinalizadas = permutasDetalles.every((permuta) => (permuta.estado_permuta_asociada === "ACEPTADA" || permuta.estado_permuta_asociada === "VALIDADA"));
-            const IdsPermuta = permutasDetalles.map((permuta) => permuta.permuta_id);
+    <div className="page-container">
+      <div className="content-wrap">
+        <header className="page-header">
+          <h2 className="page-title">{t("accepted_swaps.title")}</h2>
+          <p className="page-subtitle">
+            {t("accepted_swaps.subtitle")}
+          </p>
+        </header>
 
-            // Saltar si los datos son incompletos
-            if (usuarios.length < 2 || permutasDetalles.length === 0) {
-              return null;
-            }
+        {permutas.length > 0 ? (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
+            {permutas.map((grupoPermuta, index) => {
+              const usuarios = grupoPermuta.usuarios ?? [];
+              const permutasDetalles = grupoPermuta.permutas ?? [];
+              const todasNull = permutasDetalles.every((permuta) => permuta.estado_permuta_asociada === null);
+              const todasBorrador = permutasDetalles.every((permuta) => permuta.estado_permuta_asociada === "BORRADOR");
+              const puedeGenerarPermuta = usuario === usuarios[0] && todasNull
+              const puedeContinuarPermuta = usuario === usuarios[0] && todasBorrador;
+              const todasFirmadas = permutasDetalles.length > 0 && permutasDetalles.every((permuta) => permuta.estado_permuta_asociada === "FIRMADA");
+              const puedeCompletarPermuta = usuario === usuarios[1] && todasFirmadas;
+              const todasFinalizadas = permutasDetalles.every((permuta) => (permuta.estado_permuta_asociada === "ACEPTADA" || permuta.estado_permuta_asociada === "VALIDADA"));
+              const IdsPermuta = permutasDetalles.map((permuta) => permuta.permuta_id);
 
-            return (
-              <div key={index} className="permuta-card">
-                <div className="permuta-info">
-                  <p>
-                    <strong>Alumno 1:</strong> {usuarios[0]}
-                  </p>
-                  <p>
-                    <strong>Alumno 2:</strong> {usuarios[1]}
-                  </p>
+              // Saltar si los datos son incompletos
+              if (usuarios.length < 2 || permutasDetalles.length === 0) {
+                return null;
+              }
 
-                  {permutasDetalles.map((permuta) => (
-                    <div key={permuta.permuta_id} className="permuta-detalle">
-                      <p>
-                        <strong>Asignatura:</strong> {permuta.nombre_asignatura}
-                      </p>
-                      <p>
-                        <strong>Código:</strong> {permuta.codigo_asignatura}
-                      </p>
-                      <p>
-                        <strong>Grupo {usuarios[0]}:</strong> {permuta.grupo_1}
-                      </p>
-                      <p>
-                        <strong>Grupo {usuarios[1]}:</strong> {permuta.grupo_2}
-                      </p>
-                      <hr />
-                    </div>
-                  ))}
+              return (
+                <div key={index} className="user-card">
+                  <div className="permuta-info" style={{ marginBottom: '15px' }}>
+                    <p style={{ margin: '8px 0' }}>
+                      <strong>{t("accepted_swaps.student_1")}:</strong> {usuarios[0]}
+                    </p>
+                    <p style={{ margin: '8px 0' }}>
+                      <strong>{t("accepted_swaps.student_2")}:</strong> {usuarios[1]}
+                    </p>
+
+                    {permutasDetalles.map((permuta) => (
+                      <div key={permuta.permuta_id} className="permuta-detalle" style={{ marginTop: '10px', padding: '10px', backgroundColor: 'var(--user-accent)', borderRadius: 'var(--border-radius-sm)' }}>
+                        <p style={{ margin: '4px 0', fontSize: '0.95em' }}>
+                          <strong>{t("accepted_swaps.subject")}:</strong> {permuta.nombre_asignatura}
+                        </p>
+                        <p style={{ margin: '4px 0', fontSize: '0.95em' }}>
+                          <strong>{t("accepted_swaps.code")}:</strong> {permuta.codigo_asignatura}
+                        </p>
+                        <p style={{ margin: '4px 0', fontSize: '0.95em' }}>
+                          <strong>{t("accepted_swaps.group")} {usuarios[0]}:</strong> {permuta.grupo_1}
+                        </p>
+                        <p style={{ margin: '4px 0', fontSize: '0.95em' }}>
+                          <strong>{t("accepted_swaps.group")} {usuarios[1]}:</strong> {permuta.grupo_2}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '15px' }}>
+                    {puedeGenerarPermuta && (
+                      <button className="btn btn-success btn-full" onClick={() => handleGenerarPermuta(IdsPermuta)}>{t("accepted_swaps.generate_swap")}</button>
+                    )}
+                    {puedeContinuarPermuta && (
+                      <button className="btn btn-success btn-full" onClick={() => navigate("/generarPermuta")}>{t("accepted_swaps.continue_swap")}</button>
+                    )}
+                    {puedeCompletarPermuta && (
+                      <button className="btn btn-primary btn-full" onClick={() => navigate("/generarPermuta")}>{t("accepted_swaps.complete_swap")}</button>
+                    )}
+                    {todasFinalizadas && (
+                      <button className="btn btn-primary btn-full" onClick={() => navigate("/generarPermuta")}>{t("accepted_swaps.view_swap")}</button>
+                    )}
+                  </div>
                 </div>
-                {puedeGenerarPermuta && (
-                  <button className="aceptar-btn" onClick={() => handleGenerarPermuta(IdsPermuta)}>Generar Permuta</button>
-                )}
-                {puedeContinuarPermuta && (
-                  <button className="aceptar-btn" onClick={() => navigate("/generarPermuta")}>Continuar Permuta</button>
-                )}
-                {puedeCompletarPermuta && (
-                  <button className="aceptar-btn" onClick={() => navigate("/generarPermuta")}>Completar Permuta</button>
-                )}
-                {todasFinalizadas && (
-                  <button className="ver-btn" onClick={() => navigate("/generarPermuta")}>Ver Permuta</button>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      ) : (
-        <p>No hay permutas aceptadas</p>
-      )}
-      <div style={{ height: "80px" }} />
+              );
+            })}
+          </div>
+        ) : (
+          <div className="user-error">{t("accepted_swaps.no_swaps")}</div>
+        )}
+      </div>
     </div>
   );
 }

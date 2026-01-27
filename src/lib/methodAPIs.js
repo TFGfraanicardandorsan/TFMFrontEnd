@@ -38,6 +38,7 @@ export const getAPI = async (fun) => {
     try {
         const respuesta = await fetch(import.meta.env.VITE_API_URL + fun, {
             method: 'get',
+            credentials: 'include',
         })
         // Verificar si la respuesta es una redirección
         if (respuesta.redirected) {

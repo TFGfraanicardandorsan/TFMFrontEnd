@@ -47,5 +47,23 @@
         "documentation": "Documentation",
         "contact_us": "Contact Us",
         "send_email": "Send us an email"
+    },
+    "accepted_swaps": {
+        "title": "Accepted Swaps",
+        "subtitle": "Select the swaps you want to generate. You can generate one swap for each group of subjects you are swapping with a student.",
+        "student_1": "Student 1",
+        "student_2": "Student 2",
+        "subject": "Subject",
+        "code": "Code",
+        "group": "Group",
+        "generate_swap": "Generate Swap",
+        "continue_swap": "Continue Swap",
+        "complete_swap": "Complete Swap",
+        "view_swap": "View Swap",
+        "no_swaps": "No accepted swaps",
+        "loading": "Loading swaps...",
+        "error_loading": "Error loading data",
+        "success_generated": "Swap generated successfully",
+        "error_generated": "Error generating swap"
     }
 }
