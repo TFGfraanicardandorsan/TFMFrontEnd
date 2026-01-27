@@ -26,13 +26,4 @@ main {
   .nav-icons button {
     padding: 5px 8px;
   }
-  .desktop-only {
-    display: none !important;
-  }
-}
-
-@media (min-width: 769px) {
-  .mobile-only {
-    display: none !important;
-  }
 }
