@@ -1,4 +1,3 @@
-import { login } from "../../services/login";
 import "../../styles/login-style.css";
 import Footer from "./footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,7 +8,9 @@ import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Login() {
   const { t } = useTranslation();
-  const handleClickLogin = async () => await login();
+  const handleClickLogin = () => {
+    window.location.href = "https://permutas.eii.us.es/api/v1/autorizacion/saml/login";
+  };
 
 
   return (
