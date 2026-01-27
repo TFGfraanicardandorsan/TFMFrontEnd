@@ -4,8 +4,10 @@ import { obtenerIncidenciasAsignadasUsuario } from "../../services/incidencia.js
 import { formatearFecha } from "../../lib/formateadorFechas.js";
 import { logError } from "../../lib/logger.js";
 import "../../styles/user-common.css";
+import { useTranslation } from "react-i18next";
 
 export default function MisIncidencias() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [incidencias, setIncidencias] = useState([]);
   const [cargando, setCargando] = useState(true);
@@ -34,38 +36,38 @@ export default function MisIncidencias() {
     <div className="page-container">
       <div className="content-wrap">
         <div className="page-header">
-          <h1 className="page-title">Mis Incidencias</h1>
+          <h1 className="page-title">{t("navbar.my_incidents")}</h1>
           <p className="page-subtitle">
-            Consulta el estado de tus incidencias y haz un seguimiento de su resolución de manera sencilla.
+            {t("incidents.my_incidents_student_description")}
           </p>
         </div>
 
         <div className="filtro-container">
-          <label htmlFor="filtroEstado">Filtrar por estado:</label>
+          <label htmlFor="filtroEstado">{t("incidents.filter_by_status")}</label>
           <select
             id="filtroEstado"
             value={filtroEstado}
             onChange={(e) => setFiltroEstado(e.target.value)}
           >
-            <option value="abierta">Abiertas</option>
-            <option value="asignada">En curso</option>
-            <option value="solucionada">Solucionadas</option>
+            <option value="abierta">{t("incidents.status_open")}</option>
+            <option value="asignada">{t("incidents.status_assigned")}</option>
+            <option value="solucionada">{t("incidents.status_solved")}</option>
           </select>
         </div>
 
         {cargando ? (
-          <div className="user-loading">Cargando incidencias...</div>
+          <div className="user-loading">{t("common.loading")}</div>
         ) : incidenciasFiltradas.length === 0 ? (
           <div className="user-card empty-state" style={{ textAlign: 'center', padding: '60px 40px' }}>
             <div style={{ fontSize: '3rem', marginBottom: '15px' }}>🛠️</div>
-            <h3>No hay incidencias en este estado</h3>
-            <p>Si tienes algún problema técnico o duda, estamos aquí para ayudarte.</p>
+            <h3>{t("incidents.no_incidents_state")}</h3>
+            <p>{t("incidents.no_incidents_help")}</p>
             <button
               onClick={() => navigate("/reportarIncidencia")}
               className="btn btn-primary"
               style={{ marginTop: '20px' }}
             >
-              Reportar Nueva Incidencia
+              {t("incidents.report_new")}
             </button>
           </div>
         ) : (
@@ -78,10 +80,10 @@ export default function MisIncidencias() {
               <div key={incidencia.id} className="user-card" style={{ display: 'flex', flexDirection: 'column' }}>
                 <div style={{ flex: 1 }}>
                   <h3 style={{ color: 'var(--user-primary)', marginBottom: '12px', fontSize: '1.2rem' }}>
-                    {incidencia.tipo_incidencia?.charAt(0).toUpperCase() + incidencia.tipo_incidencia?.slice(1) || 'Incidencia'}
+                    {incidencia.tipo_incidencia?.charAt(0).toUpperCase() + incidencia.tipo_incidencia?.slice(1) || t("incidents.detail_title")}
                   </h3>
                   <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '8px' }}>
-                    <strong>Fecha:</strong> {formatearFecha(incidencia.fecha_creacion)}
+                    <strong>{t("incidents.date")}:</strong> {formatearFecha(incidencia.fecha_creacion)}
                   </p>
                   <p style={{ marginBottom: '15px', lineHeight: '1.5', color: 'var(--text-primary)' }}>
                     {incidencia.descripcion}
