@@ -1,19 +1,21 @@
 import Footer from "./footer";
 import { Link } from "react-router-dom";
-import "../../styles/cookies-style.css";
-export default function PrivacyPolicy() {
+import "../../styles/policy-common-style.css";
+
+export default function CookiesPolicy() {
   return (
     <>
-      <div style={{ textAlign: "center", marginTop: "50px" }}>
-        <Link to="/">Volver a la página principal</Link>
-      </div>
-      <div className="cookies-policy">
-        <br />
-        <br />
-        <h1>Política de Cookies</h1>
-        <p className="actualizacion">Última actualización: Abril 2025</p>
+      <div className="policy-container">
+        <div className="back-link-container">
+          <Link to="/" className="back-link">Volver a la página principal</Link>
+        </div>
 
-        <section>
+        <div className="policy-header">
+          <h1>Política de Cookies</h1>
+          <p>Última actualización: Abril 2025</p>
+        </div>
+
+        <section className="policy-section">
           <h2>1. ¿Qué son las cookies?</h2>
           <p>
             Las cookies son pequeños archivos de texto que se almacenan en tu
@@ -24,12 +26,12 @@ export default function PrivacyPolicy() {
           </p>
         </section>
 
-        <section>
+        <section className="policy-section">
           <h2>2. ¿Qué tipos de cookies utilizamos?</h2>
           <p>
             En nuestra aplicación utilizamos los siguientes tipos de cookies:
           </p>
-          <ul className="cookies-list">
+          <ul>
             <li>
               <strong>Cookies esenciales:</strong> Son necesarias para el
               funcionamiento básico de la aplicación y no pueden ser
@@ -46,7 +48,7 @@ export default function PrivacyPolicy() {
             </li>
           </ul>
         </section>
-        <section>
+        <section className="policy-section">
           <h2>3. ¿Cómo puedes gestionar las cookies?</h2>
           <p>
             Puedes gestionar o desactivar las cookies a través de la
@@ -57,7 +59,6 @@ export default function PrivacyPolicy() {
             A continuación, te proporcionamos enlaces a las instrucciones para
             gestionar cookies en los navegadores más populares:
           </p>
-          <br />
           <ul>
             <li>
               <a
@@ -96,10 +97,9 @@ export default function PrivacyPolicy() {
               </a>
             </li>
           </ul>
-          <br />
         </section>
 
-        <section>
+        <section className="policy-section">
           <h2>4. Cambios a esta política</h2>
           <p>
             Podemos actualizar nuestra Política de Cookies de vez en cuando. Te
@@ -108,26 +108,19 @@ export default function PrivacyPolicy() {
           </p>
         </section>
 
-        <section>
+        <section className="policy-section">
           <h2>5. Contacto</h2>
           <p>
             Si tienes alguna pregunta o inquietud sobre nuestra Política de
             Cookies, no dudes en contactarnos:
           </p>
-          <br />
           <ul>
             <li>Email: delegacion_etsii@us.es</li>
             <li>Dirección: Avda. Reina Mercedes s/n, 41012 Sevilla</li>
           </ul>
-          <br />
         </section>
       </div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
+      <div style={{ height: '80px' }} />
       <Footer />
     </>
   );
