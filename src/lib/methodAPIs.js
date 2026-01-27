@@ -17,7 +17,6 @@ export const postAPI = async (fun, body = null, isFile = false) => {
         const respuesta = await fetch(import.meta.env.VITE_API_URL + fun, config);
 
         if (respuesta.status === 401) {
-            window.dispatchEvent(new Event('auth-failure'));
             throw new Error(`Error 401: No autorizado`);
         }
 
@@ -28,10 +27,6 @@ export const postAPI = async (fun, body = null, isFile = false) => {
         let data;
         try {
             data = await respuesta.json();
-            // Si la respuesta indica explícitamente que no está autenticado
-            if (data.isAuthenticated === false) {
-                window.dispatchEvent(new Event('auth-failure'));
-            }
         } catch {
             return { err: true, errmsg: 'La respuesta no es un JSON válido' };
         }
@@ -51,7 +46,6 @@ export const getAPI = async (fun) => {
         })
 
         if (respuesta.status === 401) {
-            window.dispatchEvent(new Event('auth-failure'));
             return { err: true, errmsg: 'No autorizado' };
         }
 
@@ -64,9 +58,6 @@ export const getAPI = async (fun) => {
         const contentType = respuesta.headers.get('content-type');
         if (contentType && contentType.includes('application/json')) {
             data = await respuesta.json();
-            if (data.isAuthenticated === false) {
-                window.dispatchEvent(new Event('auth-failure'));
-            }
         } else {
             data = { err: true, errmsg: `La respuesta no es un JSON: ${respuesta}`, respuestaText: await respuesta.text(), }
         }

@@ -7,12 +7,6 @@ export const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useState({ loading: true, isAuthenticated: false, user: null });
 
     useEffect(() => {
-        const handleAuthFailure = () => {
-            setAuth({ loading: false, isAuthenticated: false, user: null });
-        };
-
-        window.addEventListener('auth-failure', handleAuthFailure);
-
         const apiObtenerSesion = async () => {
             try {
                 const data = await obtenerSesion();
@@ -30,10 +24,6 @@ export const AuthProvider = ({ children }) => {
             }
         };
         apiObtenerSesion();
-
-        return () => {
-            window.removeEventListener('auth-failure', handleAuthFailure);
-        };
     }, []);
 
     return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
