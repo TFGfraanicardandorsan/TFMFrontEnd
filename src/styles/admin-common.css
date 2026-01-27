@@ -24,6 +24,7 @@
     --admin-bg-gradient-end: #e0e7ff;
     --admin-card-bg: #ffffff;
     --admin-hover-bg: #f8fafc;
+    --admin-border-color: #f1f5f9;
 
     /* Colores de Texto */
     --admin-text-primary: #1e293b;
@@ -129,7 +130,7 @@
     justify-content: space-between;
     margin-bottom: var(--admin-spacing-md);
     padding-bottom: var(--admin-spacing-md);
-    border-bottom: 2px solid #f1f5f9;
+    border-bottom: 2px solid var(--admin-border-color);
 }
 
 .admin-card-title {
@@ -153,7 +154,7 @@
 .admin-card-footer {
     margin-top: var(--admin-spacing-md);
     padding-top: var(--admin-spacing-md);
-    border-top: 1px solid #f1f5f9;
+    border-top: 1px solid var(--admin-border-color);
     display: flex;
     gap: var(--admin-spacing-sm);
     justify-content: flex-end;
@@ -339,7 +340,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: 2000;
     animation: adminFadeIn 0.3s ease;
 }
 
@@ -356,7 +357,7 @@
 .admin-modal-content {
     background: var(--admin-card-bg);
     border-radius: var(--admin-border-radius);
-    max-width: 600px;
+    max-width: 500px;
     width: 90%;
     max-height: 90vh;
     overflow-y: auto;
@@ -812,21 +813,36 @@
 }
 
 /* ========================================
-   Modo Oscuro Admin
+   MODO OSCURO ADMINISTRACIÓN
    ======================================== */
 body.dark-mode {
+    --admin-bg-gradient-start: #0f172a;
+    --admin-bg-gradient-end: #1e293b;
     --admin-bg: #0f172a;
     --admin-card-bg: #1e293b;
+    --admin-hover-bg: #334155;
 
-    --admin-text-primary: #f8fafc;
-    --admin-text-secondary: #cbd5e1;
+    --admin-text-primary: #f1f5f9;
+    --admin-text-secondary: #94a3b8;
+    --admin-text-muted: #64748b;
+
     --admin-border-color: #334155;
     --footer-bg: #1e293b;
 
-    /* Sombras adaptadas */
     --admin-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
 
     background-color: var(--admin-bg);
+}
+
+body.dark-mode .admin-page-container {
+    background: linear-gradient(135deg, var(--admin-bg-gradient-start) 0%, var(--admin-bg-gradient-end) 100%);
+}
+
+body.dark-mode .admin-page-title {
+    background: linear-gradient(135deg, #818cf8, #22d3ee);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 body.dark-mode .admin-header-card {
@@ -854,11 +870,11 @@ body.dark-mode .admin-sub-section:hover {
 }
 
 body.dark-mode .admin-input,
-body.dark-mode .admin-select,
-body.dark-mode .admin-textarea {
+body.dark-mode .admin-textarea,
+body.dark-mode .admin-select {
     background-color: #0f172a;
     border-color: #334155;
-    color: white;
+    color: #f1f5f9;
 }
 
 body.dark-mode .admin-input:focus,
@@ -880,12 +896,12 @@ body.dark-mode .admin-file-label:hover {
 }
 
 body.dark-mode .admin-modal-content {
-    background: #1e293b;
-    border: 1px solid #334155;
+    background: var(--admin-card-bg);
+    border: 1px solid var(--admin-border-color);
 }
 
 body.dark-mode .admin-modal-title {
-    color: white;
+    color: var(--admin-text-primary);
 }
 
 body.dark-mode .admin-badge-secondary {
@@ -894,12 +910,12 @@ body.dark-mode .admin-badge-secondary {
 }
 
 body.dark-mode .admin-list-item {
-    background: #1e293b;
+    background: var(--admin-card-bg);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 body.dark-mode .admin-list-item:hover {
-    background: #2d3e50;
+    background: var(--admin-hover-bg);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
@@ -910,6 +926,12 @@ body.dark-mode .admin-btn-secondary {
 
 body.dark-mode .admin-btn-secondary:hover:not(:disabled) {
     background: #475569;
+}
+
+body.dark-mode .admin-error {
+    background: rgba(153, 27, 27, 0.1);
+    color: #fecaca;
+    border-color: rgba(239, 68, 68, 0.3);
 }
 
 body.dark-mode .admin-card-header {
@@ -926,4 +948,28 @@ body.dark-mode .admin-modal-header {
 
 body.dark-mode .admin-modal-footer {
     border-top-color: #334155;
+}
+
+/* Estilo base para el botón de toggle (aplicable a ambos modos) */
+.theme-toggle-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    border-radius: 50%;
+    color: var(--nav-text, #ffffff);
+}
+
+.theme-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+}
+
+body.dark-mode .theme-toggle-btn {
+    color: #fbbf24;
 }

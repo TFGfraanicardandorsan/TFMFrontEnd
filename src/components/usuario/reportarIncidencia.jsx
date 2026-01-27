@@ -69,9 +69,11 @@ export default function ReportarIncidencia() {
                 </div>
 
                 <div className="user-card" style={{ maxWidth: '800px', margin: '0 auto' }}>
-                    <div style={{ marginBottom: '2rem', color: 'var(--text-secondary)' }}>
-                        <p style={{ marginBottom: '10px' }}><FontAwesomeIcon icon={faExclamationTriangle} /> <strong>Instrucciones:</strong></p>
-                        <ul style={{ paddingLeft: '20px', margin: 0 }}>
+                    <div style={{ marginBottom: '2rem' }}>
+                        <p style={{ marginBottom: '10px', color: 'var(--user-primary)', fontWeight: 'bold' }}>
+                            <FontAwesomeIcon icon={faExclamationTriangle} /> Instrucciones:
+                        </p>
+                        <ul style={{ paddingLeft: '20px', margin: 0, color: 'var(--text-secondary)' }}>
                             <li>Se descriptivo con el problema.</li>
                             <li>Indica los pasos para reproducir el error si es posible.</li>
                             <li>Puedes adjuntar capturas (PNG) o documentos (PDF) de hasta 10MB.</li>
@@ -112,20 +114,20 @@ export default function ReportarIncidencia() {
                             <label htmlFor="file" className="form-label">
                                 Adjuntar Archivo (Opcional)
                             </label>
-                            <div style={{ border: '2px dashed #cbd5e1', padding: '20px', borderRadius: '8px', textAlign: 'center', backgroundColor: '#f8fafc', position: 'relative' }}>
+                            <div className="file-upload-wrapper">
                                 <input
                                     type="file"
                                     id="file"
                                     accept=".pdf,.png"
                                     onChange={handleFileChange}
-                                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer' }}
+                                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer', zIndex: 1 }}
                                 />
-                                <div style={{ pointerEvents: 'none' }}>
-                                    <FontAwesomeIcon icon={faPaperclip} style={{ fontSize: '1.5rem', color: 'var(--user-primary)', marginBottom: '10px' }} />
-                                    <p style={{ margin: 0, fontWeight: 500 }}>
+                                <div className="file-upload-content" style={{ pointerEvents: 'none' }}>
+                                    <FontAwesomeIcon icon={faPaperclip} className="file-upload-icon" />
+                                    <p className="file-upload-text">
                                         {file ? file.name : "Haz clic o arrastra un archivo aquí"}
                                     </p>
-                                    <p style={{ margin: '5px 0 0 0', fontSize: '0.8rem', color: '#94a3b8' }}>PDF o PNG, Máx 10MB</p>
+                                    <p className="file-upload-hint">PDF o PNG, Máx 10MB</p>
                                 </div>
                             </div>
                             {fileError && <p className="user-error" style={{ textAlign: 'left', padding: '5px 0', fontSize: '0.9rem' }}>{fileError}</p>}
@@ -138,6 +140,7 @@ export default function ReportarIncidencia() {
                         </div>
                     </form>
                 </div>
+
             </div>
             <div style={{ height: "80px" }} />
         </div>

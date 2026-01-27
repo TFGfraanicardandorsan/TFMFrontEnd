@@ -2,7 +2,7 @@
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .permutas-grid {
@@ -13,10 +13,10 @@
 }
 
 .permuta-card {
-  background-color: #fff;
+  background-color: var(--card-bg);
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
 }
 
 .permuta-info {

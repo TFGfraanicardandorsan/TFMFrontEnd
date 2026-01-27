@@ -36,8 +36,9 @@ import NoRegistrado from "./components/comun/noRegistrado.jsx";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import PanelGestionUsuarios from "./components/administrador/panelGestionUsuarios.jsx";
-import VolverArriba from "./components/comun/volverArriba";
 import { ThemeProvider, useTheme } from "./contexts/ThemeContext";
+import { useTranslation } from "react-i18next";
+
 
 export function App() {
   return (
@@ -51,6 +52,8 @@ export function App() {
 
 function AppContent() {
   const { theme } = useTheme();
+  const { t } = useTranslation();
+
 
   return (
     <>
@@ -99,8 +102,9 @@ function AppContent() {
 
       <CookieConsent
         location="bottom"
-        buttonText="Aceptar"
+        buttonText={t("common.accept")}
         cookieName="permutasCookies"
+
         style={{
           background: theme === 'dark' ? "#1e293b" : "#6099c4",
           padding: "1rem",
@@ -117,12 +121,12 @@ function AppContent() {
         }}
         expires={150}
       >
-        Utilizamos cookies para mejorar la experiencia del usuario.
-        <a href="/cookies" style={{ color: "#E0AD0F", textDecoration: "underline", marginLeft: "5px" }}>Leer más</a>
+        {t("common.cookie_consent")}
+        <a href="/cookies" style={{ color: "#E0AD0F", textDecoration: "underline", marginLeft: "5px" }}>{t("common.read_more")}</a>
       </CookieConsent>
 
+
       <ToastContainer position="top-center" theme={theme} />
-      <VolverArriba />
     </>
   );
 }
