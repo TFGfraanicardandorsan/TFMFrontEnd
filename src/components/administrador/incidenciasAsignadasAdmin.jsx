@@ -5,11 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { logError } from "../../lib/logger.js";
 import { notificarCierreIncidencia } from "../../services/notificacion.js";
-import { useTranslation } from "react-i18next";
-import { formatearFecha } from "../../lib/formateadorFechas.js";
 
 export default function IncidenciasAsignadasAdmin() {
-  const { t } = useTranslation();
   const [incidencias, setIncidencias] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
@@ -44,7 +41,7 @@ export default function IncidenciasAsignadasAdmin() {
 
   const handleEnviarMensajeYCerrar = async () => {
     if (!mensajeCierre.trim()) {
-      toast.error(t("common.error_empty_message") || "El mensaje no puede estar vacío");
+      toast.error("El mensaje no puede estar vacío");
       return;
     }
     try {
@@ -52,7 +49,7 @@ export default function IncidenciasAsignadasAdmin() {
       await handleResolverIncidencia(incidenciaAResolver);
       handleCerrarModal();
     } catch (error) {
-      toast.error(t("incidents.error_notifying") || "Error al notificar el cierre de la incidencia");
+      toast.error("Error al notificar el cierre de la incidencia");
       logError(error);
     }
   };
@@ -62,12 +59,12 @@ export default function IncidenciasAsignadasAdmin() {
       const response = await solucionarIncidencia(idIncidencia);
       if (!response.err) {
         setIncidencias(incidencias.filter((incidencia) => incidencia.id !== idIncidencia));
-        toast.success(t("incidents.resolve_success", { id: idIncidencia }));
+        toast.success(`Incidencia ${idIncidencia} resuelta correctamente`);
       } else {
         logError(response.errmsg);
       }
     } catch (error) {
-      toast.error(t("incidents.error_resolving", { id: idIncidencia }) || `Error al resolver la incidencia ${idIncidencia}`);
+      toast.error(`Error al resolver la incidencia ${idIncidencia}`);
       logError(error);
     }
   };
@@ -78,19 +75,20 @@ export default function IncidenciasAsignadasAdmin() {
         <div className="admin-content-wrap">
           {/* Header */}
           <div className="admin-page-header">
-            <h1 className="admin-page-title">🐛 {t("incidents.my_incidents_title")}</h1>
+            <h1 className="admin-page-title">🐛 Mis Incidencias</h1>
             <p className="admin-page-subtitle">
-              {t("incidents.my_incidents_subtitle")}
+              Consulta el estado de tus incidencias asignadas. Puedes resolverlas haciendo clic en el botón correspondiente.
+              Si presionas en ver incidencia verás el archivo adjunto si el usuario adjuntó algo.
             </p>
           </div>
 
           {/* Contenido */}
           {cargando ? (
-            <div className="admin-loading">{t("incidents.loading")}</div>
+            <div className="admin-loading">Cargando incidencias...</div>
           ) : incidencias.length === 0 ? (
             <div className="admin-empty-state">
               <div className="admin-empty-state-icon">📭</div>
-              <p className="admin-empty-state-text">{t("incidents.no_assigned")}</p>
+              <p className="admin-empty-state-text">No tienes incidencias asignadas.</p>
             </div>
           ) : (
             <div className="admin-grid admin-grid-2">
@@ -99,23 +97,23 @@ export default function IncidenciasAsignadasAdmin() {
                   <div className="admin-card-header">
                     <h2 className="admin-card-title">
                       <span className="admin-card-icon">🎫</span>
-                      {t("incidents.detail_title")} #{incidencia.id}
+                      Incidencia #{incidencia.id}
                     </h2>
                     <span className="admin-badge admin-badge-warning">
                       {incidencia.estado_incidencia}
                     </span>
                   </div>
                   <div className="admin-card-body">
-                    <p><strong>{t("incidents.creation_date")}:</strong> {formatearFecha(incidencia.fecha_creacion)}</p>
-                    <p><strong>{t("incidents.type")}:</strong> {incidencia.tipo_incidencia}</p>
-                    <p><strong>{t("incidents.description")}:</strong> {incidencia.descripcion}</p>
+                    <p><strong>Fecha de Creación:</strong> {new Date(incidencia.fecha_creacion).toLocaleDateString()}</p>
+                    <p><strong>Tipo:</strong> {incidencia.tipo_incidencia}</p>
+                    <p><strong>Descripción:</strong> {incidencia.descripcion}</p>
                   </div>
                   <div className="admin-card-footer">
                     <button className="admin-btn admin-btn-secondary admin-btn-sm" onClick={() => navigate(`/incidencias/${incidencia.id}`)}>
-                      {t("incidents.view_detail")}
+                      Ver Detalle
                     </button>
                     <button className="admin-btn admin-btn-success admin-btn-sm" onClick={() => handleAbrirModal(incidencia.id)}>
-                      ✓ {t("incidents.resolve")}
+                      ✓ Resolver
                     </button>
                   </div>
                 </div>
@@ -130,26 +128,26 @@ export default function IncidenciasAsignadasAdmin() {
         <div className="admin-modal-overlay" onClick={handleCerrarModal}>
           <div className="admin-modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="admin-modal-header">
-              <h3 className="admin-modal-title">✉️ {t("incidents.closing_message_title")}</h3>
+              <h3 className="admin-modal-title">✉️ Mensaje de Cierre</h3>
             </div>
             <div className="admin-modal-body">
               <div className="admin-form-group">
-                <label className="admin-label">{t("incidents.closing_message_label")}</label>
+                <label className="admin-label">Mensaje para el usuario</label>
                 <textarea
                   className="admin-textarea"
                   value={mensajeCierre}
                   onChange={(e) => setMensajeCierre(e.target.value)}
-                  placeholder={t("incidents.closing_message_placeholder")}
+                  placeholder="Escribe el mensaje que se enviará al usuario..."
                   rows={6}
                 />
               </div>
             </div>
             <div className="admin-modal-footer">
               <button className="admin-btn admin-btn-secondary" onClick={handleCerrarModal}>
-                {t("common.cancel") || "Cancelar"}
+                Cancelar
               </button>
               <button className="admin-btn admin-btn-primary" onClick={handleEnviarMensajeYCerrar}>
-                {t("incidents.send_and_close")}
+                Enviar y Cerrar
               </button>
             </div>
           </div>

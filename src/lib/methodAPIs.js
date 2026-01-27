@@ -16,10 +16,6 @@ export const postAPI = async (fun, body = null, isFile = false) => {
 
         const respuesta = await fetch(import.meta.env.VITE_API_URL + fun, config);
 
-        if (respuesta.status === 401) {
-            throw new Error(`Error 401: No autorizado`);
-        }
-
         if (!respuesta.ok) {
             throw new Error(`Error ${respuesta.status}: ${respuesta.statusText}`);
         }
@@ -42,13 +38,7 @@ export const getAPI = async (fun) => {
     try {
         const respuesta = await fetch(import.meta.env.VITE_API_URL + fun, {
             method: 'get',
-            credentials: 'include',
         })
-
-        if (respuesta.status === 401) {
-            return { err: true, errmsg: 'No autorizado' };
-        }
-
         // Verificar si la respuesta es una redirección
         if (respuesta.redirected) {
             window.location.href = respuesta.url
