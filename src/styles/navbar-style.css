@@ -170,36 +170,82 @@ body.dark-mode {
 }
 
 /* Estilos para la Barra Lateral (Sidebar) */
-.sidebar-container {
+.sidebar-overlay {
   position: fixed;
   top: 0;
-  right: 0;
-  width: 320px;
+  left: 0;
+  width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1002;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1001;
   backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar-overlay.open {
+  opacity: 1;
+  pointer-events: all;
 }
 
 .sidebar {
-  position: absolute;
-  top: 56px;
+  position: fixed;
+  top: 0;
   right: 0;
-  background-color: var(--sidebar-bg);
-  width: 100%;
-  height: calc(100% - 56px);
-  box-shadow: var(--sidebar-shadow);
-  padding: 20px;
+  width: 340px;
+  max-width: 85vw;
+  height: 100%;
+  background-color: var(--sidebar-bg, #fff);
+  box-shadow: -4px 0 16px rgba(0, 0, 0, 0.15);
+  padding: 0;
   overflow-y: auto;
-  z-index: 999;
-  border-left: 2px solid var(--sidebar-border);
-  color: var(--sidebar-text);
+  z-index: 1002;
+  border-left: 2px solid var(--sidebar-border, #e2e8f0);
+  color: var(--sidebar-text, #333);
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
 }
 
-.sidebar h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: var(--sidebar-text);
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--sidebar-border, #e2e8f0);
+  position: sticky;
+  top: 0;
+  background-color: var(--sidebar-bg, #fff);
+  z-index: 1;
+}
+
+.sidebar-header h2 {
+  font-size: 1.2rem;
+  margin: 0;
+  color: var(--sidebar-text, #333);
+}
+
+.sidebar-close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--sidebar-text, #333);
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.sidebar-close-btn:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.sidebar-content {
+  padding: 16px 20px;
 }
 
 .notification-item {

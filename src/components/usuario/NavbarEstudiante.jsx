@@ -174,9 +174,17 @@ export default function NavbarEstudiante() {
           />
         </div>
       </nav>
-      {sidebarVisible && (
-        <div className="sidebar">
+      {/* Overlay para cerrar sidebar de notificaciones */}
+      <div
+        className={`sidebar-overlay ${sidebarVisible ? "open" : ""}`}
+        onClick={() => setSidebarVisible(false)}
+      />
+      <div className={`sidebar ${sidebarVisible ? "open" : ""}`}>
+        <div className="sidebar-header">
           <h2>{t("common.notifications")}</h2>
+          <button className="sidebar-close-btn" onClick={() => setSidebarVisible(false)}>✕</button>
+        </div>
+        <div className="sidebar-content">
           {notificaciones.length > 0 ? (
             notificaciones.slice(0, 5).map((notificacion) => (
               <div key={notificacion.id} className="notification-item">
@@ -190,7 +198,7 @@ export default function NavbarEstudiante() {
             <p>{t("common.no_notifications")}</p>
           )}
         </div>
-      )}
+      </div>
     </>
   );
 }
