@@ -8,6 +8,7 @@ export default function Footer() {
   return (
 
     <>
+      <div className="footer-spacer" />
       <footer className="footer">
         <div className="footer-container">
           <div className="footer-section">

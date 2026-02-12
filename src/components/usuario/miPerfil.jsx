@@ -213,7 +213,6 @@ export default function MiPerfil() {
 
         </div>
       </div>
-      <div style={{ height: "80px" }} />
     </div>
   );
 }

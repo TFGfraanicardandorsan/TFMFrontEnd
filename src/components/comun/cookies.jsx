@@ -120,7 +120,6 @@ export default function CookiesPolicy() {
           </ul>
         </section>
       </div>
-      <div style={{ height: '80px' }} />
       <Footer />
     </>
   );

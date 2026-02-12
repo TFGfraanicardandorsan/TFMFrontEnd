@@ -311,11 +311,9 @@ export default function MiPerfilAdmin() {
               >
                 {accionRetirarLoading ? "Procesando..." : "Confirmar"}
               </button>
-            </div>
-          </div>
+            </div>          </div>
         </div>
       )}
-      <div style={{ height: "80px" }} />
     </div>
   );
 }

@@ -36,7 +36,7 @@
         "telegram_info": "Los usuarios que todavía no estén dados de alta en el sistema pueden solicitarlo al bot de Telegram."
     },
     "footer": {
-        "students_delegation": "Delegación de Alumnos",
+        "students_delegation": "Delegación de Estudiantes",
         "school_name": "Escuela Técnica Superior de Ingeniería Informática",
         "university_name": "Universidad de Sevilla",
         "policies": "Políticas",

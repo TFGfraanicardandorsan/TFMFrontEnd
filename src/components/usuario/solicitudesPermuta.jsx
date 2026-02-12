@@ -216,7 +216,6 @@ export default function SolicitudesPermuta() {
                 </div>
             )}
 
-            <div style={{ height: "80px" }} /> {/* espacio para el footer */}
         </div>
     );
 }

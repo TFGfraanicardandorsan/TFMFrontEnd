@@ -325,7 +325,6 @@ export default function Estadisticas() {
           </div>
         </div>
       </div>
-      <div style={{ height: "80px" }} />
     </>
   );
 }

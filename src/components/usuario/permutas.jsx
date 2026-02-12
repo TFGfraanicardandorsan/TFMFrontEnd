@@ -114,7 +114,6 @@ export default function Permutas() {
           </div>
         )}
       </div>
-      <div style={{ height: "80px" }} />
     </div>
   );
 }

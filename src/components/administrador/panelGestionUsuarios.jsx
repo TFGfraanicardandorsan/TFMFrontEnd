@@ -277,7 +277,6 @@ const UserManagementPanel = () => {
                 </div>
             )}
 
-            <div style={{ height: "80px" }} />
         </>
     );
 };

@@ -154,7 +154,6 @@ export default function CrearNotificacion() {
                     </div>
                 </div>
             </div>
-            <div style={{ height: "80px" }} />
         </>
     );
 }

@@ -34,7 +34,6 @@ export default function RegistroTelegram() {
           </div>
         </div>
       </div>
-      <div style={{ height: "80px" }} />
       <Footer />
     </>
   );

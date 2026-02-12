@@ -154,7 +154,6 @@ export default function IncidenciasAsignadasAdmin() {
         </div>
       )}
 
-      <div style={{ height: "80px" }} />
     </>
   );
 }
