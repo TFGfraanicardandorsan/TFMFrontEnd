@@ -138,12 +138,12 @@ export default function CrearNotificacion() {
                         </div>
 
                         {/* Card de Ayuda */}
-                        <div className="admin-card" style={{ background: "#f0f9ff", borderLeft: "4px solid var(--admin-secondary)" }}>
+                        <div className="admin-card admin-tips-card">
                             <div className="admin-card-body">
-                                <h3 style={{ margin: "0 0 var(--admin-spacing-sm) 0", color: "var(--admin-text-primary)", fontSize: "1.1rem" }}>
+                                <h3 className="admin-tips-title">
                                     💡 Consejos
                                 </h3>
-                                <ul style={{ margin: 0, paddingLeft: "20px", color: "var(--admin-text-secondary)" }}>
+                                <ul className="admin-tips-list">
                                     <li>Sé claro y conciso en el mensaje</li>
                                     <li>Incluye información relevante para los destinatarios</li>
                                     <li>Revisa el contenido antes de enviar</li>

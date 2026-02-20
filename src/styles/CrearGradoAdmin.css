@@ -79,3 +79,40 @@
     padding: 12px;
   }
 }
+
+/* ========================================
+   Modo Oscuro - Crear Grado Admin
+   ======================================== */
+body.dark-mode .crear-grado-admin-container {
+  background-color: #1e293b;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .crear-grado-admin-container .form-group label {
+  color: #f1f5f9;
+}
+
+body.dark-mode .crear-grado-admin-container .form-group input {
+  background-color: #0f172a;
+  border-color: #334155;
+  color: #f1f5f9;
+}
+
+body.dark-mode .crear-grado-admin-container .form-group input:focus {
+  border-color: #06b6d4;
+  outline: none;
+}
+
+body.dark-mode .crear-grado-admin-container .success-message {
+  color: #34d399;
+}
+
+body.dark-mode .crear-grado-admin-container .error-message {
+  color: #fca5a5;
+}
+
+@media (max-width: 768px) {
+  body.dark-mode .crear-grado-admin-container {
+    background-color: #1e293b;
+  }
+}
