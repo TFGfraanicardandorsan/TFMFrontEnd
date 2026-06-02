@@ -1,7 +1,9 @@
 import { useState } from "react";
 import Papa from "papaparse";
+import { useTranslation } from "react-i18next";
 
 export default function DelegadosPdfGenerator() {
+  const { t } = useTranslation();
   const [csvFile, setCsvFile] = useState(null);
   const [nombreAcreditador, setNombreAcreditador] = useState("");
   const [dniAcreditador, setDniAcreditador] = useState("");
@@ -14,7 +16,7 @@ export default function DelegadosPdfGenerator() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!csvFile || !nombreAcreditador || !dniAcreditador) {
-      alert("Rellena todos los campos y selecciona un archivo CSV.");
+      alert(t("delegation_legacy.fill_all"));
       return;
     }
     setLoading(true);
@@ -38,7 +40,7 @@ export default function DelegadosPdfGenerator() {
             body: JSON.stringify(body),
           });
 
-          if (!response.ok) throw new Error("Error generando PDFs");
+          if (!response.ok) throw new Error(t("delegation_legacy.generation_error"));
 
           const blob = await response.blob();
           const url = window.URL.createObjectURL(blob);
@@ -49,13 +51,13 @@ export default function DelegadosPdfGenerator() {
           a.click();
           a.remove();
         } catch (err) {
-          alert("Error generando o descargando el archivo.");
+          alert(t("delegation_legacy.download_error"));
         } finally {
           setLoading(false);
         }
       },
       error: () => {
-        alert("Error leyendo el CSV.");
+        alert(t("delegation_legacy.csv_error"));
         setLoading(false);
       }
     });
@@ -63,22 +65,22 @@ export default function DelegadosPdfGenerator() {
 
   return (
     <div className="container">
-      <h2>Generar certificados de delegados</h2>
+      <h2>{t("delegation_legacy.title")}</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Nombre del delegado de centro:</label>
+          <label>{t("delegation_legacy.center_delegate_name")}</label>
           <input value={nombreAcreditador} onChange={e => setNombreAcreditador(e.target.value)} required />
         </div>
         <div>
-          <label>DNI del delegado de centro:</label>
+          <label>{t("delegation_legacy.center_delegate_dni")}</label>
           <input value={dniAcreditador} onChange={e => setDniAcreditador(e.target.value)} required />
         </div>
         <div>
-          <label>CSV de delegados de grupo:</label>
+          <label>{t("delegation_legacy.group_delegates_csv")}</label>
           <input type="file" accept=".csv" onChange={handleCsvChange} required />
         </div>
         <button type="submit" disabled={loading}>
-          {loading ? "Generando..." : "Generar y descargar ZIP"}
+          {loading ? t("delegation_legacy.generating") : t("delegation_legacy.generate_zip")}
         </button>
       </form>
     </div>

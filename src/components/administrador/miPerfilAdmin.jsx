@@ -7,8 +7,10 @@ import CrearGradoAdmin from "./CrearGradoAdmin";
 import CrearAsignatura from "./CrearAsignatura";
 import ImportAsignaturas from "./importAsignaturas";
 import { subidaArchivo } from "../../services/subidaArchivos";
+import { useTranslation } from "react-i18next";
 
 export default function MiPerfilAdmin() {
+  const { t } = useTranslation();
   const [usuario, setUsuario] = useState(null);
   const [permutas, setPermutas] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -63,11 +65,11 @@ export default function MiPerfilAdmin() {
       ]);
 
       const errores = [];
-      if (resPermutas?.err) errores.push(resPermutas.errmsg || "Error en permutas");
-      if (resSolicitudes?.err) errores.push(resSolicitudes.errmsg || "Error en solicitudes");
+      if (resPermutas?.err) errores.push(resPermutas.errmsg || t("admin.profile.remove_errors.swaps"));
+      if (resSolicitudes?.err) errores.push(resSolicitudes.errmsg || t("admin.profile.remove_errors.requests"));
 
       if (errores.length === 0) {
-        toast.success("Se ha retirado la vigencia de permutas y solicitudes correctamente.");
+        toast.success(t("admin.profile.remove_success"));
         // refrescar lista de permutas local
         const ref = await getTodasSolicitudesPermuta();
         if (!ref.err) setPermutas(ref.result.result);
@@ -75,7 +77,7 @@ export default function MiPerfilAdmin() {
         toast.error(errores.join(" — "));
       }
     } catch (err) {
-      toast.error("Error al retirar la vigencia.");
+      toast.error(t("admin.profile.remove_error"));
     } finally {
       setAccionRetirarLoading(false);
       setModalRetirarOpen(false);
@@ -84,7 +86,7 @@ export default function MiPerfilAdmin() {
 
   const exportarCSV = () => {
     if (permutas.length === 0) {
-      toast.warning("No hay datos para exportar.");
+      toast.warning(t("admin.profile.no_export_data"));
       return;
     }
 
@@ -118,12 +120,12 @@ export default function MiPerfilAdmin() {
 
   const handleUploadPlantilla = async () => {
     if (!filePlantilla) {
-      toast.warning("Por favor, selecciona un archivo.");
+      toast.warning(t("admin.profile.select_file"));
       return;
     }
 
     if (filePlantilla.type !== "application/pdf") {
-      toast.error("El archivo debe ser un PDF.");
+      toast.error(t("admin.profile.pdf_required"));
       return;
     }
 
@@ -134,9 +136,9 @@ export default function MiPerfilAdmin() {
     const promise = subidaArchivo(formData);
 
     toast.promise(promise, {
-      pending: "Subiendo plantilla...",
-      success: "Plantilla actualizada correctamente",
-      error: "Error al subir la plantilla"
+      pending: t("admin.profile.upload_pending"),
+      success: t("admin.profile.upload_success"),
+      error: t("admin.profile.upload_error")
     });
 
     try {
@@ -150,11 +152,11 @@ export default function MiPerfilAdmin() {
   };
 
   if (loading) {
-    return <div className="admin-loading">Cargando datos...</div>;
+    return <div className="admin-loading">{t("admin.profile.loading")}</div>;
   }
 
   if (error) {
-    return <div className="admin-error">Error: {error}</div>;
+    return <div className="admin-error">{t("common.error_prefix", { error })}</div>;
   }
 
   return (
@@ -162,9 +164,9 @@ export default function MiPerfilAdmin() {
       <div className="admin-content-wrap">
         <div className="perfil-container">
           <div className="admin-page-header">
-            <h1 className="admin-page-title">Perfil de Administrador</h1>
+            <h1 className="admin-page-title">{t("admin.profile.title")}</h1>
             <p className="admin-page-subtitle">
-              Gestione permutas, grados, asignaturas y configuraciones del sistema desde este panel centralizado.
+              {t("admin.profile.subtitle")}
             </p>
           </div>
 
@@ -191,21 +193,21 @@ export default function MiPerfilAdmin() {
                 onClick={() => toggleSection('permutas')}
               >
                 <span className="admin-section-icon">🔄</span>
-                <span className="admin-section-title">Gestión de Permutas</span>
+                <span className="admin-section-title">{t("admin.profile.swaps_management")}</span>
                 <span className={`admin-accordion-icon ${activeSection === 'permutas' ? 'rotate' : ''}`}>▼</span>
               </button>
               <div className={`admin-accordion-content ${activeSection === 'permutas' ? 'open' : ''}`}>
                 <div className="admin-sub-section">
-                  <h3>📥 Exportar Datos</h3>
-                  <p className="sub-section-description">Descarga todas las permutas en formato CSV</p>
+                  <h3>{t("admin.profile.export_data")}</h3>
+                  <p className="sub-section-description">{t("admin.profile.export_description")}</p>
                   <button className="admin-btn admin-btn-primary" onClick={exportarCSV}>
-                    Exportar Permutas en CSV
+                    {t("admin.profile.export_button")}
                   </button>
                 </div>
 
                 <div className="admin-sub-section">
-                  <h3>📄 Actualizar Plantilla de Solicitud</h3>
-                  <p className="sub-section-description">Sube una nueva plantilla PDF para las solicitudes</p>
+                  <h3>{t("admin.profile.update_template")}</h3>
+                  <p className="sub-section-description">{t("admin.profile.update_template_description")}</p>
                   <div className="admin-file-input-wrapper">
                     <input
                       type="file"
@@ -215,25 +217,25 @@ export default function MiPerfilAdmin() {
                       className="admin-file-input"
                     />
                     <label htmlFor="file-upload-plantilla" className="admin-file-label">
-                      {filePlantilla ? filePlantilla.name : "Seleccionar archivo PDF"}
+                      {filePlantilla ? filePlantilla.name : t("admin.profile.select_pdf")}
                     </label>
                     <button
                       className="admin-btn admin-btn-primary"
                       onClick={handleUploadPlantilla}
                       disabled={!filePlantilla}
                     >
-                      Subir Plantilla
+                      {t("admin.profile.upload_template")}
                     </button>
                   </div>
                 </div>
 
                 <div className="admin-sub-section danger-section">
-                  <h3>⚠️ Retirar Vigencia</h3>
+                  <h3>{t("admin.profile.remove_validity")}</h3>
                   <p className="sub-section-description warning-text" style={{ color: '#991b1b' }}>
-                    Al realizar esta acción todas las permutas y solicitudes dejarán de estar vigentes. Esta acción no puede deshacerse.
+                    {t("admin.profile.remove_warning")}
                   </p>
                   <button className="admin-btn admin-btn-danger" onClick={abrirModalRetirar}>
-                    Retirar la vigencia de las permutas
+                    {t("admin.profile.remove_button")}
                   </button>
                 </div>
               </div>
@@ -246,18 +248,18 @@ export default function MiPerfilAdmin() {
                 onClick={() => toggleSection('asignaturas')}
               >
                 <span className="admin-section-icon">📚</span>
-                <span className="admin-section-title">Gestión de Asignaturas</span>
+                <span className="admin-section-title">{t("admin.profile.subjects_management")}</span>
                 <span className={`admin-accordion-icon ${activeSection === 'asignaturas' ? 'rotate' : ''}`}>▼</span>
               </button>
               <div className={`admin-accordion-content ${activeSection === 'asignaturas' ? 'open' : ''}`}>
                 <div className="admin-sub-section">
-                  <h3>📤 Importar Masivamente</h3>
-                  <p className="sub-section-description">Carga múltiples asignaturas desde un archivo</p>
+                  <h3>{t("admin.profile.import_bulk")}</h3>
+                  <p className="sub-section-description">{t("admin.profile.import_bulk_description")}</p>
                   <ImportAsignaturas />
                 </div>
                 <div className="admin-sub-section">
-                  <h3>➕ Crear Individualmente</h3>
-                  <p className="sub-section-description">Añade una nueva asignatura al sistema</p>
+                  <h3>{t("admin.profile.create_individual")}</h3>
+                  <p className="sub-section-description">{t("admin.profile.create_subject_description")}</p>
                   <CrearAsignatura />
                 </div>
               </div>
@@ -270,13 +272,13 @@ export default function MiPerfilAdmin() {
                 onClick={() => toggleSection('grados')}
               >
                 <span className="admin-section-icon">🎓</span>
-                <span className="admin-section-title">Gestión de Grados</span>
+                <span className="admin-section-title">{t("admin.profile.degrees_management")}</span>
                 <span className={`admin-accordion-icon ${activeSection === 'grados' ? 'rotate' : ''}`}>▼</span>
               </button>
               <div className={`admin-accordion-content ${activeSection === 'grados' ? 'open' : ''}`}>
                 <div className="admin-sub-section">
-                  <h3>➕ Crear Nuevo Grado</h3>
-                  <p className="sub-section-description">Añade un nuevo grado académico al sistema</p>
+                  <h3>{t("admin.profile.create_degree")}</h3>
+                  <p className="sub-section-description">{t("admin.profile.create_degree_description")}</p>
                   <CrearGradoAdmin />
                 </div>
               </div>
@@ -291,10 +293,10 @@ export default function MiPerfilAdmin() {
         <div className="admin-modal-overlay" onClick={cerrarModalRetirar}>
           <div className="admin-modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="admin-modal-header">
-              <h3 className="admin-modal-title">⚠️ Confirmar acción</h3>
+              <h3 className="admin-modal-title">{t("admin.profile.confirm_title")}</h3>
             </div>
             <div className="admin-modal-body">
-              <p>Al realizar esta acción todas las permutas y solicitudes no estarán vigentes. Esta acción no puede deshacerse.</p>
+              <p>{t("admin.profile.confirm_remove_message")}</p>
             </div>
             <div className="admin-modal-footer">
               <button
@@ -302,14 +304,14 @@ export default function MiPerfilAdmin() {
                 onClick={cerrarModalRetirar}
                 disabled={accionRetirarLoading}
               >
-                Cancelar
+                {t("common.cancel")}
               </button>
               <button
                 className="admin-btn admin-btn-danger"
                 onClick={confirmarRetirarVigencia}
                 disabled={accionRetirarLoading}
               >
-                {accionRetirarLoading ? "Procesando..." : "Confirmar"}
+                {accionRetirarLoading ? t("common.processing") : t("common.confirm")}
               </button>
             </div>          </div>
         </div>

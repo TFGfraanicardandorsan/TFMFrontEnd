@@ -1,14 +1,17 @@
 import { Link } from 'react-router-dom';
 import Footer from "./footer";
 import "../../styles/notFound-style.css";
+import { useTranslation } from "react-i18next";
 
 const NotFound = () => {
+    const { t } = useTranslation();
+
     return (
         <>
             <div style={{ textAlign: 'center', marginTop: '50px' }}>
-                <h1>404 - Página No Encontrada</h1>
-                <p>Lo sentimos, la página que estás buscando no existe.</p>
-                <Link to="/">Volver a la página principal</Link>
+                <h1>{t("pages.not_found.title")}</h1>
+                <p>{t("pages.not_found.message")}</p>
+                <Link to="/">{t("common.back_home")}</Link>
             </div>
             <Footer />
         </>

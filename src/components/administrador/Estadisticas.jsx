@@ -4,10 +4,13 @@ import { Bar, Pie } from 'react-chartjs-2';
 import { obtenerEstadisticasPermutas, obtenerEstadisticasSolicitudes, obtenerEstadisticasIncidencias, obtenerEstadisticasUsuarios } from '../../services/estadisticas';
 import "../../styles/admin-common.css";
 import "../../styles/estadisticas-style.css";
+import { useTranslation } from 'react-i18next';
+import { translateIncidentStatus, translateIncidentType, translateRequestStatus, translateRole, translateSwapStatus } from '../../lib/i18nLabels';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
 export default function Estadisticas() {
+  const { t } = useTranslation();
   const [estadisticasPermutas, setEstadisticasPermutas] = useState(null);
   const [estadisticasSolicitudes, setEstadisticasSolicitudes] = useState(null);
   const [estadisticasIncidencias, setEstadisticasIncidencias] = useState(null);
@@ -30,20 +33,20 @@ export default function Estadisticas() {
         setEstadisticasUsuarios(usuariosData.result.result);
         setLoading(false);
       } catch (err) {
-        setError('Error al cargar las estadísticas', err);
+        setError(t("admin.stats.load_error"));
         setLoading(false);
       }
     };
     cargarEstadisticas();
   }, []);
 
-  if (loading) return <div className="admin-loading">Cargando estadísticas...</div>;
+  if (loading) return <div className="admin-loading">{t("admin.stats.loading")}</div>;
   if (error) return <div className="admin-error">{error}</div>;
 
   const permutasPorEstadoData = {
-    labels: estadisticasPermutas.permutasPorEstado.map(item => item.estado),
+    labels: estadisticasPermutas.permutasPorEstado.map(item => translateSwapStatus(t, item.estado)),
     datasets: [{
-      label: 'Permutas por Estado',
+      label: t("admin.stats.swaps_by_status"),
       data: estadisticasPermutas.permutasPorEstado.map(item => item.cantidad),
       backgroundColor: [
         'rgba(255, 99, 132, 0.5)',
@@ -57,14 +60,14 @@ export default function Estadisticas() {
   const permutasPorAsignaturaData = {
     labels: estadisticasPermutas.permutasPorAsignatura.map(item => item.siglas),
     datasets: [{
-      label: 'Permutas por Asignatura',
+      label: t("admin.stats.swaps_by_subject"),
       data: estadisticasPermutas.permutasPorAsignatura.map(item => item.cantidad),
       backgroundColor: 'rgba(54, 162, 235, 0.5)',
     }]
   };
 
   const solicitudesPorEstadoData = {
-    labels: estadisticasSolicitudes.solicitudesPorEstado.map(item => item.estado),
+    labels: estadisticasSolicitudes.solicitudesPorEstado.map(item => translateRequestStatus(t, item.estado)),
     datasets: [{
       data: estadisticasSolicitudes.solicitudesPorEstado.map(item => item.cantidad),
       backgroundColor: [
@@ -75,7 +78,7 @@ export default function Estadisticas() {
     }]
   };
   const incidenciasPorEstadoData = {
-    labels: estadisticasIncidencias.incidenciasPorEstado.map(item => item.estado_incidencia),
+    labels: estadisticasIncidencias.incidenciasPorEstado.map(item => translateIncidentStatus(t, item.estado_incidencia)),
     datasets: [{
       data: estadisticasIncidencias.incidenciasPorEstado.map(item => item.cantidad),
       backgroundColor: [
@@ -86,7 +89,7 @@ export default function Estadisticas() {
     }]
   };
   const incidenciasPorTipoData = {
-    labels: estadisticasIncidencias.incidenciasPorTipo.map(item => item.tipo_incidencia),
+    labels: estadisticasIncidencias.incidenciasPorTipo.map(item => translateIncidentType(t, item.tipo_incidencia)),
     datasets: [{
       data: estadisticasIncidencias.incidenciasPorTipo.map(item => item.cantidad),
       backgroundColor: [
@@ -100,7 +103,7 @@ export default function Estadisticas() {
   const incidenciasPorMesData = {
     labels: estadisticasIncidencias.incidenciasPorMes.map(item => `${item.mes}/${item.anio}`),
     datasets: [{
-      label: 'Incidencias por Mes',
+      label: t("admin.stats.incidents_by_month"),
       data: estadisticasIncidencias.incidenciasPorMes.map(item => parseInt(item.cantidad, 10)),
       backgroundColor: 'rgba(54, 162, 235, 0.5)',
     }]
@@ -115,9 +118,9 @@ export default function Estadisticas() {
 
   const usuariosPorRolData = estadisticasUsuarios && estadisticasUsuarios.usuariosPorRol
     ? {
-      labels: estadisticasUsuarios.usuariosPorRol.map(item => item.rol),
+      labels: estadisticasUsuarios.usuariosPorRol.map(item => translateRole(t, item.rol)),
       datasets: [{
-        label: 'Usuarios por Rol',
+        label: t("admin.stats.users_by_role"),
         data: estadisticasUsuarios.usuariosPorRol.map(item => item.cantidad),
         backgroundColor: [
           'rgba(54, 162, 235, 0.5)',
@@ -132,7 +135,7 @@ export default function Estadisticas() {
     ? {
       labels: estadisticasUsuarios.usuariosPorEstudio.map(item => item.siglas),
       datasets: [{
-        label: 'Usuarios por Estudio',
+        label: t("admin.stats.users_by_study"),
         data: estadisticasUsuarios.usuariosPorEstudio.map(item => item.cantidad),
         backgroundColor: generarColoresAleatorios(estadisticasUsuarios.usuariosPorEstudio.length),
       }]
@@ -143,7 +146,7 @@ export default function Estadisticas() {
     ? {
       labels: estadisticasSolicitudes.solicitudesPorGrado.map(item => item.siglas),
       datasets: [{
-        label: 'Solicitudes por Grado',
+        label: t("admin.stats.requests_by_degree"),
         data: estadisticasSolicitudes.solicitudesPorGrado.map(item => item.cantidad),
         backgroundColor: generarColoresAleatorios(estadisticasSolicitudes.solicitudesPorGrado.length),
       }]
@@ -156,10 +159,9 @@ export default function Estadisticas() {
         <div className="admin-content-wrap">
           {/* Header */}
           <div className="admin-page-header">
-            <h1 className="admin-page-title">📊 Dashboard de Estadísticas</h1>
+            <h1 className="admin-page-title">{t("admin.stats.title")}</h1>
             <p className="admin-page-subtitle">
-              Consulta las estadísticas de permutas, solicitudes, incidencias y usuarios.
-              Analiza los datos a través de gráficos interactivos de barras y circulares.
+              {t("admin.stats.subtitle")}
             </p>
           </div>
 
@@ -169,7 +171,7 @@ export default function Estadisticas() {
               <div className="admin-card-header">
                 <h2 className="admin-card-title">
                   <span className="admin-card-icon">🔄</span>
-                  Permutas por Estado
+                  {t("admin.stats.swaps_by_status")}
                 </h2>
               </div>
               <div className="admin-card-body">
@@ -181,7 +183,7 @@ export default function Estadisticas() {
               <div className="admin-card-header">
                 <h2 className="admin-card-title">
                   <span className="admin-card-icon">📚</span>
-                  Permutas por Asignatura
+                  {t("admin.stats.swaps_by_subject")}
                 </h2>
               </div>
               <div className="admin-card-body">
@@ -208,7 +210,7 @@ export default function Estadisticas() {
                 const data = {
                   labels: datos.labels,
                   datasets: [{
-                    label: `Permutas en ${datos.grado_siglas}`,
+                    label: t("admin.stats.swaps_in_degree", { degree: datos.grado_siglas }),
                     data: datos.data,
                     backgroundColor: generarColoresAleatorios(datos.data.length),
                   }]
@@ -218,7 +220,7 @@ export default function Estadisticas() {
                     <div className="admin-card-header">
                       <h2 className="admin-card-title">
                         <span className="admin-card-icon">🎓</span>
-                        Permutas en {gradoNombre}
+                        {t("admin.stats.swaps_in_degree", { degree: gradoNombre })}
                       </h2>
                     </div>
                     <div className="admin-card-body">
@@ -229,7 +231,7 @@ export default function Estadisticas() {
                           },
                           title: {
                             display: true,
-                            text: `Permutas en ${datos.grado_siglas}`
+                            text: t("admin.stats.swaps_in_degree", { degree: datos.grado_siglas })
                           }
                         }
                       }} />
@@ -243,7 +245,7 @@ export default function Estadisticas() {
               <div className="admin-card-header">
                 <h2 className="admin-card-title">
                   <span className="admin-card-icon">📝</span>
-                  Solicitudes por Estado
+                  {t("admin.stats.requests_by_status")}
                 </h2>
               </div>
               <div className="admin-card-body">
@@ -255,7 +257,7 @@ export default function Estadisticas() {
               <div className="admin-card-header">
                 <h2 className="admin-card-title">
                   <span className="admin-card-icon">🐛</span>
-                  Incidencias por Estado
+                  {t("admin.stats.incidents_by_status")}
                 </h2>
               </div>
               <div className="admin-card-body">
@@ -267,7 +269,7 @@ export default function Estadisticas() {
               <div className="admin-card-header">
                 <h2 className="admin-card-title">
                   <span className="admin-card-icon">📋</span>
-                  Incidencias por Tipo
+                  {t("admin.stats.incidents_by_type")}
                 </h2>
               </div>
               <div className="admin-card-body">
@@ -279,7 +281,7 @@ export default function Estadisticas() {
               <div className="admin-card-header">
                 <h2 className="admin-card-title">
                   <span className="admin-card-icon">📅</span>
-                  Incidencias por Mes
+                  {t("admin.stats.incidents_by_month")}
                 </h2>
               </div>
               <div className="admin-card-body">
@@ -291,7 +293,7 @@ export default function Estadisticas() {
               <div className="admin-card-header">
                 <h2 className="admin-card-title">
                   <span className="admin-card-icon">👥</span>
-                  Usuarios por Rol
+                  {t("admin.stats.users_by_role")}
                 </h2>
               </div>
               <div className="admin-card-body">
@@ -303,7 +305,7 @@ export default function Estadisticas() {
               <div className="admin-card-header">
                 <h2 className="admin-card-title">
                   <span className="admin-card-icon">🎓</span>
-                  Usuarios por Estudio
+                  {t("admin.stats.users_by_study")}
                 </h2>
               </div>
               <div className="admin-card-body">
@@ -315,7 +317,7 @@ export default function Estadisticas() {
               <div className="admin-card-header">
                 <h2 className="admin-card-title">
                   <span className="admin-card-icon">📊</span>
-                  Solicitudes por Grado
+                  {t("admin.stats.requests_by_degree")}
                 </h2>
               </div>
               <div className="admin-card-body">

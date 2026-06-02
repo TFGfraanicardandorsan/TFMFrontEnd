@@ -8,8 +8,10 @@ import { toast } from "react-toastify";
 import { logError } from "../../lib/logger.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle, faPaperclip, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from "react-i18next";
 
 export default function ReportarIncidencia() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [descripcion, setDescripcion] = useState("");
     const [tipoIncidencia, setTipoIncidencia] = useState("");
@@ -26,7 +28,7 @@ export default function ReportarIncidencia() {
                 setFileError("");
             } else {
                 setFile(null);
-                setFileError("Solo se permiten archivos PDF o PNG");
+                setFileError(t("user.report_incident.file_type_error"));
                 e.target.value = null;
             }
         }
@@ -43,17 +45,17 @@ export default function ReportarIncidencia() {
                 const response = await subidaArchivo(formData);
                 fileId = response?.result?.fileId;
             } catch (error) {
-                toast.error("Hubo un problema al subir el archivo.");
+                toast.error(t("user.report_incident.upload_error"));
                 logError(error);
                 return;
             }
         }
         try {
             await crearIncidencia(descripcion, tipoIncidencia, fileId);
-            toast.success("Incidencia enviada correctamente");
+            toast.success(t("user.report_incident.success"));
             navigate("/misIncidencias")
         } catch (error) {
-            toast.error("Error al enviar la incidencia");
+            toast.error(t("user.report_incident.submit_error"));
             logError(error);
         }
     };
@@ -62,27 +64,27 @@ export default function ReportarIncidencia() {
         <div className="page-container">
             <div className="content-wrap">
                 <div className="page-header">
-                    <h1 className="page-title">Reportar Incidencia</h1>
+                    <h1 className="page-title">{t("user.report_incident.title")}</h1>
                     <p className="page-subtitle">
-                        Si tienes algún problema con la plataforma, indícalo aquí. Trataremos de resolverlo lo antes posible.
+                        {t("user.report_incident.subtitle")}
                     </p>
                 </div>
 
                 <div className="user-card" style={{ maxWidth: '800px', margin: '0 auto' }}>
                     <div style={{ marginBottom: '2rem' }}>
                         <p style={{ marginBottom: '10px', color: 'var(--user-primary)', fontWeight: 'bold' }}>
-                            <FontAwesomeIcon icon={faExclamationTriangle} /> Instrucciones:
+                            <FontAwesomeIcon icon={faExclamationTriangle} /> {t("user.report_incident.instructions_title")}
                         </p>
                         <ul style={{ paddingLeft: '20px', margin: 0, color: 'var(--text-secondary)' }}>
-                            <li>Se descriptivo con el problema.</li>
-                            <li>Indica los pasos para reproducir el error si es posible.</li>
-                            <li>Puedes adjuntar capturas (PNG) o documentos (PDF) de hasta 10MB.</li>
+                            {t("user.report_incident.instructions", { returnObjects: true }).map((instruction) => (
+                                <li key={instruction}>{instruction}</li>
+                            ))}
                         </ul>
                     </div>
 
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label htmlFor="tipoIncidencia" className="form-label">Tipo de Incidencia</label>
+                            <label htmlFor="tipoIncidencia" className="form-label">{t("user.report_incident.type_label")}</label>
                             <select
                                 id="tipoIncidencia"
                                 value={tipoIncidencia}
@@ -90,20 +92,20 @@ export default function ReportarIncidencia() {
                                 required
                                 className="form-select"
                             >
-                                <option value="">Selecciona el tipo de incidencia</option>
-                                <option value="error">Error en la plataforma</option>
-                                <option value="permuta">Problema con permutas</option>
-                                <option value="otro">Otro</option>
+                                <option value="">{t("user.report_incident.type_placeholder")}</option>
+                                <option value="error">{t("common.incident_types.error")}</option>
+                                <option value="permuta">{t("common.incident_types.permuta")}</option>
+                                <option value="otro">{t("common.incident_types.otro")}</option>
                             </select>
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="descripcion" className="form-label">Detalles de la incidencia</label>
+                            <label htmlFor="descripcion" className="form-label">{t("user.report_incident.details_label")}</label>
                             <textarea
                                 id="descripcion"
                                 value={descripcion}
                                 onChange={(e) => setDescripcion(e.target.value)}
-                                placeholder="Describe el problema detalladamente..."
+                                placeholder={t("user.report_incident.details_placeholder")}
                                 required
                                 className="form-textarea"
                                 rows="6"
@@ -112,7 +114,7 @@ export default function ReportarIncidencia() {
 
                         <div className="form-group">
                             <label htmlFor="file" className="form-label">
-                                Adjuntar Archivo (Opcional)
+                                {t("user.report_incident.attach_label")}
                             </label>
                             <div className="file-upload-wrapper">
                                 <input
@@ -125,9 +127,9 @@ export default function ReportarIncidencia() {
                                 <div className="file-upload-content" style={{ pointerEvents: 'none' }}>
                                     <FontAwesomeIcon icon={faPaperclip} className="file-upload-icon" />
                                     <p className="file-upload-text">
-                                        {file ? file.name : "Haz clic o arrastra un archivo aquí"}
+                                        {file ? file.name : t("user.report_incident.upload_text")}
                                     </p>
-                                    <p className="file-upload-hint">PDF o PNG, Máx 10MB</p>
+                                    <p className="file-upload-hint">{t("user.report_incident.upload_hint")}</p>
                                 </div>
                             </div>
                             {fileError && <p className="user-error" style={{ textAlign: 'left', padding: '5px 0', fontSize: '0.9rem' }}>{fileError}</p>}
@@ -135,7 +137,7 @@ export default function ReportarIncidencia() {
 
                         <div style={{ marginTop: '30px' }}>
                             <button type="submit" className="btn btn-primary btn-full">
-                                <FontAwesomeIcon icon={faPaperPlane} /> Enviar Incidencia
+                                <FontAwesomeIcon icon={faPaperPlane} /> {t("user.report_incident.submit")}
                             </button>
                         </div>
                     </form>

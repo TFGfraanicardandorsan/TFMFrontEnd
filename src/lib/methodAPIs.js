@@ -1,3 +1,5 @@
+import i18n from "../i18n";
+
 export const postAPI = async (fun, body = null, isFile = false) => {
     try {
         const config = {
@@ -17,19 +19,19 @@ export const postAPI = async (fun, body = null, isFile = false) => {
         const respuesta = await fetch(import.meta.env.VITE_API_URL + fun, config);
 
         if (!respuesta.ok) {
-            throw new Error(`Error ${respuesta.status}: ${respuesta.statusText}`);
+            throw new Error(i18n.t("api.http_error", { status: respuesta.status, statusText: respuesta.statusText }));
         }
 
         let data;
         try {
             data = await respuesta.json();
         } catch {
-            return { err: true, errmsg: 'La respuesta no es un JSON válido' };
+            return { err: true, errmsg: i18n.t("api.invalid_json") };
         }
 
         return { err: false, result: data };
     } catch (e) {
-        return { err: true, errmsg: `Excepción en postAPI: ${e.message}` };
+        return { err: true, errmsg: i18n.t("api.post_exception", { message: e.message }) };
     }
 };
 
@@ -50,10 +52,10 @@ export const getAPI = async (fun) => {
         if (contentType && contentType.includes('application/json')) {
             data = await respuesta.json();
         } else {
-            data = { err: true, errmsg: `La respuesta no es un JSON: ${respuesta}`, respuestaText: await respuesta.text(), }
+            data = { err: true, errmsg: `${i18n.t("api.not_json")}: ${respuesta}`, respuestaText: await respuesta.text(), }
         }
     } catch (e) {
-        data = { err: true, errmsg: `Excepción al hacer el método getAPI: ${e}`, }
+        data = { err: true, errmsg: i18n.t("api.get_exception", { message: e.message || e }), }
     }
     return data
 }
@@ -63,6 +65,6 @@ export const getPDF = async (fun) => {
         method: 'get',
         credentials: 'include',
     });
-    if (!respuesta.ok) throw new Error("No se pudo obtener el PDF");
+    if (!respuesta.ok) throw new Error(i18n.t("api.pdf_error"));
     return await respuesta.arrayBuffer();
 }

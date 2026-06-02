@@ -8,7 +8,129 @@
         "notifications": "Notifications",
         "accept": "Accept",
         "read_more": "Read more",
-        "cookie_consent": "We use cookies to improve user experience."
+        "cookie_consent": "We use cookies to improve user experience.",
+        "app_name": "ETSII Exchanges",
+        "logo_alt": "ETSII logo",
+        "loading_profile": "Loading your profile...",
+        "loading_data": "Loading data...",
+        "error": "Error",
+        "error_prefix": "Error: {{error}}",
+        "unexpected_error": "An error occurred",
+        "save": "Save",
+        "save_changes": "Save Changes",
+        "cancel": "Cancel",
+        "close": "Close",
+        "confirm": "Confirm",
+        "processing": "Processing...",
+        "submit": "Submit",
+        "clear": "Clear",
+        "edit": "Edit",
+        "previous": "Previous",
+        "next": "Next",
+        "page_of": "Page {{current}} of {{total}}",
+        "back_home": "Back to the main page",
+        "go_home": "Back to home",
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "study": "Study",
+        "uvus": "UVUS",
+        "user": "User",
+        "status": "Status",
+        "date": "Date",
+        "created_at": "Creation date",
+        "type": "Type",
+        "description_label": "Description",
+        "details": "Details",
+        "code": "Code",
+        "subject": "Subject",
+        "subjects": "Subjects",
+        "group": "Group",
+        "group_with_number": "Group {{group}}",
+        "current_group": "Current Group",
+        "from_group": "From Group",
+        "to_group": "To Group",
+        "desired_groups": "Desired Groups",
+        "requester": "Requester",
+        "your_group": "Your Group",
+        "all": "All",
+        "all_roles": "All roles",
+        "no_description": "No description",
+        "file_attachment": "Attached file",
+        "characters": "{{count}} characters",
+        "select_study": "Select study",
+        "select_course": "Select course",
+        "select_group": "Select a group",
+        "optional": "Optional",
+        "send_and_close": "Send and Close",
+        "roles": {
+            "all": "All users",
+            "user": "User",
+            "estudiante": "Student",
+            "administrador": "Administrator",
+            "delegacion": "Delegation",
+            "delgacion": "Delegation"
+        },
+        "roles_plural": {
+            "all": "All users",
+            "estudiante": "Students",
+            "administrador": "Administrators",
+            "delegacion": "Delegation",
+            "delgacion": "Delegation"
+        },
+        "courses": {
+            "primero": "First",
+            "segundo": "Second",
+            "tercero": "Third",
+            "cuarto": "Fourth",
+            "otros": "Other",
+            "other": "Other",
+            "course_label": "Course {{course}}",
+            "ordinal": "{{course}} year"
+        },
+        "swap_status": {
+            "pendiente": "Pending",
+            "solicitada": "Requested",
+            "emparejada": "Matched",
+            "aceptada": "Accepted",
+            "rechazada": "Rejected",
+            "cancelada": "Cancelled",
+            "vigente": "Active",
+            "no_vigente": "Inactive",
+            "completada": "Completed",
+            "denegada": "Denied"
+        },
+        "request_status": {
+            "solicitada": "Requested",
+            "emparejada": "Matched",
+            "aceptada": "Accepted",
+            "rechazada": "Rejected",
+            "cancelada": "Cancelled"
+        },
+        "incident_status": {
+            "abierta": "Open",
+            "asignada": "In progress",
+            "solucionada": "Resolved"
+        },
+        "incident_types": {
+            "incidencia": "Incident",
+            "error": "Platform error",
+            "permuta": "Exchange issue",
+            "otro": "Other"
+        },
+        "modal": {
+            "informed": "I acknowledge this information"
+        },
+        "language": {
+            "es": "Spanish",
+            "en": "English",
+            "fr": "French"
+        },
+        "theme_toggle": {
+            "label": "Toggle theme",
+            "dark": "Switch to dark mode",
+            "light": "Switch to light mode"
+        }
     },
     "navbar": {
         "brand": "ETSII Exchanges - Admin",
@@ -28,7 +150,8 @@
         "request_exchange": "Request exchange",
         "my_requests": "My requests",
         "accepted_exchanges": "Accepted exchanges",
-        "report_incident": "Report incident"
+        "report_incident": "Report incident",
+        "student_brand": "ETSII Exchanges"
     },
     "delegation": {
         "navbar": {
@@ -158,6 +281,450 @@
         "modal": {
             "title": "Validate Permutation",
             "message": "Remember that requests must be submitted electronically (requires FNMT digital certificate), through the General State Administration Registry, indicating as recipient (use search engine) “University of Seville” and stating in the subject the name of the center \"For E.T.S. of Computer Engineering\". Otherwise, the procedure will NOT be registered by the school and the permutation cannot be performed."
+        },
+        "preview_title": "PDF preview"
+    },
+    "registration": {
+        "title": "Registration for ETSII Exchanges",
+        "not_found": "We could not find you in the database, which means you have not registered yet.",
+        "instructions": "To register on the platform, scan the following QR code and follow the Telegram bot instructions.",
+        "telegram_alt": "Telegram QR",
+        "back_login": "Back to Sign In"
+    },
+    "pages": {
+        "unauthorized": {
+            "title": "401 - Access denied",
+            "message": "You do not have permission to view this page."
+        },
+        "not_found": {
+            "title": "404 - Page Not Found",
+            "message": "Sorry, the page you are looking for does not exist."
         }
+    },
+    "user": {
+        "study_selection": {
+            "title": "Select your degree or master:",
+            "placeholder": "Select a study program",
+            "reminders": [
+                "Remember that you can only select one study program.",
+                "Once selected, you will be able to choose subjects and groups.",
+                "If you make a mistake when selecting the study program, report an incident.",
+                "If you do not select anything, you will not be able to use the service."
+            ],
+            "success": "Study program selected successfully",
+            "request_error": "Request error."
+        },
+        "subject_selection": {
+            "saving": "Saving selection...",
+            "title": "Select Subjects",
+            "subtitle": "Choose the subjects you want to enroll in this academic year.",
+            "filter_course": "Filter by year:",
+            "code_label": "Code: {{code}}",
+            "empty_course": "No subjects are available for this year.",
+            "save_count": "Save ({{count}})",
+            "success": "All selected subjects have been submitted."
+        },
+        "group_selection": {
+            "load_error": "Error loading subject groups",
+            "select_all_warning": "Please select a group for every subject.",
+            "success": "Groups assigned successfully",
+            "save_error": "An error occurred while saving the groups",
+            "loading": "Loading available groups...",
+            "title": "Group Selection",
+            "subtitle": "Indicate the assigned group for each enrolled subject. This is required to manage your exchanges correctly.",
+            "quick_title": "Quick Setup by Year",
+            "quick_description": "Automatically assign a group to all subjects in the same year.",
+            "assign_group": "Assign group",
+            "current_group": "Your current group:",
+            "select_your_group": "Select your group",
+            "ready": "Everything is ready to save!",
+            "missing": "Some groups still need to be selected",
+            "save_groups": "Save Groups",
+            "empty_title": "No pending subjects found",
+            "empty_message": "It looks like all your groups are already assigned or you have no new subjects.",
+            "go_profile": "Go to my Profile"
+        },
+        "swap_request": {
+            "no_subjects_log": "No available subjects were found.",
+            "load_error": "An error occurred while loading the subjects.",
+            "select_one_warning": "Please select at least one group.",
+            "success": "Exchange requests submitted successfully.",
+            "submit_error": "An error occurred while requesting the exchanges. Please try again.",
+            "loading": "Loading available subjects...",
+            "title": "Request Exchange",
+            "subtitle": "Select the group you want to move to for each subject. We will create an exchange request so other students can accept it.",
+            "desired_group": "Select desired group:",
+            "select_group_placeholder": "Select a group",
+            "ready_for_group": "Request ready for G.{{group}}",
+            "ready": "Everything is ready to request!",
+            "waiting": "Select a group to continue",
+            "submit": "Request Now",
+            "empty_title": "No subjects available",
+            "empty_message": "It looks like you already have a group assigned in all your subjects or you are not enrolled."
+        },
+        "my_profile": {
+            "approved_one": "Congratulations! You passed {{subject}}.",
+            "approve_error": "Error marking {{subject}} as passed: {{error}}",
+            "approved_all": "Congratulations! You passed all your subjects.",
+            "loading": "Loading your profile...",
+            "error_title": "⚠️ An error occurred",
+            "title": "My Profile",
+            "subtitle": "Manage your enrolled subjects and celebrate your passed courses. Keep your progress up to date.",
+            "current_subjects": "My Current Subjects",
+            "approve_all": "Pass All",
+            "enroll_new": "+ Enroll in New Ones",
+            "mark_approved": "Mark as Passed",
+            "empty_title": "You have no current subjects",
+            "empty_message": "It is a good time to enroll in new subjects!",
+            "select_subjects": "Select Subjects"
+        },
+        "my_swaps": {
+            "load_error": "Error loading data",
+            "load_mine_error": "Error loading exchanges proposed by me",
+            "load_received_error": "Error loading proposed exchanges",
+            "denied_success": "Exchange denied successfully",
+            "denied_error": "Error denying the exchange",
+            "accepted_success": "Exchange accepted successfully",
+            "accepted_error": "Error accepting the exchange",
+            "loading": "Loading exchanges...",
+            "title": "My Exchanges",
+            "subtitle": "Here you can view the exchanges you proposed and those proposed to you. Manage your exchanges easily.",
+            "proposed_by_me": "Proposed by me",
+            "received": "Received exchanges",
+            "empty_mine": "You have not proposed any exchange yet",
+            "empty_received": "You have not received any exchange proposals",
+            "deny": "Deny"
+        },
+        "swap_requests": {
+            "fetch_error": "Error fetching requests",
+            "load_error": "Error loading requests",
+            "cancel_success": "Request cancelled successfully",
+            "cancel_failed": "The request could not be cancelled",
+            "cancel_error": "Error cancelling the request",
+            "loading": "Loading requests...",
+            "title": "My Exchange Requests",
+            "subtitle": "Here you can view all your exchange requests. Filter by status or open a request to view details.",
+            "filter_status": "Filter by status:",
+            "empty_title": "You have no registered exchange requests",
+            "empty_message": "It looks like you have not requested any group exchange yet. Start today and find the schedule that works best for you!",
+            "request_now": "Request an Exchange Now!",
+            "modal_title": "Request Details"
+        },
+        "incidents": {
+            "title": "My Incidents",
+            "subtitle": "Check the status of your incidents and track their resolution easily.",
+            "filter_status": "Filter by status:",
+            "loading": "Loading incidents...",
+            "empty_title": "No incidents in this status",
+            "empty_message": "If you have a technical problem or question, we are here to help.",
+            "report_new": "Report New Incident"
+        },
+        "report_incident": {
+            "file_type_error": "Only PDF or PNG files are allowed",
+            "upload_error": "There was a problem uploading the file.",
+            "success": "Incident submitted successfully",
+            "submit_error": "Error submitting the incident",
+            "title": "Report Incident",
+            "subtitle": "If you have a problem with the platform, describe it here. We will try to resolve it as soon as possible.",
+            "instructions_title": "Instructions:",
+            "instructions": [
+                "Be descriptive about the problem.",
+                "Indicate the steps to reproduce the error if possible.",
+                "You can attach screenshots (PNG) or documents (PDF) up to 10MB."
+            ],
+            "type_label": "Incident Type",
+            "type_placeholder": "Select the incident type",
+            "details_label": "Incident details",
+            "details_placeholder": "Describe the problem in detail...",
+            "attach_label": "Attach File (Optional)",
+            "upload_text": "Click or drag a file here",
+            "upload_hint": "PDF or PNG, Max 10MB",
+            "submit": "Submit Incident"
+        }
+    },
+    "admin": {
+        "notifications": {
+            "validation": "Please complete all fields.",
+            "success": "Notification sent successfully.",
+            "error": "There was an error sending the notification.",
+            "title": "📢 Create Notification",
+            "subtitle": "Send a notification to the selected user type. You can generate a notification for students, administrators, or all system users.",
+            "new_title": "New Notification",
+            "recipients": "Recipients",
+            "select_recipient": "Select recipient",
+            "content": "Message content",
+            "placeholder": "Write the notification content...",
+            "sending": "Sending...",
+            "send": "📨 Send Notification",
+            "tips_title": "💡 Tips",
+            "tips": [
+                "Be clear and concise in the message",
+                "Include relevant information for recipients",
+                "Review the content before sending",
+                "Notifications are sent immediately"
+            ]
+        },
+        "users": {
+            "title": "👥 User Management Panel",
+            "subtitle": "Manage all system users. You can update each user’s information by clicking the corresponding button.",
+            "search_placeholder": "Search by name...",
+            "loading": "Loading users...",
+            "empty": "No users were found with the applied filters.",
+            "edit_title": "✏️ Edit User"
+        },
+        "profile": {
+            "remove_errors": {
+                "swaps": "Error in exchanges",
+                "requests": "Error in requests"
+            },
+            "remove_success": "Exchange and request validity was removed successfully.",
+            "remove_error": "Error removing validity.",
+            "no_export_data": "No data to export.",
+            "select_file": "Please select a file.",
+            "pdf_required": "The file must be a PDF.",
+            "upload_pending": "Uploading template...",
+            "upload_success": "Template updated successfully",
+            "upload_error": "Error uploading the template",
+            "loading": "Loading data...",
+            "title": "Administrator Profile",
+            "subtitle": "Manage exchanges, degrees, subjects, and system settings from this centralized panel.",
+            "swaps_management": "Exchange Management",
+            "export_data": "📥 Export Data",
+            "export_description": "Download all exchanges in CSV format",
+            "export_button": "Export Exchanges as CSV",
+            "update_template": "📄 Update Request Template",
+            "update_template_description": "Upload a new PDF template for requests",
+            "select_pdf": "Select PDF file",
+            "upload_template": "Upload Template",
+            "remove_validity": "⚠️ Remove Validity",
+            "remove_warning": "When you perform this action, all exchanges and requests will no longer be valid. This action cannot be undone.",
+            "remove_button": "Remove exchange validity",
+            "subjects_management": "Subject Management",
+            "import_bulk": "📤 Bulk Import",
+            "import_bulk_description": "Load multiple subjects from a file",
+            "create_individual": "➕ Create Individually",
+            "create_subject_description": "Add a new subject to the system",
+            "degrees_management": "Degree Management",
+            "create_degree": "➕ Create New Degree",
+            "create_degree_description": "Add a new academic degree to the system",
+            "confirm_title": "⚠️ Confirm action",
+            "confirm_remove_message": "When you perform this action, all exchanges and requests will no longer be valid. This action cannot be undone."
+        },
+        "subjects": {
+            "code_numeric": "The code must be a number",
+            "success": "Subject created successfully",
+            "error": "Error creating the subject",
+            "name_placeholder": "Name",
+            "acronym_placeholder": "Acronym",
+            "code_placeholder": "Code",
+            "create": "Create Subject"
+        },
+        "degrees": {
+            "required": "Please fill in both fields.",
+            "success": "Degree created successfully.",
+            "error": "Error creating the degree.",
+            "study_label": "Degree study program:",
+            "acronym_label": "Acronym:",
+            "create": "Create degree"
+        },
+        "import_subjects": {
+            "select_csv": "Select a CSV file.",
+            "success": "Import completed successfully.",
+            "network_error": "Network error while importing.",
+            "importing": "Importing...",
+            "import": "Import"
+        },
+        "incidents": {
+            "load_error": "There was a problem loading incidents. Please try again later.",
+            "assign_success": "Incident assigned successfully.",
+            "assign_error": "There was a problem assigning the incident.",
+            "assigned_title": "🐛 My Incidents",
+            "assigned_subtitle": "Check the status of your assigned incidents. You can resolve them by clicking the corresponding button. If you click view incident, you will see the attached file if the user attached one.",
+            "unassigned_title": "📋 Unassigned Incidents",
+            "unassigned_subtitle": "View all unassigned incidents. You can assign yourself an incident by clicking the corresponding button.",
+            "loading": "Loading incidents...",
+            "empty_assigned": "You have no assigned incidents.",
+            "empty_unassigned": "There are no unassigned incidents.",
+            "issue_number": "Incident #{{id}}",
+            "view_detail": "View Detail",
+            "resolve": "✓ Resolve",
+            "assign_me": "👤 Assign to me",
+            "close_message_required": "The message cannot be empty",
+            "close_notify_error": "Error notifying the incident closure",
+            "resolved_success": "Incident {{id}} resolved successfully",
+            "resolved_error": "Error resolving incident {{id}}",
+            "close_message_title": "✉️ Closing Message",
+            "close_message_label": "Message for the user",
+            "close_message_placeholder": "Write the message that will be sent to the user...",
+            "detail_loading": "Loading incident...",
+            "detail_not_found": "Incident not found.",
+            "detail_title": "Incident Detail {{id}}",
+            "type_label": "Incident Type"
+        },
+        "stats": {
+            "load_error": "Error loading statistics",
+            "loading": "Loading statistics...",
+            "title": "📊 Statistics Dashboard",
+            "subtitle": "View exchange, request, incident, and user statistics. Analyze the data through interactive bar and pie charts.",
+            "swaps_by_status": "Exchanges by Status",
+            "swaps_by_subject": "Exchanges by Subject",
+            "swaps_in_degree": "Exchanges in {{degree}}",
+            "requests_by_status": "Requests by Status",
+            "incidents_by_status": "Incidents by Status",
+            "incidents_by_type": "Incidents by Type",
+            "incidents_by_month": "Incidents by Month",
+            "users_by_role": "Users by Role",
+            "users_by_study": "Users by Study",
+            "requests_by_degree": "Requests by Degree"
+        }
+    },
+    "delegation_legacy": {
+        "fill_all": "Fill in all fields and select a CSV file.",
+        "generation_error": "Error generating PDFs",
+        "download_error": "Error generating or downloading the file.",
+        "csv_error": "Error reading the CSV.",
+        "title": "Generate delegate certificates",
+        "center_delegate_name": "Center delegate name:",
+        "center_delegate_dni": "Center delegate DNI:",
+        "group_delegates_csv": "Group delegates CSV:",
+        "generating": "Generating...",
+        "generate_zip": "Generate and download ZIP"
+    },
+    "legal": {
+        "privacy": {
+            "title": "Privacy Policy",
+            "updated": "Last updated: March 2025",
+            "sections": [
+                {
+                    "title": "1. Information we collect",
+                    "paragraphs": [
+                        "We collect the following information to provide you with a better experience:"
+                    ],
+                    "items": [
+                        {
+                            "label": "Personal information:",
+                            "text": "Name, email address, and other relevant information you provide when registering."
+                        },
+                        {
+                            "label": "Usage information:",
+                            "text": "Data about how you use the application, such as exchanges completed and search preferences."
+                        },
+                        {
+                            "label": "Technical information:",
+                            "text": "IP address, device type, operating system, and browsing data."
+                        }
+                    ]
+                },
+                {
+                    "title": "2. How we use your information",
+                    "paragraphs": [
+                        "We use the collected information to:"
+                    ],
+                    "items": [
+                        "Improve application functionality.",
+                        "Personalize the user experience.",
+                        "Send you relevant updates and notifications about your account or the application."
+                    ]
+                },
+                {
+                    "title": "3. Sharing your information",
+                    "paragraphs": [
+                        "Your personal information will not be shared with third parties without your consent, except in the following cases:"
+                    ]
+                },
+                {
+                    "title": "4. Information security",
+                    "paragraphs": [
+                        "We are committed to protecting your personal information. We implement reasonable security measures to prevent unauthorized access, alteration, or disclosure of your information."
+                    ]
+                },
+                {
+                    "title": "5. Your rights",
+                    "paragraphs": [
+                        "Depending on your jurisdiction, you may have the right to access, correct, or delete your personal data. If you wish to exercise these rights, you can contact us through the channels provided at the end of this policy."
+                    ]
+                },
+                {
+                    "title": "6. Changes to this policy",
+                    "paragraphs": [
+                        "We may update our Privacy Policy from time to time. We will notify you of important changes by publishing a new version on this page."
+                    ]
+                },
+                {
+                    "title": "7. Contact",
+                    "paragraphs": [
+                        "If you have any questions or concerns about our Privacy Policy, please contact us:"
+                    ],
+                    "items": [
+                        "Email: delegacion_etsii@us.es",
+                        "Address: Avda. Reina Mercedes s/n, 41012 Seville"
+                    ]
+                }
+            ]
+        },
+        "cookies": {
+            "title": "Cookies Policy",
+            "updated": "Last updated: April 2025",
+            "sections": [
+                {
+                    "title": "1. What are cookies?",
+                    "paragraphs": [
+                        "Cookies are small text files stored on your device when you visit a website. They allow the website to remember your actions and preferences (such as login, language, font size, and other settings) for a period of time."
+                    ]
+                },
+                {
+                    "title": "2. What types of cookies do we use?",
+                    "paragraphs": [
+                        "Our application uses the following types of cookies:"
+                    ],
+                    "items": [
+                        {
+                            "label": "Essential cookies:",
+                            "text": "They are necessary for the basic operation of the application and cannot be disabled."
+                        },
+                        {
+                            "label": "Functionality cookies:",
+                            "text": "They remember your preferences and improve your user experience."
+                        },
+                        {
+                            "label": "Analytics cookies:",
+                            "text": "They help us understand how users interact with our application by collecting information anonymously."
+                        }
+                    ]
+                },
+                {
+                    "title": "3. How can you manage cookies?",
+                    "paragraphs": [
+                        "You can manage or disable cookies through your browser settings. Please note that disabling certain cookies may affect application functionality.",
+                        "Below are links to instructions for managing cookies in the most popular browsers:"
+                    ],
+                    "browserLinks": true
+                },
+                {
+                    "title": "4. Changes to this policy",
+                    "paragraphs": [
+                        "We may update our Cookies Policy from time to time. We will notify you of important changes by publishing a new version on this page."
+                    ]
+                },
+                {
+                    "title": "5. Contact",
+                    "paragraphs": [
+                        "If you have any questions or concerns about our Cookies Policy, please contact us:"
+                    ],
+                    "items": [
+                        "Email: delegacion_etsii@us.es",
+                        "Address: Avda. Reina Mercedes s/n, 41012 Seville"
+                    ]
+                }
+            ]
+        }
+    },
+    "api": {
+        "invalid_json": "The response is not valid JSON",
+        "post_exception": "Exception in postAPI: {{message}}",
+        "not_json": "The response is not JSON",
+        "get_exception": "Exception while running getAPI: {{message}}",
+        "pdf_error": "The PDF could not be retrieved",
+        "http_error": "Error {{status}}: {{statusText}}"
     }
 }
