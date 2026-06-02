@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { obtenerTodosUsuarios, actualizarUsuario } from '../../services/usuario';
 import "../../styles/admin-common.css";
 import "../../styles/panelGestionUsuarios-style.css";
+import { isDelegationRole } from '../../lib/roles';
 
 const UserManagementPanel = () => {
     const [users, setUsers] = useState([]);
@@ -84,7 +85,9 @@ const UserManagementPanel = () => {
                 user.name.toLowerCase().includes(searchTerm.toLowerCase())
             )
             .filter(user =>
-                roleFilter === 'todos' || (user.rol && user.rol.toLowerCase() === roleFilter.toLowerCase())
+                roleFilter === 'todos' ||
+                (roleFilter === 'delegacion' && isDelegationRole(user.rol)) ||
+                (user.rol && user.rol.toLowerCase() === roleFilter.toLowerCase())
             );
     }, [users, searchTerm, roleFilter]);
 
@@ -130,6 +133,7 @@ const UserManagementPanel = () => {
                             <option value="todos">Todos los roles</option>
                             <option value="estudiante">Estudiante</option>
                             <option value="administrador">Administrador</option>
+                            <option value="delegacion">Delegación</option>
                         </select>
                     </div>
 
@@ -242,6 +246,7 @@ const UserManagementPanel = () => {
                                     >
                                         <option value="estudiante">Estudiante</option>
                                         <option value="administrador">Administrador</option>
+                                        <option value="delegacion">Delegación</option>
                                     </select>
                                 </div>
                                 {formData.estudio !== undefined && (

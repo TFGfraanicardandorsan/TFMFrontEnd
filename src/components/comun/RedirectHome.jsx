@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { ADMIN_ROLE, STUDENT_ROLE, isAllowedRole, isDelegationRole } from "../../lib/roles";
 
 export default function RedirectHome() {
   const { isAuthenticated, user } = useAuth();
@@ -8,10 +9,12 @@ export default function RedirectHome() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      if (user?.rol === "administrador") {
+      if (isAllowedRole(user?.rol, [ADMIN_ROLE])) {
         navigate("/admin");  
-      } else if (user?.rol === "estudiante") {
+      } else if (isAllowedRole(user?.rol, [STUDENT_ROLE])) {
         navigate("/estudiante");  
+      } else if (isDelegationRole(user?.rol)) {
+        navigate("/delegacion");
       }
     }
   }, [isAuthenticated, user, navigate]);

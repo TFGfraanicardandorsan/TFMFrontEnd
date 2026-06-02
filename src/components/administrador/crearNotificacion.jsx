@@ -41,6 +41,8 @@ export default function CrearNotificacion() {
                 return { icon: "🎓", label: "Estudiantes", color: "secondary" };
             case "administrador":
                 return { icon: "👔", label: "Administradores", color: "warning" };
+            case "delegacion":
+                return { icon: "📄", label: "Delegación", color: "success" };
             default:
                 return null;
         }
@@ -92,6 +94,7 @@ export default function CrearNotificacion() {
                                             <option value="all">👥 Todos los usuarios</option>
                                             <option value="estudiante">🎓 Estudiantes</option>
                                             <option value="administrador">👔 Administradores</option>
+                                            <option value="delegacion">📄 Delegación</option>
                                         </select>
                                     </div>
 

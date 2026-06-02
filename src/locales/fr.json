@@ -30,6 +30,52 @@
         "accepted_exchanges": "Permutes acceptées",
         "report_incident": "Signaler un incident"
     },
+    "delegation": {
+        "navbar": {
+            "brand": "Permutes ETSII - Délégation",
+            "certificates": "Certificats",
+            "open_menu": "Ouvrir le menu"
+        },
+        "certificates": {
+            "kicker": "Générateur de certificats",
+            "title": "Certificats DLGA",
+            "actions_label": "Actions de certificats",
+            "sections": {
+                "batch": "Données du lot",
+                "email": "E-mail Microsoft 365",
+                "graph": "Microsoft Graph"
+            },
+            "fields": {
+                "signer": "Signataire",
+                "request_date": "Date de demande",
+                "send_on_generate": "Envoyer lors de la génération",
+                "sender": "Expéditeur",
+                "smtp_password": "Mot de passe SMTP"
+            },
+            "placeholders": {
+                "signer": "Nom du délégué de centre"
+            },
+            "buttons": {
+                "csv_template": "Modèle CSV",
+                "outlook_emails": "E-mails Outlook",
+                "generating": "Génération...",
+                "generate_pdfs": "Générer les PDF",
+                "sign_batch": "Signer le lot",
+                "connect_microsoft": "Connecter Microsoft",
+                "send_graph": "Envoyer via Graph",
+                "sign_and_send_graph": "Signer et envoyer via Graph"
+            },
+            "messages": {
+                "download_ready": "Téléchargement préparé correctement."
+            },
+            "errors": {
+                "select_csv": "Sélectionnez un fichier CSV de certificats.",
+                "signer_required": "Indiquez le signataire.",
+                "operation_failed": "L'opération DLGA n'a pas pu être terminée.",
+                "template_failed": "Le modèle n'a pas pu être téléchargé."
+            }
+        }
+    },
     "login": {
         "title": "Connexion à Permutes ETSII",
         "button": "Se connecter",

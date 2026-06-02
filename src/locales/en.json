@@ -30,6 +30,52 @@
         "accepted_exchanges": "Accepted exchanges",
         "report_incident": "Report incident"
     },
+    "delegation": {
+        "navbar": {
+            "brand": "ETSII Exchanges - Delegation",
+            "certificates": "Certificates",
+            "open_menu": "Open menu"
+        },
+        "certificates": {
+            "kicker": "Certificate generator",
+            "title": "DLGA Certificates",
+            "actions_label": "Certificate actions",
+            "sections": {
+                "batch": "Batch details",
+                "email": "Microsoft 365 email",
+                "graph": "Microsoft Graph"
+            },
+            "fields": {
+                "signer": "Signer",
+                "request_date": "Request date",
+                "send_on_generate": "Send when generating",
+                "sender": "Sender",
+                "smtp_password": "SMTP password"
+            },
+            "placeholders": {
+                "signer": "Name of the Center Delegate"
+            },
+            "buttons": {
+                "csv_template": "CSV template",
+                "outlook_emails": "Outlook emails",
+                "generating": "Generating...",
+                "generate_pdfs": "Generate PDFs",
+                "sign_batch": "Sign batch",
+                "connect_microsoft": "Connect Microsoft",
+                "send_graph": "Send with Graph",
+                "sign_and_send_graph": "Sign and send with Graph"
+            },
+            "messages": {
+                "download_ready": "Download prepared successfully."
+            },
+            "errors": {
+                "select_csv": "Select a certificate CSV file.",
+                "signer_required": "Enter the signer.",
+                "operation_failed": "The DLGA operation could not be completed.",
+                "template_failed": "The template could not be downloaded."
+            }
+        }
+    },
     "login": {
         "title": "Login to ETSII Exchanges",
         "button": "Sign In",

@@ -30,6 +30,52 @@
         "accepted_exchanges": "Permutas aceptadas",
         "report_incident": "Reportar incidencia"
     },
+    "delegation": {
+        "navbar": {
+            "brand": "Permutas ETSII - Delegación",
+            "certificates": "Certificados",
+            "open_menu": "Abrir menú"
+        },
+        "certificates": {
+            "kicker": "Generador de certificados",
+            "title": "Certificados DLGA",
+            "actions_label": "Acciones de certificados",
+            "sections": {
+                "batch": "Datos del lote",
+                "email": "Correo Microsoft 365",
+                "graph": "Microsoft Graph"
+            },
+            "fields": {
+                "signer": "Firmante",
+                "request_date": "Fecha de solicitud",
+                "send_on_generate": "Enviar al generar",
+                "sender": "Remitente",
+                "smtp_password": "Contraseña SMTP"
+            },
+            "placeholders": {
+                "signer": "Nombre del Delegado de Centro"
+            },
+            "buttons": {
+                "csv_template": "Plantilla CSV",
+                "outlook_emails": "Correos Outlook",
+                "generating": "Generando...",
+                "generate_pdfs": "Generar PDFs",
+                "sign_batch": "Firmar lote",
+                "connect_microsoft": "Conectar Microsoft",
+                "send_graph": "Enviar Graph",
+                "sign_and_send_graph": "Firmar y enviar Graph"
+            },
+            "messages": {
+                "download_ready": "Descarga preparada correctamente."
+            },
+            "errors": {
+                "select_csv": "Selecciona un CSV de certificados.",
+                "signer_required": "Indica el firmante.",
+                "operation_failed": "No se pudo completar la operación en DLGA.",
+                "template_failed": "No se pudo descargar la plantilla."
+            }
+        }
+    },
     "login": {
         "title": "Inicio sesión en Permutas ETSII",
         "button": "Inicia Sesión",
