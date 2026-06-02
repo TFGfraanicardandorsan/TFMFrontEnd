@@ -3,9 +3,11 @@
     position: fixed;
     top: 0;
     right: 0;
-    width: 320px; /* Ajusta el ancho de la barra lateral */
+    width: 320px;
+    /* Ajusta el ancho de la barra lateral */
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro detrás */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fondo oscuro detrás */
     z-index: 1000;
     display: flex;
     justify-content: flex-end;
@@ -70,4 +72,24 @@
     background: none;
     border: none;
     cursor: pointer;
+}
+
+/* Adaptación móvil */
+@media (max-width: 768px) {
+    .sidebar-container {
+        width: 100vw;
+        justify-content: flex-end;
+    }
+
+    .sidebar {
+        width: 85vw;
+        /* Casi todo el ancho, dejando un poco para cerrar al tocar fuera */
+        max-width: 320px;
+        border-radius: 0;
+        box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar h2 {
+        font-size: 1.2rem;
+    }
 }

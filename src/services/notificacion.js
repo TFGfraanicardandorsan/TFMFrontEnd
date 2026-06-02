@@ -7,3 +7,10 @@ export const obtenerNotificaciones = async () => {
 export const crearNotificacion = async (paramReceptor, paramContenido) => {
     return await postAPI("/api/v1/notificacion/insertarNotificacion", {receptor:paramReceptor,contenido:paramContenido})
 }
+
+export const notificarCierreIncidencia = async (idIncidencia, contenido) => {
+    return await postAPI("/api/v1/notificacion/notificarCierreIncidencia", {
+        idIncidencia,
+        contenido
+    });
+};

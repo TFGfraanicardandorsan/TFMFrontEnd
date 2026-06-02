@@ -11,3 +11,15 @@ export const actualizarEstudiosUsuario = async (paramEstudio) => {
 export const obtenerDatosUsuarioAdmin = async () => {
     return await postAPI("/api/v1/usuario/obtenerDatosUsuarioAdmin")
 }
+
+export const obtenerTodosUsuarios = async () => {
+    return await postAPI("/api/v1/usuario/obtenerTodosUsuarios");
+}
+
+export const actualizarUsuario = async (uvus, userData) => {
+    const payload = {
+        uvus,
+        ...userData
+    };
+    return await postAPI(`/api/v1/usuario/actualizarUsuario/`, payload);
+}
