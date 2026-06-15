@@ -16,6 +16,10 @@ export const obtenerEstadisticasUsuarios = async () => {
     return await postAPI("/api/v1/estadisticas/estadisticasUsuarios");
 };
 
+export const obtenerEstadisticasValoracionesAsignaturas = async () => {
+    return await postAPI("/api/v1/estadisticas/valoracionesAsignaturas");
+};
+
 export const importAsignaturas = async () => {
     return await postAPI("/api/v1/estadisticas/importar-asignaturas");
 }
