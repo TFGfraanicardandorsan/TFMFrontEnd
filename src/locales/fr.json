@@ -187,19 +187,24 @@
                 "outlook_emails": "E-mails Outlook",
                 "generating": "Génération...",
                 "generate_pdfs": "Générer les PDF",
+                "sending_telegram": "Envoi Telegram...",
+                "generate_and_send_telegram": "Générer et envoyer Telegram",
                 "sign_batch": "Signer le lot",
                 "connect_microsoft": "Connecter Microsoft",
                 "send_graph": "Envoyer via Graph",
                 "sign_and_send_graph": "Signer et envoyer via Graph"
             },
             "messages": {
-                "download_ready": "Téléchargement préparé correctement."
+                "download_ready": "Téléchargement préparé correctement.",
+                "telegram_sent": "{{count}} certificat(s) envoyés par Telegram.",
+                "telegram_partial": "{{sent}} certificat(s) envoyés par Telegram. {{failed}} n'ont pas pu être envoyés."
             },
             "errors": {
                 "select_csv": "Sélectionnez un fichier CSV de certificats.",
                 "signer_required": "Indiquez le signataire.",
                 "operation_failed": "L'opération DLGA n'a pas pu être terminée.",
-                "template_failed": "Le modèle n'a pas pu être téléchargé."
+                "template_failed": "Le modèle n'a pas pu être téléchargé.",
+                "telegram_failed": "Les certificats n'ont pas pu être envoyés par Telegram."
             }
         }
     },
