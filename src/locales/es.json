@@ -445,8 +445,6 @@
             "submit": "Enviar Incidencia"
         }
     },
-        }
-    },
     "user": {
         "study_selection": {
             "title": "Selecciona tu grado o master:",
