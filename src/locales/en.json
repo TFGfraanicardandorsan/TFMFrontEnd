@@ -190,6 +190,7 @@
                 "sending_telegram": "Sending Telegram...",
                 "generate_and_send_telegram": "Generate and send Telegram",
                 "sign_batch": "Sign batch",
+                "signing_batch": "Signing batch...",
                 "connect_microsoft": "Connect Microsoft",
                 "send_graph": "Send with Graph",
                 "sign_and_send_graph": "Sign and send with Graph"
@@ -204,6 +205,7 @@
                 "signer_required": "Enter the signer.",
                 "operation_failed": "The DLGA operation could not be completed.",
                 "template_failed": "The template could not be downloaded.",
+                "invalid_download": "The response is not a valid file. Check that the delegates API route points to the backend.",
                 "telegram_failed": "The certificates could not be sent by Telegram."
             }
         }

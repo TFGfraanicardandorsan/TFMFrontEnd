@@ -1,12 +1,24 @@
-const DEFAULT_DLGA_API_PATH = "/dlga-api";
+const DEFAULT_DLGA_API_PATH = "/api/v1/delegados";
 const DEFAULT_DLGA_PUBLIC_URL = "http://127.0.0.1:8001";
+const DEFAULT_DLGA_PUBLIC_API_PATH = "/dlga-api";
 const TELEGRAM_CERTIFICATES_PATH = "/api/v1/delegados/enviarCertificadosTelegram";
+const ENDPOINT_PATHS = {
+  generar: "generarCertificados",
+  "preparar-correos": "prepararCorreos",
+};
 
 const trimTrailingSlash = (value) => value.replace(/\/+$/, "");
 
+const normalizeDelegatesApiBaseUrl = (value) => {
+  const trimmedValue = value?.trim();
+  if (!trimmedValue || trimTrailingSlash(trimmedValue) === DEFAULT_DLGA_PUBLIC_API_PATH) {
+    return DEFAULT_DLGA_API_PATH;
+  }
+  return trimTrailingSlash(trimmedValue);
+};
+
 export const getDlgaApiBaseUrl = () => {
-  const configuredUrl = import.meta.env.VITE_DLGA_API_URL?.trim();
-  return trimTrailingSlash(configuredUrl || DEFAULT_DLGA_API_PATH);
+  return normalizeDelegatesApiBaseUrl(import.meta.env.VITE_DLGA_API_URL);
 };
 
 export const getDlgaPublicUrl = () => {
@@ -19,7 +31,8 @@ export const getDlgaPublicUrl = () => {
 
 export const postDlgaForm = async (endpoint, formData) => {
   const cleanEndpoint = endpoint.replace(/^\/+/, "");
-  return fetch(`${getDlgaApiBaseUrl()}/${cleanEndpoint}`, {
+  const apiEndpoint = ENDPOINT_PATHS[cleanEndpoint] || cleanEndpoint;
+  return fetch(`${getDlgaApiBaseUrl()}/${apiEndpoint}`, {
     method: "POST",
     body: formData,
     credentials: "include",
@@ -36,7 +49,7 @@ export const postTelegramCertificates = async (formData) => {
 };
 
 export const downloadDlgaTemplate = async () =>
-  fetch(`${getDlgaApiBaseUrl()}/plantilla.csv`, {
+  fetch(`${getDlgaApiBaseUrl()}/plantillaCSV`, {
     method: "GET",
     credentials: "include",
   });

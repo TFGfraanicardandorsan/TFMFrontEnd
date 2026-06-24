@@ -19,6 +19,7 @@ const DEFAULT_SMTP_PORT = "587";
 const fallbackNames = {
   generar: "certificados_delegados.zip",
   "preparar-correos": "correos_certificados.zip",
+  "firmar-lote": "certificados_delegados_firmados.zip",
   plantilla: "plantilla_certificados.csv",
 };
 
@@ -48,9 +49,20 @@ export default function CertificadosDelegacion() {
     return true;
   };
 
-  const buildFormData = () => new FormData(formRef.current);
+  const buildFormData = (extraValues = {}) => {
+    const formData = new FormData(formRef.current);
+    Object.entries(extraValues).forEach(([name, value]) => {
+      formData.set(name, value);
+    });
+    return formData;
+  };
 
   const downloadResponse = async (response, fallbackName) => {
+    const contentType = response.headers.get("content-type") || "";
+    if (contentType.includes("text/html")) {
+      throw new Error(t("delegation.certificates.errors.invalid_download"));
+    }
+
     const blob = await response.blob();
     const filename = getFilenameFromResponse(response, fallbackName);
     saveAs(blob, filename);
@@ -304,10 +316,12 @@ export default function CertificadosDelegacion() {
             <button
               type="button"
               className="delegacion-button delegacion-button-primary"
-              onClick={() => submitExternalAction("firmar-lote")}
+              onClick={() => handleDownloadAction("firmar-lote")}
               disabled={isLoading}
             >
-              {t("delegation.certificates.buttons.sign_batch")}
+              {loadingAction === "firmar-lote"
+                ? t("delegation.certificates.buttons.signing_batch")
+                : t("delegation.certificates.buttons.sign_batch")}
             </button>
           </section>
 

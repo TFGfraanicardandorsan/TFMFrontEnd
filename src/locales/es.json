@@ -190,6 +190,7 @@
                 "sending_telegram": "Enviando Telegram...",
                 "generate_and_send_telegram": "Generar y enviar Telegram",
                 "sign_batch": "Firmar lote",
+                "signing_batch": "Firmando lote...",
                 "connect_microsoft": "Conectar Microsoft",
                 "send_graph": "Enviar Graph",
                 "sign_and_send_graph": "Firmar y enviar Graph"
@@ -204,6 +205,7 @@
                 "signer_required": "Indica el firmante.",
                 "operation_failed": "No se pudo completar la operación en DLGA.",
                 "template_failed": "No se pudo descargar la plantilla.",
+                "invalid_download": "La respuesta no es un archivo válido. Revisa que la ruta de la API de delegados apunte al backend.",
                 "telegram_failed": "No se pudieron enviar los certificados por Telegram."
             }
         }
