@@ -1,7 +1,9 @@
+// @vitest-environment jsdom
 import React from 'react';
-import { render, screen, waitFor, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import '@testing-library/jest-dom/vitest';
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import '../../../i18n';
 
 vi.mock('../../../services/usuario', () => ({
   obtenerTodosUsuarios: vi.fn(),
@@ -11,45 +13,61 @@ vi.mock('../../../services/usuario', () => ({
 import { obtenerTodosUsuarios, actualizarUsuario } from '../../../services/usuario';
 import UserManagementPanel from '../panelGestionUsuarios.jsx';
 
-const sampleUsers = [
-  { id: 1, name: 'Alice', email: 'alice@example.com' },
-  { id: 2, name: 'Bob', email: 'bob@example.com' },
+const apiUsers = [
+  {
+    uvus: 'alice',
+    nombre_completo: 'Alice',
+    correo: 'alice@example.com',
+    rol: 'estudiante',
+    estudio: 'GII'
+  },
+  {
+    uvus: 'bob',
+    nombre_completo: 'Bob',
+    correo: 'bob@example.com',
+    rol: 'delegacion',
+    estudio: 'MII'
+  }
 ];
+
+const mockUsersResponse = () => ({
+  result: {
+    result: apiUsers
+  }
+});
 
 describe('UserManagementPanel', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
+  afterEach(() => {
+    cleanup();
+  });
+
   it('shows loading state initially', async () => {
-    obtenerTodosUsuarios.mockResolvedValueOnce({ data: sampleUsers });
+    obtenerTodosUsuarios.mockResolvedValueOnce(mockUsersResponse());
 
     render(<UserManagementPanel />);
 
-    // Loading indicator should be visible immediately
-    expect(screen.getByText('Cargando...')).toBeInTheDocument();
+    expect(screen.getByText('Cargando usuarios...')).toBeInTheDocument();
 
-    // Eventually the loading state disappears
     await waitFor(() => {
-      expect(screen.queryByText('Cargando...')).not.toBeInTheDocument();
+      expect(screen.queryByText('Cargando usuarios...')).not.toBeInTheDocument();
     });
   });
 
   it('renders users after successful fetch', async () => {
-    obtenerTodosUsuarios.mockResolvedValueOnce({ data: sampleUsers });
+    obtenerTodosUsuarios.mockResolvedValueOnce(mockUsersResponse());
 
     render(<UserManagementPanel />);
 
-    // Wait for the title which appears after data is loaded
-    expect(await screen.findByText('Panel de Gestión de Usuarios')).toBeInTheDocument();
-
-    // Users are displayed
-    expect(screen.getByText('Alice - alice@example.com')).toBeInTheDocument();
-    expect(screen.getByText('Bob - bob@example.com')).toBeInTheDocument();
-
-    // Buttons exist
-    const buttons = screen.getAllByRole('button', { name: 'Actualizar' });
-    expect(buttons).toHaveLength(2);
+    expect(await screen.findByText(/Panel de Gestión de Usuarios/)).toBeInTheDocument();
+    expect(screen.getByText('Alice')).toBeInTheDocument();
+    expect(screen.getByText('Bob')).toBeInTheDocument();
+    expect(screen.getByText(/alice@example.com/)).toBeInTheDocument();
+    expect(screen.getByText(/bob@example.com/)).toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: /Editar/ })).toHaveLength(2);
   });
 
   it('displays error message when fetch fails', async () => {
@@ -60,54 +78,42 @@ describe('UserManagementPanel', () => {
     expect(await screen.findByText('Error: Network error')).toBeInTheDocument();
   });
 
-  it('calls actualizarUsuario when clicking Actualizar and keeps list stable with empty update', async () => {
-    obtenerTodosUsuarios.mockResolvedValueOnce({ data: sampleUsers });
+  it('updates a user from the edit modal', async () => {
+    obtenerTodosUsuarios.mockResolvedValueOnce(mockUsersResponse());
     actualizarUsuario.mockResolvedValueOnce({});
 
     render(<UserManagementPanel />);
 
-    // Wait for data to render
-    await screen.findByText('Panel de Gestión de Usuarios');
+    await screen.findByText(/Panel de Gestión de Usuarios/);
 
-    const list = screen.getByRole('list');
-    const items = within(list).getAllByRole('listitem');
-    expect(items).toHaveLength(2);
+    fireEvent.click(screen.getAllByRole('button', { name: /Editar/ })[0]);
 
-    // Click update on first user
-    const firstUpdateButton = within(items[0]).getByRole('button', { name: 'Actualizar' });
-    await userEvent.click(firstUpdateButton);
+    expect(screen.getByText(/Editar Usuario/)).toBeInTheDocument();
 
-    // actualizarUsuario should have been called with id and an empty update object per component code
-    expect(actualizarUsuario).toHaveBeenCalledTimes(1);
-    expect(actualizarUsuario).toHaveBeenCalledWith(1, {});
+    const modal = screen.getByText(/Editar Usuario/).closest('.admin-modal-content');
+    const nameInput = within(modal).getByDisplayValue('Alice');
+    fireEvent.change(nameInput, { target: { value: 'Alice Updated' } });
+    fireEvent.click(within(modal).getByRole('button', { name: 'Guardar Cambios' }));
 
-    // The visible list remains stable because no fields were updated
-    expect(screen.getByText('Alice - alice@example.com')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(actualizarUsuario).toHaveBeenCalledWith('alice', {
+        nombre_completo: 'Alice Updated',
+        correo: 'alice@example.com',
+        rol: 'estudiante'
+      });
+    });
   });
 
-  it('shows error when update fails and stops rendering the list', async () => {
-    obtenerTodosUsuarios.mockResolvedValueOnce({ data: sampleUsers });
-    actualizarUsuario.mockRejectedValueOnce(new Error('Update failed'));
+  it('filters users by delegation role', async () => {
+    obtenerTodosUsuarios.mockResolvedValueOnce(mockUsersResponse());
 
     render(<UserManagementPanel />);
 
-    await screen.findByText('Panel de Gestión de Usuarios');
+    await screen.findByText(/Panel de Gestión de Usuarios/);
 
-    const updateButtons = screen.getAllByRole('button', { name: 'Actualizar' });
-    await userEvent.click(updateButtons[0]);
+    fireEvent.change(screen.getByDisplayValue('Todos los roles'), { target: { value: 'delegacion' } });
 
-    // When error occurs in update, component sets error and renders error view
-    expect(await screen.findByText('Error: Update failed')).toBeInTheDocument();
-  });
-
-  it('renders correct number of list items', async () => {
-    obtenerTodosUsuarios.mockResolvedValueOnce({ data: sampleUsers });
-
-    render(<UserManagementPanel />);
-
-    await screen.findByText('Panel de Gestión de Usuarios');
-
-    const items = screen.getAllByRole('listitem');
-    expect(items).toHaveLength(sampleUsers.length);
+    expect(screen.queryByText('Alice')).not.toBeInTheDocument();
+    expect(screen.getByText('Bob')).toBeInTheDocument();
   });
 });

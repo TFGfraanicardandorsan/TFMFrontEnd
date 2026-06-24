@@ -6,8 +6,11 @@ import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLayerGroup, faSave, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import "../../styles/user-common.css";
+import { useTranslation } from "react-i18next";
+import { translateCourse } from "../../lib/i18nLabels";
 
 export default function SeleccionarGrupos() {
+  const { t } = useTranslation();
   const [asignaturas, setAsignaturas] = useState([]);
   const [seleccionados, setSeleccionados] = useState({});
   const [cargando, setCargando] = useState(true);
@@ -41,7 +44,7 @@ export default function SeleccionarGrupos() {
         }
       } catch (error) {
         logError(error);
-        setError("Error al cargar los grupos de asignaturas");
+        setError(t("user.group_selection.load_error"));
       } finally {
         setCargando(false);
       }
@@ -75,7 +78,7 @@ export default function SeleccionarGrupos() {
     );
 
     if (asignaturasSinGrupo.length > 0) {
-      toast.warning("Por favor selecciona un grupo para todas las asignaturas.");
+      toast.warning(t("user.group_selection.select_all_warning"));
       return;
     }
 
@@ -83,10 +86,10 @@ export default function SeleccionarGrupos() {
       for (let [codasignatura, numgrupo] of Object.entries(seleccionados)) {
         await insertarMisGrupos(numgrupo, codasignatura);
       }
-      toast.success("Grupos asignados con éxito");
+      toast.success(t("user.group_selection.success"));
       navigate("/miPerfil");
     } catch (error) {
-      toast.error("Ocurrió un error al guardar los grupos");
+      toast.error(t("user.group_selection.save_error"));
       logError(error);
     }
   };
@@ -94,7 +97,7 @@ export default function SeleccionarGrupos() {
   if (cargando) {
     return (
       <div className="page-container">
-        <div className="user-loading">Cargando grupos disponibles...</div>
+        <div className="user-loading">{t("user.group_selection.loading")}</div>
       </div>
     );
   }
@@ -106,10 +109,9 @@ export default function SeleccionarGrupos() {
     <div className="page-container">
       <div className="content-wrap">
         <div className="page-header">
-          <h1 className="page-title">Selección de Grupos</h1>
+          <h1 className="page-title">{t("user.group_selection.title")}</h1>
           <p className="page-subtitle">
-            Indica el grupo asignado para cada una de tus asignaturas matriculadas.
-            Esto es necesario para gestionar tus permutas correctamente.
+            {t("user.group_selection.subtitle")}
           </p>
         </div>
 
@@ -120,23 +122,25 @@ export default function SeleccionarGrupos() {
             <div className="user-card" style={{ marginBottom: '30px', borderLeft: '4px solid var(--user-primary)' }}>
               <div style={{ fontWeight: 700, marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <FontAwesomeIcon icon={faInfoCircle} style={{ color: 'var(--user-primary)' }} />
-                <span>Configuración Rápida por Curso</span>
+                <span>{t("user.group_selection.quick_title")}</span>
               </div>
               <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '20px' }}>
-                Asigna automáticamente un grupo a todas las asignaturas de un mismo curso.
+                {t("user.group_selection.quick_description")}
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
                 {[...new Set(asignaturas.map(a => a.curso))].sort().map(curso => (
                   <div key={curso} style={{ flex: '1 1 200px' }}>
-                    <label className="form-label" style={{ fontSize: '0.85rem' }}>Curso {curso}:</label>
+                    <label className="form-label" style={{ fontSize: '0.85rem' }}>
+                      {t("common.courses.course_label", { course: translateCourse(t, curso) })}:
+                    </label>
                     <select
                       className="form-select"
                       onChange={(e) => handleGrupoPorCursoChange(curso, e.target.value)}
                       defaultValue=""
                     >
-                      <option value="" disabled>-- Asignar grupo --</option>
+                      <option value="" disabled>-- {t("user.group_selection.assign_group")} --</option>
                       {[...new Set(asignaturas.filter(a => a.curso === curso).flatMap(a => a.grupos))].sort((a, b) => a - b).map(grupo => (
-                        <option key={grupo} value={grupo}>Grupo {grupo}</option>
+                        <option key={grupo} value={grupo}>{t("common.group_with_number", { group: grupo })}</option>
                       ))}
                     </select>
                   </div>
@@ -158,7 +162,7 @@ export default function SeleccionarGrupos() {
 
                   <div className="form-group" style={{ marginTop: 'auto' }}>
                     <label className="form-label" style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-                      Tu grupo actual:
+                      {t("user.group_selection.current_group")}
                     </label>
                     <select
                       className="form-select"
@@ -170,10 +174,10 @@ export default function SeleccionarGrupos() {
                         )
                       }
                     >
-                      <option value="" disabled>-- Selecciona tu grupo --</option>
+                      <option value="" disabled>-- {t("user.group_selection.select_your_group")} --</option>
                       {grupos.map((grupo) => (
                         <option key={grupo} value={grupo}>
-                          Grupo {grupo}
+                          {t("common.group_with_number", { group: grupo })}
                         </option>
                       ))}
                     </select>
@@ -198,7 +202,7 @@ export default function SeleccionarGrupos() {
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <FontAwesomeIcon icon={faInfoCircle} style={{ color: todasSeleccionadas ? 'var(--success-color)' : 'var(--user-primary)' }} />
                 <span style={{ fontWeight: 500, color: 'var(--text-primary)' }}>
-                  {todasSeleccionadas ? "¡Todo listo para guardar!" : "Faltan grupos por seleccionar"}
+                  {todasSeleccionadas ? t("user.group_selection.ready") : t("user.group_selection.missing")}
                 </span>
               </div>
               <button
@@ -207,17 +211,17 @@ export default function SeleccionarGrupos() {
                 disabled={!todasSeleccionadas}
                 style={{ minWidth: '180px', padding: '14px 28px' }}
               >
-                <FontAwesomeIcon icon={faSave} /> Guardar Grupos
+                <FontAwesomeIcon icon={faSave} /> {t("user.group_selection.save_groups")}
               </button>
             </div>
           </>
         ) : (
           <div className="user-card empty-state" style={{ textAlign: 'center', padding: '60px' }}>
             <div style={{ fontSize: '4rem', marginBottom: '20px' }}>📚</div>
-            <h3>No se encontraron asignaturas pendientes</h3>
-            <p>Parece que ya tienes todos tus grupos asignados o no tienes asignaturas nuevas.</p>
+            <h3>{t("user.group_selection.empty_title")}</h3>
+            <p>{t("user.group_selection.empty_message")}</p>
             <button className="btn btn-primary" onClick={() => navigate("/miPerfil")} style={{ marginTop: '20px', maxWidth: '250px' }}>
-              Ir a mi Perfil
+              {t("user.group_selection.go_profile")}
             </button>
           </div>
         )}

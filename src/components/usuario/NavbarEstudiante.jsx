@@ -87,7 +87,7 @@ export default function NavbarEstudiante() {
   return (
     <>
       <nav className="navbar">
-        <div className="navbar-brand">Permutas ETSII</div>
+        <div className="navbar-brand">{t("navbar.student_brand")}</div>
         <button className="hamburger" onClick={() => setOpen(!open)}>
           ☰
         </button>

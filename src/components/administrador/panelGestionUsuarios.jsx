@@ -1,9 +1,13 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { obtenerTodosUsuarios, actualizarUsuario } from '../../services/usuario';
 import "../../styles/admin-common.css";
 import "../../styles/panelGestionUsuarios-style.css";
+import { isDelegationRole } from '../../lib/roles';
+import { useTranslation } from 'react-i18next';
+import { translateRole } from '../../lib/i18nLabels';
 
 const UserManagementPanel = () => {
+    const { t } = useTranslation();
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -84,7 +88,9 @@ const UserManagementPanel = () => {
                 user.name.toLowerCase().includes(searchTerm.toLowerCase())
             )
             .filter(user =>
-                roleFilter === 'todos' || (user.rol && user.rol.toLowerCase() === roleFilter.toLowerCase())
+                roleFilter === 'todos' ||
+                (roleFilter === 'delegacion' && isDelegationRole(user.rol)) ||
+                (user.rol && user.rol.toLowerCase() === roleFilter.toLowerCase())
             );
     }, [users, searchTerm, roleFilter]);
 
@@ -101,9 +107,9 @@ const UserManagementPanel = () => {
                 <div className="admin-content-wrap admin-content-wrap--full-width">
                     {/* Header */}
                     <div className="admin-page-header">
-                        <h1 className="admin-page-title">👥 Panel de Gestión de Usuarios</h1>
+                        <h1 className="admin-page-title">{t("admin.users.title")}</h1>
                         <p className="admin-page-subtitle">
-                            Administra todos los usuarios del sistema. Puedes actualizar la información de cada usuario haciendo clic en el botón correspondiente.
+                            {t("admin.users.subtitle")}
                         </p>
                     </div>
 
@@ -111,7 +117,7 @@ const UserManagementPanel = () => {
                     <div className="admin-filters-bar">
                         <input
                             type="text"
-                            placeholder="Buscar por nombre..."
+                            placeholder={t("admin.users.search_placeholder")}
                             className="admin-search-input"
                             value={searchTerm}
                             onChange={(e) => {
@@ -127,21 +133,22 @@ const UserManagementPanel = () => {
                                 setCurrentPage(1);
                             }}
                         >
-                            <option value="todos">Todos los roles</option>
-                            <option value="estudiante">Estudiante</option>
-                            <option value="administrador">Administrador</option>
+                            <option value="todos">{t("common.all_roles")}</option>
+                            <option value="estudiante">{t("common.roles.estudiante")}</option>
+                            <option value="administrador">{t("common.roles.administrador")}</option>
+                            <option value="delegacion">{t("common.roles.delegacion")}</option>
                         </select>
                     </div>
 
                     {/* Contenido */}
                     {loading ? (
-                        <div className="admin-loading">Cargando usuarios...</div>
+                        <div className="admin-loading">{t("admin.users.loading")}</div>
                     ) : error ? (
-                        <div className="admin-error">Error: {error}</div>
+                        <div className="admin-error">{t("common.error_prefix", { error })}</div>
                     ) : paginatedUsers.length === 0 ? (
                         <div className="admin-empty-state">
                             <div className="admin-empty-state-icon">👤</div>
-                            <p className="admin-empty-state-text">No se encontraron usuarios con los filtros aplicados.</p>
+                            <p className="admin-empty-state-text">{t("admin.users.empty")}</p>
                         </div>
                     ) : (
                         <div className="admin-grid admin-grid-3">
@@ -153,20 +160,20 @@ const UserManagementPanel = () => {
                                             {user.name}
                                         </h2>
                                         <span className="admin-badge admin-badge-primary">
-                                            {user.rol || 'Usuario'}
+                                            {translateRole(t, user.rol)}
                                         </span>
                                     </div>
                                     <div className="admin-card-body">
-                                        <p><strong>Email:</strong> {user.email}</p>
-                                        {user.estudio && <p><strong>Estudio:</strong> {user.estudio}</p>}
-                                        {user.uvus && <p><strong>UVUS:</strong> {user.uvus}</p>}
+                                        <p><strong>{t("common.email")}:</strong> {user.email}</p>
+                                        {user.estudio && <p><strong>{t("common.study")}:</strong> {user.estudio}</p>}
+                                        {user.uvus && <p><strong>{t("common.uvus")}:</strong> {user.uvus}</p>}
                                     </div>
                                     <div className="admin-card-footer">
                                         <button
                                             className="admin-btn admin-btn-primary admin-btn-sm"
                                             onClick={() => handleOpenModal(user)}
                                         >
-                                            ✏️ Editar
+                                            ✏️ {t("common.edit")}
                                         </button>
                                     </div>
                                 </div>
@@ -182,17 +189,17 @@ const UserManagementPanel = () => {
                                 disabled={currentPage === 1}
                                 className="admin-btn"
                             >
-                                Anterior
+                                {t("common.previous")}
                             </button>
                             <span className="admin-pagination-info">
-                                Página {currentPage} de {totalPages}
+                                {t("common.page_of", { current: currentPage, total: totalPages })}
                             </span>
                             <button
                                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                                 disabled={currentPage === totalPages}
                                 className="admin-btn"
                             >
-                                Siguiente
+                                {t("common.next")}
                             </button>
                         </div>
                     )}
@@ -205,12 +212,12 @@ const UserManagementPanel = () => {
                 <div className="admin-modal-overlay" onClick={handleCloseModal}>
                     <div className="admin-modal-content" onClick={(e) => e.stopPropagation()}>
                         <div className="admin-modal-header">
-                            <h3 className="admin-modal-title">✏️ Editar Usuario</h3>
+                            <h3 className="admin-modal-title">{t("admin.users.edit_title")}</h3>
                         </div>
                         <form onSubmit={handleUpdateUser}>
                             <div className="admin-modal-body">
                                 <div className="admin-form-group">
-                                    <label className="admin-label">Nombre</label>
+                                    <label className="admin-label">{t("common.name")}</label>
                                     <input
                                         type="text"
                                         name="name"
@@ -221,7 +228,7 @@ const UserManagementPanel = () => {
                                     />
                                 </div>
                                 <div className="admin-form-group">
-                                    <label className="admin-label">Email</label>
+                                    <label className="admin-label">{t("common.email")}</label>
                                     <input
                                         type="email"
                                         name="email"
@@ -232,7 +239,7 @@ const UserManagementPanel = () => {
                                     />
                                 </div>
                                 <div className="admin-form-group">
-                                    <label className="admin-label">Rol</label>
+                                    <label className="admin-label">{t("common.role")}</label>
                                     <select
                                         name="rol"
                                         className="admin-input"
@@ -240,13 +247,14 @@ const UserManagementPanel = () => {
                                         onChange={handleInputChange}
                                         required
                                     >
-                                        <option value="estudiante">Estudiante</option>
-                                        <option value="administrador">Administrador</option>
+                                        <option value="estudiante">{t("common.roles.estudiante")}</option>
+                                        <option value="administrador">{t("common.roles.administrador")}</option>
+                                        <option value="delegacion">{t("common.roles.delegacion")}</option>
                                     </select>
                                 </div>
                                 {formData.estudio !== undefined && (
                                     <div className="admin-form-group">
-                                        <label className="admin-label">Estudio</label>
+                                        <label className="admin-label">{t("common.study")}</label>
                                         <input
                                             type="text"
                                             name="estudio"
@@ -263,13 +271,13 @@ const UserManagementPanel = () => {
                                     className="admin-btn admin-btn-secondary"
                                     onClick={handleCloseModal}
                                 >
-                                    Cancelar
+                                    {t("common.cancel")}
                                 </button>
                                 <button
                                     type="submit"
                                     className="admin-btn admin-btn-primary"
                                 >
-                                    Guardar Cambios
+                                    {t("common.save_changes")}
                                 </button>
                             </div>
                         </form>

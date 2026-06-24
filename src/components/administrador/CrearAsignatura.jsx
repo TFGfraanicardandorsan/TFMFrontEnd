@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { crearAsignatura } from "../../services/asignaturas.js";
 import { obtenerEstudios } from "../../services/estudio.js";
 import "../../styles/admin-common.css";
+import { useTranslation } from "react-i18next";
 
 const CrearAsignatura = () => {
+  const { t } = useTranslation();
   const [form, setForm] = useState({
     nombre: "",
     siglas: "",
@@ -33,7 +35,7 @@ const CrearAsignatura = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isNaN(Number(form.codigo))) {
-      setMensaje("El código debe ser un número");
+      setMensaje(t("admin.subjects.code_numeric"));
       return;
     }
     try {
@@ -44,7 +46,7 @@ const CrearAsignatura = () => {
         codigo: parseInt(form.codigo),
         estudios_id: parseInt(form.estudios_id)
       });
-      setMensaje("Asignatura creada correctamente");
+      setMensaje(t("admin.subjects.success"));
       setForm({
         nombre: "",
         siglas: "",
@@ -53,7 +55,7 @@ const CrearAsignatura = () => {
         estudios_id: ""
       });
     } catch (error) {
-      setMensaje("Error al crear la asignatura",error);
+      setMensaje(t("admin.subjects.error"));
     }
   };
 
@@ -65,7 +67,7 @@ const CrearAsignatura = () => {
       <div className="admin-embedded-form-inner">
         <input
           name="nombre"
-          placeholder="Nombre"
+          placeholder={t("admin.subjects.name_placeholder")}
           value={form.nombre}
           onChange={handleChange}
           required
@@ -73,7 +75,7 @@ const CrearAsignatura = () => {
         />
         <input
           name="siglas"
-          placeholder="Siglas"
+          placeholder={t("admin.subjects.acronym_placeholder")}
           value={form.siglas}
           onChange={handleChange}
           required
@@ -86,15 +88,15 @@ const CrearAsignatura = () => {
           required
           className="admin-select"
         >
-          <option value="">Selecciona curso</option>
-          <option value="PRIMERO">Primero</option>
-          <option value="SEGUNDO">Segundo</option>
-          <option value="TERCERO">Tercero</option>
-          <option value="CUARTO">Cuarto</option>
+          <option value="">{t("common.select_course")}</option>
+          <option value="PRIMERO">{t("common.courses.primero")}</option>
+          <option value="SEGUNDO">{t("common.courses.segundo")}</option>
+          <option value="TERCERO">{t("common.courses.tercero")}</option>
+          <option value="CUARTO">{t("common.courses.cuarto")}</option>
         </select>
         <input
           name="codigo"
-          placeholder="Código"
+          placeholder={t("admin.subjects.code_placeholder")}
           type="number"
           value={form.codigo}
           onChange={handleChange}
@@ -108,7 +110,7 @@ const CrearAsignatura = () => {
           required
           className="admin-select"
         >
-          <option value="">Selecciona estudio</option>
+          <option value="">{t("common.select_study")}</option>
           {estudios.map((estudio) => (
             <option key={estudio.id} value={estudio.id}>
               {estudio.nombre}
@@ -119,11 +121,11 @@ const CrearAsignatura = () => {
           type="submit"
           className="admin-btn admin-btn-primary"
         >
-          Crear Asignatura
+          {t("admin.subjects.create")}
         </button>
       </div>
       {mensaje && (
-        <p className={`admin-form-message ${mensaje.includes("Error") ? "error" : "success"}`}>
+        <p className={`admin-form-message ${mensaje === t("admin.subjects.error") || mensaje === t("admin.subjects.code_numeric") ? "error" : "success"}`}>
           {mensaje}
         </p>
       )}

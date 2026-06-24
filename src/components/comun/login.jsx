@@ -22,7 +22,7 @@ export default function Login() {
         <div className="content">
 
           <div className="logo-container">
-            <img src="/assets/logo-etsii-color.png" alt="Logo ETSII" />
+            <img src="/assets/logo-etsii-color.png" alt={t("common.logo_alt")} />
           </div>
           <div className="login-content">
             <h1 className="login-title">{t("login.title")}</h1>
@@ -38,7 +38,7 @@ export default function Login() {
               {t("login.telegram_info")}
             </p>
 
-            <img src="/assets/telegram-qr.png" alt="QR Telegram" className="qr-image" />
+            <img src="/assets/telegram-qr.png" alt={t("registration.telegram_alt")} className="qr-image" />
           </div>
         </div>
       </div>

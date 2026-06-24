@@ -5,11 +5,14 @@ import { actualizarEstudiosUsuario } from "../../services/usuario";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { logError } from "../../lib/logger";
+import { useTranslation } from "react-i18next";
 
 export default function SeleccionarEstudio() {
+    const { t } = useTranslation();
     const [estudios, setEstudio] = useState([]);
     const [selectedEstudio, setSelectedEstudio] = useState("");
     const navigate = useNavigate();
+    const reminders = t("user.study_selection.reminders", { returnObjects: true });
 
     useEffect(() => {
         const obtenerEstudio = async () => {
@@ -32,11 +35,11 @@ export default function SeleccionarEstudio() {
         try {
             const response = await actualizarEstudiosUsuario(selectedEstudio);
             if (response.result.result === 'Estudios seleccionados') {
-                toast.success("Estudio seleccionado correctamente");
+                toast.success(t("user.study_selection.success"));
                 navigate("/miPerfil");
             }
         } catch (error) {
-            toast.error("Error en la solicitud.");
+            toast.error(t("user.study_selection.request_error"));
             logError(error);
         }
     };
@@ -44,12 +47,12 @@ export default function SeleccionarEstudio() {
     return (
         <div className="container" style={{ marginTop: "60px" }}>
             <div className="header">
-                <h1 className="titulo">Selecciona tu grado o master:</h1>
+                <h1 className="titulo">{t("user.study_selection.title")}</h1>
             </div>
             <div className="form-group">
                 <select value={selectedEstudio} onChange={handleSelectChange}>
                     <option value="" disabled>
-                        Selecciona un estudio
+                        {t("user.study_selection.placeholder")}
                     </option>
                     {estudios.map((estudio, index) => (
                         <option key={index} value={estudio.nombre}>
@@ -58,13 +61,12 @@ export default function SeleccionarEstudio() {
                     ))}
                 </select>
             </div>
-            <p className="subtitulo">Recuerda que solo puedes seleccionar un estudio.</p>
-            <p className="subtitulo">Una vez seleccionado, podrás elegir las asignaturas y grupos.</p>
-            <p className="subtitulo">Si te equivocas a la hora de seleccionar el estudio, reporta una incidencia.</p>
-            <p className="subtitulo">Si no seleccionas nada, no podrás hacer uso del servicio.</p>
+            {reminders.map((reminder) => (
+                <p className="subtitulo" key={reminder}>{reminder}</p>
+            ))}
             <div className="button-group">
                 <button onClick={handleSubmit} disabled={!selectedEstudio}>
-                    Enviar
+                    {t("common.submit")}
                 </button>
             </div>
         </div>

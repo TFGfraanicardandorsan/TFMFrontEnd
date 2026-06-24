@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { importAsignaturas } from "../../services/estadisticas";
 import "../../styles/admin-common.css";
+import { useTranslation } from "react-i18next";
 
 const ImportarAsignaturas = () => {
+  const { t } = useTranslation();
   const [archivo, setArchivo] = useState(null);
   const [mensaje, setMensaje] = useState("");
   const [cargando, setCargando] = useState(false);
@@ -15,7 +17,7 @@ const ImportarAsignaturas = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!archivo) {
-      setMensaje("Selecciona un archivo CSV.");
+      setMensaje(t("admin.import_subjects.select_csv"));
       return;
     }
     setCargando(true);
@@ -29,10 +31,10 @@ const ImportarAsignaturas = () => {
       } else if (data?.error) {
         setMensaje(data.error);
       } else {
-        setMensaje("Importación completada correctamente.");
+        setMensaje(t("admin.import_subjects.success"));
       }
     } catch (error) {
-      setMensaje("Error de red al importar.");
+      setMensaje(t("admin.import_subjects.network_error"));
     } finally {
       setCargando(false);
     }
@@ -43,11 +45,11 @@ const ImportarAsignaturas = () => {
       <form onSubmit={handleSubmit} className="admin-embedded-form-inner">
         <input type="file" accept=".csv" onChange={handleArchivoChange} className="admin-input" />
         <button type="submit" disabled={cargando} className="admin-btn admin-btn-primary">
-          {cargando ? "Importando..." : "Importar"}
+          {cargando ? t("admin.import_subjects.importing") : t("admin.import_subjects.import")}
         </button>
       </form>
       {mensaje && (
-        <p className={`admin-form-message ${mensaje.includes("Error") ? "error" : "success"}`}>
+        <p className={`admin-form-message ${mensaje === t("admin.import_subjects.network_error") || mensaje === t("admin.import_subjects.select_csv") ? "error" : "success"}`}>
           {mensaje}
         </p>
       )}

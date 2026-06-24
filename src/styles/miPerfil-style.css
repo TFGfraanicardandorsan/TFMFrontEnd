@@ -194,6 +194,237 @@ body.dark-mode .success-banner {
     border-color: rgba(16, 185, 129, 0.3);
 }
 
+.warning-banner {
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    color: #b45309;
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-sm);
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+body.dark-mode .warning-banner {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+/* ========================================
+   Modal de valoración de asignatura
+   ======================================== */
+.valoracion-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(15, 23, 42, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-lg);
+}
+
+.valoracion-modal {
+    background: var(--card-bg);
+    color: var(--text-primary);
+    border-radius: var(--border-radius);
+    width: min(960px, 100%);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--card-shadow-hover);
+    border: 1px solid var(--border-color, #e2e8f0);
+    overflow: hidden;
+}
+
+.valoracion-modal-header {
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--border-color, #e2e8f0);
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    align-items: flex-start;
+}
+
+.valoracion-modal-header h2 {
+    margin: 0 0 6px;
+    font-size: 1.45rem;
+}
+
+.valoracion-modal-header p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.valoracion-cerrar {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color, #e2e8f0);
+    background: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+.valoracion-cerrar:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.valoracion-modal-body {
+    padding: var(--spacing-lg);
+    overflow-y: auto;
+}
+
+.valoracion-intro {
+    margin: 0 0 var(--spacing-md);
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.valoracion-bloque {
+    border-top: 1px solid var(--border-color, #e2e8f0);
+    padding-top: var(--spacing-md);
+    margin-top: var(--spacing-md);
+}
+
+.valoracion-bloque h3 {
+    color: var(--user-primary);
+    margin: 0 0 var(--spacing-md);
+    font-size: 1.1rem;
+}
+
+.valoracion-pregunta {
+    padding: var(--spacing-md);
+    border: 1px solid var(--border-color, #e2e8f0);
+    border-radius: 8px;
+    margin-bottom: var(--spacing-md);
+    background: rgba(248, 250, 252, 0.65);
+}
+
+body.dark-mode .valoracion-pregunta {
+    background: rgba(15, 23, 42, 0.45);
+}
+
+.valoracion-pregunta-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+}
+
+.valoracion-pregunta label {
+    font-weight: 600;
+    line-height: 1.45;
+}
+
+.valoracion-required,
+.valoracion-conditional {
+    flex-shrink: 0;
+    border-radius: 999px;
+    padding: 3px 9px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.valoracion-required {
+    background: rgba(43, 87, 154, 0.1);
+    color: var(--user-primary);
+}
+
+.valoracion-conditional {
+    background: rgba(245, 158, 11, 0.13);
+    color: #b45309;
+}
+
+.valoracion-opciones,
+.valoracion-escala {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.valoracion-opcion,
+.valoracion-escala-btn {
+    border: 1px solid var(--border-color, #cbd5e1);
+    background: var(--card-bg);
+    color: var(--text-primary);
+    border-radius: 8px;
+    padding: 9px 14px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: var(--transition);
+}
+
+.valoracion-opcion.active,
+.valoracion-escala-btn.active {
+    background: var(--user-primary);
+    color: white;
+    border-color: var(--user-primary);
+}
+
+.valoracion-opcion.active-muted {
+    background: rgba(100, 116, 139, 0.12);
+    color: var(--text-secondary);
+}
+
+.valoracion-escala-btn {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+}
+
+.valoracion-textarea {
+    width: 100%;
+    border: 1px solid var(--border-color, #cbd5e1);
+    background: var(--card-bg);
+    color: var(--text-primary);
+    border-radius: 8px;
+    padding: 12px;
+    resize: vertical;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.valoracion-textarea:focus,
+.valoracion-opcion:focus,
+.valoracion-escala-btn:focus,
+.valoracion-cerrar:focus {
+    outline: 3px solid rgba(43, 87, 154, 0.18);
+    border-color: var(--user-primary);
+}
+
+.valoracion-loading,
+.valoracion-error {
+    padding: var(--spacing-md);
+    border-radius: 8px;
+    margin-top: var(--spacing-md);
+}
+
+.valoracion-loading {
+    background: rgba(43, 87, 154, 0.08);
+    color: var(--user-primary);
+}
+
+.valoracion-error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #b91c1c;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.valoracion-modal-footer {
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-top: 1px solid var(--border-color, #e2e8f0);
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-sm);
+    background: var(--card-bg);
+}
+
 .empty-state {
     text-align: center;
     padding: var(--spacing-xl);
@@ -208,5 +439,32 @@ body.dark-mode .success-banner {
 
     .asignaturas-grid {
         grid-template-columns: 1fr;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .valoracion-modal-overlay {
+        padding: 0;
+        align-items: stretch;
+    }
+
+    .valoracion-modal {
+        max-height: 100vh;
+        border-radius: 0;
+    }
+
+    .valoracion-pregunta-header {
+        flex-direction: column;
+    }
+
+    .valoracion-modal-footer {
+        flex-direction: column-reverse;
+    }
+
+    .valoracion-modal-footer .btn {
+        width: 100%;
     }
 }

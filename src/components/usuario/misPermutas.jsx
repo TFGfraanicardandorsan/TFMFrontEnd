@@ -16,8 +16,11 @@ import { toast } from "react-toastify";
 import { logError } from "../../lib/logger.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExchangeAlt, faBan, faCheck, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from "react-i18next";
+import { translateSwapStatus } from "../../lib/i18nLabels";
 
 export default function MisPermutas() {
+  const { t } = useTranslation();
   const [permutasPropuestas, setPermutasPropuestas] = useState([]);
   const [permutasPropuestasPorMi, setPermutasPropuestasPorMi] = useState([]);
   const [cargando, setCargando] = useState(true);
@@ -34,12 +37,12 @@ export default function MisPermutas() {
       if (response && response.result && Array.isArray(response.result.result)) {
         setPermutasPropuestasPorMi(response.result.result);
       } else {
-        setError("Error al cargar los datos");
+        setError(t("user.my_swaps.load_error"));
         logError(response);
       }
       setCargando(false);
     } catch (error) {
-      setError("Error al cargar las permutas propuestas por mí");
+      setError(t("user.my_swaps.load_mine_error"));
       setCargando(false);
       logError(error);
     }
@@ -51,12 +54,12 @@ export default function MisPermutas() {
       if (response && response.result && Array.isArray(response.result.result)) {
         setPermutasPropuestas(response.result.result);
       } else {
-        setError("Error al cargar los datos");
+        setError(t("user.my_swaps.load_error"));
         logError(response);
       }
       setCargando(false);
     } catch (error) {
-      setError("Error al cargar las permutas propuestas");
+      setError(t("user.my_swaps.load_received_error"));
       setCargando(false);
       logError(error);
     }
@@ -68,9 +71,9 @@ export default function MisPermutas() {
       setPermutasPropuestas((prev) =>
         prev.filter((permuta) => permuta.permuta_id !== solicitudId)
       );
-      toast.success("Permuta denegada con éxito");
+      toast.success(t("user.my_swaps.denied_success"));
     } catch (error) {
-      toast.error("Error al denegar la permuta");
+      toast.error(t("user.my_swaps.denied_error"));
       logError(error);
     }
   };
@@ -81,15 +84,15 @@ export default function MisPermutas() {
       setPermutasPropuestas((prev) =>
         prev.filter((permuta) => permuta.permuta_id !== solicitudId)
       );
-      toast.success("Permuta aceptada con éxito");
+      toast.success(t("user.my_swaps.accepted_success"));
     } catch (error) {
-      toast.error("Error al aceptar la permuta");
+      toast.error(t("user.my_swaps.accepted_error"));
       logError(error);
     }
   };
 
   if (cargando) {
-    return <div className="user-loading">Cargando permutas...</div>;
+    return <div className="user-loading">{t("user.my_swaps.loading")}</div>;
   }
 
   if (error) {
@@ -100,10 +103,9 @@ export default function MisPermutas() {
     <div className="page-container">
       <div className="content-wrap">
         <div className="page-header">
-          <h1 className="page-title">Mis Permutas</h1>
+          <h1 className="page-title">{t("user.my_swaps.title")}</h1>
           <p className="page-subtitle">
-            Aquí puedes ver las permutas que has propuesto y las que te han propuesto.
-            Gestiona tus intercambios de manera sencilla.
+            {t("user.my_swaps.subtitle")}
           </p>
         </div>
 
@@ -112,7 +114,7 @@ export default function MisPermutas() {
           {/* Columna: Propuestas por mí */}
           <div className="mispermutascol" style={{ flex: 1, minWidth: '300px' }}>
             <h2 style={{ color: 'var(--user-primary)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <FontAwesomeIcon icon={faExchangeAlt} /> Propuestas por mí
+              <FontAwesomeIcon icon={faExchangeAlt} /> {t("user.my_swaps.proposed_by_me")}
             </h2>
             {permutasPropuestasPorMi.length > 0 ? (
               <Swiper
@@ -127,12 +129,12 @@ export default function MisPermutas() {
                   <SwiperSlide key={permuta.permuta_id} style={{ padding: '10px 5px 30px 5px' }}>
                     <div className="user-card" style={{ height: '100%', borderRadius: '12px' }}>
                       <div className="mispermuta-info">
-                        <p><strong><FontAwesomeIcon icon={faInfoCircle} /> Estado:</strong> {permuta.estado}</p>
+                        <p><strong><FontAwesomeIcon icon={faInfoCircle} /> {t("common.status")}:</strong> {translateSwapStatus(t, permuta.estado)}</p>
                         <hr style={{ margin: '10px 0', borderColor: '#eee' }} />
-                        <p><strong>Asignatura:</strong> {permuta.nombre_asignatura} ({permuta.codigo_asignatura})</p>
+                        <p><strong>{t("common.subject")}:</strong> {permuta.nombre_asignatura} ({permuta.codigo_asignatura})</p>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px', background: '#f8fafc', padding: '10px', borderRadius: '8px' }}>
-                          <span><strong>De Grupo:</strong> {permuta.grupo_solicitante}</span>
-                          <span><strong>A Grupo:</strong> {permuta.grupo_solicitado}</span>
+                          <span><strong>{t("common.from_group")}:</strong> {permuta.grupo_solicitante}</span>
+                          <span><strong>{t("common.to_group")}:</strong> {permuta.grupo_solicitado}</span>
                         </div>
                       </div>
                     </div>
@@ -141,7 +143,7 @@ export default function MisPermutas() {
               </Swiper>
             ) : (
               <div className="empty-state">
-                <p>No has propuesto ninguna permuta aún</p>
+                <p>{t("user.my_swaps.empty_mine")}</p>
               </div>
             )}
           </div>
@@ -149,7 +151,7 @@ export default function MisPermutas() {
           {/* Columna: Permutas recibidas */}
           <div className="mispermutascol" style={{ flex: 1, minWidth: '300px' }}>
             <h2 style={{ color: 'var(--user-primary)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <FontAwesomeIcon icon={faExchangeAlt} /> Permutas recibidas
+              <FontAwesomeIcon icon={faExchangeAlt} /> {t("user.my_swaps.received")}
             </h2>
             {permutasPropuestas.length > 0 ? (
               <Swiper
@@ -164,12 +166,12 @@ export default function MisPermutas() {
                   <SwiperSlide key={permuta.permuta_id} style={{ padding: '10px 5px 30px 5px' }}>
                     <div className="user-card" style={{ height: '100%', borderRadius: '12px' }}>
                       <div className="mispermuta-info">
-                        <p><strong><FontAwesomeIcon icon={faInfoCircle} /> Estado:</strong> {permuta.estado}</p>
+                        <p><strong><FontAwesomeIcon icon={faInfoCircle} /> {t("common.status")}:</strong> {translateSwapStatus(t, permuta.estado)}</p>
                         <hr style={{ margin: '10px 0', borderColor: '#eee' }} />
-                        <p><strong>Asignatura:</strong> {permuta.nombre_asignatura} ({permuta.codigo_asignatura})</p>
+                        <p><strong>{t("common.subject")}:</strong> {permuta.nombre_asignatura} ({permuta.codigo_asignatura})</p>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px', background: '#f8fafc', padding: '10px', borderRadius: '8px', marginBottom: '15px' }}>
-                          <span><strong>Solicitante:</strong> G. {permuta.grupo_solicitante}</span>
-                          <span><strong>Tu Grupo:</strong> G. {permuta.grupo_solicitado}</span>
+                          <span><strong>{t("common.requester")}:</strong> G. {permuta.grupo_solicitante}</span>
+                          <span><strong>{t("common.your_group")}:</strong> G. {permuta.grupo_solicitado}</span>
                         </div>
                       </div>
                       <div style={{ display: 'flex', gap: '10px' }}>
@@ -177,13 +179,13 @@ export default function MisPermutas() {
                           className="btn btn-danger btn-full"
                           onClick={() => handleDenegarPermuta(permuta.permuta_id)}
                         >
-                          <FontAwesomeIcon icon={faBan} /> Denegar
+                          <FontAwesomeIcon icon={faBan} /> {t("user.my_swaps.deny")}
                         </button>
                         <button
                           className="btn btn-success btn-full"
                           onClick={() => handleAceptarPermuta(permuta.permuta_id)}
                         >
-                          <FontAwesomeIcon icon={faCheck} /> Aceptar
+                          <FontAwesomeIcon icon={faCheck} /> {t("common.accept")}
                         </button>
                       </div>
                     </div>
@@ -192,7 +194,7 @@ export default function MisPermutas() {
               </Swiper>
             ) : (
               <div className="empty-state">
-                <p>No has recibido propuestas de permuta</p>
+                <p>{t("user.my_swaps.empty_received")}</p>
               </div>
             )}
           </div>
@@ -201,4 +203,3 @@ export default function MisPermutas() {
     </div>
   );
 }
-

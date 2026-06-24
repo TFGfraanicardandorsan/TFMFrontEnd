@@ -1,0 +1,317 @@
+.delegacion-page {
+  min-height: 100vh;
+  padding: 82px 18px 28px;
+  background:
+    linear-gradient(90deg, rgba(185, 22, 50, 0.08), transparent 30%),
+    linear-gradient(180deg, #f7f8fb 0%, #eef2f7 100%);
+  color: #1b2238;
+}
+
+.delegacion-content {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.delegacion-header,
+.delegacion-section,
+.delegacion-actions {
+  background: #ffffff;
+  border: 1px solid #d8dde7;
+  border-radius: 8px;
+  box-shadow: 0 12px 32px rgba(19, 29, 53, 0.1);
+}
+
+.delegacion-header {
+  display: grid;
+  gap: 22px;
+  margin-bottom: 18px;
+  padding: 24px;
+  border-top: 6px solid #202a49;
+}
+
+.delegacion-brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #d8dde7;
+}
+
+.delegacion-logo {
+  width: 145px;
+  height: auto;
+}
+
+.delegacion-etsii-logo {
+  width: 250px;
+  max-width: 52vw;
+  height: auto;
+}
+
+.delegacion-kicker {
+  margin: 0 0 6px;
+  color: #b91632;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.delegacion-header h1 {
+  margin: 0;
+  color: #1b2238;
+  font-size: 2.6rem;
+  line-height: 1.05;
+}
+
+.delegacion-form {
+  display: grid;
+  gap: 18px;
+}
+
+.delegacion-section {
+  padding: 20px;
+}
+
+.delegacion-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #d8dde7;
+}
+
+.delegacion-section h2 {
+  margin: 0;
+  color: #202a49;
+  font-size: 1.1rem;
+  line-height: 1.25;
+}
+
+.delegacion-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(190px, 240px);
+  gap: 16px;
+}
+
+.delegacion-field {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.delegacion-field-wide {
+  grid-column: 1 / -1;
+}
+
+.delegacion-field span,
+.delegacion-checkline {
+  color: #1b2238;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.delegacion-field input {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid #d8dde7;
+  border-radius: 6px;
+  background: #f8fafc;
+  color: #1b2238;
+  font: inherit;
+  padding: 10px 12px;
+  box-sizing: border-box;
+}
+
+.delegacion-field input[type="file"] {
+  padding: 8px 10px;
+}
+
+.delegacion-field input:focus-visible,
+.delegacion-button:focus-visible {
+  outline: 3px solid rgba(119, 175, 210, 0.45);
+  outline-offset: 2px;
+}
+
+.delegacion-email-section {
+  border-left: 4px solid #d6a417;
+}
+
+.delegacion-checkline {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.delegacion-checkline input {
+  width: 18px;
+  height: 18px;
+  accent-color: #202a49;
+}
+
+.delegacion-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px;
+}
+
+.delegacion-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 0 16px;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.delegacion-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.delegacion-button:disabled {
+  cursor: wait;
+  opacity: 0.62;
+}
+
+.delegacion-button-primary {
+  background: #202a49;
+  color: #ffffff;
+}
+
+.delegacion-button-primary:hover:not(:disabled) {
+  background: #11182d;
+}
+
+.delegacion-button-secondary {
+  border-color: #d8dde7;
+  background: #ffffff;
+  color: #1b2238;
+}
+
+.delegacion-button-secondary:hover:not(:disabled) {
+  border-color: #77afd2;
+  background: #eef6fb;
+}
+
+.delegacion-graph-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  border-left: 4px solid #77afd2;
+}
+
+.delegacion-graph-section p {
+  margin: 4px 0 0;
+  color: #677082;
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+
+.delegacion-graph-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+body.dark-mode .delegacion-page {
+  background:
+    linear-gradient(90deg, rgba(185, 22, 50, 0.18), transparent 30%),
+    linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+  color: #f1f5f9;
+}
+
+body.dark-mode .delegacion-header,
+body.dark-mode .delegacion-section,
+body.dark-mode .delegacion-actions {
+  background: #1e293b;
+  border-color: #334155;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+body.dark-mode .delegacion-header h1,
+body.dark-mode .delegacion-section h2,
+body.dark-mode .delegacion-field span,
+body.dark-mode .delegacion-checkline,
+body.dark-mode .delegacion-button-secondary {
+  color: #f1f5f9;
+}
+
+body.dark-mode .delegacion-brand-row,
+body.dark-mode .delegacion-section-header {
+  border-color: #334155;
+}
+
+body.dark-mode .delegacion-field input {
+  background: #0f172a;
+  border-color: #334155;
+  color: #f1f5f9;
+}
+
+body.dark-mode .delegacion-button-secondary {
+  background: #0f172a;
+  border-color: #334155;
+}
+
+body.dark-mode .delegacion-graph-section p {
+  color: #94a3b8;
+}
+
+@media (max-width: 760px) {
+  .delegacion-page {
+    padding: 72px 10px 18px;
+  }
+
+  .delegacion-header,
+  .delegacion-section {
+    padding: 18px;
+  }
+
+  .delegacion-brand-row,
+  .delegacion-section-header,
+  .delegacion-graph-section {
+    align-items: flex-start;
+    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+
+  .delegacion-logo {
+    width: 128px;
+  }
+
+  .delegacion-etsii-logo {
+    width: min(250px, 100%);
+    max-width: 100%;
+  }
+
+  .delegacion-header h1 {
+    font-size: 2rem;
+  }
+
+  .delegacion-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .delegacion-actions,
+  .delegacion-graph-actions {
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+
+  .delegacion-button {
+    width: 100%;
+  }
+}

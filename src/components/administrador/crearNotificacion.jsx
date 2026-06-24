@@ -4,8 +4,10 @@ import "../../styles/admin-common.css";
 import "../../styles/crearNotificacion.css";
 import { toast } from "react-toastify";
 import { logError } from "../../lib/logger";
+import { useTranslation } from "react-i18next";
 
 export default function CrearNotificacion() {
+    const { t } = useTranslation();
     const [contenido, setContenido] = useState("");
     const [receptor, setReceptor] = useState("");
     const [enviando, setEnviando] = useState(false);
@@ -14,18 +16,18 @@ export default function CrearNotificacion() {
         e.preventDefault();
 
         if (!contenido || !receptor) {
-            toast.warning("Por favor, completa todos los campos.");
+            toast.warning(t("admin.notifications.validation"));
             return;
         }
 
         setEnviando(true);
         try {
             await crearNotificacion(receptor, contenido);
-            toast.success("Notificación enviada correctamente.");
+            toast.success(t("admin.notifications.success"));
             setContenido("");
             setReceptor("");
         } catch (error) {
-            toast.error("Hubo un error al enviar la notificación.");
+            toast.error(t("admin.notifications.error"));
             logError(error);
         } finally {
             setEnviando(false);
@@ -36,11 +38,13 @@ export default function CrearNotificacion() {
     const getReceptorInfo = () => {
         switch (receptor) {
             case "all":
-                return { icon: "👥", label: "Todos los usuarios", color: "primary" };
+                return { icon: "👥", label: t("common.roles_plural.all"), color: "primary" };
             case "estudiante":
-                return { icon: "🎓", label: "Estudiantes", color: "secondary" };
+                return { icon: "🎓", label: t("common.roles_plural.estudiante"), color: "secondary" };
             case "administrador":
-                return { icon: "👔", label: "Administradores", color: "warning" };
+                return { icon: "👔", label: t("common.roles_plural.administrador"), color: "warning" };
+            case "delegacion":
+                return { icon: "📄", label: t("common.roles_plural.delegacion"), color: "success" };
             default:
                 return null;
         }
@@ -54,10 +58,9 @@ export default function CrearNotificacion() {
                 <div className="admin-content-wrap">
                     {/* Header */}
                     <div className="admin-page-header">
-                        <h1 className="admin-page-title">📢 Crear Notificación</h1>
+                        <h1 className="admin-page-title">{t("admin.notifications.title")}</h1>
                         <p className="admin-page-subtitle">
-                            Envía una notificación al tipo de usuario seleccionado. Podrás generar una notificación
-                            a estudiantes, administradores o todos los usuarios del sistema.
+                            {t("admin.notifications.subtitle")}
                         </p>
                     </div>
 
@@ -67,7 +70,7 @@ export default function CrearNotificacion() {
                             <div className="admin-card-header">
                                 <h2 className="admin-card-title">
                                     <span className="admin-card-icon">✉️</span>
-                                    Nueva Notificación
+                                    {t("admin.notifications.new_title")}
                                 </h2>
                                 {receptorInfo && (
                                     <span className={`admin-badge admin-badge-${receptorInfo.color}`}>
@@ -79,7 +82,7 @@ export default function CrearNotificacion() {
                                 <form className="notificacion-form" onSubmit={handleSubmit}>
                                     <div className="admin-form-group">
                                         <label htmlFor="receptor" className="admin-label">
-                                            Destinatarios
+                                            {t("admin.notifications.recipients")}
                                         </label>
                                         <select
                                             id="receptor"
@@ -88,28 +91,29 @@ export default function CrearNotificacion() {
                                             onChange={(e) => setReceptor(e.target.value)}
                                             required
                                         >
-                                            <option value="">Selecciona el receptor</option>
-                                            <option value="all">👥 Todos los usuarios</option>
-                                            <option value="estudiante">🎓 Estudiantes</option>
-                                            <option value="administrador">👔 Administradores</option>
+                                            <option value="">{t("admin.notifications.select_recipient")}</option>
+                                            <option value="all">👥 {t("common.roles_plural.all")}</option>
+                                            <option value="estudiante">🎓 {t("common.roles_plural.estudiante")}</option>
+                                            <option value="administrador">👔 {t("common.roles_plural.administrador")}</option>
+                                            <option value="delegacion">📄 {t("common.roles_plural.delegacion")}</option>
                                         </select>
                                     </div>
 
                                     <div className="admin-form-group">
                                         <label htmlFor="contenido" className="admin-label">
-                                            Contenido del mensaje
+                                            {t("admin.notifications.content")}
                                         </label>
                                         <textarea
                                             id="contenido"
                                             className="admin-textarea"
                                             value={contenido}
                                             onChange={(e) => setContenido(e.target.value)}
-                                            placeholder="Escribe el contenido de la notificación..."
+                                            placeholder={t("admin.notifications.placeholder")}
                                             required
                                             rows={6}
                                         />
                                         <small style={{ color: "var(--admin-text-muted)", fontSize: "0.9rem" }}>
-                                            {contenido.length} caracteres
+                                            {t("common.characters", { count: contenido.length })}
                                         </small>
                                     </div>
 
@@ -123,14 +127,14 @@ export default function CrearNotificacion() {
                                             }}
                                             disabled={enviando}
                                         >
-                                            🗑️ Limpiar
+                                            🗑️ {t("common.clear")}
                                         </button>
                                         <button
                                             type="submit"
                                             className="admin-btn admin-btn-primary"
                                             disabled={enviando}
                                         >
-                                            {enviando ? "Enviando..." : "📨 Enviar Notificación"}
+                                            {enviando ? t("admin.notifications.sending") : t("admin.notifications.send")}
                                         </button>
                                     </div>
                                 </form>
@@ -141,13 +145,12 @@ export default function CrearNotificacion() {
                         <div className="admin-card admin-tips-card">
                             <div className="admin-card-body">
                                 <h3 className="admin-tips-title">
-                                    💡 Consejos
+                                    {t("admin.notifications.tips_title")}
                                 </h3>
                                 <ul className="admin-tips-list">
-                                    <li>Sé claro y conciso en el mensaje</li>
-                                    <li>Incluye información relevante para los destinatarios</li>
-                                    <li>Revisa el contenido antes de enviar</li>
-                                    <li>Las notificaciones se envían inmediatamente</li>
+                                    {t("admin.notifications.tips", { returnObjects: true }).map((tip) => (
+                                        <li key={tip}>{tip}</li>
+                                    ))}
                                 </ul>
                             </div>
                         </div>

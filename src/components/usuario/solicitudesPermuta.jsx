@@ -4,7 +4,11 @@ import { obtenerSolicitudesPermuta } from "../../services/permuta";
 import { toast } from "react-toastify";
 import { cancelarSolicitudPermuta } from "../../services/permuta";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { translateRequestStatus } from "../../lib/i18nLabels";
+
 export default function SolicitudesPermuta() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
 
     const [solicitudes, setSolicitudes] = useState([]);
@@ -24,10 +28,10 @@ export default function SolicitudesPermuta() {
                     // adapta según la estructura real de la respuesta
                     setSolicitudes(res.result?.result || []);
                 } else {
-                    throw new Error(res.errmsg || "Error al obtener solicitudes");
+                    throw new Error(res.errmsg || t("user.swap_requests.fetch_error"));
                 }
             } catch (err) {
-                setError(err.message || "Error al cargar solicitudes");
+                setError(err.message || t("user.swap_requests.load_error"));
             } finally {
                 setLoading(false);
             }
@@ -42,17 +46,17 @@ export default function SolicitudesPermuta() {
             if (!res.err) {
                 // eliminar la solicitud cancelada de la lista local
                 setSolicitudes(prev => prev.filter(s => s.solicitud_id !== solicitud_id));
-                toast.success("Solicitud cancelada correctamente");
+                toast.success(t("user.swap_requests.cancel_success"));
                 // si el modal muestra esa solicitud, ciérralo
                 if (solicitudSeleccionada?.solicitud_id === solicitud_id) {
                     setModalOpen(false);
                     setSolicitudSeleccionada(null);
                 }
             } else {
-                toast.error(res.errmsg || "No se pudo cancelar la solicitud");
+                toast.error(res.errmsg || t("user.swap_requests.cancel_failed"));
             }
         } catch (err) {
-            toast.error("Error al cancelar la solicitud");
+            toast.error(t("user.swap_requests.cancel_error"));
         }
     };
 
@@ -66,8 +70,8 @@ export default function SolicitudesPermuta() {
         setSolicitudSeleccionada(null);
     };
 
-    if (loading) return <div className="loading-text">Cargando solicitudes...</div>;
-    if (error) return <div className="error-text">Error: {error}</div>;
+    if (loading) return <div className="loading-text">{t("user.swap_requests.loading")}</div>;
+    if (error) return <div className="error-text">{t("common.error_prefix", { error })}</div>;
 
     const solicitudesFiltradas =
         filtroEstado === "todas"
@@ -78,24 +82,24 @@ export default function SolicitudesPermuta() {
         <div className="page-container">
             <div className="content-wrap">
                 <div className="solicitudes-container">
-                    <h1 className="solicitudes-title">Mis Solicitudes de Permuta</h1>
+                    <h1 className="solicitudes-title">{t("user.swap_requests.title")}</h1>
                     <p className="solicitudes-description">
-                        Aquí puedes ver todas tus solicitudes de permuta. Filtra por estado o abre una solicitud para ver detalles.
+                        {t("user.swap_requests.subtitle")}
                     </p>
 
                     <div className="filtro-container">
-                        <label htmlFor="filtroEstado">Filtrar por estado:</label>
+                        <label htmlFor="filtroEstado">{t("user.swap_requests.filter_status")}</label>
                         <select
                             id="filtroEstado"
                             value={filtroEstado}
                             onChange={(e) => setFiltroEstado(e.target.value)}
                         >
-                            <option value="todas">Todas</option>
-                            <option value="SOLICITADA">Solicitadas</option>
-                            <option value="EMPAREJADA">Emparejadas</option>
-                            <option value="ACEPTADA">Aceptadas</option>
-                            <option value="RECHAZADA">Rechazadas</option>
-                            <option value="CANCELADA">Canceladas</option>
+                            <option value="todas">{t("common.all")}</option>
+                            <option value="SOLICITADA">{t("common.request_status.solicitada")}</option>
+                            <option value="EMPAREJADA">{t("common.request_status.emparejada")}</option>
+                            <option value="ACEPTADA">{t("common.request_status.aceptada")}</option>
+                            <option value="RECHAZADA">{t("common.request_status.rechazada")}</option>
+                            <option value="CANCELADA">{t("common.request_status.cancelada")}</option>
                         </select>
                     </div>
 
@@ -115,11 +119,11 @@ export default function SolicitudesPermuta() {
                                                     {solicitud.nombre_asignatura}
                                                 </h3>
                                                 <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '8px' }}>
-                                                    <strong>Código:</strong> {solicitud.codigo_asignatura}
+                                                    <strong>{t("common.code")}:</strong> {solicitud.codigo_asignatura}
                                                 </p>
-                                                <p><strong>Grupo Actual:</strong> {solicitud.grupo_solicitante}</p>
+                                                <p><strong>{t("common.current_group")}:</strong> {solicitud.grupo_solicitante}</p>
                                                 <p>
-                                                    <strong>Grupos Deseados:</strong> {Array.isArray(solicitud.grupos_deseados) ? solicitud.grupos_deseados.join(", ") : solicitud.grupos_deseados}
+                                                    <strong>{t("common.desired_groups")}:</strong> {Array.isArray(solicitud.grupos_deseados) ? solicitud.grupos_deseados.join(", ") : solicitud.grupos_deseados}
                                                 </p>
                                                 <div style={{
                                                     marginTop: '12px',
@@ -133,13 +137,13 @@ export default function SolicitudesPermuta() {
                                                     color: solicitud.estado === 'SOLICITADA' ? 'var(--user-primary)' :
                                                         solicitud.estado === 'ACEPTADA' ? 'var(--success-color)' : 'var(--text-secondary)'
                                                 }}>
-                                                    {solicitud.estado}
+                                                    {translateRequestStatus(t, solicitud.estado)}
                                                 </div>
                                             </div>
 
                                             <div className="solicitud-actions" style={{ marginTop: '20px', display: 'flex', gap: '10px' }}>
                                                 <button className="btn btn-primary btn-full" onClick={() => abrirModal(solicitud)}>
-                                                    Detalles
+                                                    {t("common.details")}
                                                 </button>
 
                                                 {solicitud.estado === "SOLICITADA" && (
@@ -147,7 +151,7 @@ export default function SolicitudesPermuta() {
                                                         className="btn btn-danger btn-full"
                                                         onClick={() => handleCancelar(sId)}
                                                     >
-                                                        Cancelar
+                                                        {t("common.cancel")}
                                                     </button>
                                                 )}
                                             </div>
@@ -178,16 +182,16 @@ export default function SolicitudesPermuta() {
                                 }}>
                                     📨
                                 </div>
-                                <h3 style={{ fontSize: '1.8rem', color: 'var(--user-primary)' }}>No tienes solicitudes de permutas registradas</h3>
+                                <h3 style={{ fontSize: '1.8rem', color: 'var(--user-primary)' }}>{t("user.swap_requests.empty_title")}</h3>
                                 <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', maxWidth: '500px' }}>
-                                    Parece que aún no has solicitado ningún intercambio de grupo. ¡Empieza hoy mismo y encuentra el horario que mejor te venga!
+                                    {t("user.swap_requests.empty_message")}
                                 </p>
                                 <button
                                     className="btn btn-primary"
                                     onClick={() => navigate("/solicitarPermuta")}
                                     style={{ padding: '12px 30px', fontSize: '1.1rem', marginTop: '10px' }}
                                 >
-                                    ¡Solicitar Permuta Ahora!
+                                    {t("user.swap_requests.request_now")}
                                 </button>
                             </div>
                         )}
@@ -201,15 +205,15 @@ export default function SolicitudesPermuta() {
             {modalOpen && solicitudSeleccionada && (
                 <div className="modal-overlay" onClick={cerrarModal}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <h2>Detalles de la Solicitud</h2>
-                        <p><strong>Asignatura:</strong> {solicitudSeleccionada.nombre_asignatura} ({solicitudSeleccionada.codigo_asignatura})</p>
-                        <p><strong>Grupo Actual:</strong> {solicitudSeleccionada.grupo_solicitante}</p>
-                        <p><strong>Grupos Deseados:</strong> {Array.isArray(solicitudSeleccionada.grupos_deseados) ? solicitudSeleccionada.grupos_deseados.join(", ") : solicitudSeleccionada.grupos_deseados}</p>
-                        <p><strong>Estado:</strong> {solicitudSeleccionada.estado}</p>
-                        <p><strong>Descripción:</strong> {solicitudSeleccionada.descripcion || "—"}</p>
+                        <h2>{t("user.swap_requests.modal_title")}</h2>
+                        <p><strong>{t("common.subject")}:</strong> {solicitudSeleccionada.nombre_asignatura} ({solicitudSeleccionada.codigo_asignatura})</p>
+                        <p><strong>{t("common.current_group")}:</strong> {solicitudSeleccionada.grupo_solicitante}</p>
+                        <p><strong>{t("common.desired_groups")}:</strong> {Array.isArray(solicitudSeleccionada.grupos_deseados) ? solicitudSeleccionada.grupos_deseados.join(", ") : solicitudSeleccionada.grupos_deseados}</p>
+                        <p><strong>{t("common.status")}:</strong> {translateRequestStatus(t, solicitudSeleccionada.estado)}</p>
+                        <p><strong>{t("common.description_label")}:</strong> {solicitudSeleccionada.descripcion || "—"}</p>
 
                         <div className="modal-actions">
-                            <button onClick={cerrarModal}>Cerrar</button>
+                            <button onClick={cerrarModal}>{t("common.close")}</button>
                             {/* Nota: no se incluye botón cancelar aquí por requerimiento */}
                         </div>
                     </div>
