@@ -106,7 +106,7 @@ function AppContent() {
           </Route>
 
           {/* Layout para delegacion */}
-          <Route element={<RoleRoute allowedRoles={DELEGATION_ROLES}><LayoutDelegacion /></RoleRoute>}>
+          <Route element={<RoleRoute allowedRoles={[ADMIN_ROLE, ...DELEGATION_ROLES]}><LayoutDelegacion /></RoleRoute>}>
             <Route path="/delegacion" element={<CertificadosDelegacion />} />
             <Route path="/delegacion/certificados" element={<CertificadosDelegacion />} />
           </Route>

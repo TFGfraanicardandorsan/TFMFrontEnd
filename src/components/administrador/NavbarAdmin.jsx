@@ -118,6 +118,11 @@ export default function NavbarAdmin() {
                   <span className="nav-icon">🔢</span> {t("navbar.group_management")}
                 </button>
               </li>
+              <li>
+                <button className="nav-link-btn" onClick={() => handleLinkClick("/delegacion/certificados")}>
+                  <span className="nav-icon">📄</span> {t("navbar.delegation_module")}
+                </button>
+              </li>
             </ul>
 
           </li>
@@ -171,6 +176,9 @@ export default function NavbarAdmin() {
               </li>
               <li>
                 <Link to="/gestionGrupos">{t("navbar.group_management")}</Link>
+              </li>
+              <li>
+                <Link to="/delegacion/certificados">{t("navbar.delegation_module")}</Link>
               </li>
             </ul>
           </li>

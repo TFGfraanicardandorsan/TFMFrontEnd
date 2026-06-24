@@ -104,6 +104,29 @@ describe('UserManagementPanel', () => {
     });
   });
 
+  it('updates a user to delegation with the API-compatible role value', async () => {
+    obtenerTodosUsuarios.mockResolvedValueOnce(mockUsersResponse());
+    actualizarUsuario.mockResolvedValueOnce({});
+
+    render(<UserManagementPanel />);
+
+    await screen.findByText(/Panel de Gestión de Usuarios/);
+
+    fireEvent.click(screen.getAllByRole('button', { name: /Editar/ })[0]);
+
+    const modal = screen.getByText(/Editar Usuario/).closest('.admin-modal-content');
+    fireEvent.change(within(modal).getByDisplayValue('Estudiante'), { target: { value: 'delegacion' } });
+    fireEvent.click(within(modal).getByRole('button', { name: 'Guardar Cambios' }));
+
+    await waitFor(() => {
+      expect(actualizarUsuario).toHaveBeenCalledWith('alice', {
+        nombre_completo: 'Alice',
+        correo: 'alice@example.com',
+        rol: 'delgacion'
+      });
+    });
+  });
+
   it('filters users by delegation role', async () => {
     obtenerTodosUsuarios.mockResolvedValueOnce(mockUsersResponse());
 

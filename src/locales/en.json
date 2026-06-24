@@ -144,6 +144,7 @@
         "view_stats": "View statistics",
         "user_management": "User management",
         "group_management": "Group management",
+        "delegation_module": "Delegate module",
         "profile": "Profile",
         "my_profile": "My profile",
         "logout": "Logout",

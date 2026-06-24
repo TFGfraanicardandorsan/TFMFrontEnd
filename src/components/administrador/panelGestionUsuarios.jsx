@@ -2,7 +2,14 @@ import { useEffect, useState, useMemo } from 'react';
 import { obtenerTodosUsuarios, actualizarUsuario } from '../../services/usuario';
 import "../../styles/admin-common.css";
 import "../../styles/panelGestionUsuarios-style.css";
-import { isDelegationRole } from '../../lib/roles';
+import {
+    ADMIN_ROLE,
+    DELEGATION_ROLE,
+    STUDENT_ROLE,
+    isDelegationRole,
+    toApiRole,
+    toCanonicalRole
+} from '../../lib/roles';
 import { useTranslation } from 'react-i18next';
 import { translateRole } from '../../lib/i18nLabels';
 
@@ -30,7 +37,7 @@ const UserManagementPanel = () => {
                         id: u.uvus || u.id,
                         name: u.nombre_completo || u.name,
                         email: u.correo || u.email,
-                        rol: u.rol,
+                        rol: toCanonicalRole(u.rol),
                         estudio: u.estudio,
                         uvus: u.uvus
                     }));
@@ -51,7 +58,7 @@ const UserManagementPanel = () => {
 
     const handleOpenModal = (user) => {
         setEditingUser(user);
-        setFormData(user);
+        setFormData({ ...user, rol: toCanonicalRole(user.rol) });
         setModalOpen(true);
     };
 
@@ -64,12 +71,19 @@ const UserManagementPanel = () => {
     const handleUpdateUser = async (e) => {
         e.preventDefault();
         try {
-            await actualizarUsuario(editingUser.id, {
+            const updatedUser = {
+                ...formData,
+                rol: toCanonicalRole(formData.rol)
+            };
+            const response = await actualizarUsuario(editingUser.id, {
                 nombre_completo: formData.name,
                 correo: formData.email,
-                rol: formData.rol
+                rol: toApiRole(formData.rol)
             });
-            setUsers(users.map(user => (user.id === editingUser.id ? { ...user, ...formData } : user)));
+            if (response?.err) {
+                throw new Error(response.errmsg || t("common.unexpected_error"));
+            }
+            setUsers(users.map(user => (user.id === editingUser.id ? { ...user, ...updatedUser } : user)));
             handleCloseModal();
         } catch (err) {
             setError(err.message);
@@ -78,7 +92,7 @@ const UserManagementPanel = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        setFormData({ ...formData, [name]: name === "rol" ? toCanonicalRole(value) : value });
     };
 
     // Lógica de filtrado y paginación
@@ -247,9 +261,9 @@ const UserManagementPanel = () => {
                                         onChange={handleInputChange}
                                         required
                                     >
-                                        <option value="estudiante">{t("common.roles.estudiante")}</option>
-                                        <option value="administrador">{t("common.roles.administrador")}</option>
-                                        <option value="delegacion">{t("common.roles.delegacion")}</option>
+                                        <option value={STUDENT_ROLE}>{t("common.roles.estudiante")}</option>
+                                        <option value={ADMIN_ROLE}>{t("common.roles.administrador")}</option>
+                                        <option value={DELEGATION_ROLE}>{t("common.roles.delegacion")}</option>
                                     </select>
                                 </div>
                                 {formData.estudio !== undefined && (

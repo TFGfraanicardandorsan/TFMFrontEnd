@@ -20,3 +20,13 @@ export const isAllowedRole = (role, allowedRoles) => {
 
 export const isDelegationRole = (role) =>
   DELEGATION_ROLES.map(normalizeRole).includes(normalizeRole(role));
+
+export const toCanonicalRole = (role) => {
+  const normalizedRole = normalizeRole(role);
+  return isDelegationRole(normalizedRole) ? DELEGATION_ROLE : normalizedRole;
+};
+
+export const toApiRole = (role) => {
+  const canonicalRole = toCanonicalRole(role);
+  return canonicalRole === DELEGATION_ROLE ? DELEGATION_ROLE_LEGACY : canonicalRole;
+};
