@@ -20,6 +20,8 @@
         "save_changes": "Enregistrer les modifications",
         "cancel": "Annuler",
         "close": "Fermer",
+        "yes": "Oui",
+        "no": "Non",
         "confirm": "Confirmer",
         "processing": "Traitement...",
         "submit": "Envoyer",
@@ -248,6 +250,50 @@
         "error_loading": "Erreur lors du chargement des permutes",
         "success_accepted": "Permute acceptée avec succès",
         "error_accepted": "Erreur lors de l'acceptation de la permute"
+    },
+    "user": {
+        "my_profile": {
+            "approved_one": "Félicitations ! Vous avez réussi {{subject}}.",
+            "approve_error": "Erreur lors de la validation de {{subject}} : {{error}}",
+            "approved_all": "Félicitations ! Vous avez réussi toutes vos matières.",
+            "loading": "Chargement de votre profil...",
+            "error_title": "Une erreur est survenue",
+            "title": "Mon profil",
+            "subtitle": "Gérez vos matières inscrites et célébrez vos réussites. Gardez votre progression à jour.",
+            "current_subjects": "Mes matières en cours",
+            "approve_all": "Tout approuver",
+            "enroll_new": "+ S’inscrire à de nouvelles matières",
+            "mark_approved": "Marquer comme réussie",
+            "empty_title": "Vous n’avez aucune matière en cours",
+            "empty_message": "C’est le bon moment pour vous inscrire à de nouvelles matières !",
+            "select_subjects": "Sélectionner des matières",
+            "approve_all_requires_evaluation": "Pour valider des matières, vous devez compléter l’évaluation de chaque matière individuellement.",
+            "evaluation_title": "Évaluation de la matière",
+            "evaluation_intro": "Répondez à ces questions avant de marquer la matière comme réussie. Vos réponses aideront à générer des statistiques d’amélioration.",
+            "evaluation_loading": "Chargement des questions...",
+            "evaluation_load_error": "Les questions d’évaluation n’ont pas pu être chargées.",
+            "evaluation_required": "Obligatoire",
+            "evaluation_conditional": "Si applicable",
+            "evaluation_not_applicable": "Non applicable",
+            "evaluation_scale_label": "Note de 1 à 10",
+            "evaluation_text_placeholder": "Écrivez votre réponse...",
+            "evaluation_required_error": "Répondez à toutes les questions obligatoires avant de continuer.",
+            "evaluation_submit": "Envoyer l’évaluation et valider",
+            "evaluation_sending": "Envoi..."
+        }
+    },
+    "admin": {
+        "stats": {
+            "subject_global_rating": "Note globale par matière",
+            "subject_evaluation_detail": "Détail des évaluations des matières",
+            "no_subject_evaluations": "Aucune évaluation de matière n’a encore été enregistrée.",
+            "evaluation_count": "{{count}} évaluations",
+            "yes_no_summary": "Oui : {{yes}} ({{yesPercent}}%) · Non : {{no}} ({{noPercent}}%)",
+            "scale_summary": "Moy. : {{avg}} · Min. : {{min}} · Max. : {{max}}",
+            "open_answers_count": "{{count}} réponses ouvertes",
+            "more_open_answers": "+ {{count}} réponses supplémentaires",
+            "no_answers": "Aucune réponse"
+        }
     },
     "pdf_generation": {
         "title": "Génération de documentation de permute",

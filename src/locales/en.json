@@ -20,6 +20,8 @@
         "save_changes": "Save Changes",
         "cancel": "Cancel",
         "close": "Close",
+        "yes": "Yes",
+        "no": "No",
         "confirm": "Confirm",
         "processing": "Processing...",
         "submit": "Submit",
@@ -248,6 +250,50 @@
         "error_loading": "Error loading swaps",
         "success_accepted": "Swap accepted successfully",
         "error_accepted": "Error accepting swap"
+    },
+    "user": {
+        "my_profile": {
+            "approved_one": "Congratulations! You passed {{subject}}.",
+            "approve_error": "Error marking {{subject}} as passed: {{error}}",
+            "approved_all": "Congratulations! You passed all your subjects.",
+            "loading": "Loading your profile...",
+            "error_title": "An error occurred",
+            "title": "My Profile",
+            "subtitle": "Manage your enrolled subjects and celebrate your passed courses. Keep your progress up to date.",
+            "current_subjects": "My Current Subjects",
+            "approve_all": "Pass All",
+            "enroll_new": "+ Enroll in New Ones",
+            "mark_approved": "Mark as Passed",
+            "empty_title": "You have no current subjects",
+            "empty_message": "It is a good time to enroll in new subjects!",
+            "select_subjects": "Select Subjects",
+            "approve_all_requires_evaluation": "To pass subjects you must complete the evaluation for each subject individually.",
+            "evaluation_title": "Subject Evaluation",
+            "evaluation_intro": "Answer these questions before marking the subject as passed. Your answers will help generate improvement statistics.",
+            "evaluation_loading": "Loading questions...",
+            "evaluation_load_error": "The evaluation questions could not be loaded.",
+            "evaluation_required": "Required",
+            "evaluation_conditional": "If applicable",
+            "evaluation_not_applicable": "Not applicable",
+            "evaluation_scale_label": "Rating from 1 to 10",
+            "evaluation_text_placeholder": "Write your answer...",
+            "evaluation_required_error": "Answer all required questions before continuing.",
+            "evaluation_submit": "Submit evaluation and pass",
+            "evaluation_sending": "Submitting..."
+        }
+    },
+    "admin": {
+        "stats": {
+            "subject_global_rating": "Global rating by subject",
+            "subject_evaluation_detail": "Subject evaluation detail",
+            "no_subject_evaluations": "No subject evaluations have been registered yet.",
+            "evaluation_count": "{{count}} evaluations",
+            "yes_no_summary": "Yes: {{yes}} ({{yesPercent}}%) · No: {{no}} ({{noPercent}}%)",
+            "scale_summary": "Avg: {{avg}} · Min: {{min}} · Max: {{max}}",
+            "open_answers_count": "{{count}} open answers",
+            "more_open_answers": "+ {{count}} more answers",
+            "no_answers": "No answers"
+        }
     },
     "pdf_generation": {
         "title": "Permutation Document Generation",

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import { Bar, Pie } from 'react-chartjs-2';
-import { obtenerEstadisticasPermutas, obtenerEstadisticasSolicitudes, obtenerEstadisticasIncidencias, obtenerEstadisticasUsuarios } from '../../services/estadisticas';
+import { obtenerEstadisticasPermutas, obtenerEstadisticasSolicitudes, obtenerEstadisticasIncidencias, obtenerEstadisticasUsuarios, obtenerEstadisticasValoracionesAsignaturas } from '../../services/estadisticas';
 import "../../styles/admin-common.css";
 import "../../styles/estadisticas-style.css";
 import { useTranslation } from 'react-i18next';
@@ -15,22 +15,25 @@ export default function Estadisticas() {
   const [estadisticasSolicitudes, setEstadisticasSolicitudes] = useState(null);
   const [estadisticasIncidencias, setEstadisticasIncidencias] = useState(null);
   const [estadisticasUsuarios, setEstadisticasUsuarios] = useState(null);
+  const [estadisticasValoracionesAsignaturas, setEstadisticasValoracionesAsignaturas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const cargarEstadisticas = async () => {
       try {
-        const [permutasData, solicitudesData, incidenciasData, usuariosData] = await Promise.all([
+        const [permutasData, solicitudesData, incidenciasData, usuariosData, valoracionesData] = await Promise.all([
           obtenerEstadisticasPermutas(),
           obtenerEstadisticasSolicitudes(),
           obtenerEstadisticasIncidencias(),
           obtenerEstadisticasUsuarios(),
+          obtenerEstadisticasValoracionesAsignaturas(),
         ]);
         setEstadisticasPermutas(permutasData.result.data);
         setEstadisticasSolicitudes(solicitudesData.result.data);
         setEstadisticasIncidencias(incidenciasData.result.result);
         setEstadisticasUsuarios(usuariosData.result.result);
+        setEstadisticasValoracionesAsignaturas(valoracionesData.result.result || []);
         setLoading(false);
       } catch (err) {
         setError(t("admin.stats.load_error"));
@@ -152,6 +155,57 @@ export default function Estadisticas() {
       }]
     }
     : null;
+
+  const valoracionesConDatos = estadisticasValoracionesAsignaturas.filter((asignatura) => asignatura.totalValoraciones > 0);
+  const valoracionesGlobales = valoracionesConDatos
+    .map((asignatura) => {
+      const preguntaGlobal = asignatura.bloques
+        .flatMap((bloque) => bloque.preguntas)
+        .find((pregunta) => pregunta.codigo === "valoracion_global");
+
+      return {
+        asignatura,
+        media: preguntaGlobal?.estadisticas?.media ?? null,
+      };
+    })
+    .filter((item) => item.media !== null);
+
+  const valoracionesGlobalesData = valoracionesGlobales.length > 0
+    ? {
+      labels: valoracionesGlobales.map(({ asignatura }) => asignatura.siglas || asignatura.codigo),
+      datasets: [{
+        label: t("admin.stats.subject_global_rating"),
+        data: valoracionesGlobales.map(({ media }) => media),
+        backgroundColor: 'rgba(16, 185, 129, 0.5)',
+      }]
+    }
+    : null;
+
+  const formatearEstadisticaPregunta = (pregunta) => {
+    if (pregunta.tipoRespuesta === "si_no") {
+      return t("admin.stats.yes_no_summary", {
+        yes: pregunta.estadisticas.si,
+        no: pregunta.estadisticas.no,
+        yesPercent: pregunta.estadisticas.porcentajeSi,
+        noPercent: pregunta.estadisticas.porcentajeNo,
+      });
+    }
+
+    if (pregunta.tipoRespuesta === "escala_1_10") {
+      return pregunta.estadisticas.media === null
+        ? t("admin.stats.no_answers")
+        : t("admin.stats.scale_summary", {
+          avg: pregunta.estadisticas.media,
+          min: pregunta.estadisticas.minimo,
+          max: pregunta.estadisticas.maximo,
+        });
+    }
+
+    const respuestasAbiertas = pregunta.estadisticas?.respuestas || [];
+    return t("admin.stats.open_answers_count", {
+      count: respuestasAbiertas.length,
+    });
+  };
 
   return (
     <>
@@ -322,6 +376,97 @@ export default function Estadisticas() {
               </div>
               <div className="admin-card-body">
                 {solicitudesPorGradoData && <Bar key="solicitudesPorGradoData" data={solicitudesPorGradoData} />}
+              </div>
+            </div>
+
+            <div className="admin-card">
+              <div className="admin-card-header">
+                <h2 className="admin-card-title">
+                  <span className="admin-card-icon">📈</span>
+                  {t("admin.stats.subject_global_rating")}
+                </h2>
+              </div>
+              <div className="admin-card-body">
+                {valoracionesGlobalesData ? (
+                  <Bar
+                    key="valoracionesGlobalesData"
+                    data={valoracionesGlobalesData}
+                    options={{
+                      scales: {
+                        y: {
+                          min: 0,
+                          max: 10,
+                        }
+                      }
+                    }}
+                  />
+                ) : (
+                  <div className="admin-empty-state">
+                    <p className="admin-empty-state-text">{t("admin.stats.no_subject_evaluations")}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="admin-card stats-full-width">
+              <div className="admin-card-header">
+                <h2 className="admin-card-title">
+                  <span className="admin-card-icon">📋</span>
+                  {t("admin.stats.subject_evaluation_detail")}
+                </h2>
+              </div>
+              <div className="admin-card-body">
+                {valoracionesConDatos.length === 0 ? (
+                  <div className="admin-empty-state">
+                    <p className="admin-empty-state-text">{t("admin.stats.no_subject_evaluations")}</p>
+                  </div>
+                ) : (
+                  <div className="valoraciones-stats-list">
+                    {valoracionesConDatos.map((asignatura, index) => (
+                      <details className="valoraciones-subject" key={asignatura.codigo} open={index === 0}>
+                        <summary>
+                          <span>
+                            {asignatura.nombre} ({asignatura.siglas || asignatura.codigo})
+                          </span>
+                          <strong>{t("admin.stats.evaluation_count", { count: asignatura.totalValoraciones })}</strong>
+                        </summary>
+
+                        {asignatura.bloques.map((bloque) => (
+                          <section className="valoraciones-block" key={`${asignatura.codigo}-${bloque.bloque}`}>
+                            <h3>{bloque.bloque}. {bloque.bloqueNombre}</h3>
+                            <div className="valoraciones-question-grid">
+                              {bloque.preguntas.map((pregunta) => (
+                                <div className="valoraciones-question" key={pregunta.id}>
+                                  <p>{pregunta.enunciado}</p>
+                                  <div className="valoraciones-summary">
+                                    {formatearEstadisticaPregunta(pregunta)}
+                                  </div>
+
+                                  {pregunta.tipoRespuesta === "texto" && (pregunta.estadisticas?.respuestas || []).length > 0 && (
+                                    <ul className="valoraciones-open-answers">
+                                      {(pregunta.estadisticas?.respuestas || []).slice(0, 8).map((respuesta, respuestaIndex) => (
+                                        <li key={`${pregunta.id}-${respuestaIndex}`}>
+                                          {respuesta.respuesta}
+                                        </li>
+                                      ))}
+                                      {(pregunta.estadisticas?.respuestas || []).length > 8 && (
+                                        <li className="valoraciones-more">
+                                          {t("admin.stats.more_open_answers", {
+                                            count: (pregunta.estadisticas?.respuestas || []).length - 8,
+                                          })}
+                                        </li>
+                                      )}
+                                    </ul>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          </section>
+                        ))}
+                      </details>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>

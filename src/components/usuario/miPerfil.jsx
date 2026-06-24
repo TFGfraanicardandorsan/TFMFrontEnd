@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import "../../styles/miPerfil-style.css";
 import { obtenerDatosUsuario } from "../../services/usuario";
 import { obtenerMiGrupoAsignatura } from "../../services/grupo";
-import { superarAsignaturasUsuario } from "../../services/asignaturas";
+import { obtenerPreguntasValoracionAsignatura, superarAsignaturasUsuario } from "../../services/asignaturas";
 import SeleccionarEstudio from "../usuario/seleccionarEstudio";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckCircle, faBookOpen, faUserGraduate, faEnvelope, faUniversity } from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle, faBookOpen, faUserGraduate, faEnvelope, faUniversity, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 
 export default function MiPerfil() {
@@ -16,6 +16,13 @@ export default function MiPerfil() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [mensajeExito, setMensajeExito] = useState("");
+  const [mensajeAviso, setMensajeAviso] = useState("");
+  const [preguntasValoracion, setPreguntasValoracion] = useState([]);
+  const [cargandoPreguntas, setCargandoPreguntas] = useState(false);
+  const [asignaturaValorando, setAsignaturaValorando] = useState(null);
+  const [respuestasValoracion, setRespuestasValoracion] = useState({});
+  const [errorValoracion, setErrorValoracion] = useState("");
+  const [enviandoValoracion, setEnviandoValoracion] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,43 +52,181 @@ export default function MiPerfil() {
     obtenerDatos();
   }, []);
 
-  const manejarSuperarAsignatura = async (idAsignatura, codigo) => {
+  const cargarPreguntasValoracion = async () => {
+    if (preguntasValoracion.length > 0) return preguntasValoracion;
+
+    setCargandoPreguntas(true);
+    const response = await obtenerPreguntasValoracionAsignatura();
+    setCargandoPreguntas(false);
+
+    if (response.err || response.result?.err) {
+      throw new Error(response.errmsg || response.result?.message || t("user.my_profile.evaluation_load_error"));
+    }
+
+    const preguntas = response.result.result || [];
+    setPreguntasValoracion(preguntas);
+    return preguntas;
+  };
+
+  const abrirValoracionAsignatura = async (asignatura) => {
+    setErrorValoracion("");
+    setMensajeAviso("");
+    setRespuestasValoracion({});
+    setAsignaturaValorando(asignatura);
+
     try {
-      const response = await superarAsignaturasUsuario(codigo);
+      await cargarPreguntasValoracion();
+    } catch (error) {
+      setErrorValoracion(error.message);
+    }
+  };
+
+  const cerrarValoracionAsignatura = () => {
+    if (enviandoValoracion) return;
+    setAsignaturaValorando(null);
+    setRespuestasValoracion({});
+    setErrorValoracion("");
+  };
+
+  const actualizarRespuestaValoracion = (preguntaId, valor) => {
+    setRespuestasValoracion((previas) => {
+      const siguientes = { ...previas };
+      if (valor === "" || valor === null || valor === undefined) {
+        delete siguientes[preguntaId];
+      } else {
+        siguientes[preguntaId] = valor;
+      }
+      return siguientes;
+    });
+  };
+
+  const preguntasPorBloque = preguntasValoracion.reduce((bloques, pregunta) => {
+    const bloqueKey = pregunta.bloque;
+    if (!bloques[bloqueKey]) {
+      bloques[bloqueKey] = {
+        bloque: pregunta.bloque,
+        bloqueNombre: pregunta.bloqueNombre,
+        preguntas: [],
+      };
+    }
+    bloques[bloqueKey].preguntas.push(pregunta);
+    return bloques;
+  }, {});
+
+  const construirRespuestasValoracion = () => {
+    const preguntasObligatoriasSinResponder = preguntasValoracion.filter((pregunta) => {
+      const esOpcional = pregunta.tipoRespuesta === "texto" || pregunta.condicion;
+      return !esOpcional && respuestasValoracion[pregunta.id] === undefined;
+    });
+
+    if (preguntasObligatoriasSinResponder.length > 0) {
+      throw new Error(t("user.my_profile.evaluation_required_error"));
+    }
+
+    return preguntasValoracion
+      .filter((pregunta) => {
+        const respuesta = respuestasValoracion[pregunta.id];
+        return respuesta !== undefined && (typeof respuesta !== "string" || respuesta.trim() !== "");
+      })
+      .map((pregunta) => ({
+        preguntaId: pregunta.id,
+        respuesta: typeof respuestasValoracion[pregunta.id] === "string"
+          ? respuestasValoracion[pregunta.id].trim()
+          : respuestasValoracion[pregunta.id],
+      }));
+  };
+
+  const enviarValoracionAsignatura = async () => {
+    if (!asignaturaValorando) return;
+
+    try {
+      setErrorValoracion("");
+      setEnviandoValoracion(true);
+      const respuestas = construirRespuestasValoracion();
+      const response = await superarAsignaturasUsuario(asignaturaValorando.codigo, respuestas);
       if (!response.err) {
-        const asignaturaAprobada = asignaturas.find(asignatura => asignatura.id === idAsignatura);
-        setAsignaturas(asignaturas.filter(asignatura => asignatura.id !== idAsignatura));
-        setMensajeExito(t("user.my_profile.approved_one", { subject: asignaturaAprobada.asignatura }));
+        setAsignaturas(asignaturas.filter(asignatura => asignatura.id !== asignaturaValorando.id));
+        setAsignaturaValorando(null);
+        setRespuestasValoracion({});
+        setMensajeExito(t("user.my_profile.approved_one", { subject: asignaturaValorando.asignatura }));
 
         // Limpiar mensaje después de 5 segundos
         setTimeout(() => setMensajeExito(""), 5000);
       } else {
-        throw new Error(response.errmsg);
+        throw new Error(response.errmsg || response.result?.message);
       }
     } catch (error) {
-      setError(error.message);
+      setErrorValoracion(error.message);
+    } finally {
+      setEnviandoValoracion(false);
     }
   };
 
   const manejarSuperarTodasAsignaturas = async () => {
-    if (asignaturas.length === 0) return;
+    setMensajeAviso(t("user.my_profile.approve_all_requires_evaluation"));
+    setTimeout(() => setMensajeAviso(""), 5000);
+  };
 
-    setLoading(true);
-    try {
-      for (const asignatura of asignaturas) {
-        const response = await superarAsignaturasUsuario(asignatura.codigo);
-        if (response.err) {
-          throw new Error(t("user.my_profile.approve_error", { subject: asignatura.asignatura, error: response.errmsg }));
-        }
-      }
-      setAsignaturas([]);
-      setMensajeExito(t("user.my_profile.approved_all"));
-      setTimeout(() => setMensajeExito(""), 5000);
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setLoading(false);
+  const renderCampoPregunta = (pregunta) => {
+    const valorActual = respuestasValoracion[pregunta.id];
+
+    if (pregunta.tipoRespuesta === "si_no") {
+      return (
+        <div className="valoracion-opciones">
+          <button
+            type="button"
+            className={`valoracion-opcion ${valorActual === true ? "active" : ""}`}
+            onClick={() => actualizarRespuestaValoracion(pregunta.id, true)}
+          >
+            {t("common.yes")}
+          </button>
+          <button
+            type="button"
+            className={`valoracion-opcion ${valorActual === false ? "active" : ""}`}
+            onClick={() => actualizarRespuestaValoracion(pregunta.id, false)}
+          >
+            {t("common.no")}
+          </button>
+          {pregunta.condicion && (
+            <button
+              type="button"
+              className={`valoracion-opcion ${valorActual === undefined ? "active-muted" : ""}`}
+              onClick={() => actualizarRespuestaValoracion(pregunta.id, undefined)}
+            >
+              {t("user.my_profile.evaluation_not_applicable")}
+            </button>
+          )}
+        </div>
+      );
     }
+
+    if (pregunta.tipoRespuesta === "escala_1_10") {
+      return (
+        <div className="valoracion-escala" aria-label={t("user.my_profile.evaluation_scale_label")}>
+          {Array.from({ length: 10 }, (_, index) => index + 1).map((valor) => (
+            <button
+              key={valor}
+              type="button"
+              className={`valoracion-escala-btn ${Number(valorActual) === valor ? "active" : ""}`}
+              onClick={() => actualizarRespuestaValoracion(pregunta.id, valor)}
+            >
+              {valor}
+            </button>
+          ))}
+        </div>
+      );
+    }
+
+    return (
+      <textarea
+        className="valoracion-textarea"
+        value={valorActual || ""}
+        maxLength={2000}
+        rows={3}
+        placeholder={t("user.my_profile.evaluation_text_placeholder")}
+        onChange={(event) => actualizarRespuestaValoracion(pregunta.id, event.target.value)}
+      />
+    );
   };
 
   if (loading) {
@@ -125,6 +270,12 @@ export default function MiPerfil() {
             <div className="success-banner">
               <FontAwesomeIcon icon={faCheckCircle} size="lg" />
               <span>{mensajeExito}</span>
+            </div>
+          )}
+
+          {mensajeAviso && (
+            <div className="warning-banner">
+              <span>{mensajeAviso}</span>
             </div>
           )}
 
@@ -188,7 +339,7 @@ export default function MiPerfil() {
                     <div className="asignatura-actions">
                       <button
                         className="btn btn-success"
-                        onClick={() => manejarSuperarAsignatura(asignatura.id, asignatura.codigo)}
+                        onClick={() => abrirValoracionAsignatura(asignatura)}
                       >
                         <FontAwesomeIcon icon={faCheckCircle} />
                         {t("user.my_profile.mark_approved")}
@@ -212,6 +363,84 @@ export default function MiPerfil() {
               </div>
             )}
           </div>
+
+          {asignaturaValorando && (
+            <div className="valoracion-modal-overlay" role="dialog" aria-modal="true">
+              <div className="valoracion-modal">
+                <div className="valoracion-modal-header">
+                  <div>
+                    <h2>{t("user.my_profile.evaluation_title")}</h2>
+                    <p>{asignaturaValorando.asignatura}</p>
+                  </div>
+                  <button
+                    type="button"
+                    className="valoracion-cerrar"
+                    aria-label={t("common.close")}
+                    onClick={cerrarValoracionAsignatura}
+                    disabled={enviandoValoracion}
+                  >
+                    <FontAwesomeIcon icon={faTimes} />
+                  </button>
+                </div>
+
+                <div className="valoracion-modal-body">
+                  <p className="valoracion-intro">
+                    {t("user.my_profile.evaluation_intro")}
+                  </p>
+
+                  {cargandoPreguntas ? (
+                    <div className="valoracion-loading">{t("user.my_profile.evaluation_loading")}</div>
+                  ) : errorValoracion && preguntasValoracion.length === 0 ? (
+                    <div className="valoracion-error">{errorValoracion}</div>
+                  ) : (
+                    Object.values(preguntasPorBloque).map((bloque) => (
+                      <section key={bloque.bloque} className="valoracion-bloque">
+                        <h3>{bloque.bloque}. {bloque.bloqueNombre}</h3>
+                        {bloque.preguntas.map((pregunta) => (
+                          <div key={pregunta.id} className="valoracion-pregunta">
+                            <div className="valoracion-pregunta-header">
+                              <label>{pregunta.enunciado}</label>
+                              {pregunta.tipoRespuesta !== "texto" && !pregunta.condicion && (
+                                <span className="valoracion-required">{t("user.my_profile.evaluation_required")}</span>
+                              )}
+                              {pregunta.condicion && (
+                                <span className="valoracion-conditional">{t("user.my_profile.evaluation_conditional")}</span>
+                              )}
+                            </div>
+                            {renderCampoPregunta(pregunta)}
+                          </div>
+                        ))}
+                      </section>
+                    ))
+                  )}
+
+                  {errorValoracion && preguntasValoracion.length > 0 && (
+                    <div className="valoracion-error">{errorValoracion}</div>
+                  )}
+                </div>
+
+                <div className="valoracion-modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-outline"
+                    onClick={cerrarValoracionAsignatura}
+                    disabled={enviandoValoracion}
+                  >
+                    {t("common.cancel")}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-success"
+                    onClick={enviarValoracionAsignatura}
+                    disabled={cargandoPreguntas || enviandoValoracion || preguntasValoracion.length === 0}
+                  >
+                    <FontAwesomeIcon icon={faCheckCircle} />
+                    {enviandoValoracion ? t("user.my_profile.evaluation_sending") : t("user.my_profile.evaluation_submit")}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
         </div>
       </div>
