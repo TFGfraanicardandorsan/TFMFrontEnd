@@ -1,5 +1,6 @@
 const DEFAULT_DLGA_API_PATH = "/dlga-api";
 const DEFAULT_DLGA_PUBLIC_URL = "http://127.0.0.1:8001";
+const TELEGRAM_CERTIFICATES_PATH = "/api/v1/delegados/enviarCertificadosTelegram";
 
 const trimTrailingSlash = (value) => value.replace(/\/+$/, "");
 
@@ -19,6 +20,15 @@ export const getDlgaPublicUrl = () => {
 export const postDlgaForm = async (endpoint, formData) => {
   const cleanEndpoint = endpoint.replace(/^\/+/, "");
   return fetch(`${getDlgaApiBaseUrl()}/${cleanEndpoint}`, {
+    method: "POST",
+    body: formData,
+    credentials: "include",
+  });
+};
+
+export const postTelegramCertificates = async (formData) => {
+  const apiBaseUrl = trimTrailingSlash(import.meta.env.VITE_API_URL?.trim() || "");
+  return fetch(`${apiBaseUrl}${TELEGRAM_CERTIFICATES_PATH}`, {
     method: "POST",
     body: formData,
     credentials: "include",

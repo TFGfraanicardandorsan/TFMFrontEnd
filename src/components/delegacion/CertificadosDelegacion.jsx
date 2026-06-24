@@ -8,6 +8,7 @@ import {
   getDlgaPublicUrl,
   getFilenameFromResponse,
   postDlgaForm,
+  postTelegramCertificates,
 } from "../../services/dlgaCertificados.js";
 import "../../styles/delegacion-certificados-style.css";
 
@@ -84,6 +85,39 @@ export default function CertificadosDelegacion() {
       await downloadResponse(response, fallbackNames.plantilla);
     } catch (error) {
       toast.error(error.message || t("delegation.certificates.errors.template_failed"));
+    } finally {
+      setLoadingAction("");
+    }
+  };
+
+  const handleTelegramAction = async () => {
+    if (!validateForm()) return;
+
+    setLoadingAction("telegram");
+    try {
+      const response = await postTelegramCertificates(buildFormData());
+      if (!response.ok) {
+        throw new Error(await extractDlgaError(response));
+      }
+
+      const payload = await response.json();
+      const result = payload.result || {};
+      if (result.noEnviados > 0) {
+        toast.warning(
+          t("delegation.certificates.messages.telegram_partial", {
+            sent: result.enviados || 0,
+            failed: result.noEnviados,
+          }),
+        );
+      } else {
+        toast.success(
+          t("delegation.certificates.messages.telegram_sent", {
+            count: result.enviados || 0,
+          }),
+        );
+      }
+    } catch (error) {
+      toast.error(error.message || t("delegation.certificates.errors.telegram_failed"));
     } finally {
       setLoadingAction("");
     }
@@ -256,6 +290,16 @@ export default function CertificadosDelegacion() {
               {loadingAction === "generar"
                 ? t("delegation.certificates.buttons.generating")
                 : t("delegation.certificates.buttons.generate_pdfs")}
+            </button>
+            <button
+              type="button"
+              className="delegacion-button delegacion-button-primary"
+              onClick={handleTelegramAction}
+              disabled={isLoading}
+            >
+              {loadingAction === "telegram"
+                ? t("delegation.certificates.buttons.sending_telegram")
+                : t("delegation.certificates.buttons.generate_and_send_telegram")}
             </button>
             <button
               type="button"
