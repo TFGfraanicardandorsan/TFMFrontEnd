@@ -143,6 +143,7 @@
         "create_notification": "Create notification",
         "view_stats": "View statistics",
         "user_management": "User management",
+        "group_management": "Group management",
         "profile": "Profile",
         "my_profile": "My profile",
         "logout": "Logout",

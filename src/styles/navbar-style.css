@@ -56,6 +56,9 @@ body.dark-mode {
   background: var(--nav-sub-bg);
 }
 
+.navbar-admin .dropdown-content {
+  background-color: var(--nav-admin-bg);
+}
 .navbar-delegacion {
   background-color: var(--nav-delegacion-bg);
 }

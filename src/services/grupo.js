@@ -15,3 +15,23 @@ export const insertarMisGrupos = async (paramNumGrupo,paramCodigo) => {
 export const obtenerTodosGruposMisAsignaturasSinGrupoUsuario = async () => {
     return await postAPI("/api/v1/grupo/obtenerTodosGruposMisAsignaturasSinGrupoUsuario")
 }
+
+export const crearGrupoAsignatura = async (codigo) => {
+    return await postAPI("/api/v1/grupo/crearGrupoAsignatura", { codigo })
+}
+
+export const crearGruposCursoGrado = async (estudiosId, curso) => {
+    return await postAPI("/api/v1/grupo/crearGruposCursoGrado", { estudiosId, curso })
+}
+
+export const eliminarUltimoGrupoAsignatura = async (codigo) => {
+    return await postAPI("/api/v1/grupo/eliminarUltimoGrupoAsignatura", { codigo })
+}
+
+export const eliminarUltimosGruposAsignaturas = async (codigos) => {
+    return await postAPI("/api/v1/grupo/eliminarUltimosGruposAsignaturas", { codigos })
+}
+
+export const eliminarUltimosGruposCursoGrado = async (estudiosId, curso) => {
+    return await postAPI("/api/v1/grupo/eliminarUltimosGruposCursoGrado", { estudiosId, curso })
+}

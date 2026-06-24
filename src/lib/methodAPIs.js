@@ -19,6 +19,13 @@ export const postAPI = async (fun, body = null, isFile = false) => {
         const respuesta = await fetch(import.meta.env.VITE_API_URL + fun, config);
 
         if (!respuesta.ok) {
+            let errorMessage = `Error ${respuesta.status}: ${respuesta.statusText}`;
+            try {
+                const errorData = await respuesta.json();
+                errorMessage = errorData.message || errorData.errmsg || errorData.error || errorMessage;
+            } catch {
+                // La respuesta de error no siempre incluye JSON.
+            }
             throw new Error(i18n.t("api.http_error", { status: respuesta.status, statusText: respuesta.statusText }));
         }
 
