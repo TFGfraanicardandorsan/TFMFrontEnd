@@ -152,7 +152,54 @@
         "request_exchange": "Demander une permute",
         "my_requests": "Mes demandes",
         "accepted_exchanges": "Permutes acceptées",
-        "report_incident": "Signaler un incident"
+        "report_incident": "Signaler un incident",
+        "student_brand": "Permutes ETSII"
+    },
+    "delegation": {
+        "navbar": {
+            "brand": "Permutes ETSII - Délégation",
+            "certificates": "Certificats",
+            "open_menu": "Ouvrir le menu"
+        },
+        "certificates": {
+            "kicker": "Générateur de certificats",
+            "title": "Certificats DLGA",
+            "actions_label": "Actions de certificats",
+            "sections": {
+                "batch": "Données du lot",
+                "email": "E-mail Microsoft 365",
+                "graph": "Microsoft Graph"
+            },
+            "fields": {
+                "signer": "Signataire",
+                "request_date": "Date de demande",
+                "send_on_generate": "Envoyer lors de la génération",
+                "sender": "Expéditeur",
+                "smtp_password": "Mot de passe SMTP"
+            },
+            "placeholders": {
+                "signer": "Nom du délégué de centre"
+            },
+            "buttons": {
+                "csv_template": "Modèle CSV",
+                "outlook_emails": "E-mails Outlook",
+                "generating": "Génération...",
+                "generate_pdfs": "Générer les PDF",
+                "sign_batch": "Signer le lot",
+                "connect_microsoft": "Connecter Microsoft",
+                "send_graph": "Envoyer via Graph",
+                "sign_and_send_graph": "Signer et envoyer via Graph"
+            },
+            "messages": {
+                "download_ready": "Téléchargement préparé correctement."
+            },
+            "errors": {
+                "select_csv": "Sélectionnez un fichier CSV de certificats.",
+                "signer_required": "Indiquez le signataire.",
+                "operation_failed": "L'opération DLGA n'a pas pu être terminée.",
+                "template_failed": "Le modèle n'a pas pu être téléchargé."
+            }
+        }
     },
     "login": {
         "title": "Connexion à Permutes ETSII",
@@ -280,6 +327,450 @@
         "modal": {
             "title": "Valider Permute",
             "message": "N'oubliez pas que les demandes doivent être soumises par voie électronique (nécessite un certificat numérique FNMT), via le Registre de l'Administration Générale de l'État, en indiquant comme destinataire (utiliser le moteur de recherche) “Université de Séville” et en indiquant dans l'objet le nom du centre \"Pour E.T.S. de Génie Informatique\". Sinon, la procédure ne sera PAS enregistrée par l'école et la permute ne pourra pas être effectuée."
+        },
+        "preview_title": "Aperçu PDF"
+    },
+    "registration": {
+        "title": "Inscription sur Permutes ETSII",
+        "not_found": "Nous ne vous avons pas trouvé dans la base de données, ce qui signifie que vous n’êtes pas encore inscrit.",
+        "instructions": "Pour vous inscrire sur la plateforme, scannez le code QR suivant et suivez les instructions du bot Telegram.",
+        "telegram_alt": "QR Telegram",
+        "back_login": "Retour à la connexion"
+    },
+    "pages": {
+        "unauthorized": {
+            "title": "401 - Accès refusé",
+            "message": "Vous n’avez pas l’autorisation de consulter cette page."
+        },
+        "not_found": {
+            "title": "404 - Page introuvable",
+            "message": "Désolé, la page que vous recherchez n’existe pas."
         }
+    },
+    "user": {
+        "study_selection": {
+            "title": "Sélectionnez votre licence ou master :",
+            "placeholder": "Sélectionnez une étude",
+            "reminders": [
+                "N’oubliez pas que vous ne pouvez sélectionner qu’une seule étude.",
+                "Une fois sélectionnée, vous pourrez choisir les matières et les groupes.",
+                "Si vous vous trompez lors de la sélection, signalez un incident.",
+                "Si vous ne sélectionnez rien, vous ne pourrez pas utiliser le service."
+            ],
+            "success": "Étude sélectionnée correctement",
+            "request_error": "Erreur dans la demande."
+        },
+        "subject_selection": {
+            "saving": "Enregistrement de la sélection...",
+            "title": "Sélectionner des matières",
+            "subtitle": "Choisissez les matières auxquelles vous souhaitez vous inscrire cette année.",
+            "filter_course": "Filtrer par année :",
+            "code_label": "Code : {{code}}",
+            "empty_course": "Aucune matière disponible pour cette année.",
+            "save_count": "Enregistrer ({{count}})",
+            "success": "Toutes les matières sélectionnées ont été envoyées."
+        },
+        "group_selection": {
+            "load_error": "Erreur lors du chargement des groupes de matières",
+            "select_all_warning": "Veuillez sélectionner un groupe pour toutes les matières.",
+            "success": "Groupes attribués avec succès",
+            "save_error": "Une erreur est survenue lors de l’enregistrement des groupes",
+            "loading": "Chargement des groupes disponibles...",
+            "title": "Sélection de groupes",
+            "subtitle": "Indiquez le groupe attribué pour chacune de vos matières inscrites. Cela est nécessaire pour gérer correctement vos permutes.",
+            "quick_title": "Configuration rapide par année",
+            "quick_description": "Attribue automatiquement un groupe à toutes les matières d’une même année.",
+            "assign_group": "Attribuer un groupe",
+            "current_group": "Votre groupe actuel :",
+            "select_your_group": "Sélectionnez votre groupe",
+            "ready": "Tout est prêt pour enregistrer !",
+            "missing": "Il manque des groupes à sélectionner",
+            "save_groups": "Enregistrer les groupes",
+            "empty_title": "Aucune matière en attente trouvée",
+            "empty_message": "Il semble que tous vos groupes soient déjà attribués ou que vous n’ayez pas de nouvelles matières.",
+            "go_profile": "Aller à mon profil"
+        },
+        "swap_request": {
+            "no_subjects_log": "Aucune matière disponible trouvée.",
+            "load_error": "Une erreur est survenue lors du chargement des matières.",
+            "select_one_warning": "Veuillez sélectionner au moins un groupe.",
+            "success": "Demandes de permute envoyées avec succès.",
+            "submit_error": "Une erreur est survenue lors de la demande de permute. Veuillez réessayer.",
+            "loading": "Chargement des matières disponibles...",
+            "title": "Demander une permute",
+            "subtitle": "Sélectionnez le groupe vers lequel vous souhaitez changer pour chaque matière. Nous créerons une demande de permute afin que d’autres étudiants puissent l’accepter.",
+            "desired_group": "Sélectionnez le groupe souhaité :",
+            "select_group_placeholder": "Sélectionnez un groupe",
+            "ready_for_group": "Demande prête pour G.{{group}}",
+            "ready": "Tout est prêt pour demander !",
+            "waiting": "Sélectionnez un groupe pour continuer",
+            "submit": "Demander maintenant",
+            "empty_title": "Aucune matière disponible",
+            "empty_message": "Il semble que vous ayez déjà un groupe attribué dans toutes vos matières ou que vous ne soyez pas inscrit."
+        },
+        "my_profile": {
+            "approved_one": "Félicitations ! Vous avez réussi {{subject}}.",
+            "approve_error": "Erreur lors de la validation de {{subject}} : {{error}}",
+            "approved_all": "Félicitations ! Vous avez réussi toutes vos matières.",
+            "loading": "Chargement de votre profil...",
+            "error_title": "⚠️ Une erreur est survenue",
+            "title": "Mon profil",
+            "subtitle": "Gérez vos matières inscrites et célébrez vos réussites. Gardez votre progression à jour.",
+            "current_subjects": "Mes matières en cours",
+            "approve_all": "Tout approuver",
+            "enroll_new": "+ S’inscrire à de nouvelles matières",
+            "mark_approved": "Marquer comme réussie",
+            "empty_title": "Vous n’avez aucune matière en cours",
+            "empty_message": "C’est le bon moment pour vous inscrire à de nouvelles matières !",
+            "select_subjects": "Sélectionner des matières"
+        },
+        "my_swaps": {
+            "load_error": "Erreur lors du chargement des données",
+            "load_mine_error": "Erreur lors du chargement des permutes proposées par moi",
+            "load_received_error": "Erreur lors du chargement des permutes proposées",
+            "denied_success": "Permute refusée avec succès",
+            "denied_error": "Erreur lors du refus de la permute",
+            "accepted_success": "Permute acceptée avec succès",
+            "accepted_error": "Erreur lors de l’acceptation de la permute",
+            "loading": "Chargement des permutes...",
+            "title": "Mes permutes",
+            "subtitle": "Vous pouvez voir ici les permutes que vous avez proposées et celles qui vous ont été proposées. Gérez vos échanges simplement.",
+            "proposed_by_me": "Proposées par moi",
+            "received": "Permutes reçues",
+            "empty_mine": "Vous n’avez encore proposé aucune permute",
+            "empty_received": "Vous n’avez reçu aucune proposition de permute",
+            "deny": "Refuser"
+        },
+        "swap_requests": {
+            "fetch_error": "Erreur lors de l’obtention des demandes",
+            "load_error": "Erreur lors du chargement des demandes",
+            "cancel_success": "Demande annulée correctement",
+            "cancel_failed": "La demande n’a pas pu être annulée",
+            "cancel_error": "Erreur lors de l’annulation de la demande",
+            "loading": "Chargement des demandes...",
+            "title": "Mes demandes de permute",
+            "subtitle": "Vous pouvez voir ici toutes vos demandes de permute. Filtrez par état ou ouvrez une demande pour voir les détails.",
+            "filter_status": "Filtrer par état :",
+            "empty_title": "Vous n’avez aucune demande de permute enregistrée",
+            "empty_message": "Il semble que vous n’ayez encore demandé aucun échange de groupe. Commencez dès aujourd’hui et trouvez l’horaire qui vous convient le mieux !",
+            "request_now": "Demander une permute maintenant !",
+            "modal_title": "Détails de la demande"
+        },
+        "incidents": {
+            "title": "Mes incidents",
+            "subtitle": "Consultez l’état de vos incidents et suivez leur résolution facilement.",
+            "filter_status": "Filtrer par état :",
+            "loading": "Chargement des incidents...",
+            "empty_title": "Aucun incident dans cet état",
+            "empty_message": "Si vous avez un problème technique ou une question, nous sommes là pour vous aider.",
+            "report_new": "Signaler un nouvel incident"
+        },
+        "report_incident": {
+            "file_type_error": "Seuls les fichiers PDF ou PNG sont autorisés",
+            "upload_error": "Un problème est survenu lors de l’envoi du fichier.",
+            "success": "Incident envoyé correctement",
+            "submit_error": "Erreur lors de l’envoi de l’incident",
+            "title": "Signaler un incident",
+            "subtitle": "Si vous avez un problème avec la plateforme, indiquez-le ici. Nous essaierons de le résoudre dès que possible.",
+            "instructions_title": "Instructions :",
+            "instructions": [
+                "Décrivez clairement le problème.",
+                "Indiquez les étapes pour reproduire l’erreur si possible.",
+                "Vous pouvez joindre des captures (PNG) ou des documents (PDF) jusqu’à 10 Mo."
+            ],
+            "type_label": "Type d’incident",
+            "type_placeholder": "Sélectionnez le type d’incident",
+            "details_label": "Détails de l’incident",
+            "details_placeholder": "Décrivez le problème en détail...",
+            "attach_label": "Joindre un fichier (facultatif)",
+            "upload_text": "Cliquez ou glissez un fichier ici",
+            "upload_hint": "PDF ou PNG, max. 10 Mo",
+            "submit": "Envoyer l’incident"
+        }
+    },
+    "admin": {
+        "notifications": {
+            "validation": "Veuillez compléter tous les champs.",
+            "success": "Notification envoyée correctement.",
+            "error": "Une erreur est survenue lors de l’envoi de la notification.",
+            "title": "📢 Créer une notification",
+            "subtitle": "Envoyez une notification au type d’utilisateur sélectionné. Vous pouvez générer une notification pour les étudiants, les administrateurs ou tous les utilisateurs du système.",
+            "new_title": "Nouvelle notification",
+            "recipients": "Destinataires",
+            "select_recipient": "Sélectionnez le destinataire",
+            "content": "Contenu du message",
+            "placeholder": "Écrivez le contenu de la notification...",
+            "sending": "Envoi...",
+            "send": "📨 Envoyer la notification",
+            "tips_title": "💡 Conseils",
+            "tips": [
+                "Soyez clair et concis dans le message",
+                "Incluez les informations pertinentes pour les destinataires",
+                "Relisez le contenu avant de l’envoyer",
+                "Les notifications sont envoyées immédiatement"
+            ]
+        },
+        "users": {
+            "title": "👥 Panneau de gestion des utilisateurs",
+            "subtitle": "Administrez tous les utilisateurs du système. Vous pouvez mettre à jour les informations de chaque utilisateur en cliquant sur le bouton correspondant.",
+            "search_placeholder": "Rechercher par nom...",
+            "loading": "Chargement des utilisateurs...",
+            "empty": "Aucun utilisateur trouvé avec les filtres appliqués.",
+            "edit_title": "✏️ Modifier l’utilisateur"
+        },
+        "profile": {
+            "remove_errors": {
+                "swaps": "Erreur dans les permutes",
+                "requests": "Erreur dans les demandes"
+            },
+            "remove_success": "La validité des permutes et des demandes a été retirée correctement.",
+            "remove_error": "Erreur lors du retrait de la validité.",
+            "no_export_data": "Aucune donnée à exporter.",
+            "select_file": "Veuillez sélectionner un fichier.",
+            "pdf_required": "Le fichier doit être un PDF.",
+            "upload_pending": "Envoi du modèle...",
+            "upload_success": "Modèle mis à jour correctement",
+            "upload_error": "Erreur lors de l’envoi du modèle",
+            "loading": "Chargement des données...",
+            "title": "Profil administrateur",
+            "subtitle": "Gérez les permutes, diplômes, matières et paramètres du système depuis ce panneau centralisé.",
+            "swaps_management": "Gestion des permutes",
+            "export_data": "📥 Exporter les données",
+            "export_description": "Téléchargez toutes les permutes au format CSV",
+            "export_button": "Exporter les permutes en CSV",
+            "update_template": "📄 Mettre à jour le modèle de demande",
+            "update_template_description": "Envoyez un nouveau modèle PDF pour les demandes",
+            "select_pdf": "Sélectionner un fichier PDF",
+            "upload_template": "Envoyer le modèle",
+            "remove_validity": "⚠️ Retirer la validité",
+            "remove_warning": "En effectuant cette action, toutes les permutes et demandes ne seront plus valides. Cette action est irréversible.",
+            "remove_button": "Retirer la validité des permutes",
+            "subjects_management": "Gestion des matières",
+            "import_bulk": "📤 Importer en masse",
+            "import_bulk_description": "Chargez plusieurs matières depuis un fichier",
+            "create_individual": "➕ Créer individuellement",
+            "create_subject_description": "Ajoutez une nouvelle matière au système",
+            "degrees_management": "Gestion des diplômes",
+            "create_degree": "➕ Créer un nouveau diplôme",
+            "create_degree_description": "Ajoutez un nouveau diplôme académique au système",
+            "confirm_title": "⚠️ Confirmer l’action",
+            "confirm_remove_message": "En effectuant cette action, toutes les permutes et demandes ne seront plus valides. Cette action est irréversible."
+        },
+        "subjects": {
+            "code_numeric": "Le code doit être un nombre",
+            "success": "Matière créée correctement",
+            "error": "Erreur lors de la création de la matière",
+            "name_placeholder": "Nom",
+            "acronym_placeholder": "Sigle",
+            "code_placeholder": "Code",
+            "create": "Créer une matière"
+        },
+        "degrees": {
+            "required": "Veuillez remplir les deux champs.",
+            "success": "Diplôme créé correctement.",
+            "error": "Erreur lors de la création du diplôme.",
+            "study_label": "Étude du diplôme :",
+            "acronym_label": "Sigle :",
+            "create": "Créer le diplôme"
+        },
+        "import_subjects": {
+            "select_csv": "Sélectionnez un fichier CSV.",
+            "success": "Importation terminée correctement.",
+            "network_error": "Erreur réseau lors de l’importation.",
+            "importing": "Importation...",
+            "import": "Importer"
+        },
+        "incidents": {
+            "load_error": "Un problème est survenu lors du chargement des incidents. Veuillez réessayer plus tard.",
+            "assign_success": "Incident attribué correctement.",
+            "assign_error": "Un problème est survenu lors de l’attribution de l’incident.",
+            "assigned_title": "🐛 Mes incidents",
+            "assigned_subtitle": "Consultez l’état de vos incidents attribués. Vous pouvez les résoudre en cliquant sur le bouton correspondant. Si vous cliquez sur voir l’incident, vous verrez le fichier joint si l’utilisateur en a ajouté un.",
+            "unassigned_title": "📋 Incidents non attribués",
+            "unassigned_subtitle": "Consultez tous les incidents non attribués. Vous pouvez vous attribuer un incident en cliquant sur le bouton correspondant.",
+            "loading": "Chargement des incidents...",
+            "empty_assigned": "Vous n’avez aucun incident attribué.",
+            "empty_unassigned": "Aucun incident non attribué.",
+            "issue_number": "Incident #{{id}}",
+            "view_detail": "Voir le détail",
+            "resolve": "✓ Résoudre",
+            "assign_me": "👤 Me l’attribuer",
+            "close_message_required": "Le message ne peut pas être vide",
+            "close_notify_error": "Erreur lors de la notification de clôture de l’incident",
+            "resolved_success": "Incident {{id}} résolu correctement",
+            "resolved_error": "Erreur lors de la résolution de l’incident {{id}}",
+            "close_message_title": "✉️ Message de clôture",
+            "close_message_label": "Message pour l’utilisateur",
+            "close_message_placeholder": "Écrivez le message qui sera envoyé à l’utilisateur...",
+            "detail_loading": "Chargement de l’incident...",
+            "detail_not_found": "Incident introuvable.",
+            "detail_title": "Détail de l’incident {{id}}",
+            "type_label": "Type d’incident"
+        },
+        "stats": {
+            "load_error": "Erreur lors du chargement des statistiques",
+            "loading": "Chargement des statistiques...",
+            "title": "📊 Tableau de bord des statistiques",
+            "subtitle": "Consultez les statistiques des permutes, demandes, incidents et utilisateurs. Analysez les données à l’aide de graphiques interactifs à barres et circulaires.",
+            "swaps_by_status": "Permutes par état",
+            "swaps_by_subject": "Permutes par matière",
+            "swaps_in_degree": "Permutes en {{degree}}",
+            "requests_by_status": "Demandes par état",
+            "incidents_by_status": "Incidents par état",
+            "incidents_by_type": "Incidents par type",
+            "incidents_by_month": "Incidents par mois",
+            "users_by_role": "Utilisateurs par rôle",
+            "users_by_study": "Utilisateurs par étude",
+            "requests_by_degree": "Demandes par diplôme"
+        }
+    },
+    "delegation_legacy": {
+        "fill_all": "Remplissez tous les champs et sélectionnez un fichier CSV.",
+        "generation_error": "Erreur lors de la génération des PDF",
+        "download_error": "Erreur lors de la génération ou du téléchargement du fichier.",
+        "csv_error": "Erreur lors de la lecture du CSV.",
+        "title": "Générer les certificats des délégués",
+        "center_delegate_name": "Nom du délégué de centre :",
+        "center_delegate_dni": "DNI du délégué de centre :",
+        "group_delegates_csv": "CSV des délégués de groupe :",
+        "generating": "Génération...",
+        "generate_zip": "Générer et télécharger le ZIP"
+    },
+    "legal": {
+        "privacy": {
+            "title": "Politique de confidentialité",
+            "updated": "Dernière mise à jour : mars 2025",
+            "sections": [
+                {
+                    "title": "1. Informations que nous collectons",
+                    "paragraphs": [
+                        "Nous collectons les informations suivantes afin de vous offrir une meilleure expérience :"
+                    ],
+                    "items": [
+                        {
+                            "label": "Informations personnelles :",
+                            "text": "Nom, adresse e-mail et autres informations pertinentes que vous fournissez lors de votre inscription."
+                        },
+                        {
+                            "label": "Informations d’utilisation :",
+                            "text": "Données sur votre utilisation de l’application, comme les permutes effectuées et les préférences de recherche."
+                        },
+                        {
+                            "label": "Informations techniques :",
+                            "text": "Adresse IP, type d’appareil, système d’exploitation et données de navigation."
+                        }
+                    ]
+                },
+                {
+                    "title": "2. Comment nous utilisons vos informations",
+                    "paragraphs": [
+                        "Nous utilisons les informations collectées pour :"
+                    ],
+                    "items": [
+                        "Améliorer le fonctionnement de l’application.",
+                        "Personnaliser l’expérience utilisateur.",
+                        "Vous envoyer des mises à jour et notifications pertinentes concernant votre compte ou l’application."
+                    ]
+                },
+                {
+                    "title": "3. Partage de vos informations",
+                    "paragraphs": [
+                        "Vos informations personnelles ne seront pas partagées avec des tiers sans votre consentement, sauf dans les cas suivants :"
+                    ]
+                },
+                {
+                    "title": "4. Sécurité des informations",
+                    "paragraphs": [
+                        "Nous nous engageons à protéger vos informations personnelles. Nous mettons en place des mesures de sécurité raisonnables afin d’éviter l’accès non autorisé, l’altération ou la divulgation de vos informations."
+                    ]
+                },
+                {
+                    "title": "5. Vos droits",
+                    "paragraphs": [
+                        "Selon votre juridiction, vous pouvez avoir le droit d’accéder à vos données personnelles, de les corriger ou de les supprimer. Si vous souhaitez exercer ces droits, vous pouvez nous contacter par les moyens indiqués à la fin de cette politique."
+                    ]
+                },
+                {
+                    "title": "6. Modifications de cette politique",
+                    "paragraphs": [
+                        "Nous pouvons mettre à jour notre Politique de confidentialité de temps à autre. Nous vous informerons des changements importants en publiant une nouvelle version sur cette page."
+                    ]
+                },
+                {
+                    "title": "7. Contact",
+                    "paragraphs": [
+                        "Si vous avez des questions ou préoccupations concernant notre Politique de confidentialité, n’hésitez pas à nous contacter :"
+                    ],
+                    "items": [
+                        "Email : delegacion_etsii@us.es",
+                        "Adresse : Avda. Reina Mercedes s/n, 41012 Séville"
+                    ]
+                }
+            ]
+        },
+        "cookies": {
+            "title": "Politique de cookies",
+            "updated": "Dernière mise à jour : avril 2025",
+            "sections": [
+                {
+                    "title": "1. Que sont les cookies ?",
+                    "paragraphs": [
+                        "Les cookies sont de petits fichiers texte stockés sur votre appareil lorsque vous visitez un site web. Ils permettent au site de mémoriser vos actions et préférences (comme la connexion, la langue, la taille de police et d’autres paramètres) pendant une certaine période."
+                    ]
+                },
+                {
+                    "title": "2. Quels types de cookies utilisons-nous ?",
+                    "paragraphs": [
+                        "Notre application utilise les types de cookies suivants :"
+                    ],
+                    "items": [
+                        {
+                            "label": "Cookies essentiels :",
+                            "text": "Ils sont nécessaires au fonctionnement de base de l’application et ne peuvent pas être désactivés."
+                        },
+                        {
+                            "label": "Cookies de fonctionnalité :",
+                            "text": "Ils permettent de mémoriser vos préférences et d’améliorer votre expérience utilisateur."
+                        },
+                        {
+                            "label": "Cookies analytiques :",
+                            "text": "Ils nous aident à comprendre comment les utilisateurs interagissent avec notre application en collectant des informations de manière anonyme."
+                        }
+                    ]
+                },
+                {
+                    "title": "3. Comment gérer les cookies ?",
+                    "paragraphs": [
+                        "Vous pouvez gérer ou désactiver les cookies dans les paramètres de votre navigateur. Notez que la désactivation de certains cookies peut affecter le fonctionnement de l’application.",
+                        "Vous trouverez ci-dessous des liens vers les instructions de gestion des cookies dans les navigateurs les plus populaires :"
+                    ],
+                    "browserLinks": true
+                },
+                {
+                    "title": "4. Modifications de cette politique",
+                    "paragraphs": [
+                        "Nous pouvons mettre à jour notre Politique de cookies de temps à autre. Nous vous informerons des changements importants en publiant une nouvelle version sur cette page."
+                    ]
+                },
+                {
+                    "title": "5. Contact",
+                    "paragraphs": [
+                        "Si vous avez des questions ou préoccupations concernant notre Politique de cookies, n’hésitez pas à nous contacter :"
+                    ],
+                    "items": [
+                        "Email : delegacion_etsii@us.es",
+                        "Adresse : Avda. Reina Mercedes s/n, 41012 Séville"
+                    ]
+                }
+            ]
+        }
+    },
+    "api": {
+        "invalid_json": "La réponse n’est pas un JSON valide",
+        "post_exception": "Exception dans postAPI : {{message}}",
+        "not_json": "La réponse n’est pas un JSON",
+        "get_exception": "Exception lors de l’appel getAPI : {{message}}",
+        "pdf_error": "Impossible d’obtenir le PDF",
+        "http_error": "Erreur {{status}} : {{statusText}}"
     }
 }

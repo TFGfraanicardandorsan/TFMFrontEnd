@@ -8,8 +8,10 @@ import { toast } from "react-toastify";
 import { logError } from "../../lib/logger.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChalkboardTeacher, faSave, faCheckCircle, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from "react-i18next";
 
 export default function SeleccionarGruposSinGrupo() {
+  const { t } = useTranslation();
   const [asignaturas, setAsignaturas] = useState([]);
   const [seleccionados, setSeleccionados] = useState({});
   const [cargando, setCargando] = useState(true);
@@ -39,11 +41,11 @@ export default function SeleccionarGruposSinGrupo() {
 
           setAsignaturas(Object.values(agrupadas));
         } else {
-          logError("No se encontraron asignaturas disponibles.");
+          logError(t("user.swap_request.no_subjects_log"));
         }
       } catch (error) {
         logError(error);
-        setError("Ocurrió un error al cargar las asignaturas.");
+        setError(t("user.swap_request.load_error"));
       } finally {
         setCargando(false);
       }
@@ -63,7 +65,7 @@ export default function SeleccionarGruposSinGrupo() {
     try {
       const keys = Object.keys(seleccionados);
       if (keys.length === 0) {
-        toast.info("Por favor, selecciona al menos un grupo.");
+        toast.info(t("user.swap_request.select_one_warning"));
         return;
       }
 
@@ -81,10 +83,10 @@ export default function SeleccionarGruposSinGrupo() {
           }
         }
       }
-      toast.success("Permutas solicitadas con éxito.");
+      toast.success(t("user.swap_request.success"));
       navigate("/misSolicitudesPermuta");
     } catch (error) {
-      toast.error("Ocurrió un error al solicitar las permutas. Intenta nuevamente.");
+      toast.error(t("user.swap_request.submit_error"));
       logError(error);
     }
   };
@@ -97,7 +99,7 @@ export default function SeleccionarGruposSinGrupo() {
   if (cargando) {
     return (
       <div className="page-container">
-        <div className="user-loading">Cargando asignaturas disponibles...</div>
+        <div className="user-loading">{t("user.swap_request.loading")}</div>
       </div>
     );
   }
@@ -106,10 +108,9 @@ export default function SeleccionarGruposSinGrupo() {
     <div className="page-container">
       <div className="content-wrap">
         <div className="page-header">
-          <h1 className="page-title">Solicitar Permuta</h1>
+          <h1 className="page-title">{t("user.swap_request.title")}</h1>
           <p className="page-subtitle">
-            Selecciona el grupo al que deseas cambiarte para cada asignatura.
-            Crearemos una solicitud de permuta para que otros estudiantes puedan aceptarla.
+            {t("user.swap_request.subtitle")}
           </p>
         </div>
 
@@ -132,7 +133,7 @@ export default function SeleccionarGruposSinGrupo() {
 
                   <div className="form-group" style={{ marginTop: 'auto' }}>
                     <label htmlFor={`select-${codasignatura}`} className="form-label" style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-                      Selecciona grupo deseado:
+                      {t("user.swap_request.desired_group")}
                     </label>
                     <select
                       id={`select-${codasignatura}`}
@@ -145,17 +146,17 @@ export default function SeleccionarGruposSinGrupo() {
                         )
                       }
                     >
-                      <option value="" disabled>-- Selecciona un grupo --</option>
+                      <option value="" disabled>-- {t("user.swap_request.select_group_placeholder")} --</option>
                       {grupos.map((grupo) => (
                         <option key={grupo} value={grupo}>
-                          Grupo {grupo}
+                          {t("common.group_with_number", { group: grupo })}
                         </option>
                       ))}
                     </select>
                   </div>
                   {seleccionados[codasignatura.toString()] && (
                     <div style={{ marginTop: '10px', color: 'var(--success-color)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                      <FontAwesomeIcon icon={faCheckCircle} /> Solicitud lista para G.{seleccionados[codasignatura.toString()]}
+                      <FontAwesomeIcon icon={faCheckCircle} /> {t("user.swap_request.ready_for_group", { group: seleccionados[codasignatura.toString()] })}
                     </div>
                   )}
                 </div>
@@ -178,7 +179,7 @@ export default function SeleccionarGruposSinGrupo() {
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--text-primary)' }}>
                 <FontAwesomeIcon icon={faInfoCircle} style={{ color: 'var(--user-primary)' }} />
                 <span className="info-text-responsive" style={{ fontWeight: 500 }}>
-                  {haySeleccion ? "¡Todo listo para solicitar!" : "Selecciona grupo para continuar"}
+                  {haySeleccion ? t("user.swap_request.ready") : t("user.swap_request.waiting")}
                 </span>
               </div>
               <button
@@ -192,7 +193,7 @@ export default function SeleccionarGruposSinGrupo() {
                   fontSize: '1rem'
                 }}
               >
-                <FontAwesomeIcon icon={faSave} /> Solicitar Ahora
+                <FontAwesomeIcon icon={faSave} /> {t("user.swap_request.submit")}
               </button>
             </div>
             {/* Espaciador para no solapar con el footer fixed */}
@@ -202,8 +203,8 @@ export default function SeleccionarGruposSinGrupo() {
         ) : (
           <div className="user-card empty-state">
             <div style={{ fontSize: '3rem', marginBottom: '16px' }}>📚</div>
-            <h3>No hay asignaturas disponibles</h3>
-            <p>Parece que ya tienes grupo asignado en todas tus asignaturas o no estás matriculado.</p>
+            <h3>{t("user.swap_request.empty_title")}</h3>
+            <p>{t("user.swap_request.empty_message")}</p>
           </div>
         )}
       </div>

@@ -11,6 +11,7 @@ import NotFound from "./components/comun/notFound.jsx";
 import RedirectHome from "./components/comun/RedirectHome.jsx";
 import LayoutEstudiante from "./layouts/LayoutEstudiante.jsx";
 import LayoutAdmin from "./layouts/LayoutAdmin.jsx";
+import LayoutDelegacion from "./layouts/LayoutDelegacion.jsx";
 import Home from "./components/comun/home.jsx";
 import MiPerfil from "./components/usuario/miPerfil.jsx";
 import ReportarIncidencia from "./components/usuario/reportarIncidencia.jsx";
@@ -38,6 +39,8 @@ import { ToastContainer } from 'react-toastify';
 import PanelGestionUsuarios from "./components/administrador/panelGestionUsuarios.jsx";
 import { ThemeProvider, useTheme } from "./contexts/ThemeContext";
 import { useTranslation } from "react-i18next";
+import CertificadosDelegacion from "./components/delegacion/CertificadosDelegacion.jsx";
+import { ADMIN_ROLE, APP_ROLES, DELEGATION_ROLES, STUDENT_ROLE } from "./lib/roles.js";
 
 
 export function App() {
@@ -68,9 +71,9 @@ function AppContent() {
           <Route path="/noRegistrado" element={<NoRegistrado />} />
 
           {/* Redirigir al home adecuado dependiendo del rol */}
-          <Route path="/" element={<RoleRoute allowedRoles={["administrador", "estudiante"]}><RedirectHome /></RoleRoute>} />
+          <Route path="/" element={<RoleRoute allowedRoles={APP_ROLES}><RedirectHome /></RoleRoute>} />
           {/* Layout para estudiantes */}
-          <Route element={<RoleRoute allowedRoles={["estudiante"]}><LayoutEstudiante /></RoleRoute>}>
+          <Route element={<RoleRoute allowedRoles={[STUDENT_ROLE]}><LayoutEstudiante /></RoleRoute>}>
             <Route path="/estudiante" element={<Home />} />
             <Route path="/miPerfil" element={<MiPerfil />} />
             <Route path="/seleccionarEstudios" element={<SeleccionarEstudio />} />
@@ -87,7 +90,7 @@ function AppContent() {
           </Route>
 
           {/* Layout para administradores */}
-          <Route element={<RoleRoute allowedRoles={["administrador"]}><LayoutAdmin /></RoleRoute>}>
+          <Route element={<RoleRoute allowedRoles={[ADMIN_ROLE]}><LayoutAdmin /></RoleRoute>}>
             <Route path="/admin" element={<Home />} />
             <Route path="/estadisticas" element={<Estadisticas />} />
             <Route path="/incidenciasSinAsignar" element={<IncidenciasSinAsignar />} />
@@ -98,6 +101,12 @@ function AppContent() {
             <Route path="/crearGrado" element={<CrearGradoAdmin />} />
             <Route path="/crearAsignatura" element={<CrearAsignatura />} />
             <Route path="/gestionUsuarios" element={<PanelGestionUsuarios />} />
+          </Route>
+
+          {/* Layout para delegacion */}
+          <Route element={<RoleRoute allowedRoles={DELEGATION_ROLES}><LayoutDelegacion /></RoleRoute>}>
+            <Route path="/delegacion" element={<CertificadosDelegacion />} />
+            <Route path="/delegacion/certificados" element={<CertificadosDelegacion />} />
           </Route>
         </Routes>
       </main>

@@ -2,7 +2,9 @@
 :root {
   --nav-bg: #2b579a;
   --nav-admin-bg: #bf0a2e;
+  --nav-delegacion-bg: #202a49;
   --nav-sub-bg: #a00927;
+  --nav-delegacion-sub-bg: #11182d;
   --nav-text: #ffffff;
   --sidebar-bg: #ffffff;
   --sidebar-text: #333333;
@@ -14,7 +16,9 @@
 body.dark-mode {
   --nav-bg: #1e293b;
   --nav-admin-bg: #0f172a;
+  --nav-delegacion-bg: #111827;
   --nav-sub-bg: #1e293b;
+  --nav-delegacion-sub-bg: #0f172a;
   --sidebar-bg: #1e293b;
   --sidebar-text: #f1f5f9;
   --sidebar-item-bg: #0f172a;
@@ -50,6 +54,18 @@ body.dark-mode {
 
 .navbar-admin .nav-submenu {
   background: var(--nav-sub-bg);
+}
+
+.navbar-delegacion {
+  background-color: var(--nav-delegacion-bg);
+}
+
+.navbar-delegacion .nav-links-responsive {
+  background: var(--nav-delegacion-bg);
+}
+
+.navbar-delegacion .nav-submenu {
+  background: var(--nav-delegacion-sub-bg);
 }
 
 .nav-links {

@@ -7,8 +7,11 @@ import { toast } from "react-toastify";
 import { logError } from "../../lib/logger";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBook, faFilter, faSave } from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from "react-i18next";
+import { translateCourse } from "../../lib/i18nLabels";
 
 export default function SelectorAsignatura() {
+  const { t } = useTranslation();
   const [asignaturas, setAsignatura] = useState([]);
   const [filteredAsignaturas, setFilteredAsignaturas] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -66,14 +69,14 @@ export default function SelectorAsignatura() {
       }
     }
     setLoading(false);
-    toast.success("Todas las asignaturas seleccionadas han sido enviadas.");
+    toast.success(t("user.subject_selection.success"));
     navigate("/seleccionarGrupos");
   };
 
   if (loading) {
     return (
       <div className="page-container">
-        <div className="user-loading">Guardando selección...</div>
+        <div className="user-loading">{t("user.subject_selection.saving")}</div>
       </div>
     );
   }
@@ -82,15 +85,15 @@ export default function SelectorAsignatura() {
     <div className="page-container">
       <div className="content-wrap">
         <div className="page-header">
-          <h1 className="page-title">Seleccionar Asignaturas</h1>
-          <p className="page-subtitle">Elige las asignaturas en las que quieres matricularte este curso.</p>
+          <h1 className="page-title">{t("user.subject_selection.title")}</h1>
+          <p className="page-subtitle">{t("user.subject_selection.subtitle")}</p>
         </div>
 
         <div className="user-card" style={{ maxWidth: '800px', margin: '0 auto' }}>
 
           <div className="form-group" style={{ maxWidth: '300px', margin: '0 auto 30px auto' }}>
             <label htmlFor="curso" className="form-label" style={{ textAlign: 'center' }}>
-              <FontAwesomeIcon icon={faFilter} /> Filtrar por curso:
+              <FontAwesomeIcon icon={faFilter} /> {t("user.subject_selection.filter_course")}
             </label>
             <select
               id="curso"
@@ -101,7 +104,7 @@ export default function SelectorAsignatura() {
             >
               {cursos.map((curso) => (
                 <option key={curso} value={curso}>
-                  {curso}º Curso
+                  {t("common.courses.ordinal", { course: translateCourse(t, curso) })}
                 </option>
               ))}
             </select>
@@ -135,12 +138,12 @@ export default function SelectorAsignatura() {
                   />
                   <div style={{ flex: 1 }}>
                     <span style={{ display: 'block', fontWeight: 600, color: 'var(--text-primary)' }}>{asignatura.nombre}</span>
-                    <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Código: {asignatura.codigo}</span>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{t("user.subject_selection.code_label", { code: asignatura.codigo })}</span>
                   </div>
                 </div>
               );
             }) : (
-              <p style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>No hay asignaturas disponibles para este curso.</p>
+              <p style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>{t("user.subject_selection.empty_course")}</p>
             )}
           </div>
 
@@ -151,7 +154,7 @@ export default function SelectorAsignatura() {
               disabled={selectedItems.length === 0}
               style={{ minWidth: '200px' }}
             >
-              <FontAwesomeIcon icon={faSave} /> Guardar ({selectedItems.length})
+              <FontAwesomeIcon icon={faSave} /> {t("user.subject_selection.save_count", { count: selectedItems.length })}
             </button>
           </div>
 

@@ -152,7 +152,54 @@
         "request_exchange": "Solicitar permuta",
         "my_requests": "Mis solicitudes",
         "accepted_exchanges": "Permutas aceptadas",
-        "report_incident": "Reportar incidencia"
+        "report_incident": "Reportar incidencia",
+        "student_brand": "Permutas ETSII"
+    },
+    "delegation": {
+        "navbar": {
+            "brand": "Permutas ETSII - Delegación",
+            "certificates": "Certificados",
+            "open_menu": "Abrir menú"
+        },
+        "certificates": {
+            "kicker": "Generador de certificados",
+            "title": "Certificados DLGA",
+            "actions_label": "Acciones de certificados",
+            "sections": {
+                "batch": "Datos del lote",
+                "email": "Correo Microsoft 365",
+                "graph": "Microsoft Graph"
+            },
+            "fields": {
+                "signer": "Firmante",
+                "request_date": "Fecha de solicitud",
+                "send_on_generate": "Enviar al generar",
+                "sender": "Remitente",
+                "smtp_password": "Contraseña SMTP"
+            },
+            "placeholders": {
+                "signer": "Nombre del Delegado de Centro"
+            },
+            "buttons": {
+                "csv_template": "Plantilla CSV",
+                "outlook_emails": "Correos Outlook",
+                "generating": "Generando...",
+                "generate_pdfs": "Generar PDFs",
+                "sign_batch": "Firmar lote",
+                "connect_microsoft": "Conectar Microsoft",
+                "send_graph": "Enviar Graph",
+                "sign_and_send_graph": "Firmar y enviar Graph"
+            },
+            "messages": {
+                "download_ready": "Descarga preparada correctamente."
+            },
+            "errors": {
+                "select_csv": "Selecciona un CSV de certificados.",
+                "signer_required": "Indica el firmante.",
+                "operation_failed": "No se pudo completar la operación en DLGA.",
+                "template_failed": "No se pudo descargar la plantilla."
+            }
+        }
     },
     "login": {
         "title": "Inicio sesión en Permutas ETSII",
@@ -254,6 +301,149 @@
         "not_found": {
             "title": "404 - Página No Encontrada",
             "message": "Lo sentimos, la página que estás buscando no existe."
+        }
+    },
+    "user": {
+        "study_selection": {
+            "title": "Selecciona tu grado o master:",
+            "placeholder": "Selecciona un estudio",
+            "reminders": [
+                "Recuerda que solo puedes seleccionar un estudio.",
+                "Una vez seleccionado, podrás elegir las asignaturas y grupos.",
+                "Si te equivocas a la hora de seleccionar el estudio, reporta una incidencia.",
+                "Si no seleccionas nada, no podrás hacer uso del servicio."
+            ],
+            "success": "Estudio seleccionado correctamente",
+            "request_error": "Error en la solicitud."
+        },
+        "subject_selection": {
+            "saving": "Guardando selección...",
+            "title": "Seleccionar Asignaturas",
+            "subtitle": "Elige las asignaturas en las que quieres matricularte este curso.",
+            "filter_course": "Filtrar por curso:",
+            "code_label": "Código: {{code}}",
+            "empty_course": "No hay asignaturas disponibles para este curso.",
+            "save_count": "Guardar ({{count}})",
+            "success": "Todas las asignaturas seleccionadas han sido enviadas."
+        },
+        "group_selection": {
+            "load_error": "Error al cargar los grupos de asignaturas",
+            "select_all_warning": "Por favor selecciona un grupo para todas las asignaturas.",
+            "success": "Grupos asignados con éxito",
+            "save_error": "Ocurrió un error al guardar los grupos",
+            "loading": "Cargando grupos disponibles...",
+            "title": "Selección de Grupos",
+            "subtitle": "Indica el grupo asignado para cada una de tus asignaturas matriculadas. Esto es necesario para gestionar tus permutas correctamente.",
+            "quick_title": "Configuración Rápida por Curso",
+            "quick_description": "Asigna automáticamente un grupo a todas las asignaturas de un mismo curso.",
+            "assign_group": "Asignar grupo",
+            "current_group": "Tu grupo actual:",
+            "select_your_group": "Selecciona tu grupo",
+            "ready": "¡Todo listo para guardar!",
+            "missing": "Faltan grupos por seleccionar",
+            "save_groups": "Guardar Grupos",
+            "empty_title": "No se encontraron asignaturas pendientes",
+            "empty_message": "Parece que ya tienes todos tus grupos asignados o no tienes asignaturas nuevas.",
+            "go_profile": "Ir a mi Perfil"
+        },
+        "swap_request": {
+            "no_subjects_log": "No se encontraron asignaturas disponibles.",
+            "load_error": "Ocurrió un error al cargar las asignaturas.",
+            "select_one_warning": "Por favor, selecciona al menos un grupo.",
+            "success": "Permutas solicitadas con éxito.",
+            "submit_error": "Ocurrió un error al solicitar las permutas. Intenta nuevamente.",
+            "loading": "Cargando asignaturas disponibles...",
+            "title": "Solicitar Permuta",
+            "subtitle": "Selecciona el grupo al que deseas cambiarte para cada asignatura. Crearemos una solicitud de permuta para que otros estudiantes puedan aceptarla.",
+            "desired_group": "Selecciona grupo deseado:",
+            "select_group_placeholder": "Selecciona un grupo",
+            "ready_for_group": "Solicitud lista para G.{{group}}",
+            "ready": "¡Todo listo para solicitar!",
+            "waiting": "Selecciona grupo para continuar",
+            "submit": "Solicitar Ahora",
+            "empty_title": "No hay asignaturas disponibles",
+            "empty_message": "Parece que ya tienes grupo asignado en todas tus asignaturas o no estás matriculado."
+        },
+        "my_profile": {
+            "approved_one": "¡Enhorabuena! Has aprobado {{subject}}.",
+            "approve_error": "Error al superar {{subject}}: {{error}}",
+            "approved_all": "¡Enhorabuena! Has aprobado todas tus asignaturas.",
+            "loading": "Cargando tu perfil...",
+            "error_title": "⚠️ Ocurrió un error",
+            "title": "Mi Perfil",
+            "subtitle": "Gestiona tus asignaturas matriculadas y celebra tus aprobados. Mantén tu progreso al día.",
+            "current_subjects": "Mis Asignaturas en Curso",
+            "approve_all": "Aprobar Todas",
+            "enroll_new": "+ Matricular Nuevas",
+            "mark_approved": "Marcar como Aprobada",
+            "empty_title": "No tienes asignaturas en curso",
+            "empty_message": "¡Es un buen momento para matricularte en nuevas asignaturas!",
+            "select_subjects": "Seleccionar Asignaturas"
+        },
+        "my_swaps": {
+            "load_error": "Error al cargar los datos",
+            "load_mine_error": "Error al cargar las permutas propuestas por mí",
+            "load_received_error": "Error al cargar las permutas propuestas",
+            "denied_success": "Permuta denegada con éxito",
+            "denied_error": "Error al denegar la permuta",
+            "accepted_success": "Permuta aceptada con éxito",
+            "accepted_error": "Error al aceptar la permuta",
+            "loading": "Cargando permutas...",
+            "title": "Mis Permutas",
+            "subtitle": "Aquí puedes ver las permutas que has propuesto y las que te han propuesto. Gestiona tus intercambios de manera sencilla.",
+            "proposed_by_me": "Propuestas por mí",
+            "received": "Permutas recibidas",
+            "empty_mine": "No has propuesto ninguna permuta aún",
+            "empty_received": "No has recibido propuestas de permuta",
+            "deny": "Denegar"
+        },
+        "swap_requests": {
+            "fetch_error": "Error al obtener solicitudes",
+            "load_error": "Error al cargar solicitudes",
+            "cancel_success": "Solicitud cancelada correctamente",
+            "cancel_failed": "No se pudo cancelar la solicitud",
+            "cancel_error": "Error al cancelar la solicitud",
+            "loading": "Cargando solicitudes...",
+            "title": "Mis Solicitudes de Permuta",
+            "subtitle": "Aquí puedes ver todas tus solicitudes de permuta. Filtra por estado o abre una solicitud para ver detalles.",
+            "filter_status": "Filtrar por estado:",
+            "empty_title": "No tienes solicitudes de permutas registradas",
+            "empty_message": "Parece que aún no has solicitado ningún intercambio de grupo. ¡Empieza hoy mismo y encuentra el horario que mejor te venga!",
+            "request_now": "¡Solicitar Permuta Ahora!",
+            "modal_title": "Detalles de la Solicitud"
+        },
+        "incidents": {
+            "title": "Mis Incidencias",
+            "subtitle": "Consulta el estado de tus incidencias y haz un seguimiento de su resolución de manera sencilla.",
+            "filter_status": "Filtrar por estado:",
+            "loading": "Cargando incidencias...",
+            "empty_title": "No hay incidencias en este estado",
+            "empty_message": "Si tienes algún problema técnico o duda, estamos aquí para ayudarte.",
+            "report_new": "Reportar Nueva Incidencia"
+        },
+        "report_incident": {
+            "file_type_error": "Solo se permiten archivos PDF o PNG",
+            "upload_error": "Hubo un problema al subir el archivo.",
+            "success": "Incidencia enviada correctamente",
+            "submit_error": "Error al enviar la incidencia",
+            "title": "Reportar Incidencia",
+            "subtitle": "Si tienes algún problema con la plataforma, indícalo aquí. Trataremos de resolverlo lo antes posible.",
+            "instructions_title": "Instrucciones:",
+            "instructions": [
+                "Se descriptivo con el problema.",
+                "Indica los pasos para reproducir el error si es posible.",
+                "Puedes adjuntar capturas (PNG) o documentos (PDF) de hasta 10MB."
+            ],
+            "type_label": "Tipo de Incidencia",
+            "type_placeholder": "Selecciona el tipo de incidencia",
+            "details_label": "Detalles de la incidencia",
+            "details_placeholder": "Describe el problema detalladamente...",
+            "attach_label": "Adjuntar Archivo (Opcional)",
+            "upload_text": "Haz clic o arrastra un archivo aquí",
+            "upload_hint": "PDF o PNG, Máx 10MB",
+            "submit": "Enviar Incidencia"
+        }
+    },
         }
     },
     "user": {

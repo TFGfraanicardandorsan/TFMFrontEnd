@@ -493,7 +493,7 @@ export default function GeneracionPDF() {
               <iframe
                 src={pdfUrl}
                 style={{ width: '100%', height: '700px', border: 'none' }}
-                title="PDF Preview"
+                title={t("pdf_generation.preview_title")}
               />
             ) : (
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', minHeight: '300px', backgroundColor: '#f8f9fa', color: '#6c757d' }}>

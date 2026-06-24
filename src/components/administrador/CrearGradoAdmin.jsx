@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { crearEstudio } from "../../services/estudio";
 import "../../styles/CrearGradoAdmin.css"; 
+import { useTranslation } from "react-i18next";
 
 export default function CrearGradoAdmin() {
+  const { t } = useTranslation();
   const [estudio, setEstudio] = useState("");
   const [siglas, setSiglas] = useState("");
   const [mensaje, setMensaje] = useState("");
@@ -13,16 +15,16 @@ export default function CrearGradoAdmin() {
     setMensaje("");
     setError("");
     if (!estudio.trim() || !siglas.trim()) {
-      setError("Por favor, rellena ambos campos.");
+      setError(t("admin.degrees.required"));
       return;
     }
     try {
       await crearEstudio(estudio, siglas);
-      setMensaje("Grado creado correctamente.");
+      setMensaje(t("admin.degrees.success"));
       setEstudio("");
       setSiglas("");
     } catch (err) {
-      setError("Error al crear el grado.", err);
+      setError(t("admin.degrees.error"));
     }
   };
 
@@ -30,7 +32,7 @@ export default function CrearGradoAdmin() {
     <div className="crear-grado-admin-container">
       <form onSubmit={handleSubmit} className="crear-grado-form">
         <div className="form-group">
-          <label htmlFor="estudio">Estudio del grado:</label>
+          <label htmlFor="estudio">{t("admin.degrees.study_label")}</label>
           <input
             id="estudio"
             type="text"
@@ -40,7 +42,7 @@ export default function CrearGradoAdmin() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="siglas">Siglas:</label>
+          <label htmlFor="siglas">{t("admin.degrees.acronym_label")}</label>
           <input
             id="siglas"
             type="text"
@@ -49,7 +51,7 @@ export default function CrearGradoAdmin() {
             required
           />
         </div>
-        <button type="submit" className="crear-btn">Crear grado</button>
+        <button type="submit" className="crear-btn">{t("admin.degrees.create")}</button>
       </form>
       {mensaje && <p className="success-message">{mensaje}</p>}
       {error && <p className="error-message">{error}</p>}
