@@ -1,7 +1,6 @@
 const DEFAULT_DLGA_API_PATH = "/api/v1/delegados";
-const DEFAULT_DLGA_PUBLIC_URL = "http://127.0.0.1:8001";
+const DEFAULT_DLGA_LOCAL_PUBLIC_URL = "http://127.0.0.1:8001";
 const DEFAULT_DLGA_PUBLIC_API_PATH = "/dlga-api";
-const TELEGRAM_CERTIFICATES_PATH = "/api/v1/delegados/enviarCertificadosTelegram";
 const ENDPOINT_PATHS = {
   generar: "generarCertificados",
   "preparar-correos": "prepararCorreos",
@@ -22,11 +21,10 @@ export const getDlgaApiBaseUrl = () => {
 };
 
 export const getDlgaPublicUrl = () => {
-  const configuredUrl =
-    import.meta.env.VITE_DLGA_PUBLIC_URL?.trim() ||
-    import.meta.env.VITE_DLGA_API_URL?.trim();
+  const configuredUrl = import.meta.env.VITE_DLGA_PUBLIC_URL?.trim();
+  if (configuredUrl) return trimTrailingSlash(configuredUrl);
 
-  return trimTrailingSlash(configuredUrl || DEFAULT_DLGA_PUBLIC_URL);
+  return import.meta.env.DEV ? DEFAULT_DLGA_LOCAL_PUBLIC_URL : "";
 };
 
 export const postDlgaForm = async (endpoint, formData) => {
@@ -39,13 +37,10 @@ export const postDlgaForm = async (endpoint, formData) => {
   });
 };
 
-export const postTelegramCertificates = async (formData) => {
-  const apiBaseUrl = trimTrailingSlash(import.meta.env.VITE_API_URL?.trim() || "");
-  return fetch(`${apiBaseUrl}${TELEGRAM_CERTIFICATES_PATH}`, {
-    method: "POST",
-    body: formData,
-    credentials: "include",
-  });
+export const getDlgaEndpointUrl = (endpoint) => {
+  const cleanEndpoint = endpoint.replace(/^\/+/, "");
+  const apiEndpoint = ENDPOINT_PATHS[cleanEndpoint] || cleanEndpoint;
+  return `${getDlgaApiBaseUrl()}/${apiEndpoint}`;
 };
 
 export const downloadDlgaTemplate = async () =>
@@ -77,7 +72,10 @@ export const extractDlgaError = async (response) => {
     try {
       const payload = JSON.parse(text);
       if (Array.isArray(payload.errors)) return payload.errors.join(" ");
+      if (Array.isArray(payload.errores)) return payload.errores.join(" ");
       if (payload.message) return payload.message;
+      if (payload.errmsg) return payload.errmsg;
+      if (payload.error) return payload.error;
     } catch {
       return text;
     }

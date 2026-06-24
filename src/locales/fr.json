@@ -187,8 +187,8 @@
                 "outlook_emails": "E-mails Outlook",
                 "generating": "Génération...",
                 "generate_pdfs": "Générer les PDF",
-                "sending_telegram": "Envoi Telegram...",
-                "generate_and_send_telegram": "Générer et envoyer Telegram",
+                "sending_telegram": "Signature et envoi Telegram...",
+                "generate_and_send_telegram": "Signer et envoyer Telegram",
                 "sign_batch": "Signer le lot",
                 "signing_batch": "Signature du lot...",
                 "connect_microsoft": "Connecter Microsoft",
@@ -206,6 +206,7 @@
                 "operation_failed": "L'opération DLGA n'a pas pu être terminée.",
                 "template_failed": "Le modèle n'a pas pu être téléchargé.",
                 "invalid_download": "La réponse n'est pas un fichier valide. Vérifiez que la route de l'API des délégués pointe vers le backend.",
+                "telegram_missing_uvus": "Le CSV doit inclure une colonne UVUS pour envoyer les certificats via Telegram.",
                 "telegram_failed": "Les certificats n'ont pas pu être envoyés par Telegram."
             }
         }

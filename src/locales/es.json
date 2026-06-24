@@ -187,8 +187,8 @@
                 "outlook_emails": "Correos Outlook",
                 "generating": "Generando...",
                 "generate_pdfs": "Generar PDFs",
-                "sending_telegram": "Enviando Telegram...",
-                "generate_and_send_telegram": "Generar y enviar Telegram",
+                "sending_telegram": "Firmando y enviando Telegram...",
+                "generate_and_send_telegram": "Firmar y enviar Telegram",
                 "sign_batch": "Firmar lote",
                 "signing_batch": "Firmando lote...",
                 "connect_microsoft": "Conectar Microsoft",
@@ -206,6 +206,7 @@
                 "operation_failed": "No se pudo completar la operación en DLGA.",
                 "template_failed": "No se pudo descargar la plantilla.",
                 "invalid_download": "La respuesta no es un archivo válido. Revisa que la ruta de la API de delegados apunte al backend.",
+                "telegram_missing_uvus": "El CSV debe incluir una columna UVUS para enviar certificados por Telegram.",
                 "telegram_failed": "No se pudieron enviar los certificados por Telegram."
             }
         }

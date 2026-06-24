@@ -5,10 +5,10 @@ import { useTranslation } from "react-i18next";
 import {
   downloadDlgaTemplate,
   extractDlgaError,
+  getDlgaEndpointUrl,
   getDlgaPublicUrl,
   getFilenameFromResponse,
   postDlgaForm,
-  postTelegramCertificates,
 } from "../../services/dlgaCertificados.js";
 import "../../styles/delegacion-certificados-style.css";
 
@@ -22,6 +22,15 @@ const fallbackNames = {
   "firmar-lote": "certificados_delegados_firmados.zip",
   plantilla: "plantilla_certificados.csv",
 };
+
+const normalizeCsvHeader = (value) =>
+  String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .replace(/^"|"$/g, "")
+    .trim()
+    .toLowerCase();
 
 export default function CertificadosDelegacion() {
   const { t } = useTranslation();
@@ -102,37 +111,28 @@ export default function CertificadosDelegacion() {
     }
   };
 
+  const validateTelegramCsv = async () => {
+    try {
+      const content = await archivo.text();
+      const headerLine = content.split(/\r?\n/).find((line) => line.trim());
+      const headers = (headerLine || "").split(/[;,]/).map(normalizeCsvHeader);
+      if (!headers.includes("uvus")) {
+        toast.error(t("delegation.certificates.errors.telegram_missing_uvus"));
+        return false;
+      }
+      return true;
+    } catch {
+      toast.error(t("delegation.certificates.errors.telegram_failed"));
+      return false;
+    }
+  };
+
   const handleTelegramAction = async () => {
     if (!validateForm()) return;
+    const canSendTelegram = await validateTelegramCsv();
+    if (!canSendTelegram) return;
 
-    setLoadingAction("telegram");
-    try {
-      const response = await postTelegramCertificates(buildFormData());
-      if (!response.ok) {
-        throw new Error(await extractDlgaError(response));
-      }
-
-      const payload = await response.json();
-      const result = payload.result || {};
-      if (result.noEnviados > 0) {
-        toast.warning(
-          t("delegation.certificates.messages.telegram_partial", {
-            sent: result.enviados || 0,
-            failed: result.noEnviados,
-          }),
-        );
-      } else {
-        toast.success(
-          t("delegation.certificates.messages.telegram_sent", {
-            count: result.enviados || 0,
-          }),
-        );
-      }
-    } catch (error) {
-      toast.error(error.message || t("delegation.certificates.errors.telegram_failed"));
-    } finally {
-      setLoadingAction("");
-    }
+    submitExternalAction("firmar-lote", { email_transport: "telegram" });
   };
 
   const submitExternalAction = (endpoint, extraValues = {}) => {
@@ -155,7 +155,7 @@ export default function CertificadosDelegacion() {
       return input;
     });
 
-    form.action = `${dlgaPublicUrl}/${endpoint}`;
+    form.action = getDlgaEndpointUrl(endpoint);
     form.target = "_blank";
     form.method = "post";
     form.enctype = "multipart/form-data";
