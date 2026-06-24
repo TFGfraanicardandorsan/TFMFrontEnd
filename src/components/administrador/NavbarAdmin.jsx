@@ -113,6 +113,11 @@ export default function NavbarAdmin() {
                   <span className="nav-icon">👥</span> {t("navbar.user_management")}
                 </button>
               </li>
+              <li>
+                <button className="nav-link-btn" onClick={() => handleLinkClick("/gestionGrupos")}>
+                  <span className="nav-icon">🔢</span> {t("navbar.group_management")}
+                </button>
+              </li>
             </ul>
 
           </li>
@@ -144,20 +149,30 @@ export default function NavbarAdmin() {
           <li>
             <Link to="/">{t("navbar.home")}</Link>
           </li>
-          <li>
-            <Link to="/incidenciasSinAsignar">{t("navbar.incidents")}</Link>
-          </li>
-          <li>
-            <Link to="/incidencias">{t("navbar.my_incidents")}</Link>
-          </li>
-          <li>
-            <Link to="/crearNotificacion">{t("navbar.create_notification")}</Link>
-          </li>
-          <li>
-            <Link to="/estadisticas">{t("navbar.view_stats")}</Link>
-          </li>
-          <li>
-            <Link to="/gestionUsuarios">{t("navbar.user_management")}</Link>
+          <li className="dropdown">
+            <button className="dropdown-btn" type="button">
+              {t("navbar.management")} <span className="arrow">▼</span>
+            </button>
+            <ul className="dropdown-content">
+              <li>
+                <Link to="/incidenciasSinAsignar">{t("navbar.incidents")}</Link>
+              </li>
+              <li>
+                <Link to="/incidencias">{t("navbar.my_incidents")}</Link>
+              </li>
+              <li>
+                <Link to="/crearNotificacion">{t("navbar.create_notification")}</Link>
+              </li>
+              <li>
+                <Link to="/estadisticas">{t("navbar.view_stats")}</Link>
+              </li>
+              <li>
+                <Link to="/gestionUsuarios">{t("navbar.user_management")}</Link>
+              </li>
+              <li>
+                <Link to="/gestionGrupos">{t("navbar.group_management")}</Link>
+              </li>
+            </ul>
           </li>
         </ul>
 

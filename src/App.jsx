@@ -36,6 +36,7 @@ import NoRegistrado from "./components/comun/noRegistrado.jsx";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import PanelGestionUsuarios from "./components/administrador/panelGestionUsuarios.jsx";
+import PanelGestionGrupos from "./components/administrador/panelGestionGrupos.jsx";
 import { ThemeProvider, useTheme } from "./contexts/ThemeContext";
 import { useTranslation } from "react-i18next";
 
@@ -98,6 +99,7 @@ function AppContent() {
             <Route path="/crearGrado" element={<CrearGradoAdmin />} />
             <Route path="/crearAsignatura" element={<CrearAsignatura />} />
             <Route path="/gestionUsuarios" element={<PanelGestionUsuarios />} />
+            <Route path="/gestionGrupos" element={<PanelGestionGrupos />} />
           </Route>
         </Routes>
       </main>

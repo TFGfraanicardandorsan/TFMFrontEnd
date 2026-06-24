@@ -52,6 +52,10 @@ body.dark-mode {
   background: var(--nav-sub-bg);
 }
 
+.navbar-admin .dropdown-content {
+  background-color: var(--nav-admin-bg);
+}
+
 .nav-links {
   list-style: none;
   display: flex;
