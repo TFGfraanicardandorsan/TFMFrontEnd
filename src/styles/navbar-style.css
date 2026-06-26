@@ -386,6 +386,11 @@ body.dark-mode {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
+  .nav-group-link-btn {
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
   .nav-submenu {
     display: none;
     flex-direction: column;

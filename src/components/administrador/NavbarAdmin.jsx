@@ -12,6 +12,38 @@ import ThemeToggle from "../comun/ThemeToggle";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../comun/LanguageSwitcher";
 
+const menu = [
+  {
+    label: "navbar.home",
+    to: "/",
+    icon: "🏠",
+  },
+  {
+    label: "navbar.incidents",
+    sub: [
+      { to: "/incidenciasSinAsignar", label: "navbar.new_incidents", icon: "📋" },
+      { to: "/incidencias", label: "navbar.my_incidents", icon: "🐛" },
+    ],
+  },
+  {
+    label: "navbar.create_notification",
+    to: "/crearNotificacion",
+    icon: "📢",
+  },
+  {
+    label: "navbar.view_stats",
+    to: "/estadisticas",
+    icon: "📊",
+  },
+  {
+    label: "navbar.management",
+    sub: [
+      { to: "/gestionUsuarios", label: "navbar.user_management", icon: "👥" },
+      { to: "/gestionGrupos", label: "navbar.group_management", icon: "🔢" },
+      { to: "/delegacion/certificados", label: "navbar.delegate_management", icon: "📄" },
+    ],
+  },
+];
 
 export default function NavbarAdmin() {
   const { t } = useTranslation();
@@ -51,6 +83,7 @@ export default function NavbarAdmin() {
 
   const handleLinkClick = (to) => {
     setOpen(false);
+    setOpenGroup(null);
     if (to === "/logout") {
       handleClickLogout();
     } else {
@@ -74,67 +107,47 @@ export default function NavbarAdmin() {
         <div className={`navbar-overlay ${open ? "open" : ""}`} onClick={() => setOpen(false)}></div>
 
         <ul className={`nav-links-responsive ${open ? "open" : ""}`}>
+          {menu.map((group, idx) => (
+            <li key={group.label} className="nav-group">
+              {group.to ? (
+                <button
+                  className="nav-group-btn nav-group-link-btn"
+                  onClick={() => handleLinkClick(group.to)}
+                >
+                  <span className="nav-icon">{group.icon}</span>
+                  {t(group.label)}
+                </button>
+              ) : (
+                <>
+                  <button
+                    className="nav-group-btn"
+                    onClick={() => setOpenGroup(openGroup === idx ? null : idx)}
+                  >
+                    {t(group.label)} {openGroup === idx ? "▲" : "▼"}
+                  </button>
+                  <ul className={`nav-submenu ${openGroup === idx ? "show" : ""}`}>
+                    {group.sub.map((item) => (
+                      <li key={item.to}>
+                        <button className="nav-link-btn" onClick={() => handleLinkClick(item.to)}>
+                          <span className="nav-icon">{item.icon}</span>
+                          {t(item.label)}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </li>
+          ))}
           <li className="nav-group">
             <button
               className="nav-group-btn"
-              onClick={() => setOpenGroup(openGroup === 0 ? null : 0)}
+              onClick={() => setOpenGroup(openGroup === "profile" ? null : "profile")}
             >
-              {t("navbar.management")} {openGroup === 0 ? "▲" : "▼"}
+              {t("navbar.profile")} {openGroup === "profile" ? "▲" : "▼"}
             </button>
 
-            <ul className={`nav-submenu ${openGroup === 0 ? "show" : ""}`}>
-              <li>
-                <button className="nav-link-btn" onClick={() => handleLinkClick("/")}>
-                  <span className="nav-icon">🏠</span> {t("navbar.home")}
-                </button>
-              </li>
-              <li>
-                <button className="nav-link-btn" onClick={() => handleLinkClick("/incidenciasSinAsignar")}>
-                  <span className="nav-icon">📋</span> {t("navbar.incidents")}
-                </button>
-              </li>
-              <li>
-                <button className="nav-link-btn" onClick={() => handleLinkClick("/incidencias")}>
-                  <span className="nav-icon">🐛</span> {t("navbar.my_incidents")}
-                </button>
-              </li>
-              <li>
-                <button className="nav-link-btn" onClick={() => handleLinkClick("/crearNotificacion")}>
-                  <span className="nav-icon">📢</span> {t("navbar.create_notification")}
-                </button>
-              </li>
-              <li>
-                <button className="nav-link-btn" onClick={() => handleLinkClick("/estadisticas")}>
-                  <span className="nav-icon">📊</span> {t("navbar.view_stats")}
-                </button>
-              </li>
-              <li>
-                <button className="nav-link-btn" onClick={() => handleLinkClick("/gestionUsuarios")}>
-                  <span className="nav-icon">👥</span> {t("navbar.user_management")}
-                </button>
-              </li>
-              <li>
-                <button className="nav-link-btn" onClick={() => handleLinkClick("/gestionGrupos")}>
-                  <span className="nav-icon">🔢</span> {t("navbar.group_management")}
-                </button>
-              </li>
-              <li>
-                <button className="nav-link-btn" onClick={() => handleLinkClick("/delegacion/certificados")}>
-                  <span className="nav-icon">📄</span> {t("navbar.delegation_module")}
-                </button>
-              </li>
-            </ul>
-
-          </li>
-          <li className="nav-group">
-            <button
-              className="nav-group-btn"
-              onClick={() => setOpenGroup(openGroup === 1 ? null : 1)}
-            >
-              {t("navbar.profile")} {openGroup === 1 ? "▲" : "▼"}
-            </button>
-
-            <ul className={`nav-submenu ${openGroup === 1 ? "show" : ""}`}>
+            <ul className={`nav-submenu ${openGroup === "profile" ? "show" : ""}`}>
               <li>
                 <button className="nav-link-btn" onClick={() => handleLinkClick("/miPerfilAdmin")}>
                   <span className="nav-icon">👤</span> {t("navbar.my_profile")}
@@ -151,37 +164,26 @@ export default function NavbarAdmin() {
         </ul>
         {/* Menú clásico para escritorio */}
         <ul className="nav-links">
-          <li>
-            <Link to="/">{t("navbar.home")}</Link>
-          </li>
-          <li className="dropdown">
-            <button className="dropdown-btn" type="button">
-              {t("navbar.management")} <span className="arrow">▼</span>
-            </button>
-            <ul className="dropdown-content">
-              <li>
-                <Link to="/incidenciasSinAsignar">{t("navbar.incidents")}</Link>
-              </li>
-              <li>
-                <Link to="/incidencias">{t("navbar.my_incidents")}</Link>
-              </li>
-              <li>
-                <Link to="/crearNotificacion">{t("navbar.create_notification")}</Link>
-              </li>
-              <li>
-                <Link to="/estadisticas">{t("navbar.view_stats")}</Link>
-              </li>
-              <li>
-                <Link to="/gestionUsuarios">{t("navbar.user_management")}</Link>
-              </li>
-              <li>
-                <Link to="/gestionGrupos">{t("navbar.group_management")}</Link>
-              </li>
-              <li>
-                <Link to="/delegacion/certificados">{t("navbar.delegation_module")}</Link>
-              </li>
-            </ul>
-          </li>
+          {menu.map((group) => (
+            <li key={group.label} className={group.sub ? "dropdown" : ""}>
+              {group.to ? (
+                <Link to={group.to}>{t(group.label)}</Link>
+              ) : (
+                <>
+                  <button className="dropdown-btn" type="button">
+                    {t(group.label)} <span className="arrow">▼</span>
+                  </button>
+                  <ul className="dropdown-content">
+                    {group.sub.map((item) => (
+                      <li key={item.to}>
+                        <Link to={item.to}>{t(item.label)}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </li>
+          ))}
         </ul>
 
         <div className="nav-icons">
