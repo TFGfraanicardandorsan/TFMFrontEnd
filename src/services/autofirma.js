@@ -4,6 +4,19 @@ const DEFAULT_AUTOSCRIPT_URL =
   "/afirma-ui-miniapplet-deploy/src/main/webapp/js/autoscript.js";
 const DEFAULT_AUTOSCRIPT_INTEGRITY =
   "sha384-8YmT/kkrE2QNyDdGbKhyxvI8IV40ItyPrxZ4tpDpD/Vrav7lCm7n5dq72iVRuhwq";
+const VISIBLE_SIGNATURE_PARAMS = [
+  "signaturePage=1",
+  "signaturePositionOnPageLowerLeftX=145",
+  "signaturePositionOnPageLowerLeftY=70",
+  "signaturePositionOnPageUpperRightX=450",
+  "signaturePositionOnPageUpperRightY=145",
+  "layer2Text=Firmado electrónicamente por:\\n$$SUBJECTCN$$\\nFecha: $$SIGNDATE=dd/MM/yyyy HH:mm:ss$$",
+  "layer2FontFamily=1",
+  "layer2FontSize=9",
+  "layer2FontStyle=0",
+  "layer2FontColor=darkGray",
+  "signReason=Certificación de delegado",
+].join("\n");
 
 let autoScriptPromise;
 
@@ -71,7 +84,7 @@ function signPdf(client, pdfBase64) {
       pdfBase64,
       "SHA256withRSA",
       "PAdES",
-      "",
+      VISIBLE_SIGNATURE_PARAMS,
       (signedPdfBase64) => resolve(signedPdfBase64),
       (errorType, errorMessage) => {
         reject(new Error(errorMessage || errorType || "AutoFirma no pudo firmar el certificado."));

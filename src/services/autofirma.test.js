@@ -29,9 +29,16 @@ describe("signPdfDocuments", () => {
       "pdf-uno",
       "SHA256withRSA",
       "PAdES",
-      "",
+      expect.stringContaining("layer2Text=Firmado electrónicamente por:"),
       expect.any(Function),
       expect.any(Function),
+    );
+    expect(autoScript.sign.mock.calls[0][3]).toContain("signaturePage=1");
+    expect(autoScript.sign.mock.calls[0][3]).toContain(
+      "signaturePositionOnPageLowerLeftX=145",
+    );
+    expect(autoScript.sign.mock.calls[0][3]).toContain(
+      "$$SIGNDATE=dd/MM/yyyy HH:mm:ss$$",
     );
   });
 
