@@ -3,7 +3,7 @@ const DEFAULT_AUTOSCRIPT_URL =
   `https://cdn.jsdelivr.net/gh/ctt-gob-es/clienteafirma@${AUTOSCRIPT_COMMIT}` +
   "/afirma-ui-miniapplet-deploy/src/main/webapp/js/autoscript.js";
 const DEFAULT_AUTOSCRIPT_INTEGRITY =
-  "sha384-8YmT/kkrE2QNyDdGbKhyxvI8IV40ItyPrxZ4tpDpD/Vrav7lCm7n5dq72iVRuhwq0";
+  "sha384-8YmT/kkrE2QNyDdGbKhyxvI8IV40ItyPrxZ4tpDpD/Vrav7lCm7n5dq72iVRuhwq";
 
 let autoScriptPromise;
 
