@@ -1,3 +1,5 @@
+import { csrfFetch } from "../lib/csrf.js";
+
 const DEFAULT_DLGA_API_PATH = "/api/v1/delegados";
 const DEFAULT_DLGA_LOCAL_PUBLIC_URL = "http://127.0.0.1:8001";
 const DEFAULT_DLGA_PUBLIC_API_PATH = "/dlga-api";
@@ -30,7 +32,7 @@ export const getDlgaPublicUrl = () => {
 export const postDlgaForm = async (endpoint, formData) => {
   const cleanEndpoint = endpoint.replace(/^\/+/, "");
   const apiEndpoint = ENDPOINT_PATHS[cleanEndpoint] || cleanEndpoint;
-  return fetch(`${getDlgaApiBaseUrl()}/${apiEndpoint}`, {
+  return csrfFetch(`${getDlgaApiBaseUrl()}/${apiEndpoint}`, {
     method: "POST",
     body: formData,
     credentials: "include",
@@ -40,7 +42,7 @@ export const postDlgaForm = async (endpoint, formData) => {
 export const postDlgaJson = async (endpoint, payload) => {
   const cleanEndpoint = endpoint.replace(/^\/+/, "");
   const apiEndpoint = ENDPOINT_PATHS[cleanEndpoint] || cleanEndpoint;
-  return fetch(`${getDlgaApiBaseUrl()}/${apiEndpoint}`, {
+  return csrfFetch(`${getDlgaApiBaseUrl()}/${apiEndpoint}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

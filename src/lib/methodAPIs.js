@@ -1,4 +1,5 @@
 import i18n from "../i18n";
+import { csrfFetch } from "./csrf.js";
 
 export const postAPI = async (fun, body = null, isFile = false) => {
     try {
@@ -16,7 +17,7 @@ export const postAPI = async (fun, body = null, isFile = false) => {
             }
         }
 
-        const respuesta = await fetch(import.meta.env.VITE_API_URL + fun, config);
+        const respuesta = await csrfFetch(import.meta.env.VITE_API_URL + fun, config);
 
         if (!respuesta.ok) {
             let errorMessage = `Error ${respuesta.status}: ${respuesta.statusText}`;
@@ -26,7 +27,7 @@ export const postAPI = async (fun, body = null, isFile = false) => {
             } catch {
                 // La respuesta de error no siempre incluye JSON.
             }
-            throw new Error(i18n.t("api.http_error", { status: respuesta.status, statusText: respuesta.statusText }));
+            throw new Error(errorMessage);
         }
 
         let data;
