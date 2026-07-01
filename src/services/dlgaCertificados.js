@@ -37,6 +37,19 @@ export const postDlgaForm = async (endpoint, formData) => {
   });
 };
 
+export const postDlgaJson = async (endpoint, payload) => {
+  const cleanEndpoint = endpoint.replace(/^\/+/, "");
+  const apiEndpoint = ENDPOINT_PATHS[cleanEndpoint] || cleanEndpoint;
+  return fetch(`${getDlgaApiBaseUrl()}/${apiEndpoint}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+    credentials: "include",
+  });
+};
+
 export const getDlgaEndpointUrl = (endpoint) => {
   const cleanEndpoint = endpoint.replace(/^\/+/, "");
   const apiEndpoint = ENDPOINT_PATHS[cleanEndpoint] || cleanEndpoint;

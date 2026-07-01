@@ -9,7 +9,9 @@ import {
   getDlgaPublicUrl,
   getFilenameFromResponse,
   postDlgaForm,
+  postDlgaJson,
 } from "../../services/dlgaCertificados.js";
+import { signPdfDocuments } from "../../services/autofirma.js";
 import "../../styles/delegacion-certificados-style.css";
 
 const DEFAULT_SENDER = "delegacion_etsii@us.es";
@@ -132,7 +134,57 @@ export default function CertificadosDelegacion() {
     const canSendTelegram = await validateTelegramCsv();
     if (!canSendTelegram) return;
 
-    submitExternalAction("firmar-lote", { email_transport: "telegram" });
+    setLoadingAction("telegram");
+    try {
+      const payloadResponse = await postDlgaForm(
+        "payloadFirmaLote",
+        buildFormData({ email_transport: "telegram" }),
+      );
+      if (!payloadResponse.ok) {
+        throw new Error(await extractDlgaError(payloadResponse));
+      }
+
+      const payload = await payloadResponse.json();
+      const signedDocuments = await signPdfDocuments(payload.result?.documents);
+      let sent = 0;
+      let failed = 0;
+
+      for (const document of signedDocuments) {
+        try {
+          const response = await postDlgaJson("enviarCertificadoFirmadoTelegram", {
+            uvus: document.uvus,
+            name: document.name,
+            delegateType: document.delegateType,
+            filename: document.filename,
+            pdfBase64: document.pdfBase64,
+          });
+          if (response.ok) {
+            sent += 1;
+          } else {
+            failed += 1;
+          }
+        } catch {
+          failed += 1;
+        }
+      }
+
+      if (failed === 0) {
+        toast.success(t("delegation.certificates.messages.telegram_sent", { count: sent }));
+      } else if (sent > 0) {
+        toast.warning(
+          t("delegation.certificates.messages.telegram_partial", {
+            sent,
+            failed,
+          }),
+        );
+      } else {
+        toast.error(t("delegation.certificates.errors.telegram_failed"));
+      }
+    } catch (error) {
+      toast.error(error.message || t("delegation.certificates.errors.telegram_failed"));
+    } finally {
+      setLoadingAction("");
+    }
   };
 
   const submitExternalAction = (endpoint, extraValues = {}) => {
