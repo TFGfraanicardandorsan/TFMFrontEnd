@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Papa from "papaparse";
 import { useTranslation } from "react-i18next";
+import { csrfFetch } from "../lib/csrf.js";
 
 export default function DelegadosPdfGenerator() {
   const { t } = useTranslation();
@@ -34,7 +35,7 @@ export default function DelegadosPdfGenerator() {
             delegados,
           };
 
-          const response = await fetch("/api/v1/gestionDelegados/generarAcreditacionesDelegados/", {
+          const response = await csrfFetch("/api/v1/gestionDelegados/generarAcreditacionesDelegados/", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body),
@@ -50,7 +51,7 @@ export default function DelegadosPdfGenerator() {
           document.body.appendChild(a);
           a.click();
           a.remove();
-        } catch (err) {
+        } catch {
           alert(t("delegation_legacy.download_error"));
         } finally {
           setLoading(false);

@@ -30,7 +30,7 @@ export const getDlgaPublicUrl = () => {
 export const postDlgaForm = async (endpoint, formData) => {
   const cleanEndpoint = endpoint.replace(/^\/+/, "");
   const apiEndpoint = ENDPOINT_PATHS[cleanEndpoint] || cleanEndpoint;
-  return fetch(`${getDlgaApiBaseUrl()}/${apiEndpoint}`, {
+  return csrfFetch(`${getDlgaApiBaseUrl()}/${apiEndpoint}`, {
     method: "POST",
     body: formData,
     credentials: "include",
@@ -40,7 +40,7 @@ export const postDlgaForm = async (endpoint, formData) => {
 export const postDlgaJson = async (endpoint, payload) => {
   const cleanEndpoint = endpoint.replace(/^\/+/, "");
   const apiEndpoint = ENDPOINT_PATHS[cleanEndpoint] || cleanEndpoint;
-  return fetch(`${getDlgaApiBaseUrl()}/${apiEndpoint}`, {
+  return csrfFetch(`${getDlgaApiBaseUrl()}/${apiEndpoint}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -103,3 +103,4 @@ export const extractDlgaError = async (response) => {
 
   return cleanText || `DLGA ha respondido con estado ${response.status}.`;
 };
+import { csrfFetch } from "../lib/csrf.js";
