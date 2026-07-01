@@ -1,3 +1,5 @@
+import { csrfFetch } from "../lib/csrf.js";
+
 const DEFAULT_DLGA_API_PATH = "/api/v1/delegados";
 const DEFAULT_DLGA_LOCAL_PUBLIC_URL = "http://127.0.0.1:8001";
 const DEFAULT_DLGA_PUBLIC_API_PATH = "/dlga-api";
@@ -103,4 +105,3 @@ export const extractDlgaError = async (response) => {
 
   return cleanText || `DLGA ha respondido con estado ${response.status}.`;
 };
-import { csrfFetch } from "../lib/csrf.js";
