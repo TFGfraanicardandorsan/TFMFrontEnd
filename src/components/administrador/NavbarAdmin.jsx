@@ -41,7 +41,13 @@ const menu = [
       { to: "/gestionUsuarios", label: "navbar.user_management", icon: "👥" },
       { to: "/gestionGrupos", label: "navbar.group_management", icon: "🔢" },
       { to: "/delegacion/certificados", label: "navbar.delegate_management", icon: "📄" },
+      { to: "/gestionFeedback", label: "navbar.feedback_management", icon: "💬" },
     ],
+  },
+  {
+    label: "navbar.feedback",
+    to: "/feedback",
+    icon: "✦",
   },
 ];
 
