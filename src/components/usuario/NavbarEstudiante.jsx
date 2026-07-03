@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../styles/navbar-style.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -33,6 +33,11 @@ const menu = [
       { to: "/misIncidencias", label: "navbar.my_incidents", icon: "👤" },
       { to: "/reportarIncidencia", label: "navbar.report_incident", icon: "⚠️" },
     ],
+  },
+  {
+    label: "navbar.feedback",
+    to: "/feedback",
+    icon: "💬"
   },
 ];
 

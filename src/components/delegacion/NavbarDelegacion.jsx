@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 const menu = [
   { to: "/delegacion", labelKey: "navbar.home", icon: "🏠" },
   { to: "/delegacion/certificados", labelKey: "delegation.navbar.certificates", icon: "📄" },
+  { to: "/feedback", labelKey: "navbar.feedback", icon: "💬" },
 ];
 
 export default function NavbarDelegacion() {

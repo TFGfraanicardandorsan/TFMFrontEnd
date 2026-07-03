@@ -12,6 +12,7 @@ import RedirectHome from "./components/comun/RedirectHome.jsx";
 import LayoutEstudiante from "./layouts/LayoutEstudiante.jsx";
 import LayoutAdmin from "./layouts/LayoutAdmin.jsx";
 import LayoutDelegacion from "./layouts/LayoutDelegacion.jsx";
+import LayoutFeedback from "./layouts/LayoutFeedback.jsx";
 import Home from "./components/comun/home.jsx";
 import MiPerfil from "./components/usuario/miPerfil.jsx";
 import ReportarIncidencia from "./components/usuario/reportarIncidencia.jsx";
@@ -41,6 +42,8 @@ import PanelGestionGrupos from "./components/administrador/panelGestionGrupos.js
 import { ThemeProvider, useTheme } from "./contexts/ThemeContext";
 import { useTranslation } from "react-i18next";
 import CertificadosDelegacion from "./components/delegacion/CertificadosDelegacion.jsx";
+import EncuestaSatisfaccion from "./components/comun/EncuestaSatisfaccion.jsx";
+import GestionFeedback from "./components/administrador/GestionFeedback.jsx";
 import { ADMIN_ROLE, APP_ROLES, DELEGATION_ROLES, STUDENT_ROLE } from "./lib/roles.js";
 
 
@@ -73,6 +76,12 @@ function AppContent() {
 
           {/* Redirigir al home adecuado dependiendo del rol */}
           <Route path="/" element={<RoleRoute allowedRoles={APP_ROLES}><RedirectHome /></RoleRoute>} />
+
+          {/* Encuesta común para todos los roles */}
+          <Route element={<RoleRoute allowedRoles={APP_ROLES}><LayoutFeedback /></RoleRoute>}>
+            <Route path="/feedback" element={<EncuestaSatisfaccion />} />
+          </Route>
+
           {/* Layout para estudiantes */}
           <Route element={<RoleRoute allowedRoles={[STUDENT_ROLE]}><LayoutEstudiante /></RoleRoute>}>
             <Route path="/estudiante" element={<Home />} />
@@ -103,6 +112,7 @@ function AppContent() {
             <Route path="/crearAsignatura" element={<CrearAsignatura />} />
             <Route path="/gestionUsuarios" element={<PanelGestionUsuarios />} />
             <Route path="/gestionGrupos" element={<PanelGestionGrupos />} />
+            <Route path="/gestionFeedback" element={<GestionFeedback />} />
           </Route>
 
           {/* Layout para delegacion */}
