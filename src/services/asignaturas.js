@@ -12,12 +12,10 @@ export const obtenerAsignaturasUsuario = async () => {
     return await postAPI("/api/v1/usuarioAsignatura/obtenerAsignaturasUsuario")
 }
 
-export const superarAsignaturasUsuario = async (paramAsignatura, respuestas = null) => {
-    const body = { asignatura: paramAsignatura };
-    if (respuestas) {
-        body.respuestas = respuestas;
-    }
-    return await postAPI("/api/v1/usuarioAsignatura/superarAsignaturasUsuario", body)
+export const superarAsignaturasUsuario = async (paramAsignatura) => {
+    return await postAPI("/api/v1/usuarioAsignatura/superarAsignaturasUsuario", {
+        asignatura: paramAsignatura
+    })
 }
 
 export const obtenerPreguntasValoracionAsignatura = async () => {

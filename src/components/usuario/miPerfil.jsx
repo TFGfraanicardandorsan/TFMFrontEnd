@@ -2,11 +2,23 @@ import { useState, useEffect } from "react";
 import "../../styles/miPerfil-style.css";
 import { obtenerDatosUsuario } from "../../services/usuario";
 import { obtenerMiGrupoAsignatura } from "../../services/grupo";
-import { obtenerPreguntasValoracionAsignatura, superarAsignaturasUsuario } from "../../services/asignaturas";
+import {
+  guardarValoracionAsignatura,
+  obtenerPreguntasValoracionAsignatura,
+  superarAsignaturasUsuario,
+} from "../../services/asignaturas";
 import SeleccionarEstudio from "../usuario/seleccionarEstudio";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckCircle, faBookOpen, faUserGraduate, faEnvelope, faUniversity, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheckCircle,
+  faBookOpen,
+  faUserGraduate,
+  faEnvelope,
+  faUniversity,
+  faTimes,
+  faStar,
+} from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 
 export default function MiPerfil() {
@@ -23,6 +35,8 @@ export default function MiPerfil() {
   const [respuestasValoracion, setRespuestasValoracion] = useState({});
   const [errorValoracion, setErrorValoracion] = useState("");
   const [enviandoValoracion, setEnviandoValoracion] = useState(false);
+  const [asignaturaPendienteSuperar, setAsignaturaPendienteSuperar] = useState(null);
+  const [superandoAsignaturaId, setSuperandoAsignaturaId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -143,12 +157,16 @@ export default function MiPerfil() {
       setErrorValoracion("");
       setEnviandoValoracion(true);
       const respuestas = construirRespuestasValoracion();
-      const response = await superarAsignaturasUsuario(asignaturaValorando.codigo, respuestas);
+      const response = await guardarValoracionAsignatura(asignaturaValorando.codigo, respuestas);
       if (!response.err) {
-        setAsignaturas(asignaturas.filter(asignatura => asignatura.id !== asignaturaValorando.id));
+        setAsignaturas((actuales) => actuales.map((asignatura) =>
+          asignatura.id === asignaturaValorando.id
+            ? { ...asignatura, evaluada: true }
+            : asignatura
+        ));
         setAsignaturaValorando(null);
         setRespuestasValoracion({});
-        setMensajeExito(t("user.my_profile.approved_one", { subject: asignaturaValorando.asignatura }));
+        setMensajeExito(t("user.my_profile.evaluation_saved", { subject: asignaturaValorando.asignatura }));
 
         // Limpiar mensaje después de 5 segundos
         setTimeout(() => setMensajeExito(""), 5000);
@@ -162,8 +180,44 @@ export default function MiPerfil() {
     }
   };
 
+  const superarAsignatura = async (asignatura) => {
+    setMensajeAviso("");
+    setSuperandoAsignaturaId(asignatura.id);
+    try {
+      const response = await superarAsignaturasUsuario(asignatura.codigo);
+      if (response.err || response.result?.err) {
+        throw new Error(response.errmsg || response.result?.message || t("common.unexpected_error"));
+      }
+      setAsignaturas((actuales) => actuales.filter((actual) => actual.id !== asignatura.id));
+      setAsignaturaPendienteSuperar(null);
+      setMensajeExito(t("user.my_profile.approved_one", { subject: asignatura.asignatura }));
+      setTimeout(() => setMensajeExito(""), 5000);
+    } catch (error) {
+      setMensajeAviso(t("user.my_profile.approve_error", {
+        subject: asignatura.asignatura,
+        error: error.message,
+      }));
+    } finally {
+      setSuperandoAsignaturaId(null);
+    }
+  };
+
+  const solicitarSuperarAsignatura = (asignatura) => {
+    if (asignatura.evaluada) {
+      superarAsignatura(asignatura);
+      return;
+    }
+    setAsignaturaPendienteSuperar(asignatura);
+  };
+
+  const evaluarAntesDeSuperar = () => {
+    const asignatura = asignaturaPendienteSuperar;
+    setAsignaturaPendienteSuperar(null);
+    if (asignatura) abrirValoracionAsignatura(asignatura);
+  };
+
   const manejarSuperarTodasAsignaturas = async () => {
-    setMensajeAviso(t("user.my_profile.approve_all_requires_evaluation"));
+    setMensajeAviso(t("user.my_profile.approve_all_individually"));
     setTimeout(() => setMensajeAviso(""), 5000);
   };
 
@@ -338,11 +392,24 @@ export default function MiPerfil() {
 
                     <div className="asignatura-actions">
                       <button
-                        className="btn btn-success"
+                        className="btn btn-primary"
                         onClick={() => abrirValoracionAsignatura(asignatura)}
+                        disabled={asignatura.evaluada}
+                      >
+                        <FontAwesomeIcon icon={faStar} />
+                        {asignatura.evaluada
+                          ? t("user.my_profile.evaluated_this_year")
+                          : t("user.my_profile.evaluate_subject")}
+                      </button>
+                      <button
+                        className="btn btn-success"
+                        onClick={() => solicitarSuperarAsignatura(asignatura)}
+                        disabled={superandoAsignaturaId === asignatura.id}
                       >
                         <FontAwesomeIcon icon={faCheckCircle} />
-                        {t("user.my_profile.mark_approved")}
+                        {superandoAsignaturaId === asignatura.id
+                          ? t("common.processing")
+                          : t("user.my_profile.mark_approved")}
                       </button>
                     </div>
                   </div>
@@ -386,6 +453,12 @@ export default function MiPerfil() {
                 <div className="valoracion-modal-body">
                   <p className="valoracion-intro">
                     {t("user.my_profile.evaluation_intro")}
+                  </p>
+                  <p className="valoracion-contexto">
+                    {t("user.my_profile.evaluation_context", {
+                      group: asignaturaValorando.numgrupo,
+                      year: asignaturaValorando.cursoAcademico,
+                    })}
                   </p>
 
                   {cargandoPreguntas ? (
@@ -436,6 +509,48 @@ export default function MiPerfil() {
                   >
                     <FontAwesomeIcon icon={faCheckCircle} />
                     {enviandoValoracion ? t("user.my_profile.evaluation_sending") : t("user.my_profile.evaluation_submit")}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {asignaturaPendienteSuperar && (
+            <div className="valoracion-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="confirmar-superar-title">
+              <div className="confirmacion-superar-modal">
+                <div className="confirmacion-superar-icon">?</div>
+                <h2 id="confirmar-superar-title">{t("user.my_profile.skip_evaluation_title")}</h2>
+                <p>
+                  {t("user.my_profile.skip_evaluation_message", {
+                    subject: asignaturaPendienteSuperar.asignatura,
+                  })}
+                </p>
+                <div className="confirmacion-superar-actions">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={evaluarAntesDeSuperar}
+                  >
+                    <FontAwesomeIcon icon={faStar} />
+                    {t("user.my_profile.evaluate_first")}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-outline"
+                    onClick={() => superarAsignatura(asignaturaPendienteSuperar)}
+                    disabled={superandoAsignaturaId === asignaturaPendienteSuperar.id}
+                  >
+                    {superandoAsignaturaId === asignaturaPendienteSuperar.id
+                      ? t("common.processing")
+                      : t("user.my_profile.approve_without_evaluating")}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-link"
+                    onClick={() => setAsignaturaPendienteSuperar(null)}
+                    disabled={superandoAsignaturaId !== null}
+                  >
+                    {t("common.cancel")}
                   </button>
                 </div>
               </div>

@@ -157,6 +157,17 @@ body.dark-mode .section-title {
     color: var(--text-primary);
 }
 
+.asignatura-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: var(--spacing-md);
+}
+
+.asignatura-actions .btn {
+    width: 100%;
+}
+
 .grupo-badge {
     background: rgba(43, 87, 154, 0.08);
     color: var(--user-primary);
@@ -283,6 +294,17 @@ body.dark-mode .warning-banner {
     margin: 0 0 var(--spacing-md);
     color: var(--text-secondary);
     line-height: 1.5;
+}
+
+.valoracion-contexto {
+    width: fit-content;
+    margin: 0 0 var(--spacing-md);
+    padding: 7px 11px;
+    border-radius: 8px;
+    background: rgba(43, 87, 154, 0.08);
+    color: var(--user-primary);
+    font-size: 0.85rem;
+    font-weight: 700;
 }
 
 .valoracion-bloque {
@@ -425,6 +447,67 @@ body.dark-mode .valoracion-pregunta {
     background: var(--card-bg);
 }
 
+.confirmacion-superar-modal {
+    width: min(500px, 100%);
+    padding: clamp(24px, 5vw, 40px);
+    border: 1px solid var(--border-color, #e2e8f0);
+    border-radius: var(--border-radius);
+    background: var(--card-bg);
+    color: var(--text-primary);
+    box-shadow: var(--card-shadow-hover);
+    text-align: center;
+}
+
+.confirmacion-superar-icon {
+    display: grid;
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 16px;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(245, 158, 11, 0.14);
+    color: #b45309;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.confirmacion-superar-modal h2 {
+    margin: 0 0 12px;
+}
+
+.confirmacion-superar-modal p {
+    margin: 0 0 24px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.confirmacion-superar-actions {
+    display: grid;
+    gap: 10px;
+}
+
+.btn-outline {
+    border: 1px solid var(--border-color, #cbd5e1);
+    background: transparent;
+    color: var(--text-primary);
+}
+
+.btn-outline:hover:not(:disabled) {
+    border-color: var(--user-primary);
+    color: var(--user-primary);
+}
+
+.btn-link {
+    border: 0;
+    background: transparent;
+    color: var(--text-secondary);
+    box-shadow: none;
+}
+
+.btn-link:hover:not(:disabled) {
+    color: var(--user-primary);
+}
+
 .empty-state {
     text-align: center;
     padding: var(--spacing-xl);
@@ -438,6 +521,10 @@ body.dark-mode .valoracion-pregunta {
     }
 
     .asignaturas-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .asignatura-actions {
         grid-template-columns: 1fr;
     }
 
@@ -466,5 +553,9 @@ body.dark-mode .valoracion-pregunta {
 
     .valoracion-modal-footer .btn {
         width: 100%;
+    }
+
+    .confirmacion-superar-modal {
+        margin: auto var(--spacing-md);
     }
 }

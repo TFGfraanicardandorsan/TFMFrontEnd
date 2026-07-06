@@ -118,6 +118,57 @@
   color: var(--admin-primary, #4f46e5);
 }
 
+.valoraciones-group-comparison {
+  padding: 18px;
+  border-top: 1px solid var(--admin-border-color, #e2e8f0);
+  background: var(--admin-hover-bg, #f8fafc);
+}
+
+.valoraciones-group-comparison > h3 {
+  margin: 0 0 5px;
+  color: var(--admin-text-primary, #1e293b);
+}
+
+.valoraciones-group-comparison > p {
+  margin: 0 0 16px;
+  color: var(--admin-text-secondary, #64748b);
+}
+
+.valoraciones-year-list {
+  display: grid;
+  gap: 16px;
+}
+
+.valoraciones-year h4 {
+  margin: 0 0 9px;
+  color: var(--admin-primary, #4f46e5);
+}
+
+.valoraciones-group-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+  gap: 10px;
+}
+
+.valoraciones-group-card {
+  display: grid;
+  gap: 4px;
+  padding: 13px;
+  border: 1px solid var(--admin-border-color, #e2e8f0);
+  border-radius: 8px;
+  background: var(--admin-card-bg, #fff);
+}
+
+.valoraciones-group-card span,
+.valoraciones-group-card small {
+  color: var(--admin-text-secondary, #64748b);
+}
+
+.valoraciones-group-card strong {
+  color: var(--admin-text-primary, #1e293b);
+  font-size: 1.35rem;
+}
+
 /* Adaptación a móviles */
 @media (max-width: 768px) {
   .estadisticas-container {
@@ -170,7 +221,8 @@ body.dark-mode .estadisticas-container {
 }
 
 body.dark-mode .valoraciones-subject,
-body.dark-mode .valoraciones-question {
+body.dark-mode .valoraciones-question,
+body.dark-mode .valoraciones-group-card {
   background-color: #1e293b;
   border-color: #334155;
 }
@@ -182,6 +234,19 @@ body.dark-mode .valoraciones-question p {
 }
 
 body.dark-mode .valoraciones-summary,
-body.dark-mode .valoraciones-open-answers {
+body.dark-mode .valoraciones-open-answers,
+body.dark-mode .valoraciones-group-comparison > p,
+body.dark-mode .valoraciones-group-card span,
+body.dark-mode .valoraciones-group-card small {
   color: #cbd5e1;
+}
+
+body.dark-mode .valoraciones-group-comparison {
+  background: #0f172a;
+  border-color: #334155;
+}
+
+body.dark-mode .valoraciones-group-comparison > h3,
+body.dark-mode .valoraciones-group-card strong {
+  color: #f1f5f9;
 }

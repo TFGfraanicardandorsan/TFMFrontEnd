@@ -35,13 +35,13 @@ export default function Estadisticas() {
         setEstadisticasUsuarios(usuariosData.result.result);
         setEstadisticasValoracionesAsignaturas(valoracionesData.result.result || []);
         setLoading(false);
-      } catch (err) {
+      } catch {
         setError(t("admin.stats.load_error"));
         setLoading(false);
       }
     };
     cargarEstadisticas();
-  }, []);
+  }, [t]);
 
   if (loading) return <div className="admin-loading">{t("admin.stats.loading")}</div>;
   if (error) return <div className="admin-error">{error}</div>;
@@ -430,6 +430,48 @@ export default function Estadisticas() {
                           </span>
                           <strong>{t("admin.stats.evaluation_count", { count: asignatura.totalValoraciones })}</strong>
                         </summary>
+
+                        {(asignatura.comparativaGrupos || []).length > 0 && (
+                          <section className="valoraciones-group-comparison">
+                            <h3>{t("admin.stats.group_comparison")}</h3>
+                            <p>{t("admin.stats.group_comparison_hint")}</p>
+                            <div className="valoraciones-year-list">
+                              {asignatura.comparativaGrupos.map((curso) => (
+                                <div className="valoraciones-year" key={`${asignatura.codigo}-${curso.cursoAcademico}`}>
+                                  <h4>
+                                    {curso.cursoAcademico === "historico"
+                                      ? t("admin.stats.historical_data")
+                                      : t("admin.stats.academic_year", { year: curso.cursoAcademico })}
+                                  </h4>
+                                  <div className="valoraciones-group-grid">
+                                    {curso.grupos.map((grupo) => (
+                                      <div
+                                        className="valoraciones-group-card"
+                                        key={`${curso.cursoAcademico}-${grupo.grupoId ?? "legacy"}`}
+                                      >
+                                        <span>
+                                          {grupo.grupoNumero
+                                            ? t("common.group_with_number", { group: grupo.grupoNumero })
+                                            : t("admin.stats.unknown_group")}
+                                        </span>
+                                        <strong>
+                                          {grupo.mediaGlobal === null
+                                            ? "—"
+                                            : `${grupo.mediaGlobal}/10`}
+                                        </strong>
+                                        <small>
+                                          {t("admin.stats.evaluation_count", {
+                                            count: grupo.totalValoraciones,
+                                          })}
+                                        </small>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </section>
+                        )}
 
                         {asignatura.bloques.map((bloque) => (
                           <section className="valoraciones-block" key={`${asignatura.codigo}-${bloque.bloque}`}>
