@@ -28,6 +28,8 @@ import { toast } from "react-toastify";
 import { logError } from "../../lib/logger.js";
 import { useTranslation } from "react-i18next";
 
+const NUMERO_FILAS_ASIGNATURAS = 12;
+
 export default function GeneracionPDF() {
   const { t } = useTranslation();
   const [dni, setDni] = useState("");
@@ -132,7 +134,7 @@ export default function GeneracionPDF() {
       [day, month, year].forEach((f) => f.enableReadOnly());
 
       // Asignaturas (bloqueadas siempre)
-      for (let index = 0; index < 16; index++) {
+      for (let index = 0; index < NUMERO_FILAS_ASIGNATURAS; index++) {
         const asignatura = permutas[index];
         const asignaturaField1 = form.getTextField(`ASIGNATURA1-${index + 1}`);
         const asignaturaField2 = form.getTextField(`ASIGNATURA2-${index + 1}`);
@@ -208,7 +210,8 @@ export default function GeneracionPDF() {
       return await pdfDoc.save();
     } catch (error) {
       toast.error(t("pdf_generation.errors.generation_error"));
-      logError(error)
+      console.error("Error generando el PDF:", error);
+      throw error;
     }
   };
 
