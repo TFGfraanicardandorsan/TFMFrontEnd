@@ -3,10 +3,11 @@ import { useParams } from "react-router-dom";
 import "../../styles/detalleIncidencia-style.css";
 import { obtenerIncidenciaPorId } from "../../services/incidencia.js";
 import { formatearFecha } from "../../lib/formateadorFechas.js";
-import { servirArchivo } from "../../services/subidaArchivos.js";
+import { servirArchivoConTipo } from "../../services/subidaArchivos.js";
 import { logError } from "../../lib/logger.js";
 import { useTranslation } from "react-i18next";
 import { translateIncidentStatus, translateIncidentType } from "../../lib/i18nLabels.js";
+import { detectarTipoArchivo } from "../../lib/tipoArchivo.js";
 
 export default function DetalleIncidencia() {
   const { t } = useTranslation();
@@ -17,31 +18,44 @@ export default function DetalleIncidencia() {
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
+    let urlArchivo;
+    let cancelado = false;
+
     const cargarIncidencia = async () => {
       try {
         const data = await obtenerIncidenciaPorId(idInt);
-        setIncidencia(data.result.result);
-        const nombreArchivo = data.result.result.archivo;
-        if (nombreArchivo) {
-          const bytes = await servirArchivo("archivador", nombreArchivo);
+        const detalle = data.result.result;
+        if (cancelado) return;
 
-          let tipo = "application/pdf";
-          if (nombreArchivo.toLowerCase().endsWith(".png")) {
-            tipo = "image/png";
-          }
+        setIncidencia(detalle);
+        const nombreArchivo = detalle.archivo;
+        if (nombreArchivo) {
+          const { bytes, contentType } = await servirArchivoConTipo("archivador", nombreArchivo);
+          const tipo = detectarTipoArchivo(bytes, contentType, nombreArchivo);
           const blob = new Blob([bytes], { type: tipo });
-          const url = URL.createObjectURL(blob);
-          setArchivo({ url, tipo });
+          urlArchivo = URL.createObjectURL(blob);
+
+          if (cancelado) {
+            URL.revokeObjectURL(urlArchivo);
+            return;
+          }
+
+          setArchivo({ url: urlArchivo, tipo });
         } else {
           setArchivo(null);
         }
       } catch (error) {
         logError(error);
       } finally {
-        setCargando(false);
+        if (!cancelado) setCargando(false);
       }
     };
     cargarIncidencia();
+
+    return () => {
+      cancelado = true;
+      if (urlArchivo) URL.revokeObjectURL(urlArchivo);
+    };
   }, [idInt]);
 
   if (cargando) return <p>{t("admin.incidents.detail_loading")}</p>;

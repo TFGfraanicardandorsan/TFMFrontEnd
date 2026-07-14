@@ -76,3 +76,16 @@ export const getPDF = async (fun) => {
     if (!respuesta.ok) throw new Error(i18n.t("api.pdf_error"));
     return await respuesta.arrayBuffer();
 }
+
+export const getArchivo = async (fun) => {
+    const respuesta = await fetch(import.meta.env.VITE_API_URL + fun, {
+        method: 'get',
+        credentials: 'include',
+    });
+    if (!respuesta.ok) throw new Error(i18n.t("api.pdf_error"));
+
+    return {
+        bytes: await respuesta.arrayBuffer(),
+        contentType: respuesta.headers.get('content-type'),
+    };
+}
