@@ -14,6 +14,18 @@ export const obtenerPermutasInteresantes = async () => {
     return await postAPI("/api/v1/solicitudPermuta/getSolicitudesPermutaInteresantes");
 }
 
+export const obtenerPermutasPropuestasSistema = async () => {
+    return await postAPI("/api/v1/solicitudPermuta/getPermutasPropuestasSistema");
+}
+
+export const aceptarPermutaPropuestaSistema = async (permutaId) => {
+    return await postAPI(`/api/v1/solicitudPermuta/permuta/${permutaId}/aceptar`);
+}
+
+export const rechazarPermutaPropuestaSistema = async (permutaId) => {
+    return await postAPI(`/api/v1/solicitudPermuta/permuta/${permutaId}/rechazar`);
+}
+
 export const verListaPermutas = async () => {
     return await postAPI("/api/v1/solicitudPermuta/verListaPermutas");
 }
@@ -69,6 +81,6 @@ export const generarBorradorPermuta = async (IdsPermuta) => {
     return await postAPI("/api/v1/permutas/generarBorradorPermuta", { IdsPermuta });
 }
 
-export const actualizarVigenciaPermutas = async (solicitud) => {
-    return await postAPI("/api/v1/permutas/actualizarVigenciaPermutas");
+export const actualizarVigenciaPermutas = async () => {
+    return await postAPI("/api/v1/solicitudPermuta/actualizarVigenciaPermutas");
 }
