@@ -403,7 +403,9 @@
         "instructions_1": "Once you fill out the form, you can download a PDF with the permutation request. This PDF must be signed and sent to the system so your partner can fill in their data.",
         "instructions_2": "When your partner signs the PDF, you can download it and send it to the administration.",
         "labels": {
+            "document_type": "Document type:",
             "dni": "ID Card (DNI):",
+            "nif": "Tax ID (NIF):",
             "dni_letter": "DNI Letter:",
             "address": "Address:",
             "city": "City:",

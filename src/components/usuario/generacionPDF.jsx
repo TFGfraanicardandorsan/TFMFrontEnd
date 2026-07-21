@@ -18,6 +18,7 @@ import { dayValue, monthValue, yearValue } from "../../lib/generadorFechas.js";
 import {
   validarDNI,
   validarLetraDNI,
+  validarNIF,
   validarCampoObligatorio,
   validarCodigoPostal,
   validarTelefono,
@@ -34,6 +35,7 @@ export default function GeneracionPDF() {
   const { t } = useTranslation();
   const [dni, setDni] = useState("");
   const [letraDNI, setLetraDNI] = useState("");
+  const [tipoDocumento, setTipoDocumento] = useState("DNI");
   const [domicilio, setDomicilio] = useState("");
   const [poblacion, setPoblacion] = useState("");
   const [codigoPostal, setCodigoPostal] = useState("");
@@ -182,8 +184,8 @@ export default function GeneracionPDF() {
       if (estadoPermuta === "BORRADOR") {
         const usuario = usuarios[0];
         const datos = [
-          dni,
-          letraDNI,
+          tipoDocumento === "DNI" ? dni : dni.slice(0, -1),
+          tipoDocumento === "DNI" ? letraDNI : dni.slice(-1),
           usuario.nombre_completo,
           domicilio,
           poblacion,
@@ -195,8 +197,8 @@ export default function GeneracionPDF() {
       } else if (estadoPermuta === "FIRMADA") {
         const usuario = usuarios[1];
         const datos = [
-          dni,
-          letraDNI,
+          tipoDocumento === "DNI" ? dni : dni.slice(0, -1),
+          tipoDocumento === "DNI" ? letraDNI : dni.slice(-1),
           usuario.nombre_completo,
           domicilio,
           poblacion,
@@ -280,9 +282,22 @@ export default function GeneracionPDF() {
   };
 
   const handleDNIChange = (e) => {
-    const value = e.target.value;
+    const value =
+      tipoDocumento === "NIF"
+        ? e.target.value.toUpperCase().replace(/\s/g, "")
+        : e.target.value;
     setDni(value);
-    setErrors((prev) => ({ ...prev, dni: validarDNI(value) }));
+    setErrors((prev) => ({
+      ...prev,
+      dni: tipoDocumento === "DNI" ? validarDNI(value) : validarNIF(value),
+    }));
+  };
+
+  const handleTipoDocumentoChange = (e) => {
+    setTipoDocumento(e.target.value);
+    setDni("");
+    setLetraDNI("");
+    setErrors((prev) => ({ ...prev, dni: "", letraDNI: "" }));
   };
 
   const handleLetraDNIChange = (e) => {
@@ -308,8 +323,8 @@ export default function GeneracionPDF() {
 
   const validarFormulario = () => {
     const nuevoErrors = {
-      dni: validarDNI(dni),
-      letraDNI: validarLetraDNI(letraDNI),
+      dni: tipoDocumento === "DNI" ? validarDNI(dni) : validarNIF(dni),
+      letraDNI: tipoDocumento === "DNI" ? validarLetraDNI(letraDNI) : "",
       domicilio: validarCampoObligatorio(domicilio, "domicilio"),
       poblacion: validarCampoObligatorio(poblacion, "población"),
       codigoPostal: validarCodigoPostal(codigoPostal),
@@ -341,20 +356,39 @@ export default function GeneracionPDF() {
 
           {/* Columna Izquierda: Formulario */}
           <div className="user-card">
+            <div className="form-group">
+              <label className="form-label">
+                {t("pdf_generation.labels.document_type")}
+              </label>
+              <select
+                value={tipoDocumento}
+                onChange={handleTipoDocumentoChange}
+                disabled={estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"}
+                className="form-input"
+              >
+                <option value="DNI">DNI</option>
+                <option value="NIF">NIF</option>
+              </select>
+            </div>
             <div style={{ display: 'flex', gap: '20px', marginBottom: '15px' }}>
               <div style={{ flex: 2 }} className="form-group">
-                <label className="form-label">{t("pdf_generation.labels.dni")}</label>
+                <label className="form-label">
+                  {tipoDocumento === "DNI"
+                    ? t("pdf_generation.labels.dni")
+                    : t("pdf_generation.labels.nif")}
+                </label>
                 <input
                   type="text"
                   disabled={estadoPermuta === "ACEPTADA" || estadoPermuta === "VALIDADA"}
                   value={dni}
                   onChange={handleDNIChange}
+                  maxLength={tipoDocumento === "DNI" ? 8 : 9}
                   className={`form-input ${errors.dni ? "input-error" : ""}`}
                   style={{ borderColor: errors.dni ? 'var(--danger-color)' : '' }}
                 />
                 {errors.dni && <span style={{ color: 'var(--danger-color)', fontSize: '0.85rem' }}>{errors.dni}</span>}
               </div>
-              <div style={{ flex: 1 }} className="form-group">
+              {tipoDocumento === "DNI" && <div style={{ flex: 1 }} className="form-group">
                 <label className="form-label">{t("pdf_generation.labels.dni_letter")}</label>
                 <input
                   type="text"
@@ -366,7 +400,7 @@ export default function GeneracionPDF() {
                   style={{ borderColor: errors.letraDNI ? 'var(--danger-color)' : '' }}
                 />
                 {errors.letraDNI && <span style={{ color: 'var(--danger-color)', fontSize: '0.85rem' }}>{errors.letraDNI}</span>}
-              </div>
+              </div>}
             </div>
 
             <div className="form-group">
