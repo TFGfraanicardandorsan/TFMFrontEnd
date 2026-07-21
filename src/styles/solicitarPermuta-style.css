@@ -1,0 +1,173 @@
+.solicitar-permuta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 36px;
+}
+
+.solicitar-permuta-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.solicitar-permuta-asignatura {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--user-primary);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.solicitar-permuta-asignatura svg {
+  margin-top: 4px;
+}
+
+.solicitar-grupos-fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.solicitar-grupos-fieldset legend {
+  margin-bottom: 10px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.solicitar-grupos-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.solicitar-grupos-toolbar button {
+  padding: 6px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--user-primary);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.solicitar-grupos-toolbar button:hover:not(:disabled) {
+  border-color: var(--user-primary);
+  background: var(--user-accent);
+}
+
+.solicitar-grupos-toolbar button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.solicitar-grupos-opciones {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 9px;
+}
+
+.solicitar-grupo-opcion {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 11px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  background: var(--card-bg);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.solicitar-grupo-opcion:hover,
+.solicitar-grupo-opcion:focus-within {
+  border-color: var(--user-primary);
+}
+
+.solicitar-grupo-opcion.seleccionada {
+  border-color: var(--user-primary);
+  background: var(--user-accent);
+  font-weight: 600;
+}
+
+.solicitar-grupo-opcion input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--user-primary);
+}
+
+.solicitar-seleccion-resumen {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin-top: auto;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.solicitar-seleccion-resumen svg {
+  margin-top: 3px;
+  color: var(--success-color);
+}
+
+.solicitar-permuta-submit {
+  display: flex;
+  width: 100%;
+  max-width: 800px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 36px auto 0;
+  padding: 20px 30px;
+  border: 1px solid rgba(43, 87, 154, 0.2);
+  border-radius: 16px;
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+}
+
+.solicitar-permuta-submit-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.solicitar-permuta-submit-info svg {
+  color: var(--user-primary);
+}
+
+.solicitar-permuta-submit .btn {
+  min-width: 180px;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 1rem;
+}
+
+.solicitar-permuta-footer-spacer {
+  height: 120px;
+}
+
+.solicitar-permuta-empty-icon {
+  margin-bottom: 16px;
+  font-size: 3rem;
+}
+
+@media (max-width: 640px) {
+  .solicitar-permuta-submit {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 18px;
+  }
+
+  .solicitar-permuta-submit .btn {
+    width: 100%;
+  }
+}

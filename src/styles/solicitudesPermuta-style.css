@@ -65,6 +65,123 @@
   color: var(--text-primary);
 }
 
+.solicitudes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.solicitud-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.solicitud-card-body {
+  flex: 1;
+}
+
+.solicitud-asignatura {
+  margin-bottom: 12px;
+  color: var(--user-primary);
+}
+
+.solicitud-codigo {
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.solicitud-estado {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(100, 116, 139, 0.1);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.solicitud-estado-solicitada {
+  background: var(--user-accent);
+  color: var(--user-primary);
+}
+
+.solicitud-estado-aceptada {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success-color);
+}
+
+.solicitud-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.solicitud-actions .btn {
+  flex: 1 1 120px;
+}
+
+.solicitud-actions .btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.solicitud-bloqueo {
+  margin: 14px 0 0 !important;
+  padding: 10px 12px;
+  border: 1px solid rgba(217, 119, 6, 0.35);
+  border-radius: var(--border-radius-sm);
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--text-secondary) !important;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.solicitud-btn-secondary {
+  border: 1px solid var(--user-primary);
+  background: transparent;
+  color: var(--user-primary);
+}
+
+.solicitud-btn-secondary:hover {
+  background: var(--user-accent);
+}
+
+.solicitudes-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.solicitudes-empty-state h3 {
+  color: var(--user-primary);
+  font-size: 1.8rem;
+}
+
+.solicitudes-empty-state p {
+  max-width: 500px;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.solicitudes-empty-icon {
+  display: flex;
+  width: 120px;
+  height: 120px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--user-accent);
+  font-size: 5rem;
+}
+
 /* Modales */
 .modal-overlay {
   position: fixed;
@@ -92,6 +209,101 @@
   animation: fadeIn 0.3s ease;
 }
 
+.solicitudes-modal {
+  max-height: min(720px, calc(100vh - 40px));
+  overflow-y: auto;
+}
+
+.solicitudes-editor {
+  max-width: 600px;
+}
+
+.editor-asignatura {
+  margin-bottom: 4px;
+}
+
+.editor-ayuda {
+  color: var(--text-secondary) !important;
+  font-size: 0.95rem;
+}
+
+.editor-status,
+.editor-error {
+  margin: 20px 0;
+  padding: 14px 16px;
+  border-radius: var(--border-radius-sm);
+}
+
+.editor-status {
+  background: var(--user-accent);
+  color: var(--text-primary);
+}
+
+.editor-error {
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--danger-color);
+}
+
+.grupos-selector {
+  margin: 20px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.grupos-selector legend {
+  margin-bottom: 12px;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.grupos-opciones {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.grupo-opcion {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  background: var(--card-bg);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.grupo-opcion:hover,
+.grupo-opcion:focus-within {
+  border-color: var(--user-primary);
+}
+
+.grupo-opcion-seleccionada {
+  border-color: var(--user-primary);
+  background: var(--user-accent);
+}
+
+.grupo-opcion input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--user-primary);
+}
+
+.grupo-opcion input:disabled {
+  cursor: not-allowed;
+}
+
+.grupo-obligatorio {
+  margin-left: auto;
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
 .modal-content h2 {
   margin-bottom: 20px;
   color: var(--user-primary);
@@ -115,6 +327,10 @@
   justify-content: flex-end;
 }
 
+.editor-actions {
+  gap: 10px;
+}
+
 .modal-actions button {
   padding: 10px 24px;
   border-radius: var(--border-radius-sm);
@@ -129,6 +345,27 @@
 .modal-actions button:hover {
   background: var(--user-primary-hover);
   transform: translateY(-2px);
+}
+
+.modal-actions .solicitud-modal-cancelar {
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-primary);
+}
+
+.modal-actions .solicitud-modal-cancelar:hover:not(:disabled) {
+  background: var(--user-accent);
+  transform: none;
+}
+
+.modal-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.solicitudes-footer-spacer {
+  height: 80px;
 }
 
 @keyframes fadeIn {
@@ -164,5 +401,27 @@
   .modal-content {
     padding: 24px;
     width: 95%;
+  }
+
+  .solicitud-actions {
+    flex-direction: column;
+  }
+
+  .solicitud-actions .btn {
+    flex-basis: auto;
+    width: 100%;
+  }
+
+  .grupos-opciones {
+    grid-template-columns: 1fr;
+  }
+
+  .editor-actions {
+    align-items: stretch;
+    flex-direction: column-reverse;
+  }
+
+  .editor-actions button {
+    width: 100%;
   }
 }

@@ -1,10 +1,10 @@
 import i18n from "../i18n";
 import { csrfFetch } from "./csrf.js";
 
-export const postAPI = async (fun, body = null, isFile = false) => {
+const mutationAPI = async (method, fun, body = null, isFile = false) => {
     try {
         const config = {
-            method: 'POST',
+            method,
             credentials: 'include', // Para enviar cookies de sesión
         };
 
@@ -41,6 +41,14 @@ export const postAPI = async (fun, body = null, isFile = false) => {
     } catch (e) {
         return { err: true, errmsg: i18n.t("api.post_exception", { message: e.message }) };
     }
+};
+
+export const postAPI = async (fun, body = null, isFile = false) => {
+    return mutationAPI('POST', fun, body, isFile);
+};
+
+export const patchAPI = async (fun, body = null) => {
+    return mutationAPI('PATCH', fun, body);
 };
 
 export const getAPI = async (fun) => {
