@@ -19,6 +19,7 @@ import {
   validarDNI,
   validarLetraDNI,
   validarNIF,
+  validarTIE,
   validarCampoObligatorio,
   validarCodigoPostal,
   validarTelefono,
@@ -283,13 +284,18 @@ export default function GeneracionPDF() {
 
   const handleDNIChange = (e) => {
     const value =
-      tipoDocumento === "NIF"
+      tipoDocumento !== "DNI"
         ? e.target.value.toUpperCase().replace(/\s/g, "")
         : e.target.value;
     setDni(value);
     setErrors((prev) => ({
       ...prev,
-      dni: tipoDocumento === "DNI" ? validarDNI(value) : validarNIF(value),
+      dni:
+        tipoDocumento === "DNI"
+          ? validarDNI(value)
+          : tipoDocumento === "NIF"
+            ? validarNIF(value)
+            : validarTIE(value),
     }));
   };
 
@@ -323,7 +329,12 @@ export default function GeneracionPDF() {
 
   const validarFormulario = () => {
     const nuevoErrors = {
-      dni: tipoDocumento === "DNI" ? validarDNI(dni) : validarNIF(dni),
+      dni:
+        tipoDocumento === "DNI"
+          ? validarDNI(dni)
+          : tipoDocumento === "NIF"
+            ? validarNIF(dni)
+            : validarTIE(dni),
       letraDNI: tipoDocumento === "DNI" ? validarLetraDNI(letraDNI) : "",
       domicilio: validarCampoObligatorio(domicilio, "domicilio"),
       poblacion: validarCampoObligatorio(poblacion, "población"),
@@ -368,14 +379,13 @@ export default function GeneracionPDF() {
               >
                 <option value="DNI">DNI</option>
                 <option value="NIF">NIF</option>
+                <option value="TIE">TIE</option>
               </select>
             </div>
             <div style={{ display: 'flex', gap: '20px', marginBottom: '15px' }}>
               <div style={{ flex: 2 }} className="form-group">
                 <label className="form-label">
-                  {tipoDocumento === "DNI"
-                    ? t("pdf_generation.labels.dni")
-                    : t("pdf_generation.labels.nif")}
+                  {t(`pdf_generation.labels.${tipoDocumento.toLowerCase()}`)}
                 </label>
                 <input
                   type="text"

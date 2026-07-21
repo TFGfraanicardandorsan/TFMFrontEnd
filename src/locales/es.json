@@ -362,6 +362,7 @@
             "document_type": "Tipo de documento:",
             "dni": "DNI:",
             "nif": "NIF:",
+            "tie": "TIE:",
             "dni_letter": "Letra DNI:",
             "address": "Domicilio:",
             "city": "Población:",

@@ -406,6 +406,7 @@
             "document_type": "Document type:",
             "dni": "ID Card (DNI):",
             "nif": "Tax ID (NIF):",
+            "tie": "Foreigner identity card (TIE):",
             "dni_letter": "DNI Letter:",
             "address": "Address:",
             "city": "City:",

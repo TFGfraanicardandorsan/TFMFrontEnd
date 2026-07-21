@@ -46,6 +46,23 @@ export const validarNIF = (value) => {
 
   return "";
 };
+
+export const validarTIE = (value) => {
+  const tie = value.trim().toUpperCase();
+  if (!tie) return "El TIE es obligatorio";
+  if (!/^[XYZ][0-9]{7}[A-Z]$/.test(tie)) {
+    return "El TIE debe tener X, Y o Z, 7 números y una letra";
+  }
+
+  const prefijoNumerico = { X: "0", Y: "1", Z: "2" }[tie[0]];
+  const numero = Number(`${prefijoNumerico}${tie.slice(1, 8)}`);
+  const letraEsperada = "TRWAGMYFPDXBNJZSQVHLCKE"[numero % 23];
+  if (tie[8] !== letraEsperada) {
+    return "La letra de control del TIE no es válida";
+  }
+
+  return "";
+};
 export const validarCodigoPostal = (value) => {
   const cpRegex = /^[0-9]{5}$/;
   if (!value) return "El código postal es obligatorio";
