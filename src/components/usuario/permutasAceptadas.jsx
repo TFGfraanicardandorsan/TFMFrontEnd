@@ -15,6 +15,11 @@ export default function PermutasAceptadas() {
   const [usuario, setUsuario] = useState(null);
   const navigate = useNavigate();
 
+  const abrirPermuta = (IdsPermuta) => {
+    sessionStorage.setItem("permutasSeleccionadas", JSON.stringify(IdsPermuta));
+    navigate("/generarPermuta", { state: { IdsPermuta } });
+  };
+
   useEffect(() => {
     obtenerPermutasAgrupadas();
     obtenerDatosUsuario();
@@ -59,7 +64,7 @@ export default function PermutasAceptadas() {
     try {
       await generarBorradorPermuta(IdsPermuta);
       toast.success(t("accepted_swaps.success_generated"));
-      navigate("/generarPermuta");
+      abrirPermuta(IdsPermuta);
     } catch (error) {
       toast.error(t("accepted_swaps.error_generated"));
       setError(t("accepted_swaps.error_generated"));
@@ -137,13 +142,13 @@ export default function PermutasAceptadas() {
                       <button className="btn btn-success btn-full" onClick={() => handleGenerarPermuta(IdsPermuta)}>{t("accepted_swaps.generate_swap")}</button>
                     )}
                     {puedeContinuarPermuta && (
-                      <button className="btn btn-success btn-full" onClick={() => navigate("/generarPermuta")}>{t("accepted_swaps.continue_swap")}</button>
+                      <button className="btn btn-success btn-full" onClick={() => abrirPermuta(IdsPermuta)}>{t("accepted_swaps.continue_swap")}</button>
                     )}
                     {puedeCompletarPermuta && (
-                      <button className="btn btn-primary btn-full" onClick={() => navigate("/generarPermuta")}>{t("accepted_swaps.complete_swap")}</button>
+                      <button className="btn btn-primary btn-full" onClick={() => abrirPermuta(IdsPermuta)}>{t("accepted_swaps.complete_swap")}</button>
                     )}
                     {todasFinalizadas && (
-                      <button className="btn btn-primary btn-full" onClick={() => navigate("/generarPermuta")}>{t("accepted_swaps.view_swap")}</button>
+                      <button className="btn btn-primary btn-full" onClick={() => abrirPermuta(IdsPermuta)}>{t("accepted_swaps.view_swap")}</button>
                     )}
                   </div>
                 </div>

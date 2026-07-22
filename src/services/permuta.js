@@ -49,7 +49,7 @@ export const validarPermuta = async (solicitud) => {
     return await postAPI("/api/v1/solicitudPermuta/validarSolicitudPermuta", { solicitud });
 }
 
-export const actualizarVigenciaSolicitudes = async (solicitud) => {
+export const actualizarVigenciaSolicitudes = async () => {
     return await postAPI("/api/v1/solicitudPermuta/actualizarLaVigenciaSolicitud");
 }
 

@@ -25,7 +25,7 @@ import {
   validarTelefono,
 } from "../../lib/validadores.js";
 import Modal from "./Modal.jsx";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { logError } from "../../lib/logger.js";
 import { useTranslation } from "react-i18next";
@@ -60,15 +60,35 @@ export default function GeneracionPDF() {
   const [pdfUrl, setPdfUrl] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const cargarDatos = async () => {
       try {
         const lista = await verListaPermutas();
-        setUsuarios(lista.result.result[0].usuarios);
-        setPermutas(lista.result.result[0].permutas);
+        const gruposPermutas = lista?.result?.result ?? [];
+        const idsNavegacion = location.state?.IdsPermuta;
+        const idsGuardados = JSON.parse(
+          sessionStorage.getItem("permutasSeleccionadas") || "null"
+        );
+        const idsSeleccionados = Array.isArray(idsNavegacion)
+          ? idsNavegacion
+          : idsGuardados;
+        const grupoSeleccionado = gruposPermutas.find((grupo) => {
+          const idsGrupo = (grupo.permutas ?? []).map((permuta) => permuta.permuta_id);
+          return Array.isArray(idsSeleccionados)
+            && idsGrupo.length === idsSeleccionados.length
+            && idsGrupo.every((id) => idsSeleccionados.includes(id));
+        });
 
-        const idsPermutas = lista.result.result[0].permutas.map(
+        if (!grupoSeleccionado) {
+          throw new Error("No se ha encontrado el grupo de permutas seleccionado");
+        }
+
+        setUsuarios(grupoSeleccionado.usuarios);
+        setPermutas(grupoSeleccionado.permutas);
+
+        const idsPermutas = grupoSeleccionado.permutas.map(
           (permuta) => permuta.permuta_id
         );
         const permuta = await listarPermutas(idsPermutas);
@@ -92,7 +112,7 @@ export default function GeneracionPDF() {
       }
     };
     cargarDatos();
-  }, []);
+  }, [location.state]);
 
   const generarPDF = async () => {
     try {
