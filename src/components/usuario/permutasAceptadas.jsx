@@ -104,7 +104,8 @@ export default function PermutasAceptadas() {
                 estudianteCumplimentado1 || usuarios[0];
               const todasNull = permutasDetalles.every((permuta) => permuta.estado_permuta_asociada === null);
               const todasBorrador = permutasDetalles.every((permuta) => permuta.estado_permuta_asociada === "BORRADOR");
-              const puedeGenerarPermuta = usuarioActual === usuarios[0] && todasNull
+              const puedeGenerarPermuta =
+                todasNull && usuarios.includes(usuarioActual);
               const puedeContinuarPermuta = usuarioActual === primerEstudiante && todasBorrador;
               const todasFirmadas = permutasDetalles.length > 0 && permutasDetalles.every((permuta) => permuta.estado_permuta_asociada === "FIRMADA");
               const puedeCompletarPermuta =
