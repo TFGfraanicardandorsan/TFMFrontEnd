@@ -93,44 +93,29 @@ export default function PermutasAceptadas() {
         {permutas.length > 0 ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
             {permutas.map((grupoPermuta, index) => {
-              const usuarios = grupoPermuta.usuarios ?? [];
+              const usuarios = (grupoPermuta.usuarios ?? []).map((uvus) =>
+                uvus?.trim()
+              );
               const permutasDetalles = grupoPermuta.permutas ?? [];
-              // El backend puede incluir permutas históricas VALIDADA de la
-              // misma pareja. Solo las FINALIZADA pertenecen al flujo actual.
-              const permutasActuales = permutasDetalles.filter(
-                (permuta) => permuta.estado === "FINALIZADA"
-              );
-              const todasNull =
-                permutasActuales.length > 0 &&
-                permutasActuales.every(
-                  (permuta) => permuta.estado_permuta_asociada === null
-                );
-              const todasBorrador =
-                permutasActuales.length > 0 &&
-                permutasActuales.every(
-                  (permuta) => permuta.estado_permuta_asociada === "BORRADOR"
-                );
-              const puedeGenerarPermuta = usuario === usuarios[0] && todasNull
-              const puedeContinuarPermuta = usuario === usuarios[0] && todasBorrador;
-              const todasFirmadas =
-                permutasActuales.length > 0 &&
-                permutasActuales.every(
-                  (permuta) => permuta.estado_permuta_asociada === "FIRMADA"
-                );
-              const puedeCompletarPermuta = usuario === usuarios[1] && todasFirmadas;
-              const todasFinalizadas =
-                permutasActuales.length > 0 &&
-                permutasActuales.every(
-                  (permuta) =>
-                    permuta.estado_permuta_asociada === "ACEPTADA" ||
-                    permuta.estado_permuta_asociada === "VALIDADA"
-                );
-              const IdsPermuta = permutasActuales.map(
-                (permuta) => permuta.permuta_id
-              );
+              const usuarioActual = usuario?.trim();
+              const estudianteCumplimentado1 =
+                grupoPermuta.estudiante_cumplimentado_1?.trim();
+              const primerEstudiante =
+                estudianteCumplimentado1 || usuarios[0];
+              const todasNull = permutasDetalles.every((permuta) => permuta.estado_permuta_asociada === null);
+              const todasBorrador = permutasDetalles.every((permuta) => permuta.estado_permuta_asociada === "BORRADOR");
+              const puedeGenerarPermuta = usuarioActual === usuarios[0] && todasNull
+              const puedeContinuarPermuta = usuarioActual === primerEstudiante && todasBorrador;
+              const todasFirmadas = permutasDetalles.length > 0 && permutasDetalles.every((permuta) => permuta.estado_permuta_asociada === "FIRMADA");
+              const puedeCompletarPermuta =
+                todasFirmadas &&
+                usuarios.includes(usuarioActual) &&
+                usuarioActual !== primerEstudiante;
+              const todasFinalizadas = permutasDetalles.every((permuta) => (permuta.estado_permuta_asociada === "ACEPTADA" || permuta.estado_permuta_asociada === "VALIDADA"));
+              const IdsPermuta = permutasDetalles.map((permuta) => permuta.permuta_id);
 
               // Saltar si los datos son incompletos
-              if (usuarios.length < 2 || permutasActuales.length === 0) {
+              if (usuarios.length < 2 || permutasDetalles.length === 0) {
                 return null;
               }
 
@@ -144,7 +129,7 @@ export default function PermutasAceptadas() {
                       <strong>{t("accepted_swaps.student_2")}:</strong> {usuarios[1]}
                     </p>
 
-                    {permutasActuales.map((permuta) => (
+                    {permutasDetalles.map((permuta) => (
                       <div key={permuta.permuta_id} className="permuta-detalle" style={{ marginTop: '10px', padding: '10px', backgroundColor: 'var(--user-accent)', borderRadius: 'var(--border-radius-sm)' }}>
                         <p style={{ margin: '4px 0', fontSize: '0.95em' }}>
                           <strong>{t("accepted_swaps.subject")}:</strong> {permuta.nombre_asignatura}
