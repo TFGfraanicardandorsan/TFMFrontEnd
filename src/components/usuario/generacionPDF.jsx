@@ -59,42 +59,73 @@ export default function GeneracionPDF() {
   });
   const [pdfUrl, setPdfUrl] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [cargandoDatos, setCargandoDatos] = useState(true);
+  const [errorCarga, setErrorCarga] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const idsNavegacionSerializados = JSON.stringify(
+    location.state?.IdsPermuta ?? null
+  );
 
   useEffect(() => {
     const cargarDatos = async () => {
       try {
+        setCargandoDatos(true);
+        setErrorCarga(null);
         const lista = await verListaPermutas();
+        if (lista?.err || lista?.result?.err) {
+          throw new Error(
+            lista?.errmsg
+            || lista?.result?.message
+            || t("pdf_generation.errors.load_error")
+          );
+        }
         const gruposPermutas = lista?.result?.result ?? [];
-        const idsNavegacion = location.state?.IdsPermuta;
+        const idsNavegacion = JSON.parse(idsNavegacionSerializados);
         const idsGuardados = JSON.parse(
           sessionStorage.getItem("permutasSeleccionadas") || "null"
         );
         const idsSeleccionados = Array.isArray(idsNavegacion)
           ? idsNavegacion
           : idsGuardados;
+        if (!Array.isArray(idsSeleccionados) || idsSeleccionados.length === 0) {
+          throw new Error(t("pdf_generation.errors.no_selection"));
+        }
+        const idsSeleccionadosSet = new Set(idsSeleccionados);
         const grupoSeleccionado = gruposPermutas.find((grupo) => {
           const idsGrupo = (grupo.permutas ?? []).map((permuta) => permuta.permuta_id);
-          return Array.isArray(idsSeleccionados)
-            && idsGrupo.length === idsSeleccionados.length
-            && idsGrupo.every((id) => idsSeleccionados.includes(id));
+          return idsSeleccionados.every((id) => idsGrupo.includes(id));
         });
 
         if (!grupoSeleccionado) {
-          throw new Error("No se ha encontrado el grupo de permutas seleccionado");
+          throw new Error(t("pdf_generation.errors.no_selection"));
         }
 
-        setUsuarios(grupoSeleccionado.usuarios);
-        setPermutas(grupoSeleccionado.permutas);
+        const permutasSeleccionadas = grupoSeleccionado.permutas.filter(
+          (permuta) => idsSeleccionadosSet.has(permuta.permuta_id)
+        );
 
-        const idsPermutas = grupoSeleccionado.permutas.map(
+        const idsPermutas = permutasSeleccionadas.map(
           (permuta) => permuta.permuta_id
         );
         const permuta = await listarPermutas(idsPermutas);
-        const estado = permuta?.result?.result[0]?.estado;
-        const fileId = permuta?.result?.result[0]?.archivo;
-        setPermutaId(permuta?.result?.result[0]?.id);
+        if (permuta?.err || permuta?.result?.error || permuta?.result?.err) {
+          throw new Error(
+            permuta?.errmsg
+            || permuta?.result?.message
+            || t("pdf_generation.errors.load_error")
+          );
+        }
+        const documento = permuta?.result?.result?.[0];
+        if (!documento) {
+          throw new Error(t("pdf_generation.errors.load_error"));
+        }
+
+        setUsuarios(grupoSeleccionado.usuarios);
+        setPermutas(permutasSeleccionadas);
+        const estado = documento.estado;
+        const fileId = documento.archivo;
+        setPermutaId(documento.id);
 
         if (estado !== "BORRADOR") {
           setEstadoPermuta(estado);
@@ -109,13 +140,24 @@ export default function GeneracionPDF() {
         }
       } catch (error) {
         logError(error);
+        setErrorCarga(error.message || t("pdf_generation.errors.load_error"));
+        toast.error(t("pdf_generation.errors.load_error"));
+      } finally {
+        setCargandoDatos(false);
       }
     };
-    cargarDatos();
-  }, [location.state]);
+    void cargarDatos();
+  }, [idsNavegacionSerializados, t]);
+
+  useEffect(() => () => {
+    if (pdfUrl) URL.revokeObjectURL(pdfUrl);
+  }, [pdfUrl]);
 
   const generarPDF = async () => {
     try {
+      if (cargandoDatos || errorCarga || usuarios.length < 2 || permutas.length === 0) {
+        throw new Error(t("pdf_generation.errors.load_error"));
+      }
       const existingPdfBytes =
         estadoPermuta !== "BORRADOR" && pdfExistente
           ? pdfExistente
@@ -519,14 +561,21 @@ export default function GeneracionPDF() {
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '20px' }}>
               {estadoPermuta !== "ACEPTADA" && estadoPermuta !== "VALIDADA" && (
-                <button className="btn btn-primary" onClick={mostrarPDF}>
+                <button className="btn btn-primary" onClick={mostrarPDF} disabled={cargandoDatos || Boolean(errorCarga)}>
                   {t("pdf_generation.buttons.visualize")}
                 </button>
               )}
-              <button className="btn btn-secondary" onClick={descargarPDF} style={{ width: '100%', backgroundColor: '#6c757d', color: 'white' }}>
+              <button className="btn btn-secondary" onClick={descargarPDF} disabled={cargandoDatos || Boolean(errorCarga)} style={{ width: '100%', backgroundColor: '#6c757d', color: 'white' }}>
                 {t("pdf_generation.buttons.download")}
               </button>
             </div>
+
+            {cargandoDatos && (
+              <div className="user-loading" role="status">
+                {t("pdf_generation.loading")}
+              </div>
+            )}
+            {errorCarga && <div className="user-error" role="alert">{errorCarga}</div>}
 
             {estadoPermuta !== "ACEPTADA" && estadoPermuta !== "VALIDADA" && (
               <div className="file-upload-wrapper" style={{ marginTop: '20px', padding: '20px' }}>

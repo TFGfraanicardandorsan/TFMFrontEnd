@@ -399,6 +399,7 @@
     },
     "pdf_generation": {
         "title": "Génération de documentation de permute",
+        "loading": "Chargement des données de la permute...",
         "description": "Ce formulaire vous permet de générer la documentation nécessaire pour demander une permute de matières. Veuillez remplir tous les champs obligatoires et assurez-vous que les informations sont correctes avant d'envoyer le formulaire.",
         "instructions_1": "Une fois que vous avez rempli le formulaire, vous pouvez télécharger un PDF avec la demande de permute. Ce PDF doit être signé et envoyé au système afin que votre partenaire puisse remplir ses données.",
         "instructions_2": "Lorsque votre partenaire signe le PDF, vous pouvez le télécharger et l'envoyer à l'administration.",
@@ -421,6 +422,8 @@
             "validate": "Valider"
         },
         "errors": {
+            "load_error": "Les données de la permute n'ont pas pu être chargées.",
+            "no_selection": "La permute sélectionnée est introuvable.",
             "fix_errors": "Veuillez corriger les erreurs dans le formulaire",
             "select_file": "Veuillez sélectionner un fichier à télécharger.",
             "upload_error": "Erreur lors du téléchargement du fichier PDF.",

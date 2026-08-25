@@ -399,6 +399,7 @@
     },
     "pdf_generation": {
         "title": "Permutation Document Generation",
+        "loading": "Loading swap data...",
         "description": "This form allows you to generate the necessary documentation to request a subject permutation. Please complete all mandatory fields and ensure the information is correct before submitting the form.",
         "instructions_1": "Once you fill out the form, you can download a PDF with the permutation request. This PDF must be signed and sent to the system so your partner can fill in their data.",
         "instructions_2": "When your partner signs the PDF, you can download it and send it to the administration.",
@@ -421,6 +422,8 @@
             "validate": "Validate"
         },
         "errors": {
+            "load_error": "The swap data could not be loaded.",
+            "no_selection": "The selected swap could not be found.",
             "fix_errors": "Please correct the errors in the form",
             "select_file": "Please select a file to upload.",
             "upload_error": "Error uploading PDF file.",

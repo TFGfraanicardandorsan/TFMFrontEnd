@@ -355,6 +355,7 @@
     },
     "pdf_generation": {
         "title": "Generación documentación permuta",
+        "loading": "Cargando los datos de la permuta...",
         "description": "Este formulario permite generar la documentación necesaria para solicitar una permuta de asignaturas. Por favor, completa todos los campos obligatorios y asegúrate de que la información es correcta antes de enviar el formulario.",
         "instructions_1": "Una vez rellenes el formulario, podrás descargar un PDF con la solicitud de permuta. Este PDF deberá ser firmado y enviado al sistema para que tu compañero pueda rellenar sus datos.",
         "instructions_2": "Cuando tu compañero firme el PDF, podrás descargarlo y enviarlo a la administración.",
@@ -377,6 +378,8 @@
             "validate": "Validar"
         },
         "errors": {
+            "load_error": "No se pudieron cargar los datos de la permuta.",
+            "no_selection": "No se ha encontrado la permuta seleccionada.",
             "fix_errors": "Por favor, corrige los errores en el formulario",
             "select_file": "Por favor, selecciona un archivo para subir.",
             "upload_error": "Error al subir el archivo PDF.",
