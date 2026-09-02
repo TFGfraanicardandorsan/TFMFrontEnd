@@ -128,4 +128,33 @@ describe("GeneracionPDF - carga del documento", () => {
     );
     expect(mocks.toastError).not.toHaveBeenCalled();
   });
+
+  it("rellena los nombres automáticos de la plantilla oficial 2026-27", async () => {
+    const documento = await PDFDocument.create();
+    documento.addPage();
+    const formulario = documento.getForm();
+    ["Check Box1", "Check Box5", "Check Box6", "Check Box7"].forEach(
+      (nombre) => formulario.createCheckBox(nombre)
+    );
+    [
+      "Text2", "Text3", "Text4", "Text8", "Text9", "Text10", "Text11", "Text12",
+      "Text13", "Text32", "Text44", "Text56",
+      "Text71", "Text72", "Text73",
+    ].forEach((nombre) => formulario.createTextField(nombre));
+    mocks.obtenerPlantillaPermuta.mockResolvedValue(await documento.save());
+
+    const { container } = render(<GeneracionPDF />);
+    await waitFor(() => expect(screen.getByRole("button", { name: "Visualizar" })).toBeEnabled());
+
+    const campos = container.querySelectorAll('input[type="text"]');
+    ["12345678", "A", "Calle Prueba", "Sevilla", "41001", "Sevilla", "600123123"]
+      .forEach((valor, index) => fireEvent.change(campos[index], { target: { value: valor } }));
+    fireEvent.click(screen.getByRole("button", { name: "Visualizar" }));
+
+    expect(await screen.findByTitle("Vista previa del PDF")).toHaveAttribute(
+      "src",
+      "blob:permuta"
+    );
+    expect(mocks.toastError).not.toHaveBeenCalled();
+  });
 });

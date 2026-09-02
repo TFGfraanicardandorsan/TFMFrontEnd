@@ -37,6 +37,44 @@ import { useTranslation } from "react-i18next";
 
 const NUMERO_FILAS_ASIGNATURAS = 12;
 
+// La plantilla oficial 2026-27 fue exportada desde Word con nombres
+// automáticos. El orden se ha obtenido de los widgets y sus coordenadas.
+const CAMPOS_PLANTILLA_2627 = {
+  titulaciones: {
+    "GII-IC": "Check Box1",
+    "GII-IS": "Check Box5",
+    "GII-TI": "Check Box6",
+    GISA: "Check Box7",
+  },
+  fechas: {
+    dia: "Text71",
+    mes: "Text72",
+    anio: "Text73",
+  },
+  estudiantes: {
+    1: ["Text2", "Text3", "Text4", "Text8", "Text9", "Text10", "Text11", "Text12"],
+    2: ["Text27", "Text28", "Text29", "Text30", "Text31", "Text68", "Text69", "Text70"],
+  },
+  asignaturas: {
+    estudiante1: [
+      "Text13", "Text14", "Text15", "Text16", "Text17", "Text18",
+      "Text19", "Text22", "Text23", "Text24", "Text25", "Text26",
+    ],
+    estudiante2: [
+      "Text44", "Text45", "Text46", "Text47", "Text48", "Text49",
+      "Text50", "Text51", "Text52", "Text53", "Text54", "Text55",
+    ],
+    codigo1: [
+      "Text32", "Text33", "Text34", "Text35", "Text36", "Text37",
+      "Text38", "Text39", "Text40", "Text41", "Text42", "Text43",
+    ],
+    codigo2: [
+      "Text56", "Text57", "Text58", "Text59", "Text60", "Text61",
+      "Text62", "Text63", "Text64", "Text65", "Text66", "Text67",
+    ],
+  },
+};
+
 const normalizarNombreCampo = (nombre) => String(nombre ?? "")
   .normalize("NFD")
   .replace(/[\u0300-\u036f]/g, "")
@@ -44,7 +82,7 @@ const normalizarNombreCampo = (nombre) => String(nombre ?? "")
   .replace(/[^A-Z0-9]/g, "");
 
 const buscarCampo = (form, nombres, TipoCampo) => {
-  const candidatos = nombres.map(normalizarNombreCampo);
+  const candidatos = nombres.filter(Boolean).map(normalizarNombreCampo);
   return form.getFields().find((campo) => (
     campo instanceof TipoCampo
     && candidatos.includes(normalizarNombreCampo(campo.getName()))
@@ -63,7 +101,11 @@ const exigirCampoTexto = (form, nombres, descripcion) => {
 };
 
 const seleccionarEstudio = (form, estudio) => {
-  const checkbox = buscarCampo(form, [estudio], PDFCheckBox);
+  const checkbox = buscarCampo(
+    form,
+    [estudio, CAMPOS_PLANTILLA_2627.titulaciones[estudio]],
+    PDFCheckBox
+  );
   if (checkbox) {
     checkbox.check();
     checkbox.enableReadOnly();
@@ -101,14 +143,14 @@ const seleccionarEstudio = (form, estudio) => {
 };
 
 const definicionesCamposEstudiante = (numero) => [
-  { nombres: [`DNI${numero}`], descripcion: `DNI${numero}` },
-  { nombres: [`LETRA${numero}`], descripcion: `LETRA${numero}` },
-  { nombres: [`NOMBRE${numero}`], descripcion: `NOMBRE${numero}` },
-  { nombres: [`DOMICILIO${numero}`], descripcion: `DOMICILIO${numero}` },
-  { nombres: [`POBLACION${numero}`, `POBLACIÓN${numero}`], descripcion: `POBLACION${numero}` },
-  { nombres: [`COD-POSTAL${numero}`, `CODPOSTAL${numero}`, `CP${numero}`], descripcion: `COD-POSTAL${numero}` },
-  { nombres: [`PROVINCIA${numero}`], descripcion: `PROVINCIA${numero}` },
-  { nombres: [`TELEFONO${numero}`, `TELÉFONO${numero}`], descripcion: `TELEFONO${numero}` },
+  { nombres: [`DNI${numero}`, CAMPOS_PLANTILLA_2627.estudiantes[numero][0]], descripcion: `DNI${numero}` },
+  { nombres: [`LETRA${numero}`, CAMPOS_PLANTILLA_2627.estudiantes[numero][1]], descripcion: `LETRA${numero}` },
+  { nombres: [`NOMBRE${numero}`, CAMPOS_PLANTILLA_2627.estudiantes[numero][2]], descripcion: `NOMBRE${numero}` },
+  { nombres: [`DOMICILIO${numero}`, CAMPOS_PLANTILLA_2627.estudiantes[numero][3]], descripcion: `DOMICILIO${numero}` },
+  { nombres: [`POBLACION${numero}`, `POBLACIÓN${numero}`, CAMPOS_PLANTILLA_2627.estudiantes[numero][4]], descripcion: `POBLACION${numero}` },
+  { nombres: [`COD-POSTAL${numero}`, `CODPOSTAL${numero}`, `CP${numero}`, CAMPOS_PLANTILLA_2627.estudiantes[numero][5]], descripcion: `COD-POSTAL${numero}` },
+  { nombres: [`PROVINCIA${numero}`, CAMPOS_PLANTILLA_2627.estudiantes[numero][6]], descripcion: `PROVINCIA${numero}` },
+  { nombres: [`TELEFONO${numero}`, `TELÉFONO${numero}`, CAMPOS_PLANTILLA_2627.estudiantes[numero][7]], descripcion: `TELEFONO${numero}` },
 ];
 
 export default function GeneracionPDF() {
@@ -254,9 +296,21 @@ export default function GeneracionPDF() {
       seleccionarEstudio(form, estudio);
 
       // Fechas (bloqueadas siempre)
-      const day = exigirCampoTexto(form, ["DAY", "DIA", "DÍA"], "de día");
-      const month = exigirCampoTexto(form, ["MONTH", "MES"], "de mes");
-      const year = exigirCampoTexto(form, ["YEAR", "ANIO", "AÑO"], "de año");
+      const day = exigirCampoTexto(
+        form,
+        ["DAY", "DIA", "DÍA", CAMPOS_PLANTILLA_2627.fechas.dia],
+        "de día"
+      );
+      const month = exigirCampoTexto(
+        form,
+        ["MONTH", "MES", CAMPOS_PLANTILLA_2627.fechas.mes],
+        "de mes"
+      );
+      const year = exigirCampoTexto(
+        form,
+        ["YEAR", "ANIO", "AÑO", CAMPOS_PLANTILLA_2627.fechas.anio],
+        "de año"
+      );
       day.setText(dayValue);
       month.setText(monthValue);
       year.setText(yearValue);
@@ -267,10 +321,36 @@ export default function GeneracionPDF() {
         const asignatura = permutas[index];
         const numeroFila = index + 1;
         const definiciones = [
-          { nombres: [`ASIGNATURA1-${numeroFila}`], descripcion: `ASIGNATURA1-${numeroFila}` },
-          { nombres: [`ASIGNATURA2-${numeroFila}`], descripcion: `ASIGNATURA2-${numeroFila}` },
-          { nombres: [`COD1-${numeroFila}`, `CODIGO1-${numeroFila}`], descripcion: `COD1-${numeroFila}` },
-          { nombres: [`COD2-${numeroFila}`, `CODIGO2-${numeroFila}`], descripcion: `COD2-${numeroFila}` },
+          {
+            nombres: [
+              `ASIGNATURA1-${numeroFila}`,
+              CAMPOS_PLANTILLA_2627.asignaturas.estudiante1[index],
+            ],
+            descripcion: `ASIGNATURA1-${numeroFila}`,
+          },
+          {
+            nombres: [
+              `ASIGNATURA2-${numeroFila}`,
+              CAMPOS_PLANTILLA_2627.asignaturas.estudiante2[index],
+            ],
+            descripcion: `ASIGNATURA2-${numeroFila}`,
+          },
+          {
+            nombres: [
+              `COD1-${numeroFila}`,
+              `CODIGO1-${numeroFila}`,
+              CAMPOS_PLANTILLA_2627.asignaturas.codigo1[index],
+            ],
+            descripcion: `COD1-${numeroFila}`,
+          },
+          {
+            nombres: [
+              `COD2-${numeroFila}`,
+              `CODIGO2-${numeroFila}`,
+              CAMPOS_PLANTILLA_2627.asignaturas.codigo2[index],
+            ],
+            descripcion: `COD2-${numeroFila}`,
+          },
         ];
         const camposFila = definiciones.map(({ nombres, descripcion }) => (
           asignatura
