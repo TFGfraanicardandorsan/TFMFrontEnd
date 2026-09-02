@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
-import { PDFDocument } from "pdf-lib";
+import {
+  PDFCheckBox,
+  PDFDocument,
+  PDFRadioGroup,
+  PDFTextField,
+} from "pdf-lib";
 import { saveAs } from "file-saver";
 import {
   obtenerPlantillaPermuta,
@@ -31,6 +36,80 @@ import { logError } from "../../lib/logger.js";
 import { useTranslation } from "react-i18next";
 
 const NUMERO_FILAS_ASIGNATURAS = 12;
+
+const normalizarNombreCampo = (nombre) => String(nombre ?? "")
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g, "")
+  .toUpperCase()
+  .replace(/[^A-Z0-9]/g, "");
+
+const buscarCampo = (form, nombres, TipoCampo) => {
+  const candidatos = nombres.map(normalizarNombreCampo);
+  return form.getFields().find((campo) => (
+    campo instanceof TipoCampo
+    && candidatos.includes(normalizarNombreCampo(campo.getName()))
+  ));
+};
+
+const exigirCampoTexto = (form, nombres, descripcion) => {
+  const campo = buscarCampo(form, nombres, PDFTextField);
+  if (!campo) {
+    const disponibles = form.getFields().map((item) => item.getName()).join(", ");
+    throw new Error(
+      `La plantilla PDF no contiene el campo ${descripcion}. Campos disponibles: ${disponibles}`
+    );
+  }
+  return campo;
+};
+
+const seleccionarEstudio = (form, estudio) => {
+  const checkbox = buscarCampo(form, [estudio], PDFCheckBox);
+  if (checkbox) {
+    checkbox.check();
+    checkbox.enableReadOnly();
+    return;
+  }
+
+  const grupos = form.getFields().filter((campo) => campo instanceof PDFRadioGroup);
+  const grupoCompatible = grupos.find((grupo) => grupo.getOptions().some(
+    (opcion) => normalizarNombreCampo(opcion) === normalizarNombreCampo(estudio)
+  ));
+  if (grupoCompatible) {
+    const opcion = grupoCompatible.getOptions().find(
+      (valor) => normalizarNombreCampo(valor) === normalizarNombreCampo(estudio)
+    );
+    grupoCompatible.select(opcion);
+    grupoCompatible.enableReadOnly();
+    return;
+  }
+
+  const campoTexto = buscarCampo(
+    form,
+    ["TITULACION", "TITULACIÓN", "GRADO", "ESTUDIO"],
+    PDFTextField
+  );
+  if (campoTexto) {
+    campoTexto.setText(estudio);
+    campoTexto.enableReadOnly();
+    return;
+  }
+
+  const disponibles = form.getFields().map((campo) => campo.getName()).join(", ");
+  throw new Error(
+    `La plantilla PDF no contiene un campo compatible para la titulación ${estudio}. Campos disponibles: ${disponibles}`
+  );
+};
+
+const definicionesCamposEstudiante = (numero) => [
+  { nombres: [`DNI${numero}`], descripcion: `DNI${numero}` },
+  { nombres: [`LETRA${numero}`], descripcion: `LETRA${numero}` },
+  { nombres: [`NOMBRE${numero}`], descripcion: `NOMBRE${numero}` },
+  { nombres: [`DOMICILIO${numero}`], descripcion: `DOMICILIO${numero}` },
+  { nombres: [`POBLACION${numero}`, `POBLACIÓN${numero}`], descripcion: `POBLACION${numero}` },
+  { nombres: [`COD-POSTAL${numero}`, `CODPOSTAL${numero}`, `CP${numero}`], descripcion: `COD-POSTAL${numero}` },
+  { nombres: [`PROVINCIA${numero}`], descripcion: `PROVINCIA${numero}` },
+  { nombres: [`TELEFONO${numero}`, `TELÉFONO${numero}`], descripcion: `TELEFONO${numero}` },
+];
 
 export default function GeneracionPDF() {
   const { t } = useTranslation();
@@ -166,33 +245,18 @@ export default function GeneracionPDF() {
       const pdfDoc = await PDFDocument.load(existingPdfBytes);
       const form = pdfDoc.getForm();
 
-      // Grado (bloqueado siempre)
-      const grado1 = form.getCheckBox("GII-IS");
-      const grado2 = form.getCheckBox("GII-IC");
-      const grado3 = form.getCheckBox("GII-TI");
-      const grado4 = form.getCheckBox("GISA");
-      [grado1, grado2, grado3, grado4].forEach((g) => g.enableReadOnly());
-
+      // Titulación. Las plantillas de cada curso pueden cambiar separadores,
+      // usar un grupo de radio o un campo de texto en lugar de checkboxes.
       const estudio = usuarios[0]?.estudio;
-      switch (estudio) {
-        case "GII-IS":
-          grado1.check();
-          break;
-        case "GII-IC":
-          grado2.check();
-          break;
-        case "GII-TI":
-          grado3.check();
-          break;
-        case "GISA":
-          grado4.check();
-          break;
+      if (!estudio) {
+        throw new Error("No se ha podido determinar la titulación del estudiante");
       }
+      seleccionarEstudio(form, estudio);
 
       // Fechas (bloqueadas siempre)
-      const day = form.getTextField("DAY");
-      const month = form.getTextField("MONTH");
-      const year = form.getTextField("YEAR");
+      const day = exigirCampoTexto(form, ["DAY", "DIA", "DÍA"], "de día");
+      const month = exigirCampoTexto(form, ["MONTH", "MES"], "de mes");
+      const year = exigirCampoTexto(form, ["YEAR", "ANIO", "AÑO"], "de año");
       day.setText(dayValue);
       month.setText(monthValue);
       year.setText(yearValue);
@@ -201,51 +265,47 @@ export default function GeneracionPDF() {
       // Asignaturas (bloqueadas siempre)
       for (let index = 0; index < NUMERO_FILAS_ASIGNATURAS; index++) {
         const asignatura = permutas[index];
-        const asignaturaField1 = form.getTextField(`ASIGNATURA1-${index + 1}`);
-        const asignaturaField2 = form.getTextField(`ASIGNATURA2-${index + 1}`);
-        const codigoField1 = form.getTextField(`COD1-${index + 1}`);
-        const codigoField2 = form.getTextField(`COD2-${index + 1}`);
+        const numeroFila = index + 1;
+        const definiciones = [
+          { nombres: [`ASIGNATURA1-${numeroFila}`], descripcion: `ASIGNATURA1-${numeroFila}` },
+          { nombres: [`ASIGNATURA2-${numeroFila}`], descripcion: `ASIGNATURA2-${numeroFila}` },
+          { nombres: [`COD1-${numeroFila}`, `CODIGO1-${numeroFila}`], descripcion: `COD1-${numeroFila}` },
+          { nombres: [`COD2-${numeroFila}`, `CODIGO2-${numeroFila}`], descripcion: `COD2-${numeroFila}` },
+        ];
+        const camposFila = definiciones.map(({ nombres, descripcion }) => (
+          asignatura
+            ? exigirCampoTexto(form, nombres, descripcion)
+            : buscarCampo(form, nombres, PDFTextField)
+        ));
 
         if (asignatura) {
+          const [asignaturaField1, asignaturaField2, codigoField1, codigoField2] = camposFila;
           asignaturaField1.setText(String(asignatura.nombre_asignatura));
           asignaturaField2.setText(String(asignatura.nombre_asignatura));
           codigoField1.setText(String(asignatura.codigo_asignatura));
           codigoField2.setText(String(asignatura.codigo_asignatura));
         }
-        [
-          asignaturaField1,
-          asignaturaField2,
-          codigoField1,
-          codigoField2,
-        ].forEach((f) => f.enableReadOnly());
+        camposFila.filter(Boolean).forEach((campo) => campo.enableReadOnly());
       }
 
       // Datos personales
-      const camposEst1 = [
-        form.getTextField("DNI1"),
-        form.getTextField("LETRA1"),
-        form.getTextField("NOMBRE1"),
-        form.getTextField("DOMICILIO1"),
-        form.getTextField("POBLACION1"),
-        form.getTextField("COD-POSTAL1"),
-        form.getTextField("PROVINCIA1"),
-        form.getTextField("TELEFONO1"),
-      ];
-      const camposEst2 = [
-        form.getTextField("DNI2"),
-        form.getTextField("LETRA2"),
-        form.getTextField("NOMBRE2"),
-        form.getTextField("DOMICILIO2"),
-        form.getTextField("POBLACION2"),
-        form.getTextField("COD-POSTAL2"),
-        form.getTextField("PROVINCIA2"),
-        form.getTextField("TELEFONO2"),
-      ];
-
-      [...camposEst1, ...camposEst2].forEach((f) => f.enableReadOnly());
+      const camposEst1 = definicionesCamposEstudiante(1).map(({ nombres }) => (
+        buscarCampo(form, nombres, PDFTextField)
+      ));
+      const camposEst2 = definicionesCamposEstudiante(2).map(({ nombres }) => (
+        buscarCampo(form, nombres, PDFTextField)
+      ));
+      [...camposEst1, ...camposEst2].filter(Boolean).forEach(
+        (campo) => campo.enableReadOnly()
+      );
 
       if (estadoPermuta === "BORRADOR") {
         const usuario = usuarios[0];
+        definicionesCamposEstudiante(1).forEach(({ nombres, descripcion }, index) => {
+          if (!camposEst1[index]) {
+            camposEst1[index] = exigirCampoTexto(form, nombres, descripcion);
+          }
+        });
         const datos = [
           tipoDocumento === "DNI" ? dni : dni.slice(0, -1),
           tipoDocumento === "DNI" ? letraDNI : dni.slice(-1),
@@ -259,6 +319,11 @@ export default function GeneracionPDF() {
         datos.forEach((valor, i) => camposEst1[i].setText(valor));
       } else if (estadoPermuta === "FIRMADA") {
         const usuario = usuarios[1];
+        definicionesCamposEstudiante(2).forEach(({ nombres, descripcion }, index) => {
+          if (!camposEst2[index]) {
+            camposEst2[index] = exigirCampoTexto(form, nombres, descripcion);
+          }
+        });
         const datos = [
           tipoDocumento === "DNI" ? dni : dni.slice(0, -1),
           tipoDocumento === "DNI" ? letraDNI : dni.slice(-1),

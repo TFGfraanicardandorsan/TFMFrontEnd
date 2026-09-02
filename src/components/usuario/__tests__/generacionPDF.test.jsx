@@ -1,12 +1,14 @@
 // @vitest-environment jsdom
 import "@testing-library/jest-dom/vitest";
-import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { PDFDocument } from "pdf-lib";
 import i18n from "../../../i18n.js";
 
 const mocks = vi.hoisted(() => ({
   listarPermutas: vi.fn(),
   verListaPermutas: vi.fn(),
+  obtenerPlantillaPermuta: vi.fn(),
   toastError: vi.fn(),
 }));
 
@@ -19,7 +21,7 @@ vi.mock("../../../services/permuta.js", () => ({
 }));
 
 vi.mock("../../../services/subidaArchivos.js", () => ({
-  obtenerPlantillaPermuta: vi.fn(),
+  obtenerPlantillaPermuta: mocks.obtenerPlantillaPermuta,
   subidaArchivo: vi.fn(),
   servirArchivo: vi.fn(),
 }));
@@ -70,6 +72,8 @@ describe("GeneracionPDF - carga del documento", () => {
       err: false,
       result: { error: false, result: [{ id: 42, estado: "BORRADOR", archivo: null }] },
     });
+    URL.createObjectURL = vi.fn(() => "blob:permuta");
+    URL.revokeObjectURL = vi.fn();
   });
 
   afterEach(cleanup);
@@ -95,5 +99,33 @@ describe("GeneracionPDF - carga del documento", () => {
     );
     expect(screen.getByRole("button", { name: "Visualizar" })).toBeDisabled();
     expect(mocks.toastError).toHaveBeenCalled();
+  });
+
+  it("admite una plantilla que renombra GII-IS como GII_IS", async () => {
+    const documento = await PDFDocument.create();
+    documento.addPage();
+    const formulario = documento.getForm();
+    formulario.createCheckBox("GII_IS");
+    [
+      "DAY", "MONTH", "YEAR",
+      "ASIGNATURA1-1", "ASIGNATURA2-1", "COD1-1", "COD2-1",
+      "DNI1", "LETRA1", "NOMBRE1", "DOMICILIO1", "POBLACION1",
+      "COD-POSTAL1", "PROVINCIA1", "TELEFONO1",
+    ].forEach((nombre) => formulario.createTextField(nombre));
+    mocks.obtenerPlantillaPermuta.mockResolvedValue(await documento.save());
+
+    const { container } = render(<GeneracionPDF />);
+    await waitFor(() => expect(screen.getByRole("button", { name: "Visualizar" })).toBeEnabled());
+
+    const campos = container.querySelectorAll('input[type="text"]');
+    ["12345678", "A", "Calle Prueba", "Sevilla", "41001", "Sevilla", "600123123"]
+      .forEach((valor, index) => fireEvent.change(campos[index], { target: { value: valor } }));
+    fireEvent.click(screen.getByRole("button", { name: "Visualizar" }));
+
+    expect(await screen.findByTitle("Vista previa del PDF")).toHaveAttribute(
+      "src",
+      "blob:permuta"
+    );
+    expect(mocks.toastError).not.toHaveBeenCalled();
   });
 });
