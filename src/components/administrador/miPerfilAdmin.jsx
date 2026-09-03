@@ -76,7 +76,7 @@ export default function MiPerfilAdmin() {
       } else {
         toast.error(errores.join(" — "));
       }
-    } catch (err) {
+    } catch {
       toast.error(t("admin.profile.remove_error"));
     } finally {
       setAccionRetirarLoading(false);
@@ -133,7 +133,15 @@ export default function MiPerfilAdmin() {
     formData.append("tipo", "plantilla");
     formData.append("file", filePlantilla);
 
-    const promise = subidaArchivo(formData);
+    const promise = (async () => {
+      const respuesta = await subidaArchivo(formData);
+      if (respuesta?.err || !respuesta?.result?.fileId) {
+        throw new Error(
+          respuesta?.errmsg || t("admin.profile.upload_error")
+        );
+      }
+      return respuesta;
+    })();
 
     toast.promise(promise, {
       pending: t("admin.profile.upload_pending"),

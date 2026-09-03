@@ -430,11 +430,15 @@ export default function GeneracionPDF() {
       toast.warning(t("pdf_generation.errors.fix_errors"));
       return;
     }
-    const pdfBytes = await generarPDF();
-    const pdfUrl = URL.createObjectURL(
-      new Blob([pdfBytes], { type: "application/pdf" })
-    );
-    setPdfUrl(pdfUrl);
+    try {
+      const pdfBytes = await generarPDF();
+      const pdfUrl = URL.createObjectURL(
+        new Blob([pdfBytes], { type: "application/pdf" })
+      );
+      setPdfUrl(pdfUrl);
+    } catch {
+      // generarPDF ya registra y comunica el error al usuario.
+    }
   };
 
   const descargarPDF = async () => {
@@ -442,9 +446,13 @@ export default function GeneracionPDF() {
       toast.warning(t("pdf_generation.errors.fix_errors"));
       return;
     }
-    const pdfBytes = await generarPDF();
-    const pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
-    saveAs(pdfBlob, "solicitud-permutas.pdf");
+    try {
+      const pdfBytes = await generarPDF();
+      const pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
+      saveAs(pdfBlob, "solicitud-permutas.pdf");
+    } catch {
+      // generarPDF ya registra y comunica el error al usuario.
+    }
   };
 
   const handleFileChange = (e) => {
