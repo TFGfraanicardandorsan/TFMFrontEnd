@@ -458,18 +458,14 @@
     "user": {
         "study_selection": {
             "title": "Select your degree or master:",
-            "update_title": "Update your degree or master:",
-            "change_action": "Change degree",
-            "update_action": "Update degree",
             "placeholder": "Select a study program",
             "reminders": [
-                "You can only have one active study program.",
+                "Remember that you can only select one study program.",
                 "Once selected, you will be able to choose subjects and groups.",
-                "Before changing study program, you must remove all your current subjects and groups.",
+                "If you make a mistake when selecting the study program, report an incident.",
                 "If you do not select anything, you will not be able to use the service."
             ],
             "success": "Study program selected successfully",
-            "update_success": "Study program updated successfully",
             "request_error": "Request error."
         },
         "subject_selection": {
@@ -665,7 +661,8 @@
             "search_placeholder": "Search by name, UVUS or email...",
             "loading": "Loading users...",
             "empty": "No users were found with the applied filters.",
-            "edit_title": "✏️ Edit User"
+            "edit_title": "✏️ Edit User",
+            "no_study": "No degree assigned"
         },
         "profile": {
             "remove_errors": {

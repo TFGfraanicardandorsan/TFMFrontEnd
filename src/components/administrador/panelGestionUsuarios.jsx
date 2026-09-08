@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { obtenerTodosUsuarios, actualizarUsuario } from '../../services/usuario';
+import { obtenerEstudios } from '../../services/estudio';
 import "../../styles/admin-common.css";
 import "../../styles/panelGestionUsuarios-style.css";
 import {
@@ -16,6 +17,7 @@ import { translateRole } from '../../lib/i18nLabels';
 const UserManagementPanel = () => {
     const { t } = useTranslation();
     const [users, setUsers] = useState([]);
+    const [estudios, setEstudios] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [editingUser, setEditingUser] = useState(null);
@@ -32,7 +34,13 @@ const UserManagementPanel = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await obtenerTodosUsuarios();
+                const [response, estudiosResponse] = await Promise.all([
+                    obtenerTodosUsuarios(),
+                    obtenerEstudios()
+                ]);
+                setEstudios(Array.isArray(estudiosResponse?.result?.result)
+                    ? estudiosResponse.result.result
+                    : []);
                 if (Array.isArray(response?.result.result)) {
                     const mappedUsers = response.result.result.map(u => ({
                         id: u.uvus || u.id,
@@ -83,7 +91,8 @@ const UserManagementPanel = () => {
                 nuevo_uvus: formData.uvus,
                 nombre_completo: formData.name,
                 correo: formData.email,
-                rol: toApiRole(formData.rol)
+                rol: toApiRole(formData.rol),
+                estudio: formData.estudio || null
             });
             if (response?.err) {
                 throw new Error(response.errmsg || t("common.unexpected_error"));
@@ -291,18 +300,22 @@ const UserManagementPanel = () => {
                                         <option value={DELEGATION_ROLE}>{t("common.roles.delegacion")}</option>
                                     </select>
                                 </div>
-                                {formData.estudio !== undefined && (
-                                    <div className="admin-form-group">
-                                        <label className="admin-label">{t("common.study")}</label>
-                                        <input
-                                            type="text"
-                                            name="estudio"
-                                            className="admin-input"
-                                            value={formData.estudio || ''}
-                                            onChange={handleInputChange}
-                                        />
-                                    </div>
-                                )}
+                                <div className="admin-form-group">
+                                    <label className="admin-label">{t("common.study")}</label>
+                                    <select
+                                        name="estudio"
+                                        className="admin-input"
+                                        value={formData.estudio || ''}
+                                        onChange={handleInputChange}
+                                    >
+                                        <option value="">{t("admin.users.no_study")}</option>
+                                        {estudios.map((estudio) => (
+                                            <option key={estudio.id} value={estudio.nombre}>
+                                                {estudio.nombre}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
                             </div>
                             <div className="admin-modal-footer">
                                 <button

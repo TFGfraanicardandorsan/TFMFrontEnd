@@ -458,18 +458,14 @@
     "user": {
         "study_selection": {
             "title": "Sélectionnez votre licence ou master :",
-            "update_title": "Mettez à jour votre licence ou master :",
-            "change_action": "Changer de formation",
-            "update_action": "Mettre à jour la formation",
             "placeholder": "Sélectionnez une étude",
             "reminders": [
-                "Vous ne pouvez avoir qu’une seule formation active.",
+                "N’oubliez pas que vous ne pouvez sélectionner qu’une seule étude.",
                 "Une fois sélectionnée, vous pourrez choisir les matières et les groupes.",
-                "Avant de changer de formation, vous devez retirer toutes vos matières et tous vos groupes actuels.",
+                "Si vous vous trompez lors de la sélection, signalez un incident.",
                 "Si vous ne sélectionnez rien, vous ne pourrez pas utiliser le service."
             ],
             "success": "Étude sélectionnée correctement",
-            "update_success": "Formation mise à jour correctement",
             "request_error": "Erreur dans la demande."
         },
         "subject_selection": {
@@ -665,7 +661,8 @@
             "search_placeholder": "Rechercher par nom, UVUS ou e-mail...",
             "loading": "Chargement des utilisateurs...",
             "empty": "Aucun utilisateur trouvé avec les filtres appliqués.",
-            "edit_title": "✏️ Modifier l’utilisateur"
+            "edit_title": "✏️ Modifier l’utilisateur",
+            "no_study": "Aucune formation attribuée"
         },
         "profile": {
             "remove_errors": {

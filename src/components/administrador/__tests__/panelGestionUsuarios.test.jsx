@@ -8,8 +8,12 @@ vi.mock('../../../services/usuario', () => ({
   obtenerTodosUsuarios: vi.fn(),
   actualizarUsuario: vi.fn(),
 }));
+vi.mock('../../../services/estudio', () => ({
+  obtenerEstudios: vi.fn(),
+}));
 
 import { obtenerTodosUsuarios, actualizarUsuario } from '../../../services/usuario';
+import { obtenerEstudios } from '../../../services/estudio';
 import UserManagementPanel from '../panelGestionUsuarios.jsx';
 
 const apiUsers = [
@@ -38,6 +42,15 @@ const mockUsersResponse = () => ({
 describe('UserManagementPanel', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    obtenerEstudios.mockResolvedValue({
+      err: false,
+      result: {
+        result: [
+          { id: 1, nombre: 'GII' },
+          { id: 2, nombre: 'MII' },
+        ],
+      },
+    });
   });
 
   afterEach(() => {
@@ -99,7 +112,8 @@ describe('UserManagementPanel', () => {
         nuevo_uvus: 'alice',
         nombre_completo: 'Alice Updated',
         correo: 'alice@example.com',
-        rol: 'estudiante'
+        rol: 'estudiante',
+        estudio: 'GII'
       });
     });
   });
@@ -123,7 +137,8 @@ describe('UserManagementPanel', () => {
         nuevo_uvus: 'alice',
         nombre_completo: 'Alice',
         correo: 'alice@example.com',
-        rol: 'delgacion'
+        rol: 'delgacion',
+        estudio: 'GII'
       });
     });
   });
@@ -149,9 +164,36 @@ describe('UserManagementPanel', () => {
         nombre_completo: 'Alice',
         correo: 'alice@example.com',
         rol: 'estudiante',
+        estudio: 'GII',
       });
     });
     expect(await screen.findByText(/alice\.nuevo/)).toBeInTheDocument();
+  });
+
+  it('updates a user degree from the administration modal', async () => {
+    obtenerTodosUsuarios.mockResolvedValueOnce(mockUsersResponse());
+    actualizarUsuario.mockResolvedValueOnce({});
+
+    render(<UserManagementPanel />);
+
+    await screen.findByText(/Panel de Gestión de Usuarios/);
+    fireEvent.click(screen.getAllByRole('button', { name: /Editar/ })[0]);
+
+    const modal = screen.getByText(/Editar Usuario/).closest('.admin-modal-content');
+    fireEvent.change(within(modal).getByDisplayValue('GII'), {
+      target: { value: 'MII' },
+    });
+    fireEvent.click(within(modal).getByRole('button', { name: 'Guardar Cambios' }));
+
+    await waitFor(() => {
+      expect(actualizarUsuario).toHaveBeenCalledWith('alice', {
+        nuevo_uvus: 'alice',
+        nombre_completo: 'Alice',
+        correo: 'alice@example.com',
+        rol: 'estudiante',
+        estudio: 'MII',
+      });
+    });
   });
 
   it('filters users by delegation role', async () => {
