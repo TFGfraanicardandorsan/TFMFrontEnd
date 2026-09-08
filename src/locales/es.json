@@ -414,14 +414,18 @@
     "user": {
         "study_selection": {
             "title": "Selecciona tu grado o master:",
+            "update_title": "Actualiza tu grado o máster:",
+            "change_action": "Cambiar grado",
+            "update_action": "Actualizar grado",
             "placeholder": "Selecciona un estudio",
             "reminders": [
-                "Recuerda que solo puedes seleccionar un estudio.",
+                "Solo puedes tener un estudio activo.",
                 "Una vez seleccionado, podrás elegir las asignaturas y grupos.",
-                "Si te equivocas a la hora de seleccionar el estudio, reporta una incidencia.",
+                "Para cambiar de estudio primero debes retirar todas tus asignaturas y grupos actuales.",
                 "Si no seleccionas nada, no podrás hacer uso del servicio."
             ],
             "success": "Estudio seleccionado correctamente",
+            "update_success": "Estudio actualizado correctamente",
             "request_error": "Error en la solicitud."
         },
         "subject_selection": {
@@ -571,14 +575,18 @@
     "user": {
         "study_selection": {
             "title": "Selecciona tu grado o master:",
+            "update_title": "Actualiza tu grado o máster:",
+            "change_action": "Cambiar grado",
+            "update_action": "Actualizar grado",
             "placeholder": "Selecciona un estudio",
             "reminders": [
-                "Recuerda que solo puedes seleccionar un estudio.",
+                "Solo puedes tener un estudio activo.",
                 "Una vez seleccionado, podrás elegir las asignaturas y grupos.",
-                "Si te equivocas a la hora de seleccionar el estudio, reporta una incidencia.",
+                "Para cambiar de estudio primero debes retirar todas tus asignaturas y grupos actuales.",
                 "Si no seleccionas nada, no podrás hacer uso del servicio."
             ],
             "success": "Estudio seleccionado correctamente",
+            "update_success": "Estudio actualizado correctamente",
             "request_error": "Error en la solicitud."
         },
         "subject_selection": {
@@ -772,7 +780,7 @@
         "users": {
             "title": "👥 Panel de Gestión de Usuarios",
             "subtitle": "Administra todos los usuarios del sistema. Puedes actualizar la información de cada usuario haciendo clic en el botón correspondiente.",
-            "search_placeholder": "Buscar por nombre...",
+            "search_placeholder": "Buscar por nombre, UVUS o correo...",
             "loading": "Cargando usuarios...",
             "empty": "No se encontraron usuarios con los filtros aplicados.",
             "edit_title": "✏️ Editar Usuario"

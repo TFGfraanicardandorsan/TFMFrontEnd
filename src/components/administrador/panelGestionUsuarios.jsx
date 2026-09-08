@@ -21,6 +21,7 @@ const UserManagementPanel = () => {
     const [editingUser, setEditingUser] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [formData, setFormData] = useState({});
+    const [editError, setEditError] = useState(null);
 
     // Estados para filtros y paginación
     const [searchTerm, setSearchTerm] = useState('');
@@ -59,6 +60,7 @@ const UserManagementPanel = () => {
     const handleOpenModal = (user) => {
         setEditingUser(user);
         setFormData({ ...user, rol: toCanonicalRole(user.rol) });
+        setEditError(null);
         setModalOpen(true);
     };
 
@@ -66,6 +68,7 @@ const UserManagementPanel = () => {
         setModalOpen(false);
         setEditingUser(null);
         setFormData({});
+        setEditError(null);
     };
 
     const handleUpdateUser = async (e) => {
@@ -73,9 +76,11 @@ const UserManagementPanel = () => {
         try {
             const updatedUser = {
                 ...formData,
+                id: formData.uvus,
                 rol: toCanonicalRole(formData.rol)
             };
             const response = await actualizarUsuario(editingUser.id, {
+                nuevo_uvus: formData.uvus,
                 nombre_completo: formData.name,
                 correo: formData.email,
                 rol: toApiRole(formData.rol)
@@ -86,7 +91,7 @@ const UserManagementPanel = () => {
             setUsers(users.map(user => (user.id === editingUser.id ? { ...user, ...updatedUser } : user)));
             handleCloseModal();
         } catch (err) {
-            setError(err.message);
+            setEditError(err.message);
         }
     };
 
@@ -98,9 +103,12 @@ const UserManagementPanel = () => {
     // Lógica de filtrado y paginación
     const filteredUsers = useMemo(() => {
         return users
-            .filter(user =>
-                user.name.toLowerCase().includes(searchTerm.toLowerCase())
-            )
+            .filter(user => {
+                const search = searchTerm.toLowerCase();
+                return user.name?.toLowerCase().includes(search)
+                    || user.uvus?.toLowerCase().includes(search)
+                    || user.email?.toLowerCase().includes(search);
+            })
             .filter(user =>
                 roleFilter === 'todos' ||
                 (roleFilter === 'delegacion' && isDelegationRole(user.rol)) ||
@@ -230,6 +238,23 @@ const UserManagementPanel = () => {
                         </div>
                         <form onSubmit={handleUpdateUser}>
                             <div className="admin-modal-body">
+                                {editError && (
+                                    <div className="admin-error" role="alert">
+                                        {editError}
+                                    </div>
+                                )}
+                                <div className="admin-form-group">
+                                    <label className="admin-label">{t("common.uvus")}</label>
+                                    <input
+                                        type="text"
+                                        name="uvus"
+                                        className="admin-input"
+                                        value={formData.uvus || ''}
+                                        onChange={handleInputChange}
+                                        maxLength={64}
+                                        required
+                                    />
+                                </div>
                                 <div className="admin-form-group">
                                     <label className="admin-label">{t("common.name")}</label>
                                     <input

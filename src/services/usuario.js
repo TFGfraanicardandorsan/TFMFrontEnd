@@ -19,6 +19,7 @@ export const obtenerTodosUsuarios = async () => {
 export const actualizarUsuario = async (uvus, userData) => {
     const payload = {
         uvus,
+        nuevo_uvus: userData.nuevo_uvus ?? uvus,
         ...userData
     };
     return await postAPI(`/api/v1/usuario/actualizarUsuario/`, payload);

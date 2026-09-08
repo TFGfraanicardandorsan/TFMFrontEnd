@@ -458,14 +458,18 @@
     "user": {
         "study_selection": {
             "title": "Select your degree or master:",
+            "update_title": "Update your degree or master:",
+            "change_action": "Change degree",
+            "update_action": "Update degree",
             "placeholder": "Select a study program",
             "reminders": [
-                "Remember that you can only select one study program.",
+                "You can only have one active study program.",
                 "Once selected, you will be able to choose subjects and groups.",
-                "If you make a mistake when selecting the study program, report an incident.",
+                "Before changing study program, you must remove all your current subjects and groups.",
                 "If you do not select anything, you will not be able to use the service."
             ],
             "success": "Study program selected successfully",
+            "update_success": "Study program updated successfully",
             "request_error": "Request error."
         },
         "subject_selection": {
@@ -658,7 +662,7 @@
         "users": {
             "title": "👥 User Management Panel",
             "subtitle": "Manage all system users. You can update each user’s information by clicking the corresponding button.",
-            "search_placeholder": "Search by name...",
+            "search_placeholder": "Search by name, UVUS or email...",
             "loading": "Loading users...",
             "empty": "No users were found with the applied filters.",
             "edit_title": "✏️ Edit User"

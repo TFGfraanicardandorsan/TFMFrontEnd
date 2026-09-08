@@ -37,6 +37,7 @@ export default function MiPerfil() {
   const [enviandoValoracion, setEnviandoValoracion] = useState(false);
   const [asignaturaPendienteSuperar, setAsignaturaPendienteSuperar] = useState(null);
   const [superandoAsignaturaId, setSuperandoAsignaturaId] = useState(null);
+  const [mostrarSelectorEstudio, setMostrarSelectorEstudio] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -306,7 +307,18 @@ export default function MiPerfil() {
 
   return (
     <div className="page-container">
-      {!usuario?.titulacion && <SeleccionarEstudio />}
+      {(!usuario?.titulacion || mostrarSelectorEstudio) && (
+        <SeleccionarEstudio
+          estudioActual={usuario?.titulacion || ""}
+          onEstudioActualizado={(titulacion) => {
+            setUsuario((actual) => ({ ...actual, titulacion }));
+            setMostrarSelectorEstudio(false);
+          }}
+          onCancel={usuario?.titulacion
+            ? () => setMostrarSelectorEstudio(false)
+            : undefined}
+        />
+      )}
 
       <div className="content-wrap">
         <div className="perfil-container">
@@ -345,10 +357,19 @@ export default function MiPerfil() {
               </div>
               <div className="user-badges">
                 {usuario.titulacion && (
-                  <span className="badge badge-degree">
-                    <FontAwesomeIcon icon={faUniversity} style={{ marginRight: '6px' }} />
-                    {usuario.titulacion}
-                  </span>
+                  <>
+                    <span className="badge badge-degree">
+                      <FontAwesomeIcon icon={faUniversity} style={{ marginRight: '6px' }} />
+                      {usuario.titulacion}
+                    </span>
+                    <button
+                      type="button"
+                      className="btn btn-outline"
+                      onClick={() => setMostrarSelectorEstudio(true)}
+                    >
+                      {t("user.study_selection.change_action")}
+                    </button>
+                  </>
                 )}
               </div>
             </div>

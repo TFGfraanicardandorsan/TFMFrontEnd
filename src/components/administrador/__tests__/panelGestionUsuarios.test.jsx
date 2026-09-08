@@ -1,5 +1,4 @@
 // @vitest-environment jsdom
-import React from 'react';
 import '@testing-library/jest-dom/vitest';
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
@@ -97,6 +96,7 @@ describe('UserManagementPanel', () => {
 
     await waitFor(() => {
       expect(actualizarUsuario).toHaveBeenCalledWith('alice', {
+        nuevo_uvus: 'alice',
         nombre_completo: 'Alice Updated',
         correo: 'alice@example.com',
         rol: 'estudiante'
@@ -120,11 +120,38 @@ describe('UserManagementPanel', () => {
 
     await waitFor(() => {
       expect(actualizarUsuario).toHaveBeenCalledWith('alice', {
+        nuevo_uvus: 'alice',
         nombre_completo: 'Alice',
         correo: 'alice@example.com',
         rol: 'delgacion'
       });
     });
+  });
+
+  it('updates the UVUS and keeps using the original one as identifier', async () => {
+    obtenerTodosUsuarios.mockResolvedValueOnce(mockUsersResponse());
+    actualizarUsuario.mockResolvedValueOnce({});
+
+    render(<UserManagementPanel />);
+
+    await screen.findByText(/Panel de Gestión de Usuarios/);
+    fireEvent.click(screen.getAllByRole('button', { name: /Editar/ })[0]);
+
+    const modal = screen.getByText(/Editar Usuario/).closest('.admin-modal-content');
+    fireEvent.change(within(modal).getByDisplayValue('alice'), {
+      target: { value: 'alice.nuevo' },
+    });
+    fireEvent.click(within(modal).getByRole('button', { name: 'Guardar Cambios' }));
+
+    await waitFor(() => {
+      expect(actualizarUsuario).toHaveBeenCalledWith('alice', {
+        nuevo_uvus: 'alice.nuevo',
+        nombre_completo: 'Alice',
+        correo: 'alice@example.com',
+        rol: 'estudiante',
+      });
+    });
+    expect(await screen.findByText(/alice\.nuevo/)).toBeInTheDocument();
   });
 
   it('filters users by delegation role', async () => {
