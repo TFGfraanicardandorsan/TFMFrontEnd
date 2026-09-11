@@ -1,4 +1,9 @@
-import { patchAPI, postAPI } from "../lib/methodAPIs.js";
+import { getAPI, patchAPI, postAPI } from "../lib/methodAPIs.js";
+
+export const obtenerCursosPermuta = () => getAPI("/api/v1/solicitudPermuta/cursos");
+export const solicitarPermutaCurso = (curso, en_bloque, solicitudes) => postAPI(
+    "/api/v1/solicitudPermuta/solicitarPermutaCurso", { curso, en_bloque, solicitudes }
+);
 
 export const solicitarPermuta = async (paramNumGrupo, paramCodigo) => {
     return await postAPI("/api/v1/solicitudPermuta/solicitarPermuta", { asignatura: paramNumGrupo, grupos_deseados: paramCodigo })

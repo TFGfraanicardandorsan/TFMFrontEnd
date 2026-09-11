@@ -1,3 +1,4 @@
+import { completarIdsBloques, resultadoAPI } from "../../lib/bloquesPermuta.js";
 import { useState, useEffect } from "react";
 import "../../styles/user-common.css";
 import { obtenerPermutasAgrupadasPorUsuario, generarBorradorPermuta } from "../../services/permuta.js";
@@ -16,6 +17,7 @@ export default function PermutasAceptadas() {
   const navigate = useNavigate();
 
   const abrirPermuta = (IdsPermuta) => {
+    IdsPermuta = completarIdsBloques(IdsPermuta, permutas.flatMap(g => g.permutas ?? []));
     sessionStorage.setItem("permutasSeleccionadas", JSON.stringify(IdsPermuta));
     navigate("/generarPermuta", { state: { IdsPermuta } });
   };
@@ -62,7 +64,8 @@ export default function PermutasAceptadas() {
 
   const handleGenerarPermuta = async (IdsPermuta) => {
     try {
-      await generarBorradorPermuta(IdsPermuta);
+      IdsPermuta = completarIdsBloques(IdsPermuta, permutas.flatMap(g => g.permutas ?? []));
+      resultadoAPI(await generarBorradorPermuta(IdsPermuta));
       toast.success(t("accepted_swaps.success_generated"));
       abrirPermuta(IdsPermuta);
     } catch (error) {
@@ -135,6 +138,7 @@ export default function PermutasAceptadas() {
                     {permutasDetalles.map((permuta) => (
                       <div key={permuta.permuta_id} className="permuta-detalle" style={{ marginTop: '10px', padding: '10px', backgroundColor: 'var(--user-accent)', borderRadius: 'var(--border-radius-sm)' }}>
                         <p style={{ margin: '4px 0', fontSize: '0.95em' }}>
+                          {permuta.bloque_id && <span>Curso en bloque · misma persona · {permuta.curso}<br /></span>}
                           <strong>{t("accepted_swaps.subject")}:</strong> {permuta.nombre_asignatura}
                         </p>
                         <p style={{ margin: '4px 0', fontSize: '0.95em' }}>

@@ -1,334 +1,105 @@
-import { useEffect, useRef, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChalkboardTeacher,
-  faCheckCircle,
-  faInfoCircle,
-  faSave,
-} from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
-import { logError } from "../../lib/logger.js";
-import { obtenerTodosGruposMisAsignaturasSinGrupoUsuario } from "../../services/grupo.js";
-import { solicitarPermuta } from "../../services/permuta.js";
+import { obtenerMiGrupoAsignatura, obtenerTodosGruposMisAsignaturasSinGrupoUsuario } from "../../services/grupo.js";
+import { obtenerCursosPermuta, obtenerSolicitudesPermuta, solicitarPermutaCurso } from "../../services/permuta.js";
+import { completarCursos, resultadoAPI } from "../../lib/bloquesPermuta.js";
 import "../../styles/user-common.css";
 import "../../styles/solicitarPermuta-style.css";
 
-const convertirEnteroPositivo = (valor) => {
-  const texto = String(valor ?? "").trim();
-  if (!/^\d+$/.test(texto)) return null;
-
-  const numero = Number(texto);
-  return Number.isSafeInteger(numero) && numero > 0 ? numero : null;
-};
-
-const extraerGrupos = (respuesta) => {
-  if (respuesta?.err || respuesta?.result?.err) return null;
-  return Array.isArray(respuesta?.result?.result)
-    ? respuesta.result.result
-    : null;
-};
-
-const obtenerMensajeError = (respuesta) => {
-  if (!respuesta || typeof respuesta !== "object") return "";
-  if (respuesta.err) {
-    return respuesta.errmsg || respuesta.message || respuesta.error || "";
-  }
-  if (respuesta.result?.err) {
-    return respuesta.result.errmsg
-      || respuesta.result.message
-      || respuesta.result.error
-      || "";
-  }
-  return null;
-};
-
-export default function SeleccionarGruposSinGrupo() {
+export default function SolicitarPermuta() {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const envioEnCurso = useRef(false);
-  const [asignaturas, setAsignaturas] = useState([]);
-  const [seleccionados, setSeleccionados] = useState({});
+  const [cursos, setCursos] = useState([]);
+  const [formularios, setFormularios] = useState({});
+  const [solicitudes, setSolicitudes] = useState([]);
   const [cargando, setCargando] = useState(true);
-  const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState(null);
+  const [enviando, setEnviando] = useState({});
+  const locks = useRef(new Set());
+  const [inciertos, setInciertos] = useState({});
 
-  useEffect(() => {
-    const cargarGrupos = async () => {
-      try {
-        setCargando(true);
-        setError(null);
-        const respuesta = await obtenerTodosGruposMisAsignaturasSinGrupoUsuario();
-        const grupos = extraerGrupos(respuesta);
+  const cargar = useCallback(async () => {
+    const respuestas = await Promise.all([obtenerCursosPermuta(), obtenerMiGrupoAsignatura(), obtenerTodosGruposMisAsignaturasSinGrupoUsuario(), obtenerSolicitudesPermuta()]);
+    const [matricula, actuales, destinos, existentes] = respuestas.map(resultadoAPI);
+    const nuevos = completarCursos(matricula, actuales, destinos);
+    setCursos(nuevos);
+    setSolicitudes(existentes);
+    setFormularios(prev => Object.fromEntries(nuevos.map(c => {
+      const anterior = prev[c.curso] || { bloque: false, seleccion: {}, destinos: {} };
+      return [c.curso, { ...anterior, destinos: Object.fromEntries(c.asignaturas.map(a => [a.codigo_asignatura,
+        (anterior.destinos[a.codigo_asignatura] || []).filter(g => a.grupos.includes(g))])) }];
+    })));
+    setError(null);
+  }, []);
 
-        if (!grupos) {
-          throw new Error(
-            respuesta?.errmsg
-            || respuesta?.result?.message
-            || t("user.swap_request.load_error")
-          );
-        }
-
-        const agrupadas = grupos.reduce((acc, item) => {
-          const codigo = convertirEnteroPositivo(item.codasignatura);
-          const grupo = convertirEnteroPositivo(item.numgrupo);
-          if (!codigo || !grupo) return acc;
-
-          const key = String(codigo);
-          if (!acc[key]) {
-            acc[key] = {
-              codasignatura: codigo,
-              nombreasignatura: item.nombreasignatura,
-              grupos: [],
-            };
-          }
-          if (!acc[key].grupos.includes(grupo)) {
-            acc[key].grupos.push(grupo);
-          }
-          return acc;
-        }, {});
-
-        const asignaturasAgrupadas = Object.values(agrupadas).map((asignatura) => ({
-          ...asignatura,
-          grupos: [...asignatura.grupos].sort((a, b) => a - b),
-        }));
-        setAsignaturas(asignaturasAgrupadas);
-
-        if (asignaturasAgrupadas.length === 0) {
-          logError(t("user.swap_request.no_subjects_log"));
-        }
-      } catch (err) {
-        logError(err);
-        setError(t("user.swap_request.load_error"));
-      } finally {
-        setCargando(false);
-      }
-    };
-
-    void cargarGrupos();
-  }, [t]);
-
-  const alternarGrupo = (codasignatura, numgrupo) => {
-    const key = String(codasignatura);
-    setSeleccionados((prev) => {
-      const seleccionActual = Array.isArray(prev[key]) ? prev[key] : [];
-      const siguienteSeleccion = seleccionActual.includes(numgrupo)
-        ? seleccionActual.filter((grupo) => grupo !== numgrupo)
-        : [...seleccionActual, numgrupo].sort((a, b) => a - b);
-      const siguienteEstado = { ...prev };
-
-      if (siguienteSeleccion.length > 0) {
-        siguienteEstado[key] = siguienteSeleccion;
-      } else {
-        delete siguienteEstado[key];
-      }
-      return siguienteEstado;
-    });
-  };
-
-  const seleccionarTodos = (codasignatura, grupos) => {
-    setSeleccionados((prev) => ({
-      ...prev,
-      [String(codasignatura)]: [...grupos],
-    }));
-  };
-
-  const limpiarSeleccion = (codasignatura) => {
-    const key = String(codasignatura);
-    setSeleccionados((prev) => {
-      const siguienteEstado = { ...prev };
-      delete siguienteEstado[key];
-      return siguienteEstado;
-    });
-  };
-
-  const handleSubmit = async () => {
-    if (envioEnCurso.current) return;
-
-    const solicitudes = Object.entries(seleccionados)
-      .filter(([, grupos]) => Array.isArray(grupos) && grupos.length > 0);
-    if (solicitudes.length === 0) {
-      toast.info(t("user.swap_request.select_one_warning"));
-      return;
-    }
-
-    envioEnCurso.current = true;
-    setEnviando(true);
-    const solicitudesCreadas = [];
-    let mensajeError = null;
-
+  useEffect(() => { cargar().catch(e => setError(e.message)).finally(() => setCargando(false)); }, [cargar]);
+  const cambiar = (curso, fn) => setFormularios(prev => ({ ...prev, [curso]: fn(prev[curso]) }));
+  const enviar = async (event, curso, form, elegidas) => {
+    event.preventDefault();
+    if (locks.current.has(curso) || inciertos[curso]) return;
+    locks.current.add(curso);
+    setEnviando(prev => ({ ...prev, [curso]: true }));
     try {
-      for (const [codigoKey, grupos] of solicitudes) {
-        const codigo = convertirEnteroPositivo(codigoKey);
-        const gruposNormalizados = [...new Set(
-          grupos.map(convertirEnteroPositivo).filter(Boolean)
-        )].sort((a, b) => a - b);
-
-        if (!codigo || gruposNormalizados.length === 0) {
-          mensajeError = t("user.swap_request.submit_error");
-          break;
-        }
-
-        const respuesta = await solicitarPermuta(codigo, gruposNormalizados);
-        const errorRespuesta = obtenerMensajeError(respuesta);
-        if (errorRespuesta !== null) {
-          mensajeError = errorRespuesta || t("user.swap_request.submit_error");
-          break;
-        }
-        solicitudesCreadas.push(codigoKey);
-      }
-
-      if (solicitudesCreadas.length > 0) {
-        const creadas = new Set(solicitudesCreadas);
-        setSeleccionados((prev) => Object.fromEntries(
-          Object.entries(prev).filter(([codigo]) => !creadas.has(codigo))
-        ));
-      }
-
-      if (mensajeError) {
-        toast.error(mensajeError);
-        return;
-      }
-
+      resultadoAPI(await solicitarPermutaCurso(curso, form.bloque, elegidas.map(a => ({
+        asignatura: Number(a.codigo_asignatura), grupos_deseados: form.destinos[a.codigo_asignatura],
+      }))));
+      cambiar(curso, prev => ({ ...prev, seleccion: {}, destinos: {} }));
       toast.success(t("user.swap_request.success"));
-      navigate("/misSolicitudesPermuta");
-    } catch (err) {
-      logError(err);
-      toast.error(t("user.swap_request.submit_error"));
+      await cargar();
+    } catch (e) {
+      toast.error(e.message);
+      // Nunca reintentamos una creación: primero reconciliamos con el servidor.
+      setInciertos(prev => ({ ...prev, [curso]: true }));
+      try {
+        await cargar();
+        setInciertos(prev => ({ ...prev, [curso]: false }));
+      } catch (recarga) { setError(recarga.message); }
     } finally {
-      envioEnCurso.current = false;
-      setEnviando(false);
+      locks.current.delete(curso);
+      setEnviando(prev => ({ ...prev, [curso]: false }));
     }
   };
-
-  const totalSeleccionados = Object.values(seleccionados)
-    .reduce((total, grupos) => total + (Array.isArray(grupos) ? grupos.length : 0), 0);
-  const haySeleccion = totalSeleccionados > 0;
-
-  if (cargando) {
-    return (
-      <div className="page-container">
-        <div className="user-loading">{t("user.swap_request.loading")}</div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="page-container">
-      <div className="content-wrap">
-        <div className="page-header">
-          <h1 className="page-title">{t("user.swap_request.title")}</h1>
-          <p className="page-subtitle">
-            {t("user.swap_request.subtitle_multiple", {
-              defaultValue: "Selecciona uno, varios o todos los grupos disponibles para cada asignatura.",
-            })}
-          </p>
-        </div>
-
-        {error && <div className="user-error">{error}</div>}
-
-        {asignaturas.length > 0 ? (
-          <>
-            <div className="solicitar-permuta-grid">
-              {asignaturas.map(({ codasignatura, nombreasignatura, grupos }) => {
-                const key = String(codasignatura);
-                const seleccionAsignatura = seleccionados[key] || [];
-                const todosSeleccionados = seleccionAsignatura.length === grupos.length;
-
-                return (
-                  <article key={key} className="user-card solicitar-permuta-card">
-                    <div className="solicitar-permuta-asignatura">
-                      <FontAwesomeIcon icon={faChalkboardTeacher} />
-                      <span>{nombreasignatura}</span>
-                    </div>
-
-                    <fieldset className="solicitar-grupos-fieldset" disabled={enviando}>
-                      <legend>{t("common.desired_groups")}</legend>
-                      <div className="solicitar-grupos-toolbar">
-                        <button
-                          type="button"
-                          onClick={() => seleccionarTodos(codasignatura, grupos)}
-                          disabled={todosSeleccionados}
-                        >
-                          {t("user.swap_request.select_all", {
-                            defaultValue: "Seleccionar todos",
-                          })}
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => limpiarSeleccion(codasignatura)}
-                          disabled={seleccionAsignatura.length === 0}
-                        >
-                          {t("common.clear")}
-                        </button>
-                      </div>
-
-                      <div className="solicitar-grupos-opciones">
-                        {grupos.map((grupo) => {
-                          const seleccionado = seleccionAsignatura.includes(grupo);
-                          return (
-                            <label
-                              key={grupo}
-                              className={`solicitar-grupo-opcion ${seleccionado ? "seleccionada" : ""}`}
-                            >
-                              <input
-                                type="checkbox"
-                                checked={seleccionado}
-                                onChange={() => alternarGrupo(codasignatura, grupo)}
-                              />
-                              <span>{t("common.group_with_number", { group: grupo })}</span>
-                            </label>
-                          );
-                        })}
-                      </div>
-                    </fieldset>
-
-                    {seleccionAsignatura.length > 0 && (
-                      <div className="solicitar-seleccion-resumen" aria-live="polite">
-                        <FontAwesomeIcon icon={faCheckCircle} />
-                        <span>
-                          {t("user.swap_request.selection_summary", {
-                            groups: seleccionAsignatura.join(", "),
-                            defaultValue: "Grupos seleccionados: {{groups}}",
-                          })}
-                        </span>
-                      </div>
-                    )}
-                  </article>
-                );
-              })}
-            </div>
-
-            <div className="solicitar-permuta-submit">
-              <div className="solicitar-permuta-submit-info">
-                <FontAwesomeIcon icon={faInfoCircle} />
-                <span className="info-text-responsive">
-                  {haySeleccion
-                    ? t("user.swap_request.ready")
-                    : t("user.swap_request.waiting")}
-                </span>
-              </div>
-              <button
-                type="button"
-                onClick={() => void handleSubmit()}
-                className="btn btn-primary"
-                disabled={!haySeleccion || enviando}
-              >
-                <FontAwesomeIcon icon={faSave} />{" "}
-                {enviando ? t("common.processing") : t("user.swap_request.submit")}
-              </button>
-            </div>
-            <div className="solicitar-permuta-footer-spacer" />
-          </>
-        ) : (
-          <div className="user-card empty-state">
-            <div className="solicitar-permuta-empty-icon" aria-hidden="true">📚</div>
-            <h3>{t("user.swap_request.empty_title")}</h3>
-            <p>{t("user.swap_request.empty_message")}</p>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+  if (cargando) return <div className="user-loading">{t("user.swap_request.loading")}</div>;
+  return <div className="page-container"><div className="content-wrap">
+    <h1 className="page-title">{t("user.swap_request.title")}</h1>
+    <p>Cada curso se envía por separado. Para cambiar entre solicitudes individuales y bloque, cancela las solicitudes correspondientes y vuelve a crearlas.</p>
+    <Link to="/misSolicitudesPermuta">Ver mis solicitudes</Link>
+    {error && <div role="alert" className="user-error">{error}<button type="button" onClick={() => cargar().then(() => setInciertos({})).catch(e => setError(e.message))}>Recargar matrícula y solicitudes</button></div>}
+    {!error && cursos.length === 0 && <p>{t("user.swap_request.empty_message")}</p>}
+    {cursos.map(c => {
+      const form = formularios[c.curso];
+      const elegidas = c.asignaturas.filter(a => form.bloque || form.seleccion[a.codigo_asignatura]);
+      const activas = solicitudes.filter(s => !["CANCELADA", "RECHAZADA", "CADUCADA", "FINALIZADA"].includes(String(s.estado).toUpperCase()) &&
+        (s.curso === c.curso || c.asignaturas.some(a => String(a.codigo_asignatura) === String(s.codigo_asignatura))));
+      const conflicto = form.bloque && activas.length > 0;
+      const invalido = !elegidas.length || elegidas.some(a => !a.actual || !a.grupos.length || !(form.destinos[a.codigo_asignatura] || []).length || activas.some(s => String(s.codigo_asignatura) === String(a.codigo_asignatura)));
+      return <form key={c.curso} aria-label={c.curso} className="user-card curso-permuta" onSubmit={e => enviar(e, c.curso, form, elegidas)}>
+        <h2>{c.curso}</h2>
+        <fieldset disabled={enviando[c.curso]} className="solicitar-grupos-fieldset">
+          <label><input type="checkbox" role="switch" checked={form.bloque} onChange={e => cambiar(c.curso, f => ({ ...f, bloque: e.target.checked }))} /> Solo quiero permutar con una persona en este curso</label>
+          <p>Se permutarán juntas todas tus asignaturas matriculadas de este curso con la misma persona. Si no hay una coincidencia completa, el bloque quedará pendiente</p>
+          {conflicto && <p role="alert">Ya tienes solicitudes activas en este curso. Para crear un bloque, revisa y cancela primero las solicitudes correspondientes; las permutas activas impiden cancelarlas.</p>}
+          <div className="solicitar-permuta-grid">{c.asignaturas.map(a => {
+            const codigo = a.codigo_asignatura;
+            const seleccion = form.destinos[codigo] || [];
+            const incluida = form.bloque || !!form.seleccion[codigo];
+            return <article className="user-card solicitar-permuta-card" key={codigo}>
+              <label><input type="checkbox" checked={incluida} disabled={form.bloque} onChange={e => cambiar(c.curso, f => ({ ...f, seleccion: { ...f.seleccion, [codigo]: e.target.checked } }))} /> {a.nombre_asignatura}</label>
+              <p>Grupo actual: {a.actual ?? "Sin grupo"}</p>
+              {!a.actual && <p role="alert">Debes asignar tu grupo actual de esta asignatura en tu perfil.</p>}
+              {!a.grupos.length && <p role="alert">No hay destinos válidos. Revisa los grupos de esta asignatura con administración.</p>}
+              {activas.some(s => String(s.codigo_asignatura) === String(codigo)) && <p>Esta asignatura ya tiene una solicitud activa. Revísala en mis solicitudes.</p>}
+              <fieldset className="solicitar-grupos-fieldset" disabled={!incluida || !a.actual}>
+                <legend>{t("common.desired_groups")}</legend>
+                <div className="solicitar-grupos-toolbar"><button type="button" onClick={() => cambiar(c.curso, f => ({ ...f, destinos: { ...f.destinos, [codigo]: a.grupos } }))}>Seleccionar todos</button><button type="button" onClick={() => cambiar(c.curso, f => ({ ...f, destinos: { ...f.destinos, [codigo]: [] } }))}>{t("common.clear")}</button></div>
+                <div className="solicitar-grupos-opciones">{a.grupos.map(g => <label key={g} className="solicitar-grupo-opcion"><input type="checkbox" checked={seleccion.includes(g)} onChange={() => cambiar(c.curso, f => ({ ...f, destinos: { ...f.destinos, [codigo]: seleccion.includes(g) ? seleccion.filter(x => x !== g) : [...seleccion, g] } }))} />{t("common.group_with_number", { group: g })}</label>)}</div>
+              </fieldset>
+            </article>;
+          })}</div>
+          <button className="btn btn-primary" type="submit" disabled={invalido || conflicto || !!error || inciertos[c.curso]}>{enviando[c.curso] ? t("common.processing") : `Enviar solicitudes de ${c.curso}`}</button>
+        </fieldset>
+      </form>;
+    })}
+  </div></div>;
 }

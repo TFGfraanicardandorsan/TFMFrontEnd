@@ -171,3 +171,6 @@
     width: 100%;
   }
 }
+
+.curso-permuta { margin-block: 1.5rem; padding: 1.5rem; }
+.curso-permuta > fieldset > button { margin-top: 1rem; }

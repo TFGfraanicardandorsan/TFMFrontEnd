@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { agruparBloques } from "../../lib/bloquesPermuta.js";
 import "../../styles/admin-common.css";
 import { getTodasSolicitudesPermuta, actualizarVigenciaPermutas, actualizarVigenciaSolicitudes } from "../../services/permuta";
 import { obtenerDatosUsuarioAdmin } from "../../services/usuario";
@@ -92,6 +93,9 @@ export default function MiPerfilAdmin() {
 
     const datosAplanados = permutas.map((permuta) => ({
       solicitud_id: permuta.solicitud_id,
+      curso: permuta.curso ?? "",
+      en_bloque: permuta.en_bloque ?? false,
+      bloque_id: permuta.bloque_id ?? "",
       nombre_completo: permuta.usuario.nombre_completo,
       uvus: permuta.usuario.uvus,
       estudio: permuta.usuario.estudio,
@@ -207,6 +211,12 @@ export default function MiPerfilAdmin() {
               <div className={`admin-accordion-content ${activeSection === 'permutas' ? 'open' : ''}`}>
                 <div className="admin-sub-section">
                   <h3>{t("admin.profile.export_data")}</h3>
+                  {agruparBloques(permutas).map(grupo => <section key={grupo.key} className="admin-card">
+                    {grupo.bloque && <h4>Curso en bloque · misma persona · {grupo.miembros[0].curso}</h4>}
+                    <ul>{grupo.miembros.map(s => <li key={s.solicitud_id}>
+                      {s.usuario?.nombre_completo}: {s.asignatura?.nombre} ({s.asignatura?.codigo}) — {s.grupo_solicitante} → {s.grupos_deseados?.join(", ")}
+                    </li>)}</ul>
+                  </section>)}
                   <p className="sub-section-description">{t("admin.profile.export_description")}</p>
                   <button className="admin-btn admin-btn-primary" onClick={exportarCSV}>
                     {t("admin.profile.export_button")}

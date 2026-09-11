@@ -425,3 +425,5 @@
     width: 100%;
   }
 }
+
+.solicitud-bloque { grid-column: 1 / -1; border: 2px solid var(--user-primary, #3854a6); border-radius: 12px; padding: 1rem; display: grid; gap: 1rem; }

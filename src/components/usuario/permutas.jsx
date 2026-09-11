@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
+import { agruparBloques, resultadoAPI } from "../../lib/bloquesPermuta.js";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "../../styles/user-common.css";
 import "../../styles/permutas-style.css";
 import {
@@ -7,6 +8,8 @@ import {
   obtenerPermutasInteresantes,
   obtenerPermutasPropuestasSistema,
   rechazarPermutaPropuestaSistema,
+  misPermutasPropuestas,
+  misPermutasPropuestasPorMi,
 } from "../../services/permuta.js";
 import { useNavigate } from "react-router-dom";
 import { logError } from "../../lib/logger.js";
@@ -16,8 +19,8 @@ import { faExchangeAlt, faCheck, faBookReader, faTimes, faWandMagicSparkles } fr
 import { useTranslation } from "react-i18next";
 
 const extraerResultado = (respuesta) => {
-  const resultado = respuesta?.result?.result;
-  if (respuesta?.err || !Array.isArray(resultado)) throw new Error(respuesta?.errmsg || "Respuesta no válida");
+  const resultado = resultadoAPI(respuesta);
+  if (!Array.isArray(resultado)) throw new Error("Respuesta no válida");
   return resultado;
 };
 
@@ -28,6 +31,7 @@ export default function Permutas() {
   const [disponibles, setDisponibles] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
+  const accionRef = useRef(false);
   const [procesando, setProcesando] = useState(null);
 
   const cargarPermutas = useCallback(async () => {
@@ -40,7 +44,7 @@ export default function Permutas() {
       setPropuestas(extraerResultado(respuestaPropuestas));
       setDisponibles(extraerResultado(respuestaDisponibles));
     } catch (err) {
-      setError(t("available_swaps.error_loading"));
+      setError(err.message || t("available_swaps.error_loading"));
       logError(err);
     } finally {
       setCargando(false);
@@ -50,33 +54,45 @@ export default function Permutas() {
   useEffect(() => { void cargarPermutas(); }, [cargarPermutas]);
 
   const ejecutarAccionPropuesta = async (permutaId, accion) => {
+    if (accionRef.current) return;
+    accionRef.current = true;
     setProcesando(permutaId);
     try {
       const respuesta = accion === "aceptar"
         ? await aceptarPermutaPropuestaSistema(permutaId)
         : await rechazarPermutaPropuestaSistema(permutaId);
-      if (respuesta?.err || respuesta?.result?.err) throw new Error(respuesta?.errmsg || respuesta?.result?.message);
+      resultadoAPI(respuesta);
       toast.success(accion === "aceptar" ? "Propuesta aceptada" : "Propuesta rechazada");
-      await cargarPermutas();
+
     } catch (err) {
-      toast.error("No se pudo actualizar la propuesta");
+      toast.error(err.message || "No se pudo actualizar la propuesta");
       logError(err);
     } finally {
+      await cargarPermutas();
+      const recargas = await Promise.allSettled([misPermutasPropuestas(), misPermutasPropuestasPorMi()]);
+      recargas.forEach(r => { try { if (r.status === "rejected") throw r.reason; resultadoAPI(r.value); } catch (e) { toast.error(e.message); } });
+      accionRef.current = false;
       setProcesando(null);
     }
   };
 
   const aceptarSolicitud = async (solicitudId) => {
+    if (accionRef.current) return;
+    accionRef.current = true;
     setProcesando(`solicitud-${solicitudId}`);
     try {
       const respuesta = await aceptarPermutaSolicitudesPermuta(solicitudId);
-      if (respuesta?.err || respuesta?.result?.err) throw new Error(respuesta?.errmsg || respuesta?.result?.message);
+      resultadoAPI(respuesta);
       toast.success(t("available_swaps.success_accepted"));
       navigate("/misPermutas");
     } catch (err) {
-      toast.error(t("available_swaps.error_accepted"));
+      toast.error(err.message || t("available_swaps.error_accepted"));
       logError(err);
     } finally {
+      await cargarPermutas();
+      const recargas = await Promise.allSettled([misPermutasPropuestas(), misPermutasPropuestasPorMi()]);
+      recargas.forEach(r => { try { if (r.status === "rejected") throw r.reason; resultadoAPI(r.value); } catch (e) { toast.error(e.message); } });
+      accionRef.current = false;
       setProcesando(null);
     }
   };
@@ -98,18 +114,20 @@ export default function Permutas() {
             <div><h2 id="propuestas-title">Propuestas óptimas del sistema</h2><p>Combinaciones recíprocas calculadas automáticamente.</p></div>
             <span className="permuta-count">{propuestas.length}</span>
           </div>
-          {propuestas.length ? <div className="permuta-grid">{propuestas.map((p) => (
-            <article key={p.permuta_id} className="user-card permuta-card permuta-card-featured">
-              <div className="permuta-subject"><FontAwesomeIcon icon={faBookReader} /><h3>{p.siglas_asignatura || p.nombre_asignatura}</h3></div>
+          {propuestas.length ? <div className="permuta-grid">{agruparBloques(propuestas).map(({ key, bloque, miembros }) => { const p = miembros[0]; const aceptada = miembros.every(m => m.aceptada_por_mi); const cerrada = miembros.some(m => ["VALIDADA", "RECHAZADA", "CANCELADA"].includes(String(m.estado).toUpperCase())); return (
+            <article key={key} className="user-card permuta-card permuta-card-featured">
+              {bloque && <><h3>Curso en bloque · misma persona</h3><p>{p.curso}</p></>}
+              {miembros.map(p => <div key={p.permuta_id}><div className="permuta-subject"><FontAwesomeIcon icon={faBookReader} /><h3>{p.nombre_asignatura || p.siglas_asignatura}</h3></div>
               <p className="permuta-route"><strong>G.{p.grupo_actual}</strong><FontAwesomeIcon icon={faExchangeAlt} /><strong>G.{p.grupo_destino}</strong></p>
               <p className="permuta-code">Código: {p.codigo_asignatura}</p>
-              {p.aceptada_por_mi && <p className="permuta-waiting">Aceptada por ti; esperando al otro estudiante.</p>}
+              </div>)}
+              {aceptada && <p className="permuta-waiting">Aceptada por ti; esperando al otro estudiante.</p>}
               <div className="permuta-actions">
-                <button className="btn btn-success" disabled={procesando === p.permuta_id || p.aceptada_por_mi} onClick={() => ejecutarAccionPropuesta(p.permuta_id, "aceptar")}><FontAwesomeIcon icon={faCheck} /> {p.aceptada_por_mi ? "Aceptada" : "Aceptar"}</button>
-                <button className="btn permuta-reject" disabled={procesando === p.permuta_id} onClick={() => ejecutarAccionPropuesta(p.permuta_id, "rechazar")}><FontAwesomeIcon icon={faTimes} /> Rechazar</button>
+                <button className="btn btn-success" disabled={procesando !== null || aceptada || cerrada} onClick={() => ejecutarAccionPropuesta(p.permuta_id, "aceptar")}><FontAwesomeIcon icon={faCheck} /> {aceptada ? "Aceptada" : bloque ? "Aceptar bloque" : "Aceptar"}</button>
+                <button className="btn permuta-reject" disabled={procesando !== null || cerrada} onClick={() => ejecutarAccionPropuesta(p.permuta_id, "rechazar")}><FontAwesomeIcon icon={faTimes} /> {bloque ? "Rechazar bloque" : "Rechazar"}</button>
               </div>
             </article>
-          ))}</div> : <div className="permuta-empty"><span>✨</span><h3>No tienes propuestas óptimas pendientes</h3><p>El sistema volverá a analizar las solicitudes periódicamente.</p></div>}
+          ); })}</div> : <div className="permuta-empty"><span>✨</span><h3>No tienes propuestas óptimas pendientes</h3><p>El sistema volverá a analizar las solicitudes periódicamente.</p></div>}
         </section>
 
         <section className="permuta-section" aria-labelledby="disponibles-title">
@@ -119,7 +137,7 @@ export default function Permutas() {
               <div className="permuta-subject"><FontAwesomeIcon icon={faBookReader} /><h3>{p.siglas_asignatura}</h3></div>
               <p className="permuta-route"><strong>G.{p.grupo_solicitante}</strong><FontAwesomeIcon icon={faExchangeAlt} /><strong>G.{p.grupo_deseado}</strong></p>
               <p className="permuta-code">{t("available_swaps.code_label")}: {p.codigo_asignatura}</p>
-              <button className="btn btn-success btn-full" disabled={procesando === `solicitud-${p.solicitud_id}`} onClick={() => aceptarSolicitud(p.solicitud_id)}><FontAwesomeIcon icon={faCheck} /> {t("available_swaps.accept_btn")}</button>
+              {p.aceptable_individual === false || p.bloque_id || p.en_bloque ? <p>Se gestiona desde propuestas del sistema.</p> : <button className="btn btn-success btn-full" disabled={procesando !== null} onClick={() => aceptarSolicitud(p.solicitud_id)}><FontAwesomeIcon icon={faCheck} /> {t("available_swaps.accept_btn")}</button>}
             </article>
           ))}</div> : <div className="permuta-empty"><span>📭</span><h3>{t("available_swaps.empty_title")}</h3><p>{t("available_swaps.empty_msg")}</p><button className="btn btn-primary" onClick={() => navigate("/solicitarPermuta")}>{t("available_swaps.request_btn")}</button></div>}
         </section>

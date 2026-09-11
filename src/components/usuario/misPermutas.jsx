@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { agruparBloques } from "../../lib/bloquesPermuta.js";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
@@ -110,6 +112,12 @@ export default function MisPermutas() {
         </div>
 
         <div className="mispermutas-columns" style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+          {agruparBloques([...new Map([...permutasPropuestasPorMi, ...permutasPropuestas]
+            .filter(p => p.bloque_id).map(p => [p.permuta_id, p])).values()]).map(grupo => <section className="user-card" key={grupo.key}>
+            <h2>Curso en bloque · misma persona</h2><p>{grupo.miembros[0].curso}</p>
+            <ul>{grupo.miembros.map(p => <li key={p.permuta_id}>{p.nombre_asignatura} ({p.codigo_asignatura}): {p.grupo_solicitante} → {p.grupo_solicitado} · {translateSwapStatus(t, p.estado)}</li>)}</ul>
+            <Link to="/permutas">Gestionar desde propuestas del sistema</Link>
+          </section>)}
 
           {/* Columna: Propuestas por mí */}
           <div className="mispermutascol" style={{ flex: 1, minWidth: '300px' }}>
@@ -125,7 +133,7 @@ export default function MisPermutas() {
                 slidesPerView={1}
                 className="user-swiper"
               >
-                {permutasPropuestasPorMi.map((permuta) => (
+                {permutasPropuestasPorMi.filter(p => !p.bloque_id).map((permuta) => (
                   <SwiperSlide key={permuta.permuta_id} style={{ padding: '10px 5px 30px 5px' }}>
                     <div className="user-card" style={{ height: '100%', borderRadius: '12px' }}>
                       <div className="mispermuta-info">
@@ -162,7 +170,7 @@ export default function MisPermutas() {
                 slidesPerView={1}
                 className="user-swiper"
               >
-                {permutasPropuestas.map((permuta) => (
+                {permutasPropuestas.filter(p => !p.bloque_id).map((permuta) => (
                   <SwiperSlide key={permuta.permuta_id} style={{ padding: '10px 5px 30px 5px' }}>
                     <div className="user-card" style={{ height: '100%', borderRadius: '12px' }}>
                       <div className="mispermuta-info">

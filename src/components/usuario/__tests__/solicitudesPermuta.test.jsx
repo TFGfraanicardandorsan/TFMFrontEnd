@@ -8,6 +8,7 @@ import i18n from "../../../i18n.js";
 import SolicitudesPermuta from "../solicitudesPermuta.jsx";
 import {
     actualizarGruposDeseadosSolicitud,
+    cancelarSolicitudPermuta,
     obtenerSolicitudesPermuta,
 } from "../../../services/permuta.js";
 import { obtenerTodosGruposMisAsignaturasSinGrupoUsuario } from "../../../services/grupo.js";
@@ -84,6 +85,9 @@ describe("edición de grupos deseados", () => {
         fireEvent.click(grupo3);
         expect(grupo2).not.toBeDisabled();
         fireEvent.click(grupo2);
+        obtenerSolicitudesPermuta.mockResolvedValue(responderCon([
+            { ...solicitudEditable, grupos_deseados: [3], grupos_deseados_ids: [13] },
+        ]));
         fireEvent.click(within(dialogo).getByRole("button", { name: /Guardar cambios/i }));
 
         await waitFor(() => {
@@ -167,5 +171,46 @@ describe("edición de grupos deseados", () => {
         dialogo = screen.getByRole("dialog", { name: "Editar grupos deseados" });
         expect(within(dialogo).getByRole("checkbox", { name: /Grupo 4/ })).toBeChecked();
         expect(within(dialogo).queryByRole("checkbox", { name: /Grupo 2/ })).not.toBeInTheDocument();
+    });
+});
+
+describe('bloques de solicitudes', () => {
+    beforeEach(async () => {
+        vi.clearAllMocks(); await i18n.changeLanguage('es');
+        obtenerSolicitudesPermuta.mockResolvedValue(responderCon([
+            { ...solicitudEditable, bloque_id: 'bloque-a', en_bloque: true, curso: 'PRIMERO' },
+            { ...solicitudEditable, solicitud_id: 42, codigo_asignatura: 2050002, nombre_asignatura: 'Cálculo', bloque_id: 'bloque-a', en_bloque: true, curso: 'PRIMERO' },
+            { ...solicitudEditable, solicitud_id: 43, nombre_asignatura: 'Antigua', bloque_id: null },
+        ]));
+    });
+    it('confirma todos los miembros y cancela una sola vez, recargando el listado', async () => {
+        cancelarSolicitudPermuta.mockResolvedValue(responderCon('Cancelado'));
+        renderizar(); fireEvent.click(await screen.findByRole('button', { name: 'Cancelar bloque' }));
+        const dialog = screen.getByRole('dialog', { name: 'Cancelar bloque' });
+        expect(within(dialog).getAllByRole('listitem')).toHaveLength(2);
+        expect(within(dialog).getByText(/Cálculo/)).toBeVisible();
+        obtenerSolicitudesPermuta.mockResolvedValue(responderCon([{ ...solicitudEditable, solicitud_id: 43, nombre_asignatura: 'Antigua', bloque_id: null }]));
+        const confirmar = within(dialog).getByRole('button', { name: 'Confirmar cancelación' });
+        fireEvent.click(confirmar); fireEvent.click(confirmar);
+        await waitFor(() => expect(cancelarSolicitudPermuta).toHaveBeenCalledWith(41));
+        await waitFor(() => expect(obtenerSolicitudesPermuta).toHaveBeenCalledTimes(2));
+        expect(cancelarSolicitudPermuta).toHaveBeenCalledTimes(1); expect(await screen.findByText('Antigua')).toBeVisible();
+        expect(screen.queryByText('Cálculo')).not.toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Cancelar' })).toBeEnabled();
+    });
+    it('bloquea edición y cancelación de todos los miembros si uno tiene permuta activa', async () => {
+        obtenerSolicitudesPermuta.mockResolvedValue(responderCon([
+            { ...solicitudEditable, bloque_id: 'b', editable: true },
+            { ...solicitudEditable, solicitud_id: 42, bloque_id: 'b', editable: false },
+        ]));
+        renderizar(); expect(await screen.findByRole('button', { name: 'Cancelar bloque' })).toBeDisabled();
+        screen.getAllByRole('button', { name: 'Editar grupos' }).forEach(b => expect(b).toBeDisabled());
+    });
+    it('recarga el bloque tras un conflicto de cancelación', async () => {
+        cancelarSolicitudPermuta.mockResolvedValue({ err: true, status: 409, errmsg: 'Bloque no disponible' });
+        renderizar(); fireEvent.click(await screen.findByRole('button', { name: 'Cancelar bloque' }));
+        fireEvent.click(screen.getByRole('button', { name: 'Confirmar cancelación' }));
+        await waitFor(() => expect(obtenerSolicitudesPermuta).toHaveBeenCalledTimes(2));
+        expect(cancelarSolicitudPermuta).toHaveBeenCalledTimes(1);
     });
 });

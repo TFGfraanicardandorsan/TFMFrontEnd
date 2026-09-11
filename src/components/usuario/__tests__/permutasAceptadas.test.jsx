@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import "@testing-library/jest-dom/vitest";
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import i18n from "../../../i18n.js";
 
@@ -8,11 +8,12 @@ const mocks = vi.hoisted(() => ({
   navigate: vi.fn(),
   obtenerPermutas: vi.fn(),
   obtenerSesion: vi.fn(),
+  generarBorrador: vi.fn(),
 }));
 
 vi.mock("../../../services/permuta.js", () => ({
   obtenerPermutasAgrupadasPorUsuario: mocks.obtenerPermutas,
-  generarBorradorPermuta: vi.fn(),
+  generarBorradorPermuta: mocks.generarBorrador,
 }));
 
 vi.mock("../../../services/login.js", () => ({
@@ -69,5 +70,18 @@ describe("PermutasAceptadas", () => {
 
     await screen.findByText("Análisis y Diseño de Datos y Algoritmos");
     expect(screen.queryByRole("button", { name: "Completar Permuta" })).not.toBeInTheDocument();
+  });
+
+  it("incluye todos los miembros del bloque en el documento aunque estén en distintas filas del listado", async () => {
+    const data = respuesta(null);
+    const grupo = data.result.result[0];
+    grupo.permutas[0] = { ...grupo.permutas[0], bloque_id: "documento-bloque", estado_permuta_asociada: null };
+    data.result.result.push({ ...grupo, permutas: [{ ...grupo.permutas[0], permuta_id: 760 }] });
+    mocks.obtenerPermutas.mockResolvedValue(data);
+    mocks.generarBorrador.mockResolvedValue({ err: false, result: { err: false, result: {} } });
+    render(<PermutasAceptadas />);
+    fireEvent.click((await screen.findAllByRole("button", { name: "Generar Permuta" }))[0]);
+    await waitFor(() => expect(mocks.generarBorrador).toHaveBeenCalledWith([759, 760]));
+    expect(mocks.navigate).toHaveBeenCalledWith("/generarPermuta", { state: { IdsPermuta: [759, 760] } });
   });
 });

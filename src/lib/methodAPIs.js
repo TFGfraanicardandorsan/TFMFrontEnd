@@ -21,25 +21,27 @@ const mutationAPI = async (method, fun, body = null, isFile = false) => {
 
         if (!respuesta.ok) {
             let errorMessage = `Error ${respuesta.status}: ${respuesta.statusText}`;
+            let errorData = {};
             try {
-                const errorData = await respuesta.json();
+                errorData = await respuesta.json();
                 errorMessage = errorData.message || errorData.errmsg || errorData.error || errorMessage;
             } catch {
                 // La respuesta de error no siempre incluye JSON.
             }
-            throw new Error(errorMessage);
+            return { err: true, errmsg: errorMessage, message: errorMessage,
+                status: respuesta.status, detalles: errorData.detalles };
         }
 
         let data;
         try {
             data = await respuesta.json();
         } catch {
-            return { err: true, errmsg: i18n.t("api.invalid_json") };
+            return { err: true, incierto: true, errmsg: i18n.t("api.invalid_json") };
         }
 
         return { err: false, result: data };
     } catch (e) {
-        return { err: true, errmsg: i18n.t("api.post_exception", { message: e.message }) };
+        return { err: true, incierto: true, errmsg: i18n.t("api.post_exception", { message: e.message }) };
     }
 };
 

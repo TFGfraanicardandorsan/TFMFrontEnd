@@ -1,3 +1,4 @@
+import { agruparBloques } from "../../lib/bloquesPermuta.js";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -49,6 +50,11 @@ export default function SolicitudesPermuta() {
     const [error, setError] = useState(null);
     const [filtroEstado, setFiltroEstado] = useState("todas");
 
+    const cancelandoRef = useRef(false);
+    const [cancelando, setCancelando] = useState(false);
+    const [confirmarBloque, setConfirmarBloque] = useState(null);
+    const editable = (s) => esSolicitudEditable(s) && (!s.bloque_id || solicitudes.filter(x => x.bloque_id === s.bloque_id).every(esSolicitudEditable));
+
     const [modalOpen, setModalOpen] = useState(false);
     const [solicitudSeleccionada, setSolicitudSeleccionada] = useState(null);
 
@@ -93,6 +99,9 @@ export default function SolicitudesPermuta() {
     }, [editorOpen, guardando, modalOpen]);
 
     const handleCancelar = async (solicitudId) => {
+        if (cancelandoRef.current) return;
+        cancelandoRef.current = true;
+        setCancelando(true);
         try {
             const respuesta = await cancelarSolicitudPermuta(solicitudId);
             if (respuesta?.err || respuesta?.result?.err) {
@@ -103,9 +112,6 @@ export default function SolicitudesPermuta() {
                 );
             }
 
-            setSolicitudes((prev) => prev.filter(
-                (solicitud) => obtenerIdSolicitud(solicitud) !== solicitudId
-            ));
             toast.success(t("user.swap_requests.cancel_success"));
             if (obtenerIdSolicitud(solicitudSeleccionada || {}) === solicitudId) {
                 setModalOpen(false);
@@ -113,6 +119,11 @@ export default function SolicitudesPermuta() {
             }
         } catch (err) {
             toast.error(err.message || t("user.swap_requests.cancel_error"));
+        } finally {
+            setConfirmarBloque(null);
+            await cargarSolicitudes();
+            cancelandoRef.current = false;
+            setCancelando(false);
         }
     };
 
@@ -127,7 +138,7 @@ export default function SolicitudesPermuta() {
     };
 
     const abrirEditor = async (solicitud) => {
-        if (!esSolicitudEditable(solicitud)) return;
+        if (!editable(solicitud)) return;
 
         const requestId = editorRequestIdRef.current + 1;
         editorRequestIdRef.current = requestId;
@@ -239,6 +250,7 @@ export default function SolicitudesPermuta() {
     };
 
     const guardarEdicion = async () => {
+        if (guardando || !solicitudSeleccionada || !editable(solicitudSeleccionada)) return;
         if (!solicitudSeleccionada || gruposSeleccionados.length === 0) {
             setErrorEdicion(t("user.swap_requests.keep_one_group", {
                 defaultValue: "La solicitud debe conservar al menos un grupo deseado",
@@ -291,6 +303,7 @@ export default function SolicitudesPermuta() {
                 defaultValue: "Error al actualizar la solicitud",
             }));
         } finally {
+            await cargarSolicitudes();
             setGuardando(false);
         }
     };
@@ -334,10 +347,13 @@ export default function SolicitudesPermuta() {
                     <div className="solicitudes-content">
                         {solicitudesFiltradas.length > 0 ? (
                             <div className="solicitudes-grid">
-                                {solicitudesFiltradas.map((solicitud) => {
+                                {agruparBloques(solicitudes).filter(grupo => grupo.miembros.some(s => solicitudesFiltradas.includes(s))).map(grupo => <section key={grupo.key} className={grupo.bloque ? "solicitud-bloque" : ""}>
+                                    {grupo.bloque && <><h2>Curso en bloque · misma persona</h2><p>{grupo.miembros[0].curso}</p><p>Para cambiar el modo, cancela el bloque y vuelve a crear las solicitudes.</p>
+                                        <button className="btn btn-danger" disabled={cancelando || !grupo.miembros.every(editable)} onClick={() => setConfirmarBloque(grupo.miembros)}>Cancelar bloque</button></>}
+                                {grupo.miembros.map((solicitud) => {
                                     const solicitudId = obtenerIdSolicitud(solicitud);
                                     const solicitudSolicitada = esSolicitudSolicitada(solicitud);
-                                    const solicitudEditable = esSolicitudEditable(solicitud);
+                                    const solicitudEditable = editable(solicitud);
                                     const bloqueoId = `solicitud-bloqueada-${solicitudId}`;
                                     return (
                                         <article key={solicitudId} className="user-card solicitud-card">
@@ -381,7 +397,7 @@ export default function SolicitudesPermuta() {
                                                     <button
                                                         type="button"
                                                         className="btn btn-primary"
-                                                        disabled={!solicitudEditable}
+                                                        disabled={!solicitudEditable || cancelando}
                                                         aria-describedby={!solicitudEditable ? bloqueoId : undefined}
                                                         title={!solicitudEditable ? textoBloqueo : undefined}
                                                         onClick={() => void abrirEditor(solicitud)}
@@ -392,11 +408,11 @@ export default function SolicitudesPermuta() {
                                                     </button>
                                                 )}
 
-                                                {solicitudSolicitada && (
+                                                {solicitudSolicitada && !grupo.bloque && (
                                                     <button
                                                         type="button"
                                                         className="btn btn-danger"
-                                                        disabled={!solicitudEditable}
+                                                        disabled={!solicitudEditable || cancelando}
                                                         aria-describedby={!solicitudEditable ? bloqueoId : undefined}
                                                         onClick={() => void handleCancelar(solicitudId)}
                                                     >
@@ -406,7 +422,7 @@ export default function SolicitudesPermuta() {
                                             </div>
                                         </article>
                                     );
-                                })}
+                                })}</section>)}
                             </div>
                         ) : (
                             <div className="user-card empty-state solicitudes-empty-state">
@@ -463,7 +479,7 @@ export default function SolicitudesPermuta() {
                             {solicitudSeleccionada.descripcion || "—"}
                         </p>
                         {esSolicitudSolicitada(solicitudSeleccionada)
-                            && !esSolicitudEditable(solicitudSeleccionada) && (
+                            && !editable(solicitudSeleccionada) && (
                             <p className="solicitud-bloqueo" role="note">{textoBloqueo}</p>
                         )}
 
@@ -471,7 +487,7 @@ export default function SolicitudesPermuta() {
                             {esSolicitudSolicitada(solicitudSeleccionada) && (
                                 <button
                                     type="button"
-                                    disabled={!esSolicitudEditable(solicitudSeleccionada)}
+                                    disabled={!editable(solicitudSeleccionada)}
                                     onClick={() => {
                                         const solicitud = solicitudSeleccionada;
                                         cerrarModal();
@@ -595,6 +611,12 @@ export default function SolicitudesPermuta() {
                 </div>
             )}
 
+            {confirmarBloque && <div className="modal-overlay"><div className="modal-content solicitudes-modal" role="dialog" aria-modal="true" aria-labelledby="cancelar-bloque-titulo">
+                <h2 id="cancelar-bloque-titulo">Cancelar bloque</h2><p>Se cancelarán todas estas asignaturas:</p>
+                <ul>{confirmarBloque.map(s => <li key={obtenerIdSolicitud(s)}>{s.nombre_asignatura} ({s.codigo_asignatura})</li>)}</ul>
+                <button disabled={cancelando} onClick={() => setConfirmarBloque(null)}>Volver</button>
+                <button disabled={cancelando} onClick={() => handleCancelar(obtenerIdSolicitud(confirmarBloque[0]))}>Confirmar cancelación</button>
+            </div></div>}
             <div className="solicitudes-footer-spacer" aria-hidden="true" />
         </div>
     );
