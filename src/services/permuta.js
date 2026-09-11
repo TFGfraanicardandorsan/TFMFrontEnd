@@ -89,5 +89,5 @@ export const generarBorradorPermuta = async (IdsPermuta) => {
 }
 
 export const actualizarVigenciaPermutas = async () => {
-    return await postAPI("/api/v1/solicitudPermuta/actualizarVigenciaPermutas");
+    return await postAPI("/api/v1/permutas/actualizarVigenciaPermutas");
 }
