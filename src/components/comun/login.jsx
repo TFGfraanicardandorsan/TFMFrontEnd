@@ -1,48 +1,7 @@
-import "../../styles/login-style.css";
-import Footer from "./footer";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLock } from "@fortawesome/free-solid-svg-icons";
-import { useTranslation } from "react-i18next";
-import LanguageSwitcher from "./LanguageSwitcher";
-
-
+﻿import Footer from './footer';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from './LanguageSwitcher';
 export default function Login() {
   const { t } = useTranslation();
-  const handleClickLogin = () => {
-    window.location.href = "https://permutas.eii.us.es/api/v1/autorizacion/saml/login";
-  };
-
-
-  return (
-    <>
-      <div className="app-container">
-        <div style={{ position: 'absolute', top: '20px', right: '20px' }}>
-          <LanguageSwitcher />
-        </div>
-        <div className="content">
-
-          <div className="logo-container">
-            <img src="/assets/logo-etsii-color.png" alt={t("common.logo_alt")} />
-          </div>
-          <div className="login-content">
-            <h1 className="login-title">{t("login.title")}</h1>
-
-            <button className="login-button" onClick={handleClickLogin}>
-              <FontAwesomeIcon icon={faLock} className="lock-icon" />
-              {t("login.button")}
-            </button>
-
-          </div>
-          <div className="qr-section">
-            <p className="qr-info-text">
-              {t("login.telegram_info")}
-            </p>
-
-            <img src="/assets/telegram-qr.png" alt={t("registration.telegram_alt")} className="qr-image" />
-          </div>
-        </div>
-      </div>
-      <Footer />
-    </>
-  );
+  return <div className="public-workspace"><header className="public-topbar"><a href="/login" className="workspace-brand"><span className="brand-mark">↔</span>Permutas ETSII</a><LanguageSwitcher /></header><main className="login-workspace"><section className="login-introduction"><p className="eyebrow">UNIVERSIDAD DE SEVILLA / ETSII</p><h1>{t('workspace.welcome')}</h1><p>{t('workspace.intro')}</p><ol>{[1,2,3,4].map(i => <li key={i}><span>0{i}</span><div><strong>{t(`workspace.step${i}`)}</strong><p>{t(`workspace.step${i}_help`)}</p></div></li>)}</ol></section><section className="login-access"><img src="/assets/logo-etsii-color.png" alt={t('common.logo_alt')} /><h2>{t('login.title')}</h2><button className="login-submit" onClick={() => { window.location.href = 'https://permutas.eii.us.es/api/v1/autorizacion/saml/login'; }}>{t('login.button')} →</button><div className="login-community"><p>{t('login.telegram_info')}</p><img src="/assets/telegram-qr.png" alt={t('registration.telegram_alt')} /></div></section></main><Footer /></div>;
 }

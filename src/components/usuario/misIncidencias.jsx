@@ -43,6 +43,7 @@ export default function MisIncidencias() {
           </p>
         </div>
 
+        <button className="btn btn-primary" onClick={() => navigate("/reportarIncidencia")}>{t("user.incidents.report_new")}</button>
         <div className="filtro-container">
           <label htmlFor="filtroEstado">{t("user.incidents.filter_status")}</label>
           <select
@@ -74,7 +75,7 @@ export default function MisIncidencias() {
         ) : (
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(min(300px, 100%), 1fr))',
             gap: '20px'
           }}>
             {incidenciasFiltradas.map((incidencia) => (

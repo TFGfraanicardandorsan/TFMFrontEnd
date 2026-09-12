@@ -1,11 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { agruparBloques } from "../../lib/bloquesPermuta.js";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 import "../../styles/user-common.css";
 import "../../styles/mispermutas-style.css"; // Mantenemos estilos específicos secundarios si son necesarios
 import {
@@ -125,16 +120,9 @@ export default function MisPermutas() {
               <FontAwesomeIcon icon={faExchangeAlt} /> {t("user.my_swaps.proposed_by_me")}
             </h2>
             {permutasPropuestasPorMi.length > 0 ? (
-              <Swiper
-                modules={[Navigation, Pagination]}
-                navigation
-                pagination={{ clickable: true }}
-                spaceBetween={20}
-                slidesPerView={1}
-                className="user-swiper"
-              >
+              <div className="swap-record-list">
                 {permutasPropuestasPorMi.filter(p => !p.bloque_id).map((permuta) => (
-                  <SwiperSlide key={permuta.permuta_id} style={{ padding: '10px 5px 30px 5px' }}>
+                  <div key={permuta.permuta_id} style={{ padding: '10px 5px 30px 5px' }}>
                     <div className="user-card" style={{ height: '100%', borderRadius: '12px' }}>
                       <div className="mispermuta-info">
                         <p><strong><FontAwesomeIcon icon={faInfoCircle} /> {t("common.status")}:</strong> {translateSwapStatus(t, permuta.estado)}</p>
@@ -146,9 +134,9 @@ export default function MisPermutas() {
                         </div>
                       </div>
                     </div>
-                  </SwiperSlide>
+                  </div>
                 ))}
-              </Swiper>
+              </div>
             ) : (
               <div className="empty-state">
                 <p>{t("user.my_swaps.empty_mine")}</p>
@@ -162,16 +150,9 @@ export default function MisPermutas() {
               <FontAwesomeIcon icon={faExchangeAlt} /> {t("user.my_swaps.received")}
             </h2>
             {permutasPropuestas.length > 0 ? (
-              <Swiper
-                modules={[Navigation, Pagination]}
-                navigation
-                pagination={{ clickable: true }}
-                spaceBetween={20}
-                slidesPerView={1}
-                className="user-swiper"
-              >
+              <div className="swap-record-list">
                 {permutasPropuestas.filter(p => !p.bloque_id).map((permuta) => (
-                  <SwiperSlide key={permuta.permuta_id} style={{ padding: '10px 5px 30px 5px' }}>
+                  <div key={permuta.permuta_id} style={{ padding: '10px 5px 30px 5px' }}>
                     <div className="user-card" style={{ height: '100%', borderRadius: '12px' }}>
                       <div className="mispermuta-info">
                         <p><strong><FontAwesomeIcon icon={faInfoCircle} /> {t("common.status")}:</strong> {translateSwapStatus(t, permuta.estado)}</p>
@@ -197,9 +178,9 @@ export default function MisPermutas() {
                         </button>
                       </div>
                     </div>
-                  </SwiperSlide>
+                  </div>
                 ))}
-              </Swiper>
+              </div>
             ) : (
               <div className="empty-state">
                 <p>{t("user.my_swaps.empty_received")}</p>

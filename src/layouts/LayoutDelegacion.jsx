@@ -10,12 +10,12 @@ export default function LayoutDelegacion() {
   const isAdmin = isAllowedRole(user?.rol, [ADMIN_ROLE]);
 
   return (
-    <>
+    <div className="app-frame">
       {isAdmin ? <NavbarAdmin /> : <NavbarDelegacion />}
-      <main>
+      <main id="workspace-content" tabIndex={-1} className="workspace-main">
         <Outlet />
       </main>
       <Footer />
-    </>
+    </div>
   );
 }

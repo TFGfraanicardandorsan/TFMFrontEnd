@@ -13,6 +13,7 @@ import LayoutEstudiante from "./layouts/LayoutEstudiante.jsx";
 import LayoutAdmin from "./layouts/LayoutAdmin.jsx";
 import LayoutDelegacion from "./layouts/LayoutDelegacion.jsx";
 import LayoutFeedback from "./layouts/LayoutFeedback.jsx";
+import Seguimiento from "./components/usuario/Seguimiento.jsx";
 import Home from "./components/comun/home.jsx";
 import MiPerfil from "./components/usuario/miPerfil.jsx";
 import ReportarIncidencia from "./components/usuario/reportarIncidencia.jsx";
@@ -64,7 +65,7 @@ function AppContent() {
 
   return (
     <>
-      <main>
+      <div className="app-root">
         <Routes>
           {/* Rutas públicas */}
           <Route path="/login" element={<Login />} />
@@ -84,6 +85,7 @@ function AppContent() {
 
           {/* Layout para estudiantes */}
           <Route element={<RoleRoute allowedRoles={[STUDENT_ROLE]}><LayoutEstudiante /></RoleRoute>}>
+            <Route path="/seguimiento" element={<Seguimiento />} />
             <Route path="/estudiante" element={<Home />} />
             <Route path="/miPerfil" element={<MiPerfil />} />
             <Route path="/seleccionarEstudios" element={<SeleccionarEstudio />} />
@@ -121,7 +123,7 @@ function AppContent() {
             <Route path="/delegacion/certificados" element={<CertificadosDelegacion />} />
           </Route>
         </Routes>
-      </main>
+      </div>
 
       <CookieConsent
         location="bottom"

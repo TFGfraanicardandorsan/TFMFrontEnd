@@ -16,12 +16,12 @@ export default function LayoutFeedback() {
             : <NavbarEstudiante />;
 
     return (
-        <>
+        <div className="app-frame">
             {navbar}
-            <main>
+            <main id="workspace-content" tabIndex={-1} className="workspace-main">
                 <Outlet />
             </main>
             <Footer />
-        </>
+        </div>
     );
 }

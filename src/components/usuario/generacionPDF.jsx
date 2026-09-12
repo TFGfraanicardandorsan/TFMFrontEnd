@@ -578,7 +578,7 @@ export default function GeneracionPDF() {
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '30px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(350px, 100%), 1fr))', gap: '30px' }}>
 
           {/* Columna Izquierda: Formulario */}
           <div className="user-card">
