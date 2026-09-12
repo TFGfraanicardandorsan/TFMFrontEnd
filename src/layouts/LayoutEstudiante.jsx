@@ -18,7 +18,7 @@ export default function LayoutEstudiante() {
     }).catch(() => {});
     return () => { alive = false; };
   }, [pathname]);
-  return <div className="app-frame">
+  return <div className="app-frame workspace-student">
     <NavbarEstudiante />
     <main id="workspace-content" tabIndex={-1} className="workspace-main">
       {incomplete && !['/seleccionarGrupos', '/seleccionarAsignaturas'].includes(pathname) && <div className="workspace-setup-note" role="status"><span>{t('workspace.setup_note')}</span><Link to="/seleccionarGrupos">{t('workspace.setup_action')} →</Link></div>}

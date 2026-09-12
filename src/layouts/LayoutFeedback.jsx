@@ -4,7 +4,7 @@ import NavbarAdmin from "../components/administrador/NavbarAdmin";
 import NavbarDelegacion from "../components/delegacion/NavbarDelegacion";
 import NavbarEstudiante from "../components/usuario/NavbarEstudiante";
 import { useAuth } from "../hooks/useAuth";
-import { ADMIN_ROLE, isAllowedRole, isDelegationRole } from "../lib/roles";
+import { ADMIN_ROLE, STUDENT_ROLE, isAllowedRole, isDelegationRole } from "../lib/roles";
 
 export default function LayoutFeedback() {
     const { user } = useAuth();
@@ -16,7 +16,7 @@ export default function LayoutFeedback() {
             : <NavbarEstudiante />;
 
     return (
-        <div className="app-frame">
+        <div className={`app-frame${isAllowedRole(user?.rol, [STUDENT_ROLE]) ? " workspace-student" : ""}`}>
             {navbar}
             <main id="workspace-content" tabIndex={-1} className="workspace-main">
                 <Outlet />

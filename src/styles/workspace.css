@@ -274,3 +274,31 @@ h3 { font-size: 1rem; }
   .language-control select { height: 44px; width: 52px; }
 }
 @media (max-width:380px) { .workspace-topbar .brand-mark { display: none; } }
+
+/* Preserve the original student identity within the redesigned workspace. */
+.workspace-student {
+  --ws-brand: #2b579a;
+  --ws-brand-hover: #20406a;
+  --ws-tint: #e3f2fd;
+  --user-primary: var(--ws-brand);
+  --user-primary-hover: var(--ws-brand-hover);
+  --user-secondary: #00bcd4;
+  --user-accent: var(--ws-tint);
+  --user-accent-hover: #bbdefb;
+}
+.workspace-student .brand-mark { background: #2b579a; }
+.workspace-student .welcome-art { background: #e3f2fd; color: #2b579a; }
+.workspace-student .art-grid {
+  background-image: linear-gradient(#2b579a12 1px, transparent 1px), linear-gradient(90deg, #2b579a12 1px, transparent 1px);
+}
+body.dark-mode .workspace-student {
+  --ws-brand: #90c2ff;
+  --ws-brand-hover: #b7d8ff;
+  --ws-tint: #203650;
+  --user-secondary: #22d3ee;
+  --user-accent-hover: #2a4665;
+}
+body.dark-mode .workspace-student .welcome-art { background: #203650; color: #90c2ff; }
+body.dark-mode .workspace-student .art-grid {
+  background-image: linear-gradient(#90c2ff18 1px, transparent 1px), linear-gradient(90deg, #90c2ff18 1px, transparent 1px);
+}
