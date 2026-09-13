@@ -957,5 +957,26 @@
     "proposal_note": "Aceptar una propuesta registra tu acuerdo. El otro estudiante también debe aceptar.",
     "document_note": "Revisa quién debe completar o firmar el documento antes de continuar.",
     "art_caption": "TU GRUPO. TU SIGUIENTE PASO."
+  },
+  "notificationCenter": {
+    "category": "Categoría",
+    "all": "Todas",
+    "markAll": "Marcar todas como leídas",
+    "unreadCount_one": "{{count}} notificación sin leer",
+    "unreadCount_other": "{{count}} notificaciones sin leer",
+    "retry": "Reintentar",
+    "saveError": "No se pudo guardar la lectura. Inténtalo de nuevo.",
+    "read": "Leída",
+    "unread": "Sin leer",
+    "view": "Ver proceso",
+    "markRead": "Marcar como leída",
+    "markUnread": "Marcar como no leída",
+    "more": "Mostrar más",
+    "types": {
+      "ADMINISTRACION": "Administración",
+      "PERMUTA": "Proceso de permuta",
+      "DOCUMENTO": "Firma y documentos",
+      "INCIDENCIA": "Incidencias"
+    }
   }
 }

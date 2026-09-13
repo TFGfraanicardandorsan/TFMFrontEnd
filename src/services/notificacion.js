@@ -1,4 +1,4 @@
-import { postAPI}  from "../lib/methodAPIs.js";
+import { postAPI, patchAPI}  from "../lib/methodAPIs.js";
 
 export const obtenerNotificaciones = async () => {
     return await postAPI("/api/v1/notificacion/notificaciones")
@@ -14,3 +14,5 @@ export const notificarCierreIncidencia = async (idIncidencia, contenido) => {
         contenido
     });
 };
+export const marcarNotificacionLeida = (id, leida = true) => patchAPI('/api/v1/notificacion/' + id + '/lectura', { leida });
+export const marcarTodasNotificacionesLeidas = () => postAPI('/api/v1/notificacion/marcarTodasLeidas');

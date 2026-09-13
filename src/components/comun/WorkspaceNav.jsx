@@ -3,9 +3,9 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightArrowLeft, faHouse, faPlus, faListCheck, faUser, faLifeRing, faBell, faBars, faXmark, faArrowRightFromBracket, faChartSimple, faUsers, faLayerGroup, faFileSignature, faMessage } from '@fortawesome/free-solid-svg-icons';
-import { obtenerNotificaciones } from '../../services/notificacion.js';
+import useNotificaciones from '../../hooks/useNotificaciones.js';
+import NotificacionesLista from './NotificacionesLista.jsx';
 import { logout } from '../../services/login.js';
-import { formatearFecha } from '../../lib/formateadorFechas.js';
 import ThemeToggle from './ThemeToggle';
 import LanguageSwitcher from './LanguageSwitcher';
 import PropTypes from 'prop-types';
@@ -30,21 +30,11 @@ export default function WorkspaceNav({ role }) {
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const [noticesOpen, setNoticesOpen] = useState(false);
-  const [notices, setNotices] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const centro = useNotificaciones();
   const dialog = useRef(null);
   const trigger = useRef(null);
   const menu = menus[role];
   useEffect(() => { setMenuOpen(false); setNoticesOpen(false); }, [location.pathname]);
-  useEffect(() => {
-    let alive = true;
-    obtenerNotificaciones().then(r => {
-      if (r?.err || r?.result?.err || !Array.isArray(r?.result?.result)) throw new Error();
-      if (alive) setNotices(r.result.result);
-    }).catch(() => { if (alive) setError(true); }).finally(() => { if (alive) setLoading(false); });
-    return () => { alive = false; };
-  }, []);
   useEffect(() => {
     if (!noticesOpen) return;
     const previous = document.activeElement;
@@ -52,7 +42,7 @@ export default function WorkspaceNav({ role }) {
     const handler = e => {
       if (e.key === 'Escape') setNoticesOpen(false);
       if (e.key === 'Tab') {
-        const nodes = dialog.current?.querySelectorAll('button, a[href], [tabindex="0"]');
+        const nodes = dialog.current?.querySelectorAll('button:not([disabled]), select:not([disabled]), a[href], [tabindex="0"]');
         if (!nodes?.length) return;
         const first = nodes[0], last = nodes[nodes.length - 1];
         if (e.shiftKey && (document.activeElement === first || document.activeElement === dialog.current)) { e.preventDefault(); last.focus(); }
@@ -68,7 +58,7 @@ export default function WorkspaceNav({ role }) {
     <header className="workspace-topbar">
       <Link to={menu[0][1]} className="workspace-brand"><span className="brand-mark"><FontAwesomeIcon icon={faArrowRightArrowLeft} /></span><span>Permutas<span className="brand-school">ETSII · Universidad de Sevilla</span></span></Link>
       <div className="workspace-utilities"><span className="workspace-role">{t(`workspace.${role}`)}</span><LanguageSwitcher /><ThemeToggle />
-        <button className="icon-button" aria-label={t('common.notifications')} aria-haspopup="dialog" onClick={() => setNoticesOpen(true)}><FontAwesomeIcon icon={faBell} /></button>
+        <button className="icon-button notification-bell" aria-label={t('common.notifications')} aria-describedby="notification-count" aria-haspopup="dialog" onClick={() => setNoticesOpen(true)}><FontAwesomeIcon icon={faBell} />{centro.noLeidas > 0 && <span className="notification-counter" aria-hidden="true">{centro.noLeidas > 99 ? '99+' : centro.noLeidas}</span>}<span id="notification-count" className="notification-sr-only">{t('notificationCenter.unreadCount', { count: centro.noLeidas })}</span></button>
         <button ref={trigger} className="icon-button mobile-menu-toggle" aria-label={t('workspace.menu')} aria-expanded={menuOpen} aria-controls="workspace-navigation" onClick={() => setMenuOpen(v => !v)}><FontAwesomeIcon icon={menuOpen ? faXmark : faBars} /></button>
       </div>
     </header>
@@ -80,7 +70,7 @@ export default function WorkspaceNav({ role }) {
     </aside>
     {role === 'estudiante' && <nav className="workspace-bottom-nav" aria-label={t('workspace.mobile_navigation')}>{menu.slice(0, 4).map(([key, to, icon]) => <NavLink key={to} to={to} className={({ isActive }) => isActive || active(to) ? 'selected' : ''}><FontAwesomeIcon icon={icon} /><span>{t(key)}</span></NavLink>)}</nav>}
     {noticesOpen && <div className="workspace-dialog-backdrop" onClick={e => { if (e.target === e.currentTarget) setNoticesOpen(false); }}><section className="workspace-notifications" role="dialog" aria-modal="true" aria-labelledby="notifications-heading" tabIndex={-1} ref={dialog}><div className="workspace-section-heading"><h2 id="notifications-heading">{t('common.notifications')}</h2><button className="icon-button" aria-label={t('common.close')} onClick={() => setNoticesOpen(false)}><FontAwesomeIcon icon={faXmark} /></button></div>
-      {loading ? <p role="status">{t('common.loading')}</p> : error ? <p role="alert">{t('workspace.load_error')}</p> : notices.length ? notices.map(n => <article key={n.id} className="workspace-notice"><p>{n.contenido}</p><small>{formatearFecha(n.fecha_creacion)}</small></article>) : <p>{t('common.no_notifications')}</p>}
+      <NotificacionesLista centro={centro} />
     </section></div>}
   </>;
 }

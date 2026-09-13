@@ -956,5 +956,26 @@
     "proposal_note": "Accepter enregistre votre accord. L’autre étudiant doit aussi accepter.",
     "document_note": "Vérifiez qui doit remplir ou signer le document avant de continuer.",
     "art_caption": "VOTRE GROUPE. VOTRE PROCHAINE ÉTAPE."
+  },
+  "notificationCenter": {
+    "category": "Catégorie",
+    "all": "Toutes",
+    "markAll": "Tout marquer comme lu",
+    "unreadCount_one": "{{count}} notification non lue",
+    "unreadCount_other": "{{count}} notifications non lues",
+    "retry": "Réessayer",
+    "saveError": "Impossible d’enregistrer la lecture. Veuillez réessayer.",
+    "read": "Lue",
+    "unread": "Non lue",
+    "view": "Voir le suivi",
+    "markRead": "Marquer comme lue",
+    "markUnread": "Marquer comme non lue",
+    "more": "Afficher plus",
+    "types": {
+      "ADMINISTRACION": "Administration",
+      "PERMUTA": "Processus d’échange",
+      "DOCUMENTO": "Signatures et documents",
+      "INCIDENCIA": "Incidents"
+    }
   }
 }

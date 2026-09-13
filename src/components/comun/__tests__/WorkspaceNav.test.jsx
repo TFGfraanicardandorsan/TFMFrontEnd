@@ -6,7 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import i18n from '../../../i18n';
 import WorkspaceNav from '../WorkspaceNav';
 import { obtenerNotificaciones } from '../../../services/notificacion';
-vi.mock('../../../services/notificacion', () => ({ obtenerNotificaciones: vi.fn() }));
+vi.mock('../../../services/notificacion', () => ({ obtenerNotificaciones: vi.fn(), marcarNotificacionLeida: vi.fn(), marcarTodasNotificacionesLeidas: vi.fn() }));
 vi.mock('../ThemeToggle', () => ({ default: () => <button>Tema</button> }));
 vi.mock('../../../services/login', () => ({ logout: vi.fn() }));
 afterEach(cleanup);

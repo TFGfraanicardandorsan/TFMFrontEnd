@@ -1,0 +1,15 @@
+.notification-bell { position: relative; }
+.notification-counter { position: absolute; top: -5px; right: -7px; min-width: 18px; padding: 1px 4px; border-radius: 20px; background: var(--ws-brand); color: var(--ws-surface); font-size: 11px; line-height: 1.5; }
+.notification-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.notification-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.notification-toolbar select { background: var(--ws-surface); color: var(--ws-ink); padding: 6px; border: 1px solid var(--ws-line); border-radius: 6px; max-width: 100%; }
+.notification-summary { color: var(--ws-muted); font-size: 13px; }
+.notification-item { border: 1px solid var(--ws-line); border-radius: 8px; padding: 14px; margin: 12px 0; background: var(--ws-surface); }
+.notification-item.is-unread { border-left: 4px solid var(--ws-brand); background: var(--ws-tint); }
+.notification-item.is-read { color: var(--ws-muted); }
+.notification-item p { white-space: pre-wrap; margin: 8px 0; }
+.notification-item time { color: var(--ws-muted); font-size: 12px; }
+.notification-meta, .notification-actions { display: flex; gap: 10px; justify-content: space-between; flex-wrap: wrap; font-size: 12px; }
+.notification-reading-state { font-weight: 600; }
+.notification-actions { margin-top: 12px; align-items: center; }
+.notification-actions button { border: 1px solid var(--ws-line); border-radius: 6px; color: var(--ws-ink); background: var(--ws-surface); padding: 6px 10px; }

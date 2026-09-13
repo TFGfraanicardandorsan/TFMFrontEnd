@@ -956,5 +956,26 @@
     "proposal_note": "Accepting a proposal records your agreement. The other student must accept too.",
     "document_note": "Check who needs to complete or sign the document before continuing.",
     "art_caption": "YOUR GROUP. YOUR NEXT STEP."
+  },
+  "notificationCenter": {
+    "category": "Category",
+    "all": "All",
+    "markAll": "Mark all as read",
+    "unreadCount_one": "{{count}} unread notification",
+    "unreadCount_other": "{{count}} unread notifications",
+    "retry": "Retry",
+    "saveError": "Could not save the read status. Please try again.",
+    "read": "Read",
+    "unread": "Unread",
+    "view": "View progress",
+    "markRead": "Mark as read",
+    "markUnread": "Mark as unread",
+    "more": "Show more",
+    "types": {
+      "ADMINISTRACION": "Administration",
+      "PERMUTA": "Swap process",
+      "DOCUMENTO": "Signatures and documents",
+      "INCIDENCIA": "Incidents"
+    }
   }
 }
