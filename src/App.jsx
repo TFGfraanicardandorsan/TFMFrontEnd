@@ -27,6 +27,7 @@ import MisSolicitudesPermuta from "./components/usuario/solicitudesPermuta.jsx";
 import Permutas from "./components/usuario/permutas.jsx";
 import CrearNotificacion from "./components/administrador/crearNotificacion.jsx";
 import Estadisticas from "./components/administrador/Estadisticas.jsx";
+import ValoracionesAsignaturas from "./components/administrador/ValoracionesAsignaturas.jsx";
 import MisPermutas from "./components/usuario/misPermutas.jsx";
 import PermutasAceptadas from "./components/usuario/permutasAceptadas.jsx";
 import IncidenciasSinAsignar from "./components/administrador/incidenciasSinAsignar.jsx";
@@ -106,6 +107,7 @@ function AppContent() {
           <Route element={<RoleRoute allowedRoles={[ADMIN_ROLE]}><LayoutAdmin /></RoleRoute>}>
             <Route path="/admin" element={<Home />} />
             <Route path="/estadisticas" element={<Estadisticas />} />
+            <Route path="/valoracionesAsignaturas" element={<ValoracionesAsignaturas />} />
             <Route path="/incidenciasSinAsignar" element={<IncidenciasSinAsignar />} />
             <Route path="/incidencias" element={<IncidenciasAsignadasAdmin />} />
             <Route path="/incidencias/:id" element={<DetalleIncidencia />} />

@@ -2,7 +2,7 @@
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRightArrowLeft, faHouse, faPlus, faListCheck, faUser, faLifeRing, faBell, faBars, faXmark, faArrowRightFromBracket, faChartSimple, faUsers, faLayerGroup, faFileSignature, faMessage } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightArrowLeft, faHouse, faPlus, faListCheck, faUser, faLifeRing, faBell, faBars, faXmark, faArrowRightFromBracket, faChartSimple, faUsers, faLayerGroup, faFileSignature, faMessage, faStar } from '@fortawesome/free-solid-svg-icons';
 import useNotificaciones from '../../hooks/useNotificaciones.js';
 import NotificacionesLista from './NotificacionesLista.jsx';
 import { logout } from '../../services/login.js';
@@ -20,6 +20,7 @@ const menus = {
     ['workspace.home', '/admin', faHouse], ['navbar.new_incidents', '/incidenciasSinAsignar', faLifeRing],
     ['navbar.my_incidents', '/incidencias', faListCheck], ['navbar.user_management', '/gestionUsuarios', faUsers],
     ['navbar.group_management', '/gestionGrupos', faLayerGroup], ['navbar.swap_management', '/gestionPermutas', faArrowRightArrowLeft], ['navbar.view_stats', '/estadisticas', faChartSimple],
+    ['navbar.subject_evaluations', '/valoracionesAsignaturas', faStar],
     ['navbar.create_notification', '/crearNotificacion', faBell], ['navbar.delegate_management', '/delegacion/certificados', faFileSignature],
     ['navbar.feedback_management', '/gestionFeedback', faMessage], ['workspace.settings', '/miPerfilAdmin', faUser], ['navbar.feedback', '/feedback', faMessage],
   ],

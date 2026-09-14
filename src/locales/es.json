@@ -143,6 +143,7 @@
     "my_incidents": "Mis Incidencias",
     "create_notification": "Crear notificación",
     "view_stats": "Ver estadísticas",
+    "subject_evaluations": "Valoraciones de asignaturas",
     "user_management": "Gestión de usuarios",
     "group_management": "Gestión de grupos",
     "swap_management": "Gestión de permutas",
@@ -748,6 +749,18 @@
       "open_answers_count": "{{count}} respuestas abiertas",
       "more_open_answers": "+ {{count}} respuestas más",
       "no_answers": "Sin respuestas"
+    },
+    "subject_evaluations": {
+      "subtitle": "Consulta por separado el desglose de las valoraciones, las diferencias entre grupos y las respuestas de cada pregunta.",
+      "panel_title": "Valoraciones registradas",
+      "summary": "{{subjects}} asignaturas · {{evaluations}} valoraciones",
+      "search_label": "Buscar asignatura",
+      "search_placeholder": "Nombre, siglas o código",
+      "refresh": "Actualizar",
+      "loading": "Cargando valoraciones...",
+      "load_error": "Error al cargar las valoraciones de asignaturas",
+      "invalid_response": "La respuesta de valoraciones no es válida",
+      "no_results": "No hay asignaturas que coincidan con la búsqueda."
     }
   },
   "delegation_legacy": {

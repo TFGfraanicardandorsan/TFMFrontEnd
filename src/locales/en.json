@@ -143,6 +143,7 @@
     "my_incidents": "My Incidents",
     "create_notification": "Create notification",
     "view_stats": "View statistics",
+    "subject_evaluations": "Subject evaluations",
     "user_management": "User management",
     "group_management": "Group management",
     "swap_management": "Exchange management",
@@ -689,6 +690,18 @@
       "open_answers_count": "{{count}} open answers",
       "more_open_answers": "+ {{count}} more answers",
       "no_answers": "No answers"
+    },
+    "subject_evaluations": {
+      "subtitle": "Review subject evaluations, differences between groups, and the answers to each question in a dedicated area.",
+      "panel_title": "Recorded evaluations",
+      "summary": "{{subjects}} subjects · {{evaluations}} evaluations",
+      "search_label": "Search subject",
+      "search_placeholder": "Name, abbreviation, or code",
+      "refresh": "Refresh",
+      "loading": "Loading evaluations...",
+      "load_error": "Error loading subject evaluations",
+      "invalid_response": "The subject evaluations response is invalid",
+      "no_results": "No subjects match your search."
     }
   },
   "pdf_generation": {

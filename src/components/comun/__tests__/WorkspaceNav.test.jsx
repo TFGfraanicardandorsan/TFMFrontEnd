@@ -31,4 +31,10 @@ describe('navegación por tareas', () => {
     expect(await screen.findByRole('dialog')).toBeVisible(); fireEvent.keyDown(document, { key:'Escape' });
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument(); expect(boton).toHaveFocus();
   });
+  it('ofrece a administración un acceso independiente a las valoraciones', () => {
+    render(<MemoryRouter><WorkspaceNav role="administrador" /></MemoryRouter>);
+    const nav = screen.getByRole('navigation', { name: 'Navegación principal' });
+    expect(within(nav).getByRole('link', { name: 'Valoraciones de asignaturas' }))
+      .toHaveAttribute('href', '/valoracionesAsignaturas');
+  });
 });

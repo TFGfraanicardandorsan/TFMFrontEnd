@@ -143,6 +143,7 @@
     "my_incidents": "Mes Incidents",
     "create_notification": "Créer une notification",
     "view_stats": "Voir les statistiques",
+    "subject_evaluations": "Évaluations des matières",
     "user_management": "Gestion des utilisateurs",
     "group_management": "Gestion des groupes",
     "swap_management": "Gestion des permutes",
@@ -689,6 +690,18 @@
       "open_answers_count": "{{count}} réponses ouvertes",
       "more_open_answers": "+ {{count}} réponses supplémentaires",
       "no_answers": "Aucune réponse"
+    },
+    "subject_evaluations": {
+      "subtitle": "Consultez séparément le détail des évaluations, les différences entre groupes et les réponses à chaque question.",
+      "panel_title": "Évaluations enregistrées",
+      "summary": "{{subjects}} matières · {{evaluations}} évaluations",
+      "search_label": "Rechercher une matière",
+      "search_placeholder": "Nom, sigle ou code",
+      "refresh": "Actualiser",
+      "loading": "Chargement des évaluations...",
+      "load_error": "Erreur lors du chargement des évaluations des matières",
+      "invalid_response": "La réponse des évaluations des matières n'est pas valide",
+      "no_results": "Aucune matière ne correspond à votre recherche."
     }
   },
   "pdf_generation": {

@@ -43,6 +43,35 @@
   gap: 16px;
 }
 
+.valoraciones-panel-heading {
+  align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.valoraciones-panel-summary {
+  margin: 7px 0 0;
+  color: var(--admin-text-secondary, #64748b);
+  font-size: 0.9rem;
+}
+
+.valoraciones-panel-toolbar {
+  display: grid;
+  gap: 7px;
+  margin-bottom: 20px;
+  max-width: 460px;
+}
+
+.valoraciones-panel-toolbar label {
+  color: var(--admin-text-primary, #1e293b);
+  font-weight: 700;
+}
+
+.valoraciones-panel-toolbar input {
+  width: 100%;
+}
+
 .valoraciones-subject {
   border: 1px solid var(--admin-border-color, #e2e8f0);
   border-radius: 8px;
@@ -196,6 +225,11 @@
   .valoraciones-subject summary {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .valoraciones-panel-heading {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .valoraciones-question-grid {
