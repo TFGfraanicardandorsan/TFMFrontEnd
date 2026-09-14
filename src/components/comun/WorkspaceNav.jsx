@@ -19,7 +19,7 @@ const menus = {
   administrador: [
     ['workspace.home', '/admin', faHouse], ['navbar.new_incidents', '/incidenciasSinAsignar', faLifeRing],
     ['navbar.my_incidents', '/incidencias', faListCheck], ['navbar.user_management', '/gestionUsuarios', faUsers],
-    ['navbar.group_management', '/gestionGrupos', faLayerGroup], ['navbar.view_stats', '/estadisticas', faChartSimple],
+    ['navbar.group_management', '/gestionGrupos', faLayerGroup], ['navbar.swap_management', '/gestionPermutas', faArrowRightArrowLeft], ['navbar.view_stats', '/estadisticas', faChartSimple],
     ['navbar.create_notification', '/crearNotificacion', faBell], ['navbar.delegate_management', '/delegacion/certificados', faFileSignature],
     ['navbar.feedback_management', '/gestionFeedback', faMessage], ['workspace.settings', '/miPerfilAdmin', faUser], ['navbar.feedback', '/feedback', faMessage],
   ],

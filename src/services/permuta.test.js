@@ -1,5 +1,12 @@
 ﻿import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { obtenerCursosPermuta, solicitarPermutaCurso, actualizarGruposDeseadosSolicitud } from './permuta.js';
+import {
+  obtenerCursosPermuta,
+  solicitarPermutaCurso,
+  actualizarGruposDeseadosSolicitud,
+  obtenerPanelGestionPermutas,
+  cancelarPermutaAdmin,
+  retirarVigenciaAdmin,
+} from './permuta.js';
 import { clearCsrfToken } from '../lib/csrf.js';
 const response = (payload, status = 200) => ({ ok: status < 400, status, headers: new Headers({ 'content-type': 'application/json' }), json: async () => payload });
 beforeEach(() => { clearCsrfToken(); vi.stubGlobal('fetch', vi.fn()); });
@@ -19,5 +26,20 @@ describe('contrato de solicitudes por curso', () => {
     const result = await actualizarGruposDeseadosSolicitud(10, [22, 33]);
     expect(JSON.parse(fetch.mock.calls[1][1].body)).toEqual({ grupos_deseados_ids: [22, 33] });
     expect(result).toMatchObject({ err: true, status: 400, message: 'Bloque incompleto', detalles: { asignaturas_requeridas: [2050002] } });
+  });
+  it('usa los contratos administrativos con POST, sesión y CSRF', async () => {
+    fetch.mockResolvedValueOnce(response({ csrfToken: 'token' }))
+      .mockResolvedValue(response({ err: false, result: {} }));
+    await obtenerPanelGestionPermutas();
+    await cancelarPermutaAdmin(17, 'alumno', 'Baja');
+    await retirarVigenciaAdmin('Fin de curso');
+
+    expect(fetch.mock.calls[1][0]).toMatch(/admin\/permutas\/panel$/);
+    expect(fetch.mock.calls[1][1].method).toBe('POST');
+    expect(fetch.mock.calls[1][1].credentials).toBe('include');
+    expect(fetch.mock.calls[1][1].headers.get('X-CSRF-Token')).toBe('token');
+    expect(fetch.mock.calls[2][0]).toMatch(/admin\/permutas\/permutas\/17\/cancelar$/);
+    expect(JSON.parse(fetch.mock.calls[2][1].body)).toEqual({ usuario: 'alumno', motivo: 'Baja' });
+    expect(fetch.mock.calls[3][0]).toMatch(/admin\/permutas\/retirar-vigencia$/);
   });
 });

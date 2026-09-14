@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { agruparBloques } from "../../lib/bloquesPermuta.js";
 import "../../styles/admin-common.css";
-import { getTodasSolicitudesPermuta, actualizarVigenciaPermutas, actualizarVigenciaSolicitudes } from "../../services/permuta";
+import { getTodasSolicitudesPermuta } from "../../services/permuta";
 import { obtenerDatosUsuarioAdmin } from "../../services/usuario";
 import { toast } from "react-toastify";
 import CrearGradoAdmin from "./CrearGradoAdmin";
@@ -18,8 +18,6 @@ export default function MiPerfilAdmin() {
   const [error, setError] = useState(null);
   const [filePlantilla, setFilePlantilla] = useState(null);
   const [activeSection, setActiveSection] = useState(null);
-  const [modalRetirarOpen, setModalRetirarOpen] = useState(false);
-  const [accionRetirarLoading, setAccionRetirarLoading] = useState(false);
 
   const toggleSection = (sectionName) => {
     setActiveSection(activeSection === sectionName ? null : sectionName);
@@ -53,37 +51,6 @@ export default function MiPerfilAdmin() {
 
     cargarDatos();
   }, []);
-
-  const abrirModalRetirar = () => setModalRetirarOpen(true);
-  const cerrarModalRetirar = () => setModalRetirarOpen(false);
-
-  const confirmarRetirarVigencia = async () => {
-    setAccionRetirarLoading(true);
-    try {
-      const [resPermutas, resSolicitudes] = await Promise.all([
-        actualizarVigenciaPermutas(),
-        actualizarVigenciaSolicitudes()
-      ]);
-
-      const errores = [];
-      if (resPermutas?.err) errores.push(resPermutas.errmsg || t("admin.profile.remove_errors.swaps"));
-      if (resSolicitudes?.err) errores.push(resSolicitudes.errmsg || t("admin.profile.remove_errors.requests"));
-
-      if (errores.length === 0) {
-        toast.success(t("admin.profile.remove_success"));
-        // refrescar lista de permutas local
-        const ref = await getTodasSolicitudesPermuta();
-        if (!ref.err) setPermutas(ref.result.result);
-      } else {
-        toast.error(errores.join(" — "));
-      }
-    } catch {
-      toast.error(t("admin.profile.remove_error"));
-    } finally {
-      setAccionRetirarLoading(false);
-      setModalRetirarOpen(false);
-    }
-  };
 
   const exportarCSV = () => {
     if (permutas.length === 0) {
@@ -247,15 +214,6 @@ export default function MiPerfilAdmin() {
                   </div>
                 </div>
 
-                <div className="admin-sub-section danger-section">
-                  <h3>{t("admin.profile.remove_validity")}</h3>
-                  <p className="sub-section-description warning-text" style={{ color: '#991b1b' }}>
-                    {t("admin.profile.remove_warning")}
-                  </p>
-                  <button className="admin-btn admin-btn-danger" onClick={abrirModalRetirar}>
-                    {t("admin.profile.remove_button")}
-                  </button>
-                </div>
               </div>
             </div>
 
@@ -305,35 +263,6 @@ export default function MiPerfilAdmin() {
           </div>
         </div>
       </div>
-
-      {/* Modal de confirmación para retirar vigencia */}
-      {modalRetirarOpen && (
-        <div className="admin-modal-overlay" onClick={cerrarModalRetirar}>
-          <div className="admin-modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="admin-modal-header">
-              <h3 className="admin-modal-title">{t("admin.profile.confirm_title")}</h3>
-            </div>
-            <div className="admin-modal-body">
-              <p>{t("admin.profile.confirm_remove_message")}</p>
-            </div>
-            <div className="admin-modal-footer">
-              <button
-                className="admin-btn admin-btn-secondary"
-                onClick={cerrarModalRetirar}
-                disabled={accionRetirarLoading}
-              >
-                {t("common.cancel")}
-              </button>
-              <button
-                className="admin-btn admin-btn-danger"
-                onClick={confirmarRetirarVigencia}
-                disabled={accionRetirarLoading}
-              >
-                {accionRetirarLoading ? t("common.processing") : t("common.confirm")}
-              </button>
-            </div>          </div>
-        </div>
-      )}
     </div>
   );
 }

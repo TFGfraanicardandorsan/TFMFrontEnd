@@ -145,6 +145,7 @@
     "view_stats": "Voir les statistiques",
     "user_management": "Gestion des utilisateurs",
     "group_management": "Gestion des groupes",
+    "swap_management": "Gestion des permutes",
     "delegate_management": "Gestion des délégués",
     "delegation_module": "Module délégués",
     "profile": "Profil",

@@ -96,3 +96,21 @@ export const generarBorradorPermuta = async (IdsPermuta) => {
 export const actualizarVigenciaPermutas = async () => {
     return await postAPI("/api/v1/permutas/actualizarVigenciaPermutas");
 }
+
+export const obtenerPanelGestionPermutas = () =>
+    postAPI("/api/v1/admin/permutas/panel");
+
+export const buscarParejasOptimasAdmin = () =>
+    postAPI("/api/v1/admin/permutas/buscar-parejas");
+
+export const generarPropuestasAdmin = () =>
+    postAPI("/api/v1/admin/permutas/generar-propuestas");
+
+export const cancelarSolicitudAdmin = (solicitudId, motivo = "") =>
+    postAPI(`/api/v1/admin/permutas/solicitudes/${solicitudId}/cancelar`, { motivo });
+
+export const cancelarPermutaAdmin = (permutaId, usuario, motivo = "") =>
+    postAPI(`/api/v1/admin/permutas/permutas/${permutaId}/cancelar`, { usuario, motivo });
+
+export const retirarVigenciaAdmin = (motivo = "") =>
+    postAPI("/api/v1/admin/permutas/retirar-vigencia", { motivo });
