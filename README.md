@@ -183,7 +183,7 @@ proyecto.
 
 ## Contacto
 
-**Delegación de Alumnos de la ETSII — Universidad de Sevilla**<br>
+**Delegación de Estudiantes de la ETSII — Universidad de Sevilla**<br>
 Avda. Reina Mercedes s/n, 41012 Sevilla<br>
 [delegacion_etsii@us.es](mailto:delegacion_etsii@us.es)
 
