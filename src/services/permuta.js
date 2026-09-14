@@ -89,6 +89,10 @@ export const obtenerPermutasAgrupadasPorUsuario = async () => {
     return await postAPI("/api/v1/permutas/obtenerPermutasAgrupadasPorUsuario");
 }
 
+export const notificarCompaneroPermuta = async (documentoId) => {
+    return await postAPI(`/api/v1/permutas/documento/${documentoId}/recordatorio`);
+}
+
 export const generarBorradorPermuta = async (IdsPermuta) => {
     return await postAPI("/api/v1/permutas/generarBorradorPermuta", { IdsPermuta });
 }

@@ -338,13 +338,21 @@
     "loading": "Loading swaps...",
     "error_loading": "Error loading data",
     "success_generated": "Swap generated successfully",
-    "error_generated": "Error generating swap"
+    "error_generated": "Error generating swap",
+    "notify_partner": "Notify swap partner",
+    "reminder_sending": "Sending reminder...",
+    "reminder_sent": "Reminder sent",
+    "reminder_success": "The reminder was sent through the system and Telegram",
+    "reminder_system_only": "The system notification was sent, but it could not be delivered through Telegram",
+    "reminder_error": "The reminder could not be sent"
   },
   "available_swaps": {
     "title": "Available Swaps",
     "subtitle": "Here you will find swaps compatible with your enrollment. If you see one interesting, accept the proposal to start the group exchange.",
     "swap_label": "Swap",
     "code_label": "Code",
+    "with_student": "You would swap with",
+    "unknown_student": "Student name unavailable",
     "accept_btn": "Accept Proposal",
     "empty_title": "No swaps available at the moment",
     "empty_msg": "Come back later or create your own swap request.",

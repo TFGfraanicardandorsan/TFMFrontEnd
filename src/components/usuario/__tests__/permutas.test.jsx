@@ -9,7 +9,7 @@ import i18n from "../../../i18n.js";
 vi.mock("../../../services/permuta.js", () => ({ obtenerPermutasInteresantes: vi.fn(), obtenerPermutasPropuestasSistema: vi.fn(), aceptarPermutaPropuestaSistema: vi.fn(), rechazarPermutaPropuestaSistema: vi.fn(), aceptarPermutaSolicitudesPermuta: vi.fn(), misPermutasPropuestas: vi.fn(), misPermutasPropuestasPorMi: vi.fn() }));
 vi.mock("react-toastify", () => ({ toast: { error: vi.fn(), success: vi.fn() } }));
 const ok = result => ({ err: false, result: { err: false, result } });
-const filas = [{ permuta_id: 10, bloque_id: 'propuesta-uuid', curso: 'PRIMERO', nombre_asignatura: 'A', grupo_actual: 1, grupo_destino: 2 }, { permuta_id: 11, bloque_id: 'propuesta-uuid', curso: 'PRIMERO', nombre_asignatura: 'B', grupo_actual: 3, grupo_destino: 1 }];
+const filas = [{ permuta_id: 10, bloque_id: 'propuesta-uuid', curso: 'PRIMERO', nombre_asignatura: 'A', grupo_actual: 1, grupo_destino: 2, companero_nombre: 'Ana García' }, { permuta_id: 11, bloque_id: 'propuesta-uuid', curso: 'PRIMERO', nombre_asignatura: 'B', grupo_actual: 3, grupo_destino: 1, companero_nombre: 'Ana García' }];
 afterEach(cleanup);
 beforeEach(async () => {
   vi.resetAllMocks(); await i18n.changeLanguage('es');
@@ -39,5 +39,11 @@ describe('propuestas en bloque', () => {
     api.obtenerPermutasInteresantes.mockResolvedValue(ok([{ solicitud_id: 20, aceptable_individual: false, bloque_id: null }]));
     mostrar(); expect(await screen.findByText('Se gestiona desde propuestas del sistema.')).toBeVisible();
     expect(api.aceptarPermutaSolicitudesPermuta).not.toHaveBeenCalled();
+  });
+  it('muestra el nombre completo antes de aceptar propuestas automáticas y solicitudes directas', async () => {
+    api.obtenerPermutasInteresantes.mockResolvedValue(ok([{ solicitud_id: 20, siglas_asignatura: 'IA', grupo_solicitante: 1, grupo_deseado: 2, estudiante_nombre: 'Bruno López' }]));
+    mostrar();
+    expect((await screen.findAllByText(/Ana García/)).length).toBeGreaterThan(0);
+    expect(screen.getByText(/Bruno López/)).toBeVisible();
   });
 });

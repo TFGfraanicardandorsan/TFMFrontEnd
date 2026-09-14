@@ -1,12 +1,14 @@
 import { completarIdsBloques, resultadoAPI } from "../../lib/bloquesPermuta.js";
-import { useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 import "../../styles/user-common.css";
-import { obtenerPermutasAgrupadasPorUsuario, generarBorradorPermuta } from "../../services/permuta.js";
+import { obtenerPermutasAgrupadasPorUsuario, generarBorradorPermuta, notificarCompaneroPermuta } from "../../services/permuta.js";
 import { useNavigate } from "react-router-dom";
 import { obtenerSesion } from "../../services/login.js";
 import { toast } from "react-toastify";
 import { logError } from "../../lib/logger.js";
 import { useTranslation } from "react-i18next";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBell, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
 export default function PermutasAceptadas() {
   const { t } = useTranslation();
@@ -14,6 +16,8 @@ export default function PermutasAceptadas() {
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
   const [usuario, setUsuario] = useState(null);
+  const [notificando, setNotificando] = useState(null);
+  const [recordatoriosEnviados, setRecordatoriosEnviados] = useState(() => new Set());
   const navigate = useNavigate();
 
   const abrirPermuta = (IdsPermuta) => {
@@ -22,12 +26,7 @@ export default function PermutasAceptadas() {
     navigate("/generarPermuta", { state: { IdsPermuta } });
   };
 
-  useEffect(() => {
-    obtenerPermutasAgrupadas();
-    obtenerDatosUsuario();
-  }, []);
-
-  const obtenerPermutasAgrupadas = async () => {
+  const obtenerPermutasAgrupadas = useCallback(async () => {
     try {
       const response = await obtenerPermutasAgrupadasPorUsuario();
       if (
@@ -46,9 +45,9 @@ export default function PermutasAceptadas() {
       setCargando(false);
       logError(error);
     }
-  };
+  }, [t]);
 
-  const obtenerDatosUsuario = async () => {
+  const obtenerDatosUsuario = useCallback(async () => {
     try {
       const response = await obtenerSesion();
       if (response) {
@@ -59,7 +58,12 @@ export default function PermutasAceptadas() {
     } catch (error) {
       setError(t("accepted_swaps.error_loading"), error);
     }
-  };
+  }, [t]);
+
+  useEffect(() => {
+    void obtenerPermutasAgrupadas();
+    void obtenerDatosUsuario();
+  }, [obtenerDatosUsuario, obtenerPermutasAgrupadas]);
 
 
   const handleGenerarPermuta = async (IdsPermuta) => {
@@ -72,6 +76,23 @@ export default function PermutasAceptadas() {
       toast.error(t("accepted_swaps.error_generated"));
       setError(t("accepted_swaps.error_generated"));
       logError(error);
+    }
+  };
+
+  const handleNotificarCompanero = async (documentoId) => {
+    if (!documentoId || notificando !== null || recordatoriosEnviados.has(documentoId)) return;
+    setNotificando(documentoId);
+    try {
+      const resultado = resultadoAPI(await notificarCompaneroPermuta(documentoId));
+      setRecordatoriosEnviados((anteriores) => new Set(anteriores).add(documentoId));
+      toast.success(resultado.telegramEnviado
+        ? t("accepted_swaps.reminder_success")
+        : t("accepted_swaps.reminder_system_only"));
+    } catch (error) {
+      toast.error(error.message || t("accepted_swaps.reminder_error"));
+      logError(error);
+    } finally {
+      setNotificando(null);
     }
   };
 
@@ -99,6 +120,9 @@ export default function PermutasAceptadas() {
               const usuarios = (grupoPermuta.usuarios ?? []).map((uvus) =>
                 uvus?.trim()
               );
+              const participantes = grupoPermuta.participantes?.length === usuarios.length
+                ? grupoPermuta.participantes
+                : usuarios.map((uvus) => ({ uvus, nombre_completo: uvus, correo: null }));
               const permutasDetalles = grupoPermuta.permutas ?? [];
               const usuarioActual = usuario?.trim();
               const estudianteCumplimentado1 =
@@ -119,6 +143,9 @@ export default function PermutasAceptadas() {
                 usuarioActual !== primerEstudiante;
               const todasFinalizadas = permutasDetalles.every((permuta) => (permuta.estado_permuta_asociada === "ACEPTADA" || permuta.estado_permuta_asociada === "VALIDADA"));
               const IdsPermuta = permutasDetalles.map((permuta) => permuta.permuta_id);
+              const documentoId = grupoPermuta.documento_permuta_id;
+              const recordatorioEnviado = recordatoriosEnviados.has(documentoId);
+              const puedeNotificar = grupoPermuta.puede_notificar_companero === true && documentoId;
 
               // Saltar si los datos son incompletos
               if (usuarios.length < 2 || permutasDetalles.length === 0) {
@@ -128,12 +155,20 @@ export default function PermutasAceptadas() {
               return (
                 <div key={index} className="user-card">
                   <div className="permuta-info" style={{ marginBottom: '15px' }}>
-                    <p style={{ margin: '8px 0' }}>
-                      <strong>{t("accepted_swaps.student_1")}:</strong> {usuarios[0]}
-                    </p>
-                    <p style={{ margin: '8px 0' }}>
-                      <strong>{t("accepted_swaps.student_2")}:</strong> {usuarios[1]}
-                    </p>
+                    {participantes.map((participante, participanteIndex) => (
+                      <div className="accepted-swap-participant" key={participante.uvus}>
+                        <p>
+                          <strong>{t(`accepted_swaps.student_${participanteIndex + 1}`)}:</strong>{' '}
+                          {participante.nombre_completo || participante.uvus}{' '}
+                          <span className="accepted-swap-uvus">({participante.uvus})</span>
+                        </p>
+                        {participante.correo && (
+                          <a className="accepted-swap-email" href={`mailto:${participante.correo}`}>
+                            <FontAwesomeIcon icon={faEnvelope} /> {participante.correo}
+                          </a>
+                        )}
+                      </div>
+                    ))}
 
                     {permutasDetalles.map((permuta) => (
                       <div key={permuta.permuta_id} className="permuta-detalle" style={{ marginTop: '10px', padding: '10px', backgroundColor: 'var(--user-accent)', borderRadius: 'var(--border-radius-sm)' }}>
@@ -145,10 +180,10 @@ export default function PermutasAceptadas() {
                           <strong>{t("accepted_swaps.code")}:</strong> {permuta.codigo_asignatura}
                         </p>
                         <p style={{ margin: '4px 0', fontSize: '0.95em' }}>
-                          <strong>{t("accepted_swaps.group")} {usuarios[0]}:</strong> {permuta.grupo_1}
+                          <strong>{t("accepted_swaps.group")} {permuta.usuario_1_uvus || usuarios[0]}:</strong> {permuta.grupo_1}
                         </p>
                         <p style={{ margin: '4px 0', fontSize: '0.95em' }}>
-                          <strong>{t("accepted_swaps.group")} {usuarios[1]}:</strong> {permuta.grupo_2}
+                          <strong>{t("accepted_swaps.group")} {permuta.usuario_2_uvus || usuarios[1]}:</strong> {permuta.grupo_2}
                         </p>
                       </div>
                     ))}
@@ -166,6 +201,20 @@ export default function PermutasAceptadas() {
                     )}
                     {todasFinalizadas && (
                       <button className="btn btn-primary btn-full" onClick={() => abrirPermuta(IdsPermuta)}>{t("accepted_swaps.view_swap")}</button>
+                    )}
+                    {puedeNotificar && (
+                      <button
+                        className="btn btn-secondary btn-full"
+                        disabled={notificando !== null || recordatorioEnviado}
+                        onClick={() => handleNotificarCompanero(documentoId)}
+                      >
+                        <FontAwesomeIcon icon={faBell} />{' '}
+                        {recordatorioEnviado
+                          ? t("accepted_swaps.reminder_sent")
+                          : notificando === documentoId
+                            ? t("accepted_swaps.reminder_sending")
+                            : t("accepted_swaps.notify_partner")}
+                      </button>
                     )}
                   </div>
                 </div>

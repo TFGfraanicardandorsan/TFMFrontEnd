@@ -117,6 +117,7 @@ export default function Permutas() {
           {propuestas.length ? <div className="permuta-grid">{agruparBloques(propuestas).map(({ key, bloque, miembros }) => { const p = miembros[0]; const aceptada = miembros.every(m => m.aceptada_por_mi); const cerrada = miembros.some(m => ["VALIDADA", "RECHAZADA", "CANCELADA"].includes(String(m.estado).toUpperCase())); return (
             <article key={key} className="user-card permuta-card permuta-card-featured">
               {bloque && <><h3>Curso en bloque · misma persona</h3><p>{p.curso}</p></>}
+              <p className="permuta-student"><strong>{t("available_swaps.with_student")}:</strong> {p.companero_nombre || t("available_swaps.unknown_student")}</p>
               {miembros.map(p => <div key={p.permuta_id}><div className="permuta-subject"><FontAwesomeIcon icon={faBookReader} /><h3>{p.nombre_asignatura || p.siglas_asignatura}</h3></div>
               <p className="permuta-route"><strong>G.{p.grupo_actual}</strong><FontAwesomeIcon icon={faExchangeAlt} /><strong>G.{p.grupo_destino}</strong></p>
               <p className="permuta-code">Código: {p.codigo_asignatura}</p>
@@ -137,6 +138,7 @@ export default function Permutas() {
               <div className="permuta-subject"><FontAwesomeIcon icon={faBookReader} /><h3>{p.siglas_asignatura}</h3></div>
               <p className="permuta-route"><strong>G.{p.grupo_solicitante}</strong><FontAwesomeIcon icon={faExchangeAlt} /><strong>G.{p.grupo_deseado}</strong></p>
               <p className="permuta-code">{t("available_swaps.code_label")}: {p.codigo_asignatura}</p>
+              <p className="permuta-student"><strong>{t("available_swaps.with_student")}:</strong> {p.estudiante_nombre || t("available_swaps.unknown_student")}</p>
               {p.aceptable_individual === false || p.bloque_id || p.en_bloque ? <p>Se gestiona desde propuestas del sistema.</p> : <button className="btn btn-success btn-full" disabled={procesando !== null} onClick={() => aceptarSolicitud(p.solicitud_id)}><FontAwesomeIcon icon={faCheck} /> {t("available_swaps.accept_btn")}</button>}
             </article>
           ))}</div> : <div className="permuta-empty"><span>📭</span><h3>{t("available_swaps.empty_title")}</h3><p>{t("available_swaps.empty_msg")}</p><button className="btn btn-primary" onClick={() => navigate("/solicitarPermuta")}>{t("available_swaps.request_btn")}</button></div>}

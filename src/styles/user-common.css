@@ -443,3 +443,33 @@ body.dark-mode .file-upload-wrapper {
     font-size: 0.85rem;
     color: var(--text-muted);
 }
+
+.accepted-swap-participant {
+    margin: 8px 0;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    background: var(--card-bg);
+}
+
+.accepted-swap-participant p {
+    margin: 0 0 5px;
+}
+
+.accepted-swap-uvus {
+    color: var(--text-secondary);
+    font-size: 0.9em;
+}
+
+.accepted-swap-email {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--user-primary);
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+body.dark-mode .accepted-swap-participant {
+    background: #0f172a;
+}

@@ -338,13 +338,21 @@
     "loading": "Chargement des permutes...",
     "error_loading": "Erreur lors du chargement des données",
     "success_generated": "Permute générée avec succès",
-    "error_generated": "Erreur lors de la génération de la permute"
+    "error_generated": "Erreur lors de la génération de la permute",
+    "notify_partner": "Notifier le partenaire de permute",
+    "reminder_sending": "Envoi du rappel...",
+    "reminder_sent": "Rappel envoyé",
+    "reminder_success": "Le rappel a été envoyé via le système et Telegram",
+    "reminder_system_only": "La notification système a été envoyée, mais elle n'a pas pu être transmise via Telegram",
+    "reminder_error": "Le rappel n'a pas pu être envoyé"
   },
   "available_swaps": {
     "title": "Permutes Disponibles",
     "subtitle": "Ici, vous trouverez des permutes compatibles avec votre inscription. Si vous en voyez une intéressante, acceptez la proposition pour commencer l'échange de groupe.",
     "swap_label": "Permute",
     "code_label": "Code",
+    "with_student": "Vous permuteriez avec",
+    "unknown_student": "Nom de l'étudiant indisponible",
     "accept_btn": "Accepter Proposition",
     "empty_title": "Aucune permute disponible pour le moment",
     "empty_msg": "Revenez plus tard ou créez votre propre demande de permute.",
