@@ -708,8 +708,9 @@
     "title": "Génération de documentation de permute",
     "loading": "Chargement des données de la permute...",
     "description": "Ce formulaire vous permet de générer la documentation nécessaire pour demander une permute de matières. Veuillez remplir tous les champs obligatoires et assurez-vous que les informations sont correctes avant d'envoyer le formulaire.",
-    "instructions_1": "Une fois que vous avez rempli le formulaire, vous pouvez télécharger un PDF avec la demande de permute. Ce PDF doit être signé et envoyé au système afin que votre partenaire puisse remplir ses données.",
-    "instructions_2": "Lorsque votre partenaire signe le PDF, vous pouvez le télécharger et l'envoyer à l'administration.",
+    "instructions_1": "Remplissez le formulaire et cliquez sur « Signer avec AutoFirma et envoyer ». L'application ouvrira AutoFirma, enregistrera le PDF signé et avertira votre partenaire.",
+    "instructions_2": "Lorsque vous aurez tous les deux signé, vous pourrez télécharger la demande et l'envoyer via le registre électronique.",
+    "manual_upload_help": "Si vous devez utiliser une signature manuscrite, téléchargez le PDF et chargez ici le document signé.",
     "labels": {
       "document_type": "Type de document :",
       "dni": "CNI (DNI):",
@@ -726,6 +727,9 @@
       "visualize": "Visualiser",
       "download": "Télécharger",
       "upload": "Envoyer PDF",
+      "upload_manual": "Envoyer le PDF signé manuellement",
+      "sign_autofirma": "Signer avec AutoFirma et envoyer",
+      "signing": "Ouverture d'AutoFirma...",
       "validate": "Valider"
     },
     "errors": {
@@ -736,6 +740,8 @@
       "upload_error": "Erreur lors du téléchargement du fichier PDF.",
       "send_success": "PDF envoyé avec succès.",
       "send_error": "Erreur lors de l'envoi du PDF",
+      "sign_success": "La demande a été signée et envoyée avec succès.",
+      "sign_error": "La demande n'a pas pu être signée avec AutoFirma.",
       "validate_success": "La permute a été validée avec succès.",
       "generation_error": "Erreur lors de la génération du PDF"
     },

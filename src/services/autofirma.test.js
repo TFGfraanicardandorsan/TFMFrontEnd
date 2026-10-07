@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 
-import { signPdfDocuments } from "./autofirma.js";
+import { getPermutaSignatureParams, signPdfDocuments } from "./autofirma.js";
 
 describe("signPdfDocuments", () => {
   it("firma los PDFs en orden reutilizando el mismo certificado", async () => {
@@ -55,5 +55,24 @@ describe("signPdfDocuments", () => {
       signPdfDocuments([{ filename: "uno.pdf", pdfBase64: "pdf-uno" }], autoScript),
     ).rejects.toThrow("Firma cancelada");
     expect(autoScript.setStickySignatory.mock.calls).toEqual([[true], [false]]);
+  });
+
+  it("sitúa cada firma de permuta en el espacio de su solicitante", async () => {
+    const autoScript = {
+      cargarAppAfirma: vi.fn(),
+      setStickySignatory: vi.fn(),
+      sign: vi.fn((data, algorithm, format, params, onSuccess) => onSuccess(data)),
+    };
+
+    await signPdfDocuments(
+      [{ filename: "permuta.pdf", pdfBase64: "pdf" }],
+      autoScript,
+      { signatureParams: getPermutaSignatureParams(2) },
+    );
+
+    const params = autoScript.sign.mock.calls[0][3];
+    expect(params).toContain("signaturePositionOnPageLowerLeftX=320");
+    expect(params).toContain("signaturePositionOnPageUpperRightX=545");
+    expect(params).toContain("signReason=Solicitud de permuta - solicitante 2");
   });
 });

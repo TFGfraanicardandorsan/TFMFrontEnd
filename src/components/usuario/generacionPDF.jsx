@@ -34,6 +34,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { logError } from "../../lib/logger.js";
 import { useTranslation } from "react-i18next";
+import {
+  getPermutaSignatureParams,
+  signPdfDocuments,
+} from "../../services/autofirma.js";
+import { pdfBase64ToFile, pdfBytesToBase64 } from "../../lib/pdfBase64.js";
+import { resultadoAPI } from "../../lib/bloquesPermuta.js";
 
 const NUMERO_FILAS_ASIGNATURAS = 12;
 
@@ -169,6 +175,7 @@ export default function GeneracionPDF() {
   const [estadoPermuta, setEstadoPermuta] = useState("BORRADOR");
   const [pdfExistente, setPdfExistente] = useState(null);
   const [file, setFile] = useState(null);
+  const [firmando, setFirmando] = useState(false);
   const [errors, setErrors] = useState({
     dni: "",
     letraDNI: "",
@@ -471,22 +478,63 @@ export default function GeneracionPDF() {
     formData.append("tipo", "buzon");
     formData.append("file", file);
     try {
-      const response = await subidaArchivo(formData);
-      const fileId = response?.result?.fileId;
+      const { fileId } = resultadoAPI(await subidaArchivo(formData));
       if (!fileId) {
-        toast.error(t("pdf_generation.errors.upload_error"));
-        return;
+        throw new Error(t("pdf_generation.errors.upload_error"));
       }
       if (estadoPermuta === "BORRADOR") {
-        await firmarPermuta(fileId, permutaId);
+        resultadoAPI(await firmarPermuta(fileId, permutaId));
       } else {
-        await aceptarPermuta(fileId, permutaId);
+        resultadoAPI(await aceptarPermuta(fileId, permutaId));
       }
       toast.success(t("pdf_generation.errors.send_success"));
       navigate("/permutasAceptadas");
     } catch (error) {
       logError(error);
       toast.error(t("pdf_generation.errors.send_error"));
+    }
+  };
+
+  const handleAutoFirma = async () => {
+    if (firmando) return;
+    if (!validarFormulario()) {
+      toast.warning(t("pdf_generation.errors.fix_errors"));
+      return;
+    }
+
+    setFirmando(true);
+    try {
+      const pdfBytes = await generarPDF();
+      const signerNumber = estadoPermuta === "BORRADOR" ? 1 : 2;
+      const [signedDocument] = await signPdfDocuments(
+        [{
+          filename: "solicitud-permutas.pdf",
+          pdfBase64: pdfBytesToBase64(pdfBytes),
+        }],
+        null,
+        { signatureParams: getPermutaSignatureParams(signerNumber) },
+      );
+      const signedFile = pdfBase64ToFile(signedDocument?.pdfBase64);
+      const formData = new FormData();
+      formData.append("tipo", "buzon");
+      formData.append("file", signedFile);
+
+      const { fileId } = resultadoAPI(await subidaArchivo(formData));
+      if (!fileId) throw new Error(t("pdf_generation.errors.upload_error"));
+
+      if (estadoPermuta === "BORRADOR") {
+        resultadoAPI(await firmarPermuta(fileId, permutaId));
+      } else {
+        resultadoAPI(await aceptarPermuta(fileId, permutaId));
+      }
+
+      toast.success(t("pdf_generation.errors.sign_success"));
+      navigate("/permutasAceptadas");
+    } catch (error) {
+      logError(error);
+      toast.error(error.message || t("pdf_generation.errors.sign_error"));
+    } finally {
+      setFirmando(false);
     }
   };
 
@@ -731,7 +779,22 @@ export default function GeneracionPDF() {
             {errorCarga && <div className="user-error" role="alert">{errorCarga}</div>}
 
             {estadoPermuta !== "ACEPTADA" && estadoPermuta !== "VALIDADA" && (
+              <div style={{ marginTop: '20px' }}>
+                <button
+                  className="btn btn-success btn-full"
+                  onClick={handleAutoFirma}
+                  disabled={firmando || cargandoDatos || Boolean(errorCarga)}
+                >
+                  {firmando
+                    ? t("pdf_generation.buttons.signing")
+                    : t("pdf_generation.buttons.sign_autofirma")}
+                </button>
+              </div>
+            )}
+
+            {estadoPermuta !== "ACEPTADA" && estadoPermuta !== "VALIDADA" && (
               <div className="file-upload-wrapper" style={{ marginTop: '20px', padding: '20px' }}>
+                <p style={{ marginTop: 0 }}>{t("pdf_generation.manual_upload_help")}</p>
                 <input
                   type="file"
                   id="file"
@@ -739,8 +802,8 @@ export default function GeneracionPDF() {
                   onChange={handleFileChange}
                   style={{ marginBottom: '10px', width: '100%' }}
                 />
-                <button className="btn btn-success btn-full" onClick={handleUpload}>
-                  {t("pdf_generation.buttons.upload")}
+                <button className="btn btn-secondary btn-full" onClick={handleUpload} disabled={firmando}>
+                  {t("pdf_generation.buttons.upload_manual")}
                 </button>
               </div>
             )}

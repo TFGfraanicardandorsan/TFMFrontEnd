@@ -4,19 +4,56 @@ const DEFAULT_AUTOSCRIPT_URL =
   "/afirma-ui-miniapplet-deploy/src/main/webapp/js/autoscript.js";
 const DEFAULT_AUTOSCRIPT_INTEGRITY =
   "sha384-8YmT/kkrE2QNyDdGbKhyxvI8IV40ItyPrxZ4tpDpD/Vrav7lCm7n5dq72iVRuhwq";
-const VISIBLE_SIGNATURE_PARAMS = [
+const buildVisibleSignatureParams = ({
+  lowerLeftX,
+  lowerLeftY,
+  upperRightX,
+  upperRightY,
+  reason,
+}) => [
   "signaturePage=1",
-  "signaturePositionOnPageLowerLeftX=145",
-  "signaturePositionOnPageLowerLeftY=70",
-  "signaturePositionOnPageUpperRightX=450",
-  "signaturePositionOnPageUpperRightY=145",
+  `signaturePositionOnPageLowerLeftX=${lowerLeftX}`,
+  `signaturePositionOnPageLowerLeftY=${lowerLeftY}`,
+  `signaturePositionOnPageUpperRightX=${upperRightX}`,
+  `signaturePositionOnPageUpperRightY=${upperRightY}`,
   "layer2Text=Firmado electrónicamente por:\\n$$SUBJECTCN$$\\nFecha: $$SIGNDATE=dd/MM/yyyy HH:mm:ss$$",
   "layer2FontFamily=1",
   "layer2FontSize=9",
   "layer2FontStyle=0",
   "layer2FontColor=darkGray",
-  "signReason=Certificación de delegado",
+  `signReason=${reason}`,
 ].join("\n");
+
+const VISIBLE_SIGNATURE_PARAMS = buildVisibleSignatureParams({
+  lowerLeftX: 145,
+  lowerLeftY: 70,
+  upperRightX: 450,
+  upperRightY: 145,
+  reason: "Certificación de delegado",
+});
+
+const PERMUTA_SIGNATURE_PARAMS = Object.freeze({
+  1: buildVisibleSignatureParams({
+    lowerLeftX: 50,
+    lowerLeftY: 45,
+    upperRightX: 275,
+    upperRightY: 120,
+    reason: "Solicitud de permuta - solicitante 1",
+  }),
+  2: buildVisibleSignatureParams({
+    lowerLeftX: 320,
+    lowerLeftY: 45,
+    upperRightX: 545,
+    upperRightY: 120,
+    reason: "Solicitud de permuta - solicitante 2",
+  }),
+});
+
+export const getPermutaSignatureParams = (signerNumber) => {
+  const params = PERMUTA_SIGNATURE_PARAMS[signerNumber];
+  if (!params) throw new Error("El firmante de la solicitud de permuta no es válido.");
+  return params;
+};
 
 let autoScriptPromise;
 
@@ -49,9 +86,9 @@ export const loadAutoFirma = () => {
   return autoScriptPromise;
 };
 
-export async function signPdfDocuments(documents, autoScript = null) {
+export async function signPdfDocuments(documents, autoScript = null, options = {}) {
   if (!Array.isArray(documents) || documents.length === 0) {
-    throw new Error("No hay certificados para firmar.");
+    throw new Error("No hay documentos para firmar.");
   }
 
   const client = autoScript || await loadAutoFirma();
@@ -63,10 +100,14 @@ export async function signPdfDocuments(documents, autoScript = null) {
     for (const document of documents) {
       const pdfBase64 = String(document.pdfBase64 || "").trim();
       if (!pdfBase64) {
-        throw new Error(`El certificado ${document.filename || ""} no contiene un PDF.`);
+        throw new Error(`El documento ${document.filename || ""} no contiene un PDF.`);
       }
 
-      const signedPdfBase64 = await signPdf(client, pdfBase64);
+      const signedPdfBase64 = await signPdf(
+        client,
+        pdfBase64,
+        options.signatureParams || VISIBLE_SIGNATURE_PARAMS,
+      );
       signedDocuments.push({
         ...document,
         pdfBase64: signedPdfBase64,
@@ -78,16 +119,16 @@ export async function signPdfDocuments(documents, autoScript = null) {
   }
 }
 
-function signPdf(client, pdfBase64) {
+function signPdf(client, pdfBase64, signatureParams) {
   return new Promise((resolve, reject) => {
     client.sign(
       pdfBase64,
       "SHA256withRSA",
       "PAdES",
-      VISIBLE_SIGNATURE_PARAMS,
+      signatureParams,
       (signedPdfBase64) => resolve(signedPdfBase64),
       (errorType, errorMessage) => {
-        reject(new Error(errorMessage || errorType || "AutoFirma no pudo firmar el certificado."));
+        reject(new Error(errorMessage || errorType || "AutoFirma no pudo firmar el documento."));
       },
     );
   });

@@ -367,8 +367,9 @@
     "title": "Generación documentación permuta",
     "loading": "Cargando los datos de la permuta...",
     "description": "Este formulario permite generar la documentación necesaria para solicitar una permuta de asignaturas. Por favor, completa todos los campos obligatorios y asegúrate de que la información es correcta antes de enviar el formulario.",
-    "instructions_1": "Una vez rellenes el formulario, podrás descargar un PDF con la solicitud de permuta. Este PDF deberá ser firmado y enviado al sistema para que tu compañero pueda rellenar sus datos.",
-    "instructions_2": "Cuando tu compañero firme el PDF, podrás descargarlo y enviarlo a la administración.",
+    "instructions_1": "Completa el formulario y pulsa «Firmar con AutoFirma y enviar». La aplicación abrirá AutoFirma, guardará el PDF firmado y avisará a tu compañero.",
+    "instructions_2": "Cuando ambos hayáis firmado, podrás descargar la solicitud y enviarla por Registro Electrónico.",
+    "manual_upload_help": "Si debes usar una firma manual, descarga el PDF y sube aquí el documento ya firmado.",
     "labels": {
       "document_type": "Tipo de documento:",
       "dni": "DNI:",
@@ -385,6 +386,9 @@
       "visualize": "Visualizar",
       "download": "Descargar",
       "upload": "Enviar PDF",
+      "upload_manual": "Enviar PDF firmado manualmente",
+      "sign_autofirma": "Firmar con AutoFirma y enviar",
+      "signing": "Abriendo AutoFirma...",
       "validate": "Validar"
     },
     "errors": {
@@ -395,6 +399,8 @@
       "upload_error": "Error al subir el archivo PDF.",
       "send_success": "Se ha enviado el PDF correctamente.",
       "send_error": "Error al enviar el PDF",
+      "sign_success": "La solicitud se ha firmado y enviado correctamente.",
+      "sign_error": "No se pudo firmar la solicitud con AutoFirma.",
       "validate_success": "La permuta ha sido validada correctamente.",
       "generation_error": "Error generando el PDF"
     },

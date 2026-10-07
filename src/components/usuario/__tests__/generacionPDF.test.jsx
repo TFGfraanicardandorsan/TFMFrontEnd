@@ -9,21 +9,33 @@ const mocks = vi.hoisted(() => ({
   listarPermutas: vi.fn(),
   verListaPermutas: vi.fn(),
   obtenerPlantillaPermuta: vi.fn(),
+  subidaArchivo: vi.fn(),
+  servirArchivo: vi.fn(),
+  firmarPermuta: vi.fn(),
+  aceptarPermuta: vi.fn(),
+  signPdfDocuments: vi.fn(),
+  navigate: vi.fn(),
   toastError: vi.fn(),
+  toastSuccess: vi.fn(),
 }));
 
 vi.mock("../../../services/permuta.js", () => ({
   listarPermutas: mocks.listarPermutas,
   verListaPermutas: mocks.verListaPermutas,
-  firmarPermuta: vi.fn(),
-  aceptarPermuta: vi.fn(),
+  firmarPermuta: mocks.firmarPermuta,
+  aceptarPermuta: mocks.aceptarPermuta,
   validarSolicitudPermuta: vi.fn(),
 }));
 
 vi.mock("../../../services/subidaArchivos.js", () => ({
   obtenerPlantillaPermuta: mocks.obtenerPlantillaPermuta,
-  subidaArchivo: vi.fn(),
-  servirArchivo: vi.fn(),
+  subidaArchivo: mocks.subidaArchivo,
+  servirArchivo: mocks.servirArchivo,
+}));
+
+vi.mock("../../../services/autofirma.js", () => ({
+  getPermutaSignatureParams: (signerNumber) => `params-${signerNumber}`,
+  signPdfDocuments: mocks.signPdfDocuments,
 }));
 
 vi.mock("../../../lib/logger.js", () => ({
@@ -34,7 +46,7 @@ vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual("react-router-dom");
   return {
     ...actual,
-    useNavigate: () => vi.fn(),
+    useNavigate: () => mocks.navigate,
     useLocation: () => ({ state: { IdsPermuta: [10] } }),
   };
 });
@@ -43,7 +55,7 @@ vi.mock("react-toastify", () => ({
   toast: {
     error: mocks.toastError,
     warning: vi.fn(),
-    success: vi.fn(),
+    success: mocks.toastSuccess,
   },
 }));
 
@@ -72,6 +84,22 @@ describe("GeneracionPDF - carga del documento", () => {
       err: false,
       result: { error: false, result: [{ id: 42, estado: "BORRADOR", archivo: null }] },
     });
+    mocks.subidaArchivo.mockResolvedValue({
+      err: false,
+      result: { message: "Archivo subido", fileId: "12345678-1234-1234-1234-123456789abc.pdf" },
+    });
+    mocks.firmarPermuta.mockResolvedValue({
+      err: false,
+      result: { err: false, result: "Firmada" },
+    });
+    mocks.aceptarPermuta.mockResolvedValue({
+      err: false,
+      result: { err: false, result: "Aceptada" },
+    });
+    mocks.signPdfDocuments.mockResolvedValue([{
+      filename: "solicitud-permutas.pdf",
+      pdfBase64: btoa("%PDF-1.7\nfirmado"),
+    }]);
     URL.createObjectURL = vi.fn(() => "blob:permuta");
     URL.revokeObjectURL = vi.fn();
   });
@@ -156,5 +184,97 @@ describe("GeneracionPDF - carga del documento", () => {
       "blob:permuta"
     );
     expect(mocks.toastError).not.toHaveBeenCalled();
+  });
+
+  it("firma la solicitud con AutoFirma, sube el PDF y registra la primera firma", async () => {
+    const documento = await PDFDocument.create();
+    documento.addPage();
+    const formulario = documento.getForm();
+    formulario.createCheckBox("GII_IS");
+    [
+      "DAY", "MONTH", "YEAR",
+      "ASIGNATURA1-1", "ASIGNATURA2-1", "COD1-1", "COD2-1",
+      "DNI1", "LETRA1", "NOMBRE1", "DOMICILIO1", "POBLACION1",
+      "COD-POSTAL1", "PROVINCIA1", "TELEFONO1",
+    ].forEach((nombre) => formulario.createTextField(nombre));
+    mocks.obtenerPlantillaPermuta.mockResolvedValue(await documento.save());
+
+    const { container } = render(<GeneracionPDF />);
+    await waitFor(() => expect(screen.getByRole("button", { name: "Firmar con AutoFirma y enviar" })).toBeEnabled());
+
+    const campos = container.querySelectorAll('input[type="text"]');
+    ["12345678", "A", "Calle Prueba", "Sevilla", "41001", "Sevilla", "600123123"]
+      .forEach((valor, index) => fireEvent.change(campos[index], { target: { value: valor } }));
+    fireEvent.click(screen.getByRole("button", { name: "Firmar con AutoFirma y enviar" }));
+
+    await waitFor(() => expect(mocks.firmarPermuta).toHaveBeenCalledWith(
+      "12345678-1234-1234-1234-123456789abc.pdf",
+      42,
+    ));
+    expect(mocks.signPdfDocuments).toHaveBeenCalledWith(
+      [expect.objectContaining({
+        filename: "solicitud-permutas.pdf",
+        pdfBase64: expect.stringMatching(/^JVBER/),
+      })],
+      null,
+      { signatureParams: "params-1" },
+    );
+    const formData = mocks.subidaArchivo.mock.calls[0][0];
+    expect(formData.get("tipo")).toBe("buzon");
+    expect(formData.get("file")).toEqual(expect.objectContaining({
+      name: "solicitud-permutas-firmada.pdf",
+      type: "application/pdf",
+    }));
+    expect(mocks.toastSuccess).toHaveBeenCalledWith(
+      "La solicitud se ha firmado y enviado correctamente.",
+    );
+    expect(mocks.navigate).toHaveBeenCalledWith("/permutasAceptadas");
+  });
+
+  it("usa el segundo recuadro y acepta la solicitud al firmar el segundo estudiante", async () => {
+    const documento = await PDFDocument.create();
+    documento.addPage();
+    const formulario = documento.getForm();
+    formulario.createCheckBox("GII_IS");
+    [
+      "DAY", "MONTH", "YEAR",
+      "ASIGNATURA1-1", "ASIGNATURA2-1", "COD1-1", "COD2-1",
+      "DNI1", "LETRA1", "NOMBRE1", "DOMICILIO1", "POBLACION1",
+      "COD-POSTAL1", "PROVINCIA1", "TELEFONO1",
+      "DNI2", "LETRA2", "NOMBRE2", "DOMICILIO2", "POBLACION2",
+      "COD-POSTAL2", "PROVINCIA2", "TELEFONO2",
+    ].forEach((nombre) => formulario.createTextField(nombre));
+    const existingBytes = await documento.save();
+    mocks.listarPermutas.mockResolvedValue({
+      err: false,
+      result: {
+        error: false,
+        result: [{
+          id: 42,
+          estado: "FIRMADA",
+          archivo: "firma-primero.pdf",
+        }],
+      },
+    });
+    mocks.servirArchivo.mockResolvedValue(existingBytes);
+
+    const { container } = render(<GeneracionPDF />);
+    await waitFor(() => expect(screen.getByRole("button", { name: "Firmar con AutoFirma y enviar" })).toBeEnabled());
+
+    const campos = container.querySelectorAll('input[type="text"]');
+    ["87654321", "B", "Calle Segunda", "Sevilla", "41002", "Sevilla", "611123123"]
+      .forEach((valor, index) => fireEvent.change(campos[index], { target: { value: valor } }));
+    fireEvent.click(screen.getByRole("button", { name: "Firmar con AutoFirma y enviar" }));
+
+    await waitFor(() => expect(mocks.aceptarPermuta).toHaveBeenCalledWith(
+      "12345678-1234-1234-1234-123456789abc.pdf",
+      42,
+    ));
+    expect(mocks.signPdfDocuments).toHaveBeenCalledWith(
+      [expect.objectContaining({ filename: "solicitud-permutas.pdf" })],
+      null,
+      { signatureParams: "params-2" },
+    );
+    expect(mocks.firmarPermuta).not.toHaveBeenCalled();
   });
 });
